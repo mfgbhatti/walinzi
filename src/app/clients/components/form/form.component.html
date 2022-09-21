@@ -1,0 +1,97 @@
+<form [formGroup]="form">
+  <mat-form-field>
+    <mat-label class="form-label">Name</mat-label>
+    <input
+      required
+      formControlName="name"
+      class="form-control"
+      placeholder="Abc Xyz limited"
+      type="text"
+      matInput
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Phone</mat-label>
+    <input
+      required
+      formControlName="phone"
+      class="form-control"
+      placeholder="0333 222 3332"
+      type="number"
+      matInput
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Mobile</mat-label>
+    <input
+      matInput
+      required
+      formControlName="mobile"
+      class="form-control"
+      placeholder="0333 222 3332"
+      type="number"
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>email</mat-label>
+    <input
+      matInput
+      required
+      formControlName="email"
+      class="form-control"
+      placeholder="test@testing.com"
+      type="email"
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Address Line 1</mat-label>
+    <input
+      matInput
+      required
+      formControlName="first_line"
+      class="form-control"
+      placeholder="33 Sector, road, street"
+      type="text"
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>City</mat-label>
+    <input
+      matInput
+      required
+      formControlName="second_line"
+      class="form-control"
+      placeholder="Greater London"
+      type="text"
+    />
+  </mat-form-field>
+  <mat-form-field>
+      <mat-label>Post Code</mat-label>
+      <input
+        matInput
+        required
+        formControlName="post_code"
+        class="form-control"
+        placeholder="LE12 1EE"
+        style="text-transform: uppercase;"
+        type="text"
+      />
+    </mat-form-field>
+    <mat-radio-group
+    formControlName="status"
+    aria-labelledby="example-radio-group-label"
+    class="example-radio-group">
+    <mat-radio-button class="radio-button" *ngFor="let x of status_list;" value="{{x.status}}">
+      {{x.label}}
+    </mat-radio-button>
+  </mat-radio-group>
+  <button
+    type="button"
+    mat-raised-button
+    (click)="submit()"
+    color="primary"
+    class="submit"
+  >
+    Submit
+  </button>
+  </form>

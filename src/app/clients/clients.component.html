@@ -1,1 +1,11 @@
-<p>clients works!</p>
+<div class="container">
+  <div class="to-right">
+    <button mat-raised-button color="primary" (click)="addClient()">
+        Add Clients
+    </button>
+  </div>
+  <app-clients-list
+  [client$]="allClient$"
+  ></app-clients-list>
+  <!-- [clientsEmitter]="selectClient($event)" -->
+</div>
