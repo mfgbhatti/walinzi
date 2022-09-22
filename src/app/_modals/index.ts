@@ -1,1 +1,1 @@
-export { Clients } from './clients';
+export { Clients, ClientDetails, ClientContactPerson, ClientNotes } from 'src/app/_modals/clients';

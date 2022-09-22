@@ -1,11 +1,15 @@
 <div class="container">
   <div class="to-right">
     <button mat-raised-button color="primary" (click)="addClient()">
-        Add Clients
+      Add
+    </button>
+    <button class="btn-edit" mat-raised-button color="primary" (click)="updateClient()" [disabled]="!this.isSelected">
+      Edit
     </button>
   </div>
   <app-clients-list
-  [client$]="allClient$"
+    [client$]="allClient$"
+    (clientsEmitter)="selectClient($event)"
+    (toggler)="updateStatus($event)"
   ></app-clients-list>
-  <!-- [clientsEmitter]="selectClient($event)" -->
 </div>

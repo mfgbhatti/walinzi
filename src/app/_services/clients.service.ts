@@ -1,12 +1,4 @@
 import { Injectable } from '@angular/core';
-import {
-  // CollectionReference,
-  // DocumentData,
-  // addDoc,
-  // deleteDoc,
-  // doc,
-  // updateDoc,
-} from '@firebase/firestore';
 import { 
   Firestore, 
   collectionData, 
@@ -18,6 +10,7 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
+  getDoc
  } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
@@ -28,9 +21,10 @@ import { Clients } from '../_modals';
 })
 export class ClientsService {
   private ClientCollectionRef!: CollectionReference<DocumentData>;
+  dbPath: string = 'Clients';
 
   constructor( private readonly firestore: Firestore) { 
-    this.ClientCollectionRef = collection(this.firestore, 'Clients');
+    this.ClientCollectionRef = collection(this.firestore, this.dbPath);
   }
 
   getAll() {
@@ -40,19 +34,24 @@ export class ClientsService {
   }
 
   get(id: string) {
-    const docRef = doc(this.firestore, `Clients/${id}`);
+    const docRef = doc(this.firestore, this.dbPath, id);
+    // return getDoc(docRef);
     return docData(docRef, { idField: 'id' });
+    // const docSnap =  getDoc(docRef);
+    // if (docSnap.exists()) {
+    //   console.log("Document data:", docSnap.data());
+    // } else {
+    //   // doc.data() will be undefined in this case
+    //   console.log("No such document!");
+    // }
   }
 
   create(client: Clients) {
-    console.log(client)
       try {
         addDoc(this.ClientCollectionRef, client);
       } catch(err) {
-        console.error("writeToDB failed. reason :", err)
+        console.error("Error: writeToDB failed. Reason :", err)
       }
-    // .catch( (error) => console.log(error));
-    // return setDoc(doc(this.ClientCollectionRef, client));
   }
 
   update(client: Clients) {
@@ -64,10 +63,7 @@ export class ClientsService {
   }
 
   delete(id: string) {
-    const docRef = doc(this.firestore, `Clients/${id}`);
+    const docRef = doc(this.firestore, this.dbPath, id);
     return deleteDoc(docRef);
-  }
-  creat_test(data: any){
-    return addDoc(this.ClientCollectionRef, data);
   }
 }

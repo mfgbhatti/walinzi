@@ -6,5 +6,9 @@
     .to-right {
         align-self: flex-end;
         margin-bottom: 20px;
+
+        .btn-edit{
+            margin-left: 10px;
+        }
     }
 }

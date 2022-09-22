@@ -1,8 +1,8 @@
 export interface Clients {
     id: string;
     name: string;
-    phone: number;
-    mobile: number;
+    phone: string;
+    mobile: string;
     first_line: string;
     second_line: string;
     post_code: string;

@@ -15,15 +15,17 @@ export class ClientsComponent implements OnInit {
   allClient$!: Observable<Clients[]>;
   selectedClient?: Clients;
   destroyed$ = new Subject<void>();
+  isSelected: boolean = false;
 
 
   constructor(
     private readonly clientsService: ClientsService,
     private readonly dialog: MatDialog
-  ) { }
+  ) { 
+    this.allClient$ = this.clientsService.getAll();
+  }
 
   ngOnInit(): void {
-    this.allClient$ = this.clientsService.getAll();
   }
 
   addClient() {
@@ -59,7 +61,11 @@ export class ClientsComponent implements OnInit {
       .subscribe();
   }
 
+  updateStatus(client: Clients) {
+    this.clientsService.update(client);
+  }
   selectClient(client: Clients) {
+    this.isSelected = true;
     this.selectedClient = client
   }
 

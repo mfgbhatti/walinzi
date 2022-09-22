@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { DocumentData } from '@angular/fire/firestore'
+
+import { Clients } from 'src/app/_modals';
+import { ClientsService } from 'src/app/_services';
 
 @Component({
   selector: 'app-clients-details',
@@ -6,10 +12,35 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./details.component.scss']
 })
 export class ClientDetailsComponent implements OnInit {
+  clientId!: string;
+  client: Clients[] = [];
+  // client!:{}
+  // client!: Observable<DocumentData>;
+  subscription!: Subscription;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly clientService: ClientsService
+  ) {
   }
 
+  ngOnInit(): void { 
+    this.subscription = this.route.params.subscribe(
+      (__param) => {
+        this.clientId = __param['id']
+      }
+    );
+    this.subscription = this.clientService.get(this.clientId).subscribe(
+      data => {
+        // const item = Object.keys(list).map(key => ({type: key, value: list[key]}));
+        this.client.push({...data} as Clients);
+      });
+
+  }
+
+
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 }

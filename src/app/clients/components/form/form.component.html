@@ -81,7 +81,7 @@
     formControlName="status"
     aria-labelledby="example-radio-group-label"
     class="example-radio-group">
-    <mat-radio-button class="radio-button" *ngFor="let x of status_list;" value="{{x.status}}">
+    <mat-radio-button class="radio-button" *ngFor="let x of status_list;" [value]="x.status">
       {{x.label}}
     </mat-radio-button>
   </mat-radio-group>
