@@ -1,4 +1,58 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.tab-details {
+  padding: 20px 0;
+  box-sizing: border-box;
+}
+.column-wrap {
+  display: flex;
+  justify-content: space-between;
+
+  :nth-child(2) {
+    margin-left: 5px;
+  }
+
+  .tab-top {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    max-height: 40px;
+
+    :nth-child(2) {
+      margin-right: 30px;
+    }
+  }
+}
+.column {
+  width: 50%;
+  border-radius: 5px;
+  padding: 20px;
+
+  :nth-child(1) {
+    font-weight: 450;
+    width: 33%;
+    padding-bottom: 20px;
+  }
+
+  :nth-child(3) {
+    width: 33%;
+  }
+}
+
+.notes {
+  background: #d8d8d8;
+  width: 100%;
+  padding: 20px;
+  border-radius: 5px;
+}

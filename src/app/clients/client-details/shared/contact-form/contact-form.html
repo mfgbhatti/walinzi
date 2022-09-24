@@ -1,0 +1,32 @@
+<form [formGroup]="form">
+    <mat-form-field>
+      <mat-label class="form-label">Name</mat-label>
+      <input
+        required
+        formControlName="name"
+        class="form-control"
+        placeholder="Abc Xyz limited"
+        type="text"
+        matInput
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Phone</mat-label>
+      <input
+        required
+        formControlName="phone"
+        class="form-control"
+        placeholder="03332223332"
+        type="text"
+        matInput
+      />
+    </mat-form-field>
+    <button
+      type="button"
+      mat-raised-button
+      (click)="submit()"
+      color="primary"
+      class="submit"
+    >
+      Submit
+    </button>

@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { Observable, Subscription } from 'rxjs';
 
-import { Clients } from 'src/app/_modals';
+import { Clients } from 'src/app/clients/shared';
 
 @Component({
   selector: 'app-clients-list',

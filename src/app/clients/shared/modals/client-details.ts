@@ -3,13 +3,14 @@ export interface ClientDetails {
     clientId: string;
     vat: number;
     website: string;
+    submitted: boolean
 }
 
 export interface ClientContactPerson {
     id: string;
     clientId: string;
     name: string;
-    phone: number;
+    phone: string;
 }
 
 export interface ClientNotes {

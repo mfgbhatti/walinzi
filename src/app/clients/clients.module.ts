@@ -10,26 +10,40 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
-
-import {
-  ClientsComponent,
-  SitesComponent,
-  ClientDetailsComponent,
-  ClientListComponent,
-  ClientFormComponent,
-} from 'src/app/clients';
-import { ClientsRoutingModule } from './clients-routing.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSortModule } from '@angular/material/sort';
+
+import { ClientsComponent } from './clients.component';
+import { ClientsRoutingModule } from './clients-routing.module';
+import {
+  ClientsService,
+  SitesComponent,
+  ClientFormComponent,
+  ClientListComponent,
+  ClientDetailsService,
+  ClientDetailsComponent,
+  ClientTabDetailComponent,
+  ClientTabNoteComponent,
+  ClientTabSitesComponent,
+  ClientTabDetailFormComponent,
+  ClientTabContactFormComponent,
+  ClientTabNotesFormComponent
+} from 'src/app/clients';
 
 
 @NgModule({
   declarations: [
     ClientsComponent,
     SitesComponent,
-    ClientDetailsComponent,
     ClientListComponent,
-    ClientFormComponent
+    ClientFormComponent,
+    ClientTabNoteComponent,
+    ClientDetailsComponent,
+    ClientTabSitesComponent,
+    ClientTabDetailComponent,
+    ClientTabNotesFormComponent,
+    ClientTabDetailFormComponent,
+    ClientTabContactFormComponent,
   ],
   imports: [
     CommonModule,
@@ -46,6 +60,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatButtonModule,
     MatDialogModule,
     MatRadioModule
-  ]
+  ],
+  providers: [ClientsService, ClientDetailsService],
 })
 export class ClientsModule { }

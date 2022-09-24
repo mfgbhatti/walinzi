@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, Subject, takeUntil, tap, filter } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 
-import { ClientsService } from 'src/app/_services';
-import { Clients } from 'src/app/_modals';
+import { Clients, ClientsService } from 'src/app/clients/shared';
 import { ClientFormComponent } from 'src/app/clients';
 
 @Component({

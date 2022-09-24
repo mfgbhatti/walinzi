@@ -1,8 +1,8 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 
-import { ClientsComponent } from "./clients.component";
-import { ClientDetailsComponent } from "./components/details/details.component";
+import { ClientsComponent } from './clients.component';
+import { ClientDetailsComponent } from './client-details/details.component';
 
 const routes: Routes = [
     { path: '', component: ClientsComponent, title: 'Walinzi - Clients' },

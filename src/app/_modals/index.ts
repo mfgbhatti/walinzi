@@ -1,1 +1,0 @@
-export { Clients, ClientDetails, ClientContactPerson, ClientNotes } from 'src/app/_modals/clients';

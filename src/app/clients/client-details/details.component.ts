@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { DocumentData } from '@angular/fire/firestore'
+import { Subscription } from 'rxjs';
 
-import { Clients } from 'src/app/_modals';
-import { ClientsService } from 'src/app/_services';
+import { Clients, ClientsService } from 'src/app/clients/shared';
 
 @Component({
   selector: 'app-clients-details',

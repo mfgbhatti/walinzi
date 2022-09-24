@@ -1,0 +1,33 @@
+.client-details {
+  background: #d8d8d8;
+  border-radius: 5px;
+  padding: 30px;
+  margin-bottom: 20px;
+
+  .top {
+    display: flex;
+
+    .name {
+      padding-top: 4px;
+      font-size: 24px;
+      font-weight: 450;
+    }
+
+    .email,
+    .phone {
+      margin-left: 15px;
+    }
+  }
+
+  .bottom {
+    margin-top: 15px;
+
+    .divider {
+      width: 1px;
+      background-color: #4b4b4b;
+      height: 20px;
+      margin: 0 15px;
+    }
+  }
+}
+

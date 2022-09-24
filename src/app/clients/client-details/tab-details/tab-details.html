@@ -1,0 +1,33 @@
+<div class="tab-details">
+  <span class="column-wrap"> 
+    <div class="tab-top">
+      <h1>Extra Details</h1>
+      <button mat-raised-button *ngIf="added == true; else showThis" color="primary" (click)="editDetails()">
+        Edit
+      </button>
+      <ng-template #showThis>
+        <button mat-raised-button color="primary" (click)="addDetail()">
+          Add
+        </button>
+      </ng-template>
+    </div>
+    <div class="tab-top">
+      <h1>Contact Person</h1>
+      <button mat-raised-button color="primary" (click)="addContact()">
+        Add
+      </button>
+    </div>
+  </span> 
+  <div class="column-wrap"> 
+    <table class="column" *ngFor="let record of detail"> 
+      <tr><td> Vat Number </td><td>-</td><td>{{record.vat}}</td></tr>
+      <tr> <td> Website </td><td>-</td><td>{{record.website}}</td></tr>
+    </table> 
+    <table class="column">
+      <div *ngFor="let record of contact">
+        <tr> <td> Name </td><td>-</td><td>{{record.name}}</td></tr>
+        <tr> <td> Phone </td><td>-</td><td>{{record.phone}}</td></tr>
+      </div>
+    </table> 
+  </div>
+</div>

@@ -1,5 +1,18 @@
-export { ClientsComponent } from './clients.component';
-export { SitesComponent } from './sites/sites.component';
-export { ClientListComponent } from './components/list/list.component';
-export { ClientDetailsComponent } from './components/details/details.component';
-export { ClientFormComponent } from './components/form/form.component';
+
+export { SitesComponent } from './client-sites/sites.component';
+export { ClientFormComponent } from './client-form/form.component';
+export { ClientListComponent } from './client-list/list.component';
+export {
+  ClientTabNoteComponent,
+  ClientDetailsComponent,
+  ClientTabSitesComponent,
+  ClientTabDetailComponent,
+  ClientTabNotesFormComponent,
+  ClientTabDetailFormComponent,
+  ClientTabContactFormComponent,
+} from './client-details';
+
+export {
+  ClientsService,
+  ClientDetailsService
+} from 'src/app/clients/shared';

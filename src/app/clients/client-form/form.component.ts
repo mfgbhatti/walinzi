@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { Clients } from 'src/app/_modals';
+import { Clients } from 'src/app/clients/shared';
 
 @Component({
   selector: 'app-clients-form',
