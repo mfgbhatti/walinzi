@@ -12,7 +12,6 @@ import { ClientDetails } from "src/app/clients/shared";
 
 export class ClientTabDetailFormComponent implements OnInit {
   form!: UntypedFormGroup;
-  @Input() clientId$!: string;
 
   constructor(
     private readonly fb: UntypedFormBuilder,
@@ -24,7 +23,7 @@ export class ClientTabDetailFormComponent implements OnInit {
   setForm() {
     this.form = this.fb.group({
       clientId: [this.details.clientId, [Validators.required]],
-      website: [this.details.website, [Validators.required, Validators.min(8)]],
+      website: [this.details.website, [Validators.required, Validators.min(5)]],
       vat: [this.details.vat, [Validators.required, Validators.pattern('[- +()0-9]+')]],
       submitted: [true, [Validators.required]],
     })

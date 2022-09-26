@@ -12,15 +12,12 @@ import { Clients, ClientsService } from 'src/app/clients/shared';
 export class ClientDetailsComponent implements OnInit {
   clientId!: string;
   client: Clients[] = [];
-  // client!:{}
-  // client!: Observable<DocumentData>;
   subscription!: Subscription;
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly clientService: ClientsService
-  ) {
-  }
+  ) {  }
 
   ngOnInit(): void { 
     this.subscription = this.route.params.subscribe(

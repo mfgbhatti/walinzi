@@ -8,6 +8,7 @@ import {
   Firestore,
   collection,
   collectionData,
+  getDocs,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 

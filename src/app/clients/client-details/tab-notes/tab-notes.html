@@ -1,13 +1,26 @@
-<div class="tab-details">
-  <button mat-raised-button color="primary" (click)="add()">
-    Add
-  </button>
-  <h1>
-    Add Notes
-  </h1>
+<div class="tab-detail">
+  <div class="column"><!-- left side -->
+    <div class="top"><!-- top -->
+      <h1>Notes</h1>
+      <span>
+        <button mat-raised-button color="primary" (click)="addNotes()">
+          Add
+        </button>
+      </span>
+    </div><!-- top -->
+    <div class="row-wrap" *ngIf="notes?.length == 0; then empty else notesData"></div>
+    <ng-template #notesData>
+      <ng-container *ngFor="let note$ of notes; let index = index">
+        <div class="notes-row">
+          <div class="notes-label">{{index+1}}</div>
+          <div class="notes-value">{{note$.note}}</div>
+        </div>
+      </ng-container>
+    </ng-template>
+    <ng-template #empty>
+      <div class="no-record">
+        There is no record to show.
+      </div>
+    </ng-template>
+  </div>
 </div>
-<table class="notes">
-  <tr>
-    <td>&nbsp;</td>
-  </tr>
-</table>

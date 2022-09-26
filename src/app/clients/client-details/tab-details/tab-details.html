@@ -1,33 +1,72 @@
-<div class="tab-details">
-  <span class="column-wrap"> 
-    <div class="tab-top">
+<div class="tab-detail">
+  <div class="column"><!-- left side -->
+    <div class="top">
       <h1>Extra Details</h1>
-      <button mat-raised-button *ngIf="added == true; else showThis" color="primary" (click)="editDetails()">
-        Edit
-      </button>
-      <ng-template #showThis>
+      <span *ngFor="let record of detail">
+        <div class="btn-wrap" *ngIf="(record?.submitted === true) then edit else add"></div>
+      </span>
+      <ng-template #edit>
+        <button mat-raised-button color="primary" (click)="editDetails()">
+          Edit
+        </button>
+      </ng-template>
+      <ng-template #add>
         <button mat-raised-button color="primary" (click)="addDetail()">
           Add
         </button>
       </ng-template>
-    </div>
-    <div class="tab-top">
-      <h1>Contact Person</h1>
-      <button mat-raised-button color="primary" (click)="addContact()">
-        Add
-      </button>
-    </div>
-  </span> 
-  <div class="column-wrap"> 
-    <table class="column" *ngFor="let record of detail"> 
-      <tr><td> Vat Number </td><td>-</td><td>{{record.vat}}</td></tr>
-      <tr> <td> Website </td><td>-</td><td>{{record.website}}</td></tr>
-    </table> 
-    <table class="column">
-      <div *ngFor="let record of contact">
-        <tr> <td> Name </td><td>-</td><td>{{record.name}}</td></tr>
-        <tr> <td> Phone </td><td>-</td><td>{{record.phone}}</td></tr>
+    </div> <!-- top -->
+    <div class="row-wrap" *ngIf="(detail?.length===0) then empty else detailData"></div>
+    <ng-template #detailData>
+      <ng-container *ngFor="let record of detail">
+        <div class="row">
+          <div class="label">Vat Number</div>
+          <div class="divider">&nbsp;</div>
+          <div class="value">{{record.vat}}</div>
+        </div>
+        <div class="row">
+          <div class="label">Website</div>
+          <div class="divider">&nbsp;</div>
+          <div class="value">{{record.website}}</div>
+        </div>
+      </ng-container>
+    </ng-template>
+    <ng-template #empty>
+      <div class="no-record">
+        There is no record to show.
       </div>
-    </table> 
-  </div>
+    </ng-template>
+  </div><!-- left side -->
+  <div class="column right">
+    <!-- right side -->
+    <div class="top">
+      <!-- top -->
+      <h1>Contact Person</h1>
+      <span>
+        <button mat-raised-button color="primary" (click)="addContact()">
+          Add
+        </button>
+      </span>
+    </div><!-- top -->
+    <div class="row-wrap" *ngIf="contact?.length == 0; then thisrow else contactData"></div>
+    <ng-template #contactData>
+      <ng-container *ngFor="let contact$ of contact">
+        <div class="row">
+          <div class="label">Name</div>
+          <div class="divider">&nbsp;</div>
+          <div class="value">{{contact$.name}}</div>
+        </div>
+        <div class="row">
+          <div class="label">Number</div>
+          <div class="divider">&nbsp;</div>
+          <div class="value">{{contact$.phone}}</div>
+        </div>
+      </ng-container>
+    </ng-template>
+    <ng-template #thisrow>
+      <div class="no-record">
+        There is no record to show.
+      </div>
+    </ng-template>
+  </div><!-- right side -->
 </div>

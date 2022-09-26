@@ -17,7 +17,6 @@ import { ClientsComponent } from './clients.component';
 import { ClientsRoutingModule } from './clients-routing.module';
 import {
   ClientsService,
-  SitesComponent,
   ClientFormComponent,
   ClientListComponent,
   ClientDetailsService,
@@ -34,7 +33,6 @@ import {
 @NgModule({
   declarations: [
     ClientsComponent,
-    SitesComponent,
     ClientListComponent,
     ClientFormComponent,
     ClientTabNoteComponent,

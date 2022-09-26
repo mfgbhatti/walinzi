@@ -6,13 +6,12 @@ import { ClientNotes } from "src/app/clients/shared";
 
 @Component({
   selector: 'app-notes-form',
-  template: './notes-form.html',
+  templateUrl: './notes-form.html',
   styleUrls:['./notes-form.scss']
 })
 
 export class ClientTabNotesFormComponent implements OnInit {
   form!: UntypedFormGroup;
-  @Input() clientId$!: string;
 
   constructor(
     private readonly fb: UntypedFormBuilder,
@@ -23,7 +22,7 @@ export class ClientTabNotesFormComponent implements OnInit {
   }
   setForm() {
     this.form = this.fb.group({
-      clientId: [this.clientId$, [Validators.required]],
+      clientId: [this.note.clientId, [Validators.required]],
       note: [this.note.note, [Validators.required]],
     })
 

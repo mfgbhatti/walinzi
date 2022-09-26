@@ -1,21 +1,21 @@
-<div class="client-details" *ngFor="let x of client">
-  <div class="top">
-    <span class="name">{{x.name}}</span>
-    <span class="email">
+<div class="detail-details" *ngFor="let x of client">
+  <div class="detail-top">
+    <span class="detail-name">{{x.name}}</span>
+    <span class="detail-email">
       <a href="mailto:{{x.email}}">
         <mat-icon>email</mat-icon>
       </a>
     </span>
-    <span class="phone">
+    <span class="detail-phone">
       <a href="tel:{{x.phone}}">
         <mat-icon> call</mat-icon>
       </a>
     </span>
   </div>
-  <div class="bottom">
-    <span class="small-name">{{x.name}}</span>
-    <span class="divider">&nbsp;</span>
-    <span class="address">{{x.first_line}},&nbsp;{{x.second_line}},&nbsp;{{x.post_code}}</span>
+  <div class="detail-bottom">
+    <span class="detail-small-name">{{x.name}}</span>
+    <span class="detail-divider">&nbsp;</span>
+    <span class="detail-address">{{x.first_line}},&nbsp;{{x.second_line}},&nbsp;{{x.post_code}}</span>
 
   </div>
 </div>
@@ -24,7 +24,7 @@
     <app-client-detail [clientId$]="clientId"></app-client-detail>
   </mat-tab>
   <mat-tab label="Notes">
-    <app-client-note [clientId]="clientId"></app-client-note>
+    <app-client-note [clientId$]="clientId"></app-client-note>
   </mat-tab>
   <mat-tab label="Sites">
     <app-client-details-sites></app-client-details-sites>

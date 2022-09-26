@@ -1,5 +1,4 @@
 
-export { SitesComponent } from './client-sites/sites.component';
 export { ClientFormComponent } from './client-form/form.component';
 export { ClientListComponent } from './client-list/list.component';
 export {

@@ -1,6 +1,10 @@
 .navbar {
   margin-bottom: 20px;
 
+  .nav-link {
+    margin-left: 15px;
+  }
+
   svg {
     fill: #fff;
     width: 30px;

@@ -1,0 +1,61 @@
+import { Injectable } from '@angular/core';
+import {
+  doc,
+  addDoc,
+  docData,
+  deleteDoc,
+  updateDoc,
+  Firestore,
+  collection,
+  DocumentData,
+  collectionData,
+  CollectionReference,
+} from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+
+import { Site } from 'src/app/sites/shared';
+
+@Injectable({
+  providedIn: 'any'
+})
+export class SiteService {
+  private SiteCollectionRef!: CollectionReference<DocumentData>;
+  sitePath: string = 'Sites';
+
+  constructor(private readonly firestore: Firestore) {
+    this.SiteCollectionRef = collection(this.firestore, this.sitePath);
+  }
+
+  getAll() {
+    return collectionData(this.SiteCollectionRef, {
+      idField: 'id'
+    }) as Observable<Site[]>
+  }
+
+  get(id: string) {
+    const docRef = doc(this.firestore, this.sitePath, id);
+    return docData(docRef, { idField: 'id' });
+  }
+
+  create(site$: Site) {
+    try {
+      addDoc(this.SiteCollectionRef, site$);
+    } catch (err) {
+      console.error("Error: writeToDB failed. Reason :", err)
+    }
+  }
+
+  update(data: Site) {
+    const docRef = doc(
+      this.firestore,
+      `Sites/${data.id}`
+    );
+    return updateDoc(docRef, { ...data });
+  }
+
+  delete(id: string) {
+    const docRef = doc(this.firestore, this.sitePath, id);
+    return deleteDoc(docRef);
+  }
+
+}
