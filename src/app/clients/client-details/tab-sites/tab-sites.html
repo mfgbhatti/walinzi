@@ -1,9 +1,6 @@
-<div class="tab-details">
-  <div class="column-wrap">
+<div class="row mt-4 g-0">
+  <div class="col">
     <h1>Active Sites</h1>
-    <h1>Inactive Sites</h1>
-  </div>
-  <div class="column-wrap">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="serial">
         <th mat-header-cell *matHeaderCellDef> No. </th>
@@ -16,6 +13,9 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    </div>
+    <div class="col ms-4">
+      <h1>Inactive Sites</h1>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="serial">
         <th mat-header-cell *matHeaderCellDef> No. </th>

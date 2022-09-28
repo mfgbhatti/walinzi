@@ -39,6 +39,10 @@ export class ClientFormComponent implements OnInit {
     })
   }
 
+  close() {
+    this.dialogRef.close();
+  }
+
   submit() {
     this.dialogRef.close({ ...this.client, ...this.form.value });
   }

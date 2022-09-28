@@ -1,1 +1,73 @@
-<p>site-list works!</p>
+<div class="filter-wrap">
+  <mat-form-field appearance="standard" class="filter">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Abc xyz" #input>
+  </mat-form-field>
+</div>
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="siteData" matSort>
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> # </th>
+      <td mat-cell *matCellDef="let row; let index = index">
+        <mat-checkbox (click)="selectSite(row)">
+          <!-- (change)="$event ? selection.toggle(row) : null" -->
+          <!-- [aria-label]="checkboxLabel(row)" -->
+        </mat-checkbox>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+      <td mat-cell *matCellDef="let element">
+        <a [routerLink]="['site-details/', element.id]">
+          {{element.name}}
+        </a>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="sin">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> SIN </th>
+      <td mat-cell *matCellDef="let element"> {{element.sin}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="client">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Client </th>
+      <td mat-cell *matCellDef="let element"> {{element.clientId}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="location">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Post Code </th>
+      <td mat-cell *matCellDef="let element"> {{element.post_code}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="started">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.started.toDate() | date: 'd MMM, y' }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+      <td mat-cell *matCellDef="let element">
+        <div>
+          <button mat-raised-button color="primary" *ngIf="element.status == true; else showThis"
+            (click)="toggleStatus(element)">
+            Active
+          </button>
+        </div>
+        <ng-template #showThis>
+          <button mat-raised-button (click)="toggleStatus(element)">
+            Inactive
+          </button>
+        </ng-template>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></tr>
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+    </tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[50, 100, 150, 250, 1000]" aria-label="Select page of clients"></mat-paginator>
+</div>

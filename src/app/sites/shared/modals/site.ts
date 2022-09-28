@@ -1,7 +1,7 @@
 export interface Site {
   id: string;
   clientId: string;
-  clientName: string;
+  name: string;
   sin: string;
   location: string;
   started: Date;

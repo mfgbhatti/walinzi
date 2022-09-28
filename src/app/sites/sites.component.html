@@ -1,10 +1,9 @@
-<div class="page-container">
-  <div class="page-to-right">
-    <button mat-raised-button color="primary" (click)="addSite()">
-      Add
-    </button>
-    <button class="page-btn-edit" mat-raised-button color="primary" (click)="updateSite()" [disabled]="!this.isSelected">
+<div class="d-flex justify-content-end mt-4 mb-4">
+  <div><button mat-raised-button color="primary" (click)="addSite()">Add</button></div>
+  <div class="ms-4"><button class="page-btn-edit" mat-raised-button color="primary" (click)="updateSite()"
+      [disabled]="!this.isSelected">
       Edit
-    </button>
-  </div>
+    </button></div>
 </div>
+<app-site-list [site$]="allSite$" [client$]="this.allClients" (siteEmitter)="selectSite($event)"
+  (toggler)="updateStatus($event)"></app-site-list>

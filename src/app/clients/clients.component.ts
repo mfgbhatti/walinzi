@@ -31,6 +31,7 @@ export class ClientsComponent implements OnInit {
     const dialogRef = this.dialog.open(ClientFormComponent, {
       data: {},
       width: '40%',
+      disableClose: true
     });
 
     dialogRef
@@ -47,6 +48,7 @@ export class ClientsComponent implements OnInit {
     const dialogRef = this.dialog.open(ClientFormComponent, {
       data: { ...this.selectedClient },
       width: '40%',
+      disableClose: true
     });
 
     dialogRef

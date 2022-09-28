@@ -12,19 +12,28 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSortModule } from '@angular/material/sort';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 
 import { SitesRoutingModule } from './sites-routing.module';
+import { SitesComponent } from './sites.component';
+
 import {
   SiteListComponent,
-  SiteFormComponent
+  SiteFormComponent,
+  SiteDetailComponent
 } from 'src/app/sites';
 import { SiteService } from 'src/app/sites/shared';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 @NgModule({
   declarations: [
+    SitesComponent,
     SiteListComponent,
-    SiteFormComponent
+    SiteFormComponent,
+    SiteDetailComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +50,13 @@ import { SiteService } from 'src/app/sites/shared';
     MatIconModule,
     MatButtonModule,
     MatSortModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule
   ],
-  providers: [SiteService]
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
+    SiteService
+  ]
 })
 export class SitesModule { }

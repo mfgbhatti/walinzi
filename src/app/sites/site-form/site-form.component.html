@@ -1,1 +1,59 @@
-<p>site-form works!</p>
+<form [formGroup]="form">
+  <mat-form-field>
+    <mat-label class="form-label">Name</mat-label>
+    <input required formControlName="name" class="form-control" placeholder="Name" type="text" matInput />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Address</mat-label>
+    <input formControlName="address" class="form-control" placeholder="12 High Road, High Barnet, London" type="text"
+      matInput />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Choose Client</mat-label>
+    <mat-select formControlName="clientId" name="Clients">
+      <mat-option *ngFor="let client of data.clients" [value]="client.id">
+        {{client.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="example-form-field">
+    <mat-label>Choose start date</mat-label>
+    <input matInput required [matDatepicker]="startdatepicker" formControlName="started">
+    <mat-hint>DD/MM/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="startdatepicker"></mat-datepicker-toggle>
+    <mat-datepicker #startdatepicker>
+      <mat-datepicker-toggle matSuffix [for]="startdatepicker">
+        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+      </mat-datepicker-toggle>
+    </mat-datepicker>
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="example-form-field">
+    <mat-label>Choose finish date</mat-label>
+    <input matInput [matDatepicker]="finishdatepicker" formControlName="finished">
+    <mat-hint>DD/MM/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="finishdatepicker"></mat-datepicker-toggle>
+    <mat-datepicker #finishdatepicker>
+      <mat-datepicker-toggle matSuffix [for]="finishdatepicker">
+        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+      </mat-datepicker-toggle>
+    </mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Post Code</mat-label>
+    <input matInput required formControlName="post_code" class="form-control" placeholder="LE12 1EE"
+      style="text-transform: uppercase;" type="text" />
+  </mat-form-field>
+  <mat-radio-group formControlName="status" aria-labelledby="example-radio-group-label" class="example-radio-group">
+    <mat-radio-button class="radio-button" *ngFor="let x of status_list;" [value]="x.status">
+      {{x.label}}
+    </mat-radio-button>
+  </mat-radio-group>
+  <div class="sub-close">
+    <button type="button" mat-raised-button (click)="submit()" color="primary" class="submit" [disabled]="!this.form.valid">
+      Submit
+    </button>
+    <button type="button" mat-raised-button (click)="close()" color="accent">
+      Close
+    </button>
+  </div>
+</form>

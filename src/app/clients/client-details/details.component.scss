@@ -1,33 +1,6 @@
-.detail-details {
-  // background: #d8d8d8;
-  // border-radius: 5px;
-  // padding: 30px;
-  margin-bottom: 20px;
-
-  .detail-top {
-    display: flex;
-
-    .detail-name {
-      padding-top: 4px;
-      font-size: 24px;
-      font-weight: 450;
-    }
-
-    .detail-email,
-    .detail-phone {
-      margin-left: 15px;
-    }
-  }
-
-  .detail-bottom {
-    margin-top: 15px;
-
-    .detail-divider {
-      width: 1px;
-      background-color: #4b4b4b;
-      height: 20px;
-      margin: 0 15px;
-    }
-  }
+.detail-divider {
+  width: 1px;
+  background-color: #4b4b4b;
+  height: 20px;
+  margin: 0 15px;
 }
-

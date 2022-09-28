@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, Subject, takeUntil, tap, filter } from 'rxjs';
+import { Observable, Subject, takeUntil, tap, filter, Subscription } from 'rxjs';
 
 import {
   SiteService,
   Site
 } from './shared';
 import { SiteFormComponent } from 'src/app/sites';
+import { Clients, ClientsService } from '../clients/shared';
 
 @Component({
   selector: 'app-sites',
@@ -15,16 +16,20 @@ import { SiteFormComponent } from 'src/app/sites';
 })
 export class SitesComponent implements OnInit {
   allSite$!: Observable<Site[]>;
+  allClients: Clients[] = [];
   selectedSite?: Site;
   destroyed$ = new Subject<void>();
   isSelected: boolean = false;
   generatedSin: string = ''
+  sub!: Subscription;
 
   constructor(
     private readonly db: SiteService,
+    private readonly clientService: ClientsService,
     private readonly dialog: MatDialog
   ) { 
     this.allSite$ = this.db.getAll();
+    this.sub = this.clientService.getAll().subscribe( (data) => this.allClients.push(...data));
   }
 
   ngOnInit(): void {
@@ -32,11 +37,16 @@ export class SitesComponent implements OnInit {
   }
 
   addSite() {
+    this.generatedSin = '';
+    this.generateSin();
     const dialogRef = this.dialog.open(SiteFormComponent, {
-      data: { sin: this.generateSin },
+      data: { 
+        site:{sin: this.generatedSin},
+        clients: this.allClients
+      },
       width: '40%',
+      disableClose: true
     });
-
     dialogRef
       .afterClosed()
       .pipe(
@@ -49,8 +59,12 @@ export class SitesComponent implements OnInit {
 
   updateSite() {
     const dialogRef = this.dialog.open(SiteFormComponent, {
-      data: { ...this.selectedSite },
+      data: {
+        clients: this.allClients,
+        site:{...this.selectedSite}
+      },
       width: '40%',
+      disableClose: true
     });
 
     dialogRef
@@ -89,7 +103,8 @@ export class SitesComponent implements OnInit {
 
   ngOnDestroy() {
     this.destroyed$
-    .next()
+    .next();
+    this.sub.unsubscribe();
   }
 
 }
