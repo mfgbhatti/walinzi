@@ -35,7 +35,7 @@ export class ClientFormComponent implements OnInit {
       second_line: [this.client.second_line, [Validators.required]],
       post_code: [this.client.post_code, [Validators.required]],
       email: [this.client.email, [Validators.required, Validators.email]],
-      status: [this.client.status = true, [Validators.required]]
+      status: [this.client.status, [Validators.required]]
     })
   }
 
