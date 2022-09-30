@@ -59,9 +59,7 @@
       <div *ngFor="let contact of contacts">
         <div class="d-flex">
           <h3>{{contact.title}}&nbsp;{{contact.name}}</h3>
-          <i (click)="delete(contact.id)" style="cursor: pointer;">
-            <mat-icon class="ms-4" aria-hidden="false" aria-label="delete icon" fontIcon="delete"></mat-icon>
-          </i>
+            <mat-icon mat-raised-button class="ms-4" aria-hidden="false" aria-label="delete icon" fontIcon="delete" (click)="delete(contact.id)" style="cursor: pointer;"></mat-icon>
         </div>
         <table class="table table-striped">
           <tbody>

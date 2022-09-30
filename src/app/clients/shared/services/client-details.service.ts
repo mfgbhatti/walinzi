@@ -43,7 +43,7 @@ export class ClientDetailsService {
   get(collectionPath: string, id: string) {
     const detailRef = collection(this.firestore, collectionPath);
     const q = query(detailRef, where('relativeId', '==', String(id)));
-    return collectionData(q) as Observable<any[]>;
+    return collectionData(q, {idField: 'id'}) as Observable<any[]>;
   }
 
   getextradetail(id: string) {
