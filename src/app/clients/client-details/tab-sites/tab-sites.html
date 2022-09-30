@@ -1,32 +1,20 @@
-<div class="row mt-4 g-0">
-  <div class="col">
-    <h1>Active Sites</h1>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-      <ng-container matColumnDef="serial">
-        <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let element; let i = index"> {{i + 1}} </td>
-      </ng-container>
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+<div *ngIf="site$ | async as sites" class="row mt-4 g-0">
+  <div *ngIf="sites.length == 0; then empty else show"></div>
+  <ng-template #empty>
+    <div class="mt-4">There is no record to show.</div>
+  </ng-template>
+  <ng-template #show>
+    <div class="col">
+      <h3>Active Sites</h3>
+      <div *ngFor="let site of sites; let index = index">
+        <a *ngIf="site.status===true" routerLink="/sites/site-detail/{{site.id}}">{{site.name}}</a>
+      </div>
     </div>
     <div class="col ms-4">
-      <h1>Inactive Sites</h1>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-      <ng-container matColumnDef="serial">
-        <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let element; let i = index"> {{i + 1}} </td>
-      </ng-container>
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  </div>
+      <h3>Inactive Sites</h3>
+      <div *ngFor="let site of sites">
+        <a *ngIf="site.status===false" routerLink="/sites/site-detail/{{site.id}}">{{site.name}}</a>
+      </div>
+    </div>
+  </ng-template>
 </div>

@@ -10,6 +10,8 @@ import {
   DocumentData,
   collectionData,
   CollectionReference,
+  query,
+  where
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
@@ -33,8 +35,14 @@ export class SiteService {
   }
 
   get(id: string) {
-    const docRef = doc(this.firestore, this.sitePath, id);
+    const docRef = doc(this.firestore, this.sitePath, String(id));
     return docData(docRef, { idField: 'id' });
+  }
+
+  search(id: string) {
+    const detailRef = collection(this.firestore, this.sitePath);
+    const q = query(detailRef, where('clientId', '==', String(id)));
+    return collectionData(q, {idField: 'id'}) as Observable<any[]>;
   }
 
   create(site$: Site) {

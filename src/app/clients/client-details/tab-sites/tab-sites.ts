@@ -1,5 +1,7 @@
-import { Component, OnInit } from "@angular/core";
-import { MatTableDataSource } from "@angular/material/table";
+import { Component, Input, OnInit } from "@angular/core";
+import { Observable } from "rxjs";
+
+import { SiteService, Site } from "src/app/sites/shared";
 
 @Component({
   selector: 'app-client-details-sites',
@@ -8,9 +10,20 @@ import { MatTableDataSource } from "@angular/material/table";
 })
 
 export class ClientTabSitesComponent implements OnInit {
-  dataSource!: MatTableDataSource<any>;
+  site$!: Observable<Site[]>;
+  @Input() clientId$!: string;
   displayedColumns: string[] = ['serial', 'name'];
-  ngOnInit(): void {
 
+  constructor (
+    private readonly siteService: SiteService
+  ) { }
+
+  ngOnInit(): void {
+    // change this to get subscription of data to save time on large data
+    this.site$ = this.siteService.search(this.clientId$);
   }
+
+  ngOnDestroy(): void {
+  }
+
 }
