@@ -2,7 +2,7 @@ import { Component, Inject, Input, OnInit } from "@angular/core";
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
-import { ClientNotes } from "src/app/clients/shared";
+import { Notes } from "src/app/_shared";
 
 @Component({
   selector: 'app-notes-form',
@@ -16,13 +16,13 @@ export class ClientTabNotesFormComponent implements OnInit {
   constructor(
     private readonly fb: UntypedFormBuilder,
     public readonly dialogRef: MatDialogRef<ClientTabNotesFormComponent>,
-    @Inject(MAT_DIALOG_DATA) private readonly note: ClientNotes
+    @Inject(MAT_DIALOG_DATA) private readonly note: Notes
   ) {
     this.setForm();
   }
   setForm() {
     this.form = this.fb.group({
-      clientId: [this.note.clientId, [Validators.required]],
+      relativeId: [this.note.relativeId, [Validators.required]],
       note: [this.note.note, [Validators.required]],
     })
 

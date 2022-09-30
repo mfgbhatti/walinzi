@@ -2,6 +2,6 @@ export { Clients, ClientDetails, ClientContactPerson, ClientNotes } from './moda
 export { ClientsService, ClientDetailsService } from './services';
 export {
   ClientTabDetailFormComponent,
-  ClientTabContactFormComponent,
+  ContactFormComponent,
   ClientTabNotesFormComponent,
 } from './forms';

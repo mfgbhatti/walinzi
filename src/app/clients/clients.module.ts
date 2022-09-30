@@ -14,7 +14,7 @@ import {
   ClientTabNoteComponent,
   ClientTabSitesComponent,
   ClientTabDetailFormComponent,
-  ClientTabContactFormComponent,
+  ContactFormComponent,
   ClientTabNotesFormComponent
 } from 'src/app/clients';
 import { MaterialModule } from 'src/app/_shared';
@@ -31,7 +31,7 @@ import { MaterialModule } from 'src/app/_shared';
     ClientTabDetailComponent,
     ClientTabNotesFormComponent,
     ClientTabDetailFormComponent,
-    ClientTabContactFormComponent,
+    ContactFormComponent,
   ],
   imports: [
     CommonModule,

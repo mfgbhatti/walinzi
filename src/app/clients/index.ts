@@ -11,7 +11,7 @@ export {
 export {
   ClientTabNotesFormComponent,
   ClientTabDetailFormComponent,
-  ClientTabContactFormComponent,
+  ContactFormComponent,
 } from './shared'
 export {
   ClientsService,

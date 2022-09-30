@@ -17,7 +17,6 @@ export class ClientListComponent implements OnInit {
   @Input() client$!: Observable<Clients[]>;
   @Output() clientsEmitter = new EventEmitter<Clients>();
   @Output() toggler = new EventEmitter<Clients>();
-  // dataSource!: MatTableDataSource<Clients[]>;
   dataSource!: MatTableDataSource<any>;
   displayedColumns: string[] = [ 'select','name', 'phone', 'mobile', 'email', 'status'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;

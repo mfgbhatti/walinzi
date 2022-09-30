@@ -3,78 +3,83 @@
     <!-- left side -->
     <div class="d-flex justify-content-between">
       <h1>Extra Details</h1>
-      <div *ngIf="(detail?.length == 0) then add"></div>
-      <div *ngFor="let record of detail" #showData>
-        <div *ngIf="(record?.submitted === true) then edit else add"></div>
+      <div *ngIf="detail$ | async as details;">
+        <div *ngIf="details.length==0; then add"></div>
+        <div *ngFor="let detail of details">
+          <div *ngIf="detail.submitted === true; then edit"></div>
+        </div>
       </div>
+    </div>
+    <div *ngIf="detail$ | async as details;">
+      <div *ngIf="details.length==0; then empty"></div>
+      <div *ngFor="let detail of details">
+          <table class="table table-striped">
+            <tbody>
+              <tr>
+                <th scope="row">Vat Number</th>
+                <td class="text-end">{{detail.vat}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Website</th>
+                <td class="text-end">{{detail.website}}</td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+    </div>
       <ng-template #edit>
         <button class="btn" mat-raised-button color="primary" (click)="editDetails()">
-          Edit
+        Edit
         </button>
       </ng-template>
       <ng-template #add>
         <div>
           <button class="btn" mat-raised-button color="primary" (click)="addDetail()">
-            Add
+          Add
           </button>
         </div>
       </ng-template>
-    </div> <!-- top -->
-    <div class="col-12" *ngIf="(detail?.length===0) then empty else detailData"></div>
-    <ng-template #detailData>
-      <ng-container *ngFor="let record of detail">
-        <table class="table table-striped">
-          <tbody>
-            <tr>
-              <th scope="row">Vat Number</th>
-              <td class="text-end">{{record.vat}}</td>
-            </tr>
-            <tr>
-              <th scope="row">Website</th>
-              <td class="text-end">{{record.website}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </ng-container>
-    </ng-template>
-    <ng-template #empty>
-      <div class="mt-4">
-        There is no record to show.
-      </div>
-    </ng-template>
-  </div><!-- left side -->
-  <div class="col ms-4">
-    <!-- right side -->
+      <ng-template #empty>
+        <div class="no-record">
+          There is no record to show.
+        </div>
+      </ng-template>
+    </div> <!-- left side -->
+  <div class="col ms-4"> <!-- right side -->
     <div class="d-flex justify-content-between">
-      <!-- top -->
       <h1>Contact Person</h1>
       <div>
         <button class="btn my-btn" mat-raised-button color="primary" (click)="addContact()">
-          Add
+        Add
         </button>
       </div>
-    </div><!-- top -->
-    <div class="col-12" *ngIf="contact?.length == 0; then thisrow else contactData"></div>
-    <ng-template #contactData>
-      <ng-container>
+    </div>
+    <div *ngIf="contact$ | async as contacts;">
+      <div *ngIf="contacts.length==0; then empty"></div>
+      <div *ngFor="let contact of contacts">
+        <div class="d-flex">
+          <h3>{{contact.title}}&nbsp;{{contact.name}}</h3>
+          <i (click)="delete(contact.id)" style="cursor: pointer;">
+            <mat-icon class="ms-4" aria-hidden="false" aria-label="delete icon" fontIcon="delete"></mat-icon>
+          </i>
+        </div>
         <table class="table table-striped">
-          <tbody *ngFor="let contact$ of contact">
+          <tbody>
             <tr>
-              <th scope="row">Name</th>
-              <td class="text-end">{{contact$.name}}</td>
+              <th scope="row">Job Title</th>
+              <td class="text-end">{{contact.job}}</td>
             </tr>
             <tr>
               <th scope="row">Phone Number</th>
-              <td class="text-end">{{contact$.phone}}</td>
+              <td class="text-end">{{contact.phone}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Email</th>
+              <td class="text-end">{{contact.email}}</td>
             </tr>
           </tbody>
         </table>
-      </ng-container>
-    </ng-template>
-    <ng-template #thisrow>
-      <div class="no-record">
-        There is no record to show.
       </div>
-    </ng-template>
-  </div><!-- right side -->
+    </div>
+  </div> <!-- right side -->
 </div>

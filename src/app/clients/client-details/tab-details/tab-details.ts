@@ -1,9 +1,14 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { filter, Subject, Subscription, takeUntil, tap } from "rxjs";
+import { filter, Observable, observable, Subject, Subscription, takeUntil, tap } from "rxjs";
 
-import { ClientContactPerson, ClientDetails, ClientDetailsService } from "src/app/clients/shared";
-import { ClientTabContactFormComponent, ClientTabDetailFormComponent } from "src/app/clients/shared";
+import { 
+  ClientDetails, 
+  ClientDetailsService,
+  ContactFormComponent, 
+  ClientTabDetailFormComponent
+ } from "src/app/clients/shared";
+import { ContactPerson } from "src/app/_shared";
 
 @Component({
   selector: 'app-client-detail',
@@ -13,10 +18,10 @@ import { ClientTabContactFormComponent, ClientTabDetailFormComponent } from "src
 
 export class ClientTabDetailComponent implements OnInit {
   destroyed$ = new Subject<void>();
-  contactPersonPath: string = 'ClientContactPerson';
+  contactPersonPath: string = 'ContactPerson';
   extraDetailPath: string = 'ClientExtraDetails';
-  detail: ClientDetails[] = [];
-  contact: ClientContactPerson[] = [];
+  detail$!: Observable<ClientDetails[]>;
+  contact$!: Observable<ContactPerson[]>;
   subscription!: Subscription;
   selectedDetail!: ClientDetails;
   @Input() clientId$!: string;
@@ -26,6 +31,14 @@ export class ClientTabDetailComponent implements OnInit {
     private readonly db: ClientDetailsService
   ) { }
 
+  ngOnInit(): void {
+    this.detail$ = this.db.getextradetail(this.clientId$);
+    this.contact$ = this.db.get(this.contactPersonPath, this.clientId$);
+  }
+
+  selectDetails(detail: ClientDetails) {
+    this.selectedDetail = detail;
+  }
   addDetail() {
     const dialogRef = this.dialog.open(ClientTabDetailFormComponent, {
       data: { clientId: this.clientId$ },
@@ -44,7 +57,7 @@ export class ClientTabDetailComponent implements OnInit {
 
   editDetails() {
     const dialogRef = this.dialog.open(ClientTabDetailFormComponent, {
-      data: { ...this.detail },
+      data: { },
       width: '40%',
     });
     dialogRef
@@ -52,16 +65,16 @@ export class ClientTabDetailComponent implements OnInit {
       .pipe(
         filter(Boolean),
         tap((data) => this.db.update(this.extraDetailPath, data)),
-        // tap((data) => this.selectedDetails(data)),
         takeUntil(this.destroyed$)
       )
       .subscribe();
   }
 
   addContact() {
-    const dialogRef = this.dialog.open(ClientTabContactFormComponent, {
-      data: { clientId: this.clientId$ },
+    const dialogRef = this.dialog.open(ContactFormComponent, {
+      data: { relativeId: this.clientId$ },
       width: '40%',
+      disableClose: true
     });
 
     dialogRef
@@ -74,18 +87,12 @@ export class ClientTabDetailComponent implements OnInit {
       .subscribe();
   }
 
-  get() {
-    this.subscription = this.db.get(this.extraDetailPath, this.clientId$).subscribe((data) => this.detail.push(...data));
-    this.subscription = this.db.get(this.contactPersonPath, this.clientId$).subscribe((data) => this.contact.push(...data));
-  }
-
-  ngOnInit(): void {
-    this.get();
+  delete(id: string) {
+    this.db.delete(this.contactPersonPath, id);
   }
 
   ngOnDestroy() {
     this.destroyed$
       .next();
-    this.subscription.unsubscribe();
   }
 }
