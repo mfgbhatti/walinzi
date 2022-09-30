@@ -3,7 +3,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { filter, Subject, Subscription, takeUntil, tap } from "rxjs";
 
 import { ClientContactPerson, ClientDetails, ClientDetailsService } from "src/app/clients/shared";
-import { ClientTabContactFormComponent, ClientTabDetailFormComponent } from "src/app/clients/client-details/shared";
+import { ClientTabContactFormComponent, ClientTabDetailFormComponent } from "src/app/clients/shared";
 
 @Component({
   selector: 'app-client-detail',

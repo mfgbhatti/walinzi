@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { filter, Subject, Subscription, takeUntil, tap } from "rxjs";
 
-import { ClientDetailsService, ClientNotes, ClientsService } from "src/app/clients/shared";
-import { ClientTabNotesFormComponent } from "src/app/clients/client-details/shared";
+import { ClientDetailsService, ClientNotes,} from "src/app/clients/shared";
+import { ClientTabNotesFormComponent } from "src/app/clients/shared";
 
 @Component({
   selector: 'app-client-note',

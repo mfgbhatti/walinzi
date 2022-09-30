@@ -6,11 +6,13 @@ export {
   ClientDetailsComponent,
   ClientTabSitesComponent,
   ClientTabDetailComponent,
+} from './client-details';
+
+export {
   ClientTabNotesFormComponent,
   ClientTabDetailFormComponent,
   ClientTabContactFormComponent,
-} from './client-details';
-
+} from './shared'
 export {
   ClientsService,
   ClientDetailsService
