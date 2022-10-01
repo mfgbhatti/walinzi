@@ -7,13 +7,13 @@
     <div class="col">
       <h3>Active Sites</h3>
       <div *ngFor="let site of sites; let index = index">
-        <a *ngIf="site.status===true" routerLink="/sites/site-detail/{{site.id}}">{{site.name}}</a>
+        <a *ngIf="site.status===true" routerLink="/sites/site-details/{{site.id}}">{{site.name}}</a>
       </div>
     </div>
     <div class="col ms-4">
       <h3>Inactive Sites</h3>
       <div *ngFor="let site of sites">
-        <a *ngIf="site.status===false" routerLink="/sites/site-detail/{{site.id}}">{{site.name}}</a>
+        <a *ngIf="site.status===false" routerLink="/sites/site-details/{{site.id}}">{{site.name}}</a>
       </div>
     </div>
   </ng-template>

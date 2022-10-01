@@ -9,10 +9,16 @@ import { SitesComponent } from './sites.component';
 import {
   SiteListComponent,
   SiteFormComponent,
-  SiteDetailComponent
+  SiteTabInfoComponent,
+  SiteTabExtraComponent,
+  SiteTabNotesComponent,
+  SiteTabRateComponent,
+  SiteTabStaffComponent,
+  SiteTabDocsComponent,
+  SiteTabTimesheetComponent,
+  SiteDetailComponent,
 } from 'src/app/sites';
 import { SiteService } from 'src/app/sites/shared';
-import { MatNativeDateModule } from '@angular/material/core';
 import { MaterialModule } from 'src/app/_shared';
 
 
@@ -21,7 +27,14 @@ import { MaterialModule } from 'src/app/_shared';
     SitesComponent,
     SiteListComponent,
     SiteFormComponent,
-    SiteDetailComponent
+    SiteDetailComponent,
+    SiteTabInfoComponent,
+    SiteTabExtraComponent,
+    SiteTabNotesComponent,
+    SiteTabRateComponent,
+    SiteTabStaffComponent,
+    SiteTabDocsComponent,
+    SiteTabTimesheetComponent
   ],
   imports: [
     CommonModule,

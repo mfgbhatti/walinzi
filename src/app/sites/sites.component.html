@@ -5,5 +5,5 @@
       Edit
     </button></div>
 </div>
-<app-site-list [site$]="allSite$" [client$]="this.allClients" (siteEmitter)="selectSite($event)"
+<app-site-list [site$]="allSite$" [client$]="this.allClient$" (siteEmitter)="selectSite($event)"
   (toggler)="updateStatus($event)"></app-site-list>

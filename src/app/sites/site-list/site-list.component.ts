@@ -15,7 +15,7 @@ import { Site } from '../shared';
 })
 export class SiteListComponent implements OnInit {
   @Input() site$!: Observable<Site[]>;
-  @Input() client$: Clients[] = [];
+  @Input() client$!: Observable<Clients[]>;
   @Output() siteEmitter = new EventEmitter<Site>();
   @Output() toggler = new EventEmitter<Site>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -37,11 +37,11 @@ export class SiteListComponent implements OnInit {
           return { ...item }
         });
       // change clientId to client name
-      array.map((x) => {
-        let result = this.client$.filter(a1 => a1.id == x.clientId);
-        if (result.length > 0) { x.clientId = String(result[0].name); }
-        return x
-      })
+      // array.map((x) => {
+      //   let result = this.client$.filter(a1 => a1.id == x.clientId);
+      //   if (result.length > 0) { x.clientId = String(result[0].name); }
+      //   return x
+      // })
       this.siteData = new MatTableDataSource(array);
       this.siteData.sort = this.sort;
       this.siteData.paginator = this.paginator;

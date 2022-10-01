@@ -3,7 +3,6 @@ export interface Site {
   clientId: string;
   name: string;
   sin: string;
-  location: string;
   started: Date;
   finished: Date;
   status: boolean;

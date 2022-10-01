@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, Subject, takeUntil, tap, filter, Subscription } from 'rxjs';
+import { Observable, Subject, takeUntil, tap, filter } from 'rxjs';
 
 import {
   SiteService,
@@ -16,12 +16,11 @@ import { Clients, ClientsService } from '../clients/shared';
 })
 export class SitesComponent implements OnInit {
   allSite$!: Observable<Site[]>;
-  allClients: Clients[] = [];
+  allClient$!: Observable<Clients[]>;
   selectedSite?: Site;
   destroyed$ = new Subject<void>();
   isSelected: boolean = false;
   generatedSin: string = ''
-  sub!: Subscription;
 
   constructor(
     private readonly db: SiteService,
@@ -29,7 +28,7 @@ export class SitesComponent implements OnInit {
     private readonly dialog: MatDialog
   ) { 
     this.allSite$ = this.db.getAll();
-    this.sub = this.clientService.getAll().subscribe( (data) => this.allClients.push(...data));
+    this.allClient$ = this.clientService.getAll();
   }
 
   ngOnInit(): void {
@@ -42,7 +41,7 @@ export class SitesComponent implements OnInit {
     const dialogRef = this.dialog.open(SiteFormComponent, {
       data: { 
         site:{sin: this.generatedSin},
-        clients: this.allClients
+        clients: this.allClient$
       },
       width: '40%',
       disableClose: true
@@ -60,7 +59,7 @@ export class SitesComponent implements OnInit {
   updateSite() {
     const dialogRef = this.dialog.open(SiteFormComponent, {
       data: {
-        clients: this.allClients,
+        clients: this.allClient$,
         site:{...this.selectedSite}
       },
       width: '40%',
@@ -104,7 +103,6 @@ export class SitesComponent implements OnInit {
   ngOnDestroy() {
     this.destroyed$
     .next();
-    this.sub.unsubscribe();
   }
 
 }
