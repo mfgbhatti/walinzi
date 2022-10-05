@@ -3,11 +3,14 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, take, zip } from 'rxjs';
 
 import { Clients } from 'src/app/clients/shared';
 import { Site } from '../shared';
 
+type NewSite = Site & {
+  clientName: string;
+}
 @Component({
   selector: 'app-site-list',
   templateUrl: './site-list.component.html',
@@ -26,26 +29,27 @@ export class SiteListComponent implements OnInit {
   sub!: Subscription;
   selection = new SelectionModel<Site>(true, []);
   newStatus!: boolean;
-  name: string = '';
+  clients: Clients[] = [];
+  newsites: NewSite[] = [];
 
   constructor() { }
 
   ngOnInit(): void {
+    this.sub = this.client$.subscribe( (data) => this.clients.push(...data));
     this.sub = this.site$.subscribe((list) => {
-      let array = list.map(
-        (item: Site) => {
-          return { ...item }
-        });
+      let array = list.map( (item: Site) => {return { ...item }});
       // change clientId to client name
-      // array.map((x) => {
-      //   let result = this.client$.filter(a1 => a1.id == x.clientId);
-      //   if (result.length > 0) { x.clientId = String(result[0].name); }
-      //   return x
-      // })
-      this.siteData = new MatTableDataSource(array);
+      array.map((x) => {
+        // console.log(this.clients)
+        let result = this.clients.filter(a1 => a1.id == x.clientId);
+        if (result.length > 0) {
+          this.newsites.push({...x, clientName: result[0].name})
+        }
+      });
+      this.siteData = new MatTableDataSource(this.newsites);
       this.siteData.sort = this.sort;
       this.siteData.paginator = this.paginator;
-    });
+    });// end od sub
   }
 
   isSelected() {
