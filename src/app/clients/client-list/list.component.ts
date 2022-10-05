@@ -1,9 +1,8 @@
-import { SelectionModel } from '@angular/cdk/collections';
 import { Component, EventEmitter, Input, Output, OnInit, ViewChild } from '@angular/core';
+import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-
 import { Observable, Subscription } from 'rxjs';
 
 import { Clients } from 'src/app/clients/shared';
@@ -18,15 +17,16 @@ export class ClientListComponent implements OnInit {
   @Output() clientsEmitter = new EventEmitter<Clients>();
   @Output() toggler = new EventEmitter<Clients>();
   dataSource!: MatTableDataSource<any>;
-  displayedColumns: string[] = [ 'select','name', 'phone', 'mobile', 'email', 'status'];
+  displayedColumns: string[] = ['select', 'name', 'phone', 'mobile', 'email', 'status'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   subscription!: Subscription;
   selection = new SelectionModel<Clients>(true, []);
   newStatus!: boolean
+  selectedIndex!: number;
 
-  constructor() {}
- 
+  constructor() { }
+
   ngOnInit(): void {
     this.subscription = this.client$.subscribe(
       (list) => {
