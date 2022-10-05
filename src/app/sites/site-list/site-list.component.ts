@@ -31,6 +31,7 @@ export class SiteListComponent implements OnInit {
   newStatus!: boolean;
   clients: Clients[] = [];
   newsites: NewSite[] = [];
+  selectedIndex!: number;
 
   constructor() { }
 
@@ -78,6 +79,11 @@ export class SiteListComponent implements OnInit {
       this.siteData.paginator.firstPage();
     }
   }
+
+  // changeSelection(event: Event, index: number | undefined) {
+  //   this.selectedIndex = event.target!.checked ? index : undefined;
+  // }
+
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
