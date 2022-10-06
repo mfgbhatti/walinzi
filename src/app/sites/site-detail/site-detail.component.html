@@ -1,16 +1,16 @@
 <div class="mt-4" *ngFor="let site of site$">
   <div>
     <h1>{{site.name}}</h1>
-    <p>{{site.address}},&nbsp;{{site.post_code}}</p>
+    <p><b>Address:</b>&nbsp;{{site.address}},&nbsp;{{site.post_code}}</p>
   </div>
   <div class="d-flex">
-    <p><b>Client:</b>&nbsp;{{site.clientId}}</p>
+    <p><b>Client:</b>&nbsp;{{site.clientName}}</p>
     <p class="ms-2"><b>Created By:</b>&nbsp;Name</p>
   </div>
 </div>
 <mat-tab-group class="mt-4">
   <mat-tab label="Information">
-    <app-site-tab-info></app-site-tab-info>
+    <app-site-tab-info [clientId$]="clientId" [siteId$]="siteId"></app-site-tab-info>
   </mat-tab>
   <mat-tab label="Extra Details">
     <app-site-tab-extra></app-site-tab-extra>

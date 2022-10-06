@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-site-tab-info',
@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./site-tab-info.component.scss']
 })
 export class SiteTabInfoComponent implements OnInit {
-
+  @Input() clientId$!: string;
+  @Input() siteId$!: string;
   constructor() { }
 
   ngOnInit(): void {
