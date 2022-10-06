@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 import { SitesRoutingModule } from './sites-routing.module';
@@ -39,6 +39,7 @@ import { MaterialModule } from 'src/app/_shared';
   imports: [
     CommonModule,
     SitesRoutingModule,
+    FormsModule,
     ReactiveFormsModule,
     MaterialModule
   ],

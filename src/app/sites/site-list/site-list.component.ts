@@ -3,14 +3,11 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Observable, Subscription, take, zip } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { Clients } from 'src/app/clients/shared';
-import { Site } from '../shared';
+import { Site, SiteService } from '../shared';
 
-type NewSite = Site & {
-  clientName: string;
-}
 @Component({
   selector: 'app-site-list',
   templateUrl: './site-list.component.html',
@@ -18,7 +15,6 @@ type NewSite = Site & {
 })
 export class SiteListComponent implements OnInit {
   @Input() site$!: Observable<Site[]>;
-  @Input() client$!: Observable<Clients[]>;
   @Output() siteEmitter = new EventEmitter<Site>();
   @Output() toggler = new EventEmitter<Site>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -29,25 +25,28 @@ export class SiteListComponent implements OnInit {
   sub!: Subscription;
   selection = new SelectionModel<Site>(true, []);
   newStatus!: boolean;
-  clients: Clients[] = [];
-  newsites: NewSite[] = [];
   selectedIndex!: number;
 
-  constructor() { }
+  constructor(
+    private readonly siteService: SiteService
+  ) { }
 
   ngOnInit(): void {
-    this.sub = this.client$.subscribe( (data) => this.clients.push(...data));
+    // this.sub = this.client$.subscribe( (data) => this.clients.push(...data));
     this.sub = this.site$.subscribe((list) => {
       let array = list.map( (item: Site) => {return { ...item }});
       // change clientId to client name
-      array.map((x) => {
-        // console.log(this.clients)
-        let result = this.clients.filter(a1 => a1.id == x.clientId);
-        if (result.length > 0) {
-          this.newsites.push({...x, clientName: result[0].name})
-        }
-      });
-      this.siteData = new MatTableDataSource(this.newsites);
+      // array.map((x) => {
+      //   // console.log(this.clients)
+      //   let result = this.clients.filter(a1 => a1.id == x.clientId);
+      //   if (result.length > 0) {
+      //     x.clientName = result[0].name
+      //     // this.newsites.push({...x, clientName: result[0].name})
+      //     // console.log({...x})
+      //     // this.siteService.update(x);
+      //   }
+      // });
+      this.siteData = new MatTableDataSource(array);
       this.siteData.sort = this.sort;
       this.siteData.paginator = this.paginator;
     });// end od sub
@@ -73,7 +72,6 @@ export class SiteListComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.siteData.filter = filterValue.trim().toLowerCase();
-    console.log(filterValue);
 
     if (this.siteData.paginator) {
       this.siteData.paginator.firstPage();

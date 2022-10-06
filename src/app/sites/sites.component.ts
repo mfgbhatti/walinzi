@@ -7,8 +7,10 @@ import {
   Site
 } from './shared';
 import { SiteFormComponent } from 'src/app/sites';
-import { Clients, ClientsService } from '../clients/shared';
 
+type NewSite = Site & {
+  clientName: string;
+}
 @Component({
   selector: 'app-sites',
   templateUrl: './sites.component.html',
@@ -16,7 +18,6 @@ import { Clients, ClientsService } from '../clients/shared';
 })
 export class SitesComponent implements OnInit {
   allSite$!: Observable<Site[]>;
-  allClient$!: Observable<Clients[]>;
   selectedSite?: Site;
   destroyed$ = new Subject<void>();
   isSelected: boolean = false;
@@ -24,25 +25,19 @@ export class SitesComponent implements OnInit {
 
   constructor(
     private readonly db: SiteService,
-    private readonly clientService: ClientsService,
     private readonly dialog: MatDialog
-  ) { 
+  ) {
     this.allSite$ = this.db.getAll();
-    this.allClient$ = this.clientService.getAll();
   }
 
   ngOnInit(): void {
-    this.generateSin();
   }
 
   addSite() {
     this.generatedSin = '';
     this.generateSin();
     const dialogRef = this.dialog.open(SiteFormComponent, {
-      data: { 
-        site:{sin: this.generatedSin},
-        clients: this.allClient$
-      },
+      data: { sin: this.generatedSin },
       width: '40%',
       disableClose: true
     });
@@ -58,10 +53,7 @@ export class SitesComponent implements OnInit {
 
   updateSite() {
     const dialogRef = this.dialog.open(SiteFormComponent, {
-      data: {
-        clients: this.allClient$,
-        site:{...this.selectedSite}
-      },
+      data: { ...this.selectedSite },
       width: '40%',
       disableClose: true
     });
@@ -85,24 +77,24 @@ export class SitesComponent implements OnInit {
     this.selectedSite = data
   }
 
-  deleteClient () {
+  deleteClient() {
     this.db.delete(this.selectedSite!.id);
     this.selectedSite = undefined;
   }
 
-  generateSin () {
+  generateSin() {
     const char = 'W';
     const num = '0123456789';
     const length = 7;
     this.generatedSin += char
-    for (let i=0; i < length; i++ ) {
+    for (let i = 0; i < length; i++) {
       this.generatedSin += num.charAt((Math.random()) * length);
     }
   }
 
   ngOnDestroy() {
     this.destroyed$
-    .next();
+      .next();
   }
 
 }

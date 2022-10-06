@@ -1,24 +1,11 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 
-import { Clients } from 'src/app/clients/shared';
+import { Clients, ClientsService } from 'src/app/clients/shared';
+import { Site } from 'src/app/sites/shared';
 
-interface matDialogData {
-  clients: Clients[];
-  site: {
-    name: string;
-    id: string;
-    clientId: string;
-    sin: string;
-    location: string;
-    started: Date;
-    finished: Date;
-    status: boolean;
-    address: string;
-    post_code: string;
-  }
-}
 @Component({
   selector: 'app-site-form',
   templateUrl: './site-form.component.html',
@@ -27,37 +14,43 @@ interface matDialogData {
 
 export class SiteFormComponent implements OnInit {
   form!: UntypedFormGroup;
-  selectedClient!: string;
   status_list: Array<any> = [
     { status: true, label: "Active" },
     { status: false, label: "Inactive" }
   ]
-  startDate!: Date;
-  endDate!: Date;
+  client$!: Observable<Clients[]>;
+  started!: FormControl;
+  selectedClient!: Clients;
 
   constructor(
     private readonly formbuilder: UntypedFormBuilder,
     public readonly dialogRef: MatDialogRef<SiteFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: matDialogData
+    @Inject(MAT_DIALOG_DATA) public data: Site,
+    private readonly clientService: ClientsService
   ) {
-    this.startDate = this.data.site.started;
     this.setForm();
-
-   }
-
-  ngOnInit(): void {
   }
-
+  
+  ngOnInit(): void {
+    this.client$ = this.clientService.getAll();
+  }
+  
   setForm () {
+    if (this.data.started == undefined) {
+      this.started = new FormControl(new Date())
+    } else {
+      this.started = new FormControl(new Date(this.data.started.toDate()));
+    }
     this.form = this.formbuilder.group({
-      name: [this.data.site.name, [Validators.required]],
-      clientId: [this.data.site.clientId, [Validators.required]],
-      sin: [this.data.site.sin, [Validators.required]],
-      started: [new Date(), [Validators.required]],
-      finished: [this.data.site.finished],
-      status: [this.data.site.status = true, [Validators.required]],
-      address: [this.data.site.address],
-      post_code: [this.data.site.post_code, [Validators.required]],
+      name: [this.data.name, [Validators.required]],
+      clientId: [this.data.clientId, [Validators.required]],
+      sin: [this.data.sin, [Validators.required]],
+      started: [this.started.value, [Validators.required]],
+      finished: [this.data.finished],
+      status: [this.data.status, [Validators.required]],
+      address: [this.data.address],
+      post_code: [this.data.post_code, [Validators.required]],
+      // clientName: [this.clientName.nativeElement.value]
     });
   }
 
@@ -65,8 +58,13 @@ export class SiteFormComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  getClientName(value: Clients) {
+    this.selectedClient = value;
+    console.log(value)
+  }
+
   submit() {
-    this.dialogRef.close({ ...this.data.site, ...this.form.value });
+    this.dialogRef.close({ ...this.data, ...this.form.value });
   }
 
 }

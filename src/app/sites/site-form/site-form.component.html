@@ -1,24 +1,39 @@
 <form [formGroup]="form">
-  <mat-form-field>
-    <mat-label class="form-label">Name</mat-label>
-    <input required formControlName="name" class="form-control" placeholder="Name" type="text" matInput />
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Address</mat-label>
-    <input formControlName="address" class="form-control" placeholder="12 High Road, High Barnet, London" type="text"
-      matInput />
-  </mat-form-field>
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" *ngIf="client$ | async as clients">
     <mat-label>Choose Client</mat-label>
+    <!-- <mat-select name="Clients" (valueChange)="$event.target.value">
+      <mat-option *ngFor="let client of clients" [value]="client">
+        {{client.name}}
+      </mat-option>
+    </mat-select> -->
     <mat-select formControlName="clientId" name="Clients">
-      <mat-option *ngFor="let client of data.clients" [value]="client.id">
+      <mat-option *ngFor="let client of clients" [value]="client.id">
         {{client.name}}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field appearance="fill" class="example-form-field">
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input required formControlName="name" placeholder="Name" type="text" matInput />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Address</mat-label>
+    <input formControlName="address" placeholder="12 High Road, High Barnet, London" type="text" matInput />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Post Code</mat-label>
+    <input matInput required formControlName="post_code" placeholder="LE12 1EE" style="text-transform: uppercase;"
+      type="text" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
     <mat-label>Choose start date</mat-label>
-    <input matInput required [matDatepicker]="startdatepicker" formControlName="started">
+    <div *ngIf="data.started == undefined; then noDate else withDate"></div>
+    <ng-template #noDate>
+      <input matInput required [matDatepicker]="startdatepicker" formControlName="started">
+    </ng-template>
+    <ng-template #withDate>
+      <input matInput required [matDatepicker]="startdatepicker" formControlName="started" [value]="started.value">
+    </ng-template>
     <mat-hint>DD/MM/YYYY</mat-hint>
     <mat-datepicker-toggle matSuffix [for]="startdatepicker"></mat-datepicker-toggle>
     <mat-datepicker #startdatepicker>
@@ -27,9 +42,15 @@
       </mat-datepicker-toggle>
     </mat-datepicker>
   </mat-form-field>
-  <mat-form-field appearance="fill" class="example-form-field">
+  <mat-form-field appearance="fill">
     <mat-label>Choose finish date</mat-label>
-    <input matInput [matDatepicker]="finishdatepicker" formControlName="finished">
+    <div *ngIf="data.finished == undefined; then thereIsNoDate else thereIsDate"></div>
+    <ng-template #thereIsNoDate>
+      <input matInput [matDatepicker]="finishdatepicker" formControlName="finished">
+    </ng-template>
+    <ng-template #thereIsDate>
+      <input matInput [matDatepicker]="finishdatepicker" formControlName="finished" [value]="data.finished.toDate()">
+    </ng-template>
     <mat-hint>DD/MM/YYYY</mat-hint>
     <mat-datepicker-toggle matSuffix [for]="finishdatepicker"></mat-datepicker-toggle>
     <mat-datepicker #finishdatepicker>
@@ -38,21 +59,17 @@
       </mat-datepicker-toggle>
     </mat-datepicker>
   </mat-form-field>
-  <mat-form-field>
-    <mat-label>Post Code</mat-label>
-    <input matInput required formControlName="post_code" class="form-control" placeholder="LE12 1EE"
-      style="text-transform: uppercase;" type="text" />
-  </mat-form-field>
   <mat-radio-group formControlName="status" aria-labelledby="example-radio-group-label" class="example-radio-group">
     <mat-radio-button class="radio-button" *ngFor="let x of status_list;" [value]="x.status">
       {{x.label}}
     </mat-radio-button>
   </mat-radio-group>
-  <div class="sub-close">
-    <button type="button" mat-raised-button (click)="submit()" color="primary" class="submit" [disabled]="!this.form.valid">
+  <div class="d-flex justify-content-end mt-4">
+    <button type="button" mat-raised-button (click)="submit()" color="primary" class="submit col-3"
+      [disabled]="!this.form.valid">
       Submit
     </button>
-    <button type="button" mat-raised-button (click)="close()" color="accent">
+    <button type="button" mat-raised-button (click)="close()" color="accent" class="submit col-3 ms-4">
       Close
     </button>
   </div>
