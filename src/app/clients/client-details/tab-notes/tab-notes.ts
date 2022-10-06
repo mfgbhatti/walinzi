@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { filter, Observable, Subject, Subscription, takeUntil, tap } from "rxjs";
+import { filter, Observable, Subject, takeUntil, tap } from "rxjs";
 
 import { ClientDetailsService, ClientTabNotesFormComponent } from "src/app/clients/shared";
 import { Notes } from "src/app/_shared";
