@@ -3,7 +3,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { filter, Observable, Subject, takeUntil, tap } from "rxjs";
 
 import { ClientDetailsService, ClientTabNotesFormComponent } from "src/app/clients/shared";
-import { Notes } from "src/app/_shared";
+import { Notes, NoteService } from "src/app/_shared";
 
 @Component({
   selector: 'app-client-note',
@@ -19,11 +19,11 @@ export class ClientTabNoteComponent implements OnInit {
 
   constructor(
     private readonly dialog: MatDialog,
-    private readonly db: ClientDetailsService
+    private readonly db: NoteService
   ) { }
 
   ngOnInit(): void {
-    this.note$ = this.db.get(this.notesPath, this.clientId$);
+    this.note$ = this.db.get(this.clientId$);
   }
 
   addNotes() {
@@ -37,7 +37,7 @@ export class ClientTabNoteComponent implements OnInit {
       .afterClosed()
       .pipe(
         filter(Boolean),
-        tap((data) => this.db.add(this.notesPath, data)),
+        tap((data) => this.db.add(data)),
         takeUntil(this.destroyed$)
       )
       .subscribe();

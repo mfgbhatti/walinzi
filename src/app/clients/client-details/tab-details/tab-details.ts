@@ -8,7 +8,7 @@ import {
   ContactFormComponent, 
   ClientTabDetailFormComponent
  } from "src/app/clients/shared";
-import { ContactPerson } from "src/app/_shared";
+import { ContactPerson, ContactPersonService } from "src/app/_shared";
 
 @Component({
   selector: 'app-client-detail',
@@ -28,7 +28,8 @@ export class ClientTabDetailComponent implements OnInit {
 
   constructor(
     private readonly dialog: MatDialog,
-    private readonly db: ClientDetailsService
+    private readonly db: ClientDetailsService,
+    private readonly cps: ContactPersonService
   ) { }
 
   ngOnInit(): void {
@@ -39,6 +40,7 @@ export class ClientTabDetailComponent implements OnInit {
   selectDetails(detail: ClientDetails) {
     this.selectedDetail = detail;
   }
+
   addDetail() {
     const dialogRef = this.dialog.open(ClientTabDetailFormComponent, {
       data: { clientId: this.clientId$ },
@@ -81,14 +83,14 @@ export class ClientTabDetailComponent implements OnInit {
       .afterClosed()
       .pipe(
         filter(Boolean),
-        tap((data) => this.db.add(this.contactPersonPath, data)),
+        tap((data) => this.cps.add(data)),
         takeUntil(this.destroyed$)
       )
       .subscribe();
   }
 
   delete(id: string) {
-    this.db.delete(this.contactPersonPath, id);
+    this.cps.delete(id);
   }
 
   ngOnDestroy() {

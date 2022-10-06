@@ -1,2 +1,2 @@
-export { Site } from './modals';
+export { Site, ChargedRate, PayRate, PrefferedStaff, BannedStaff } from './modals';
 export { SiteService } from './services';
