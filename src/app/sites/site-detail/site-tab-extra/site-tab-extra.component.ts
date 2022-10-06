@@ -12,4 +12,6 @@ export class SiteTabExtraComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  addDetail() {}
+
 }
