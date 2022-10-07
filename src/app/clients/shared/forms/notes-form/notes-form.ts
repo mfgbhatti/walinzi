@@ -10,12 +10,12 @@ import { Notes } from "src/app/_shared";
   styleUrls:['./notes-form.scss']
 })
 
-export class ClientTabNotesFormComponent implements OnInit {
+export class TabNotesFormComponent implements OnInit {
   form!: UntypedFormGroup;
 
   constructor(
     private readonly fb: UntypedFormBuilder,
-    public readonly dialogRef: MatDialogRef<ClientTabNotesFormComponent>,
+    public readonly dialogRef: MatDialogRef<TabNotesFormComponent>,
     @Inject(MAT_DIALOG_DATA) private readonly note: Notes
   ) {
     this.setForm();

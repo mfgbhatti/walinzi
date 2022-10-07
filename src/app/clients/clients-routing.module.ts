@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ClientsComponent } from './clients.component';
-import { ClientDetailsComponent } from './client-details/details.component';
+import { DetailsComponent } from './detail/details.component';
 
 const routes: Routes = [
     { path: '', component: ClientsComponent, title: 'Walinzi - Clients' },
-    { path: 'client-details/:id', component: ClientDetailsComponent, title: 'Walinzi - Client Details' }
+    { path: 'client-details/:id', component: DetailsComponent, title: 'Walinzi - Client Details' }
 ]
 
 @NgModule({

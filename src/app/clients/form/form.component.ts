@@ -9,7 +9,7 @@ import { Clients } from 'src/app/clients/shared';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']
 })
-export class ClientFormComponent implements OnInit {
+export class FormComponent implements OnInit {
   form!: UntypedFormGroup;
   status_list: Array<any> = [
     { status: true, label: "Active" },
@@ -18,7 +18,7 @@ export class ClientFormComponent implements OnInit {
 
   constructor(
     private readonly formbuilder: UntypedFormBuilder,
-    public readonly dialogRef: MatDialogRef<ClientFormComponent>,
+    public readonly dialogRef: MatDialogRef<FormComponent>,
     @Inject(MAT_DIALOG_DATA) private readonly client: Clients
   ) { }
 

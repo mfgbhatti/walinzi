@@ -12,7 +12,7 @@ import { Clients } from 'src/app/clients/shared';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ClientListComponent implements OnInit {
+export class ListComponent implements OnInit {
   @Input() client$!: Observable<Clients[]>;
   @Output() clientsEmitter = new EventEmitter<Clients>();
   @Output() toggler = new EventEmitter<Clients>();

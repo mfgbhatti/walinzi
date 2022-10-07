@@ -6,7 +6,7 @@ import {
   ClientDetails, 
   ClientDetailsService,
   ContactFormComponent, 
-  ClientTabDetailFormComponent
+  TabDetailFormComponent
  } from "src/app/clients/shared";
 import { ContactPerson, ContactPersonService } from "src/app/_shared";
 
@@ -16,7 +16,7 @@ import { ContactPerson, ContactPersonService } from "src/app/_shared";
   styleUrls: ['./tab-details.scss']
 })
 
-export class ClientTabDetailComponent implements OnInit {
+export class TabDetailComponent implements OnInit {
   destroyed$ = new Subject<void>();
   contactPersonPath: string = 'ContactPerson';
   extraDetailPath: string = 'ClientExtraDetails';
@@ -41,7 +41,7 @@ export class ClientTabDetailComponent implements OnInit {
   }
 
   addDetail() {
-    const dialogRef = this.dialog.open(ClientTabDetailFormComponent, {
+    const dialogRef = this.dialog.open(TabDetailFormComponent, {
       data: { clientId: this.clientId$ },
       width: '40%',
     });
@@ -57,7 +57,7 @@ export class ClientTabDetailComponent implements OnInit {
   }
 
   editDetails() {
-    const dialogRef = this.dialog.open(ClientTabDetailFormComponent, {
+    const dialogRef = this.dialog.open(TabDetailFormComponent, {
       data: { },
       width: '40%',
     });

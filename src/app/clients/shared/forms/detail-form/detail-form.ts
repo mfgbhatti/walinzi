@@ -10,12 +10,12 @@ import { ClientDetails } from "src/app/clients/shared";
   styleUrls: ['./detail-form.scss']
 })
 
-export class ClientTabDetailFormComponent implements OnInit {
+export class TabDetailFormComponent implements OnInit {
   form!: UntypedFormGroup;
 
   constructor(
     private readonly fb: UntypedFormBuilder,
-    public readonly dialogRef: MatDialogRef<ClientTabDetailFormComponent>,
+    public readonly dialogRef: MatDialogRef<TabDetailFormComponent>,
     @Inject(MAT_DIALOG_DATA) private readonly details: ClientDetails
   ) {
     this.setForm();

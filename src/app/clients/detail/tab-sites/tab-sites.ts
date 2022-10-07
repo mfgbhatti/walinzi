@@ -9,7 +9,7 @@ import { SiteService, Site } from "src/app/sites/shared";
   styleUrls: ['./tab-sites.scss']
 })
 
-export class ClientTabSitesComponent implements OnInit {
+export class TabSitesComponent implements OnInit {
   site$!: Observable<Site[]>;
   @Input() clientId$!: string;
   displayedColumns: string[] = ['serial', 'name'];

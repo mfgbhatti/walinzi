@@ -1,3 +1,3 @@
-export { ClientTabDetailFormComponent } from './detail-form/detail-form';
+export { TabDetailFormComponent } from './detail-form/detail-form';
 export { ContactFormComponent } from './contact-form/contact-form';
-export { ClientTabNotesFormComponent } from './notes-form/notes-form';
+export { TabNotesFormComponent } from './notes-form/notes-form';

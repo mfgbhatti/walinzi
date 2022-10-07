@@ -1,16 +1,16 @@
 
-export { ClientFormComponent } from './client-form/form.component';
-export { ClientListComponent } from './client-list/list.component';
+export { FormComponent } from './form/form.component';
+export { ListComponent } from './list/list.component';
 export {
-  ClientTabNoteComponent,
-  ClientDetailsComponent,
-  ClientTabSitesComponent,
-  ClientTabDetailComponent,
-} from './client-details';
+  TabNoteComponent,
+  DetailsComponent,
+  TabSitesComponent,
+  TabDetailComponent,
+} from './detail';
 
 export {
-  ClientTabNotesFormComponent,
-  ClientTabDetailFormComponent,
+  TabNotesFormComponent,
+  TabDetailFormComponent,
   ContactFormComponent,
 } from './shared'
 export {

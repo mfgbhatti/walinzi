@@ -9,7 +9,7 @@ import { Clients, ClientsService } from 'src/app/clients/shared';
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss']
 })
-export class ClientDetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit {
   clientId!: string;
   client: Clients[] = [];
   subscription!: Subscription;

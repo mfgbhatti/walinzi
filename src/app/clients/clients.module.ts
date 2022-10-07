@@ -6,16 +6,16 @@ import { ClientsComponent } from './clients.component';
 import { ClientsRoutingModule } from './clients-routing.module';
 import {
   ClientsService,
-  ClientFormComponent,
-  ClientListComponent,
+  FormComponent,
+  ListComponent,
   ClientDetailsService,
-  ClientDetailsComponent,
-  ClientTabDetailComponent,
-  ClientTabNoteComponent,
-  ClientTabSitesComponent,
-  ClientTabDetailFormComponent,
+  DetailsComponent,
+  TabDetailComponent,
+  TabNoteComponent,
+  TabSitesComponent,
+  TabDetailFormComponent,
   ContactFormComponent,
-  ClientTabNotesFormComponent
+  TabNotesFormComponent
 } from 'src/app/clients';
 import { MaterialModule } from 'src/app/_shared';
 
@@ -23,14 +23,14 @@ import { MaterialModule } from 'src/app/_shared';
 @NgModule({
   declarations: [
     ClientsComponent,
-    ClientListComponent,
-    ClientFormComponent,
-    ClientDetailsComponent,
-    ClientTabNoteComponent,
-    ClientTabSitesComponent,
-    ClientTabDetailComponent,
-    ClientTabNotesFormComponent,
-    ClientTabDetailFormComponent,
+    ListComponent,
+    FormComponent,
+    DetailsComponent,
+    TabNoteComponent,
+    TabSitesComponent,
+    TabDetailComponent,
+    TabNotesFormComponent,
+    TabDetailFormComponent,
     ContactFormComponent,
   ],
   imports: [

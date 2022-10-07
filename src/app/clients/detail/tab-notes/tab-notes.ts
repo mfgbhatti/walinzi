@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { filter, Observable, Subject, takeUntil, tap } from "rxjs";
 
-import { ClientTabNotesFormComponent } from "src/app/clients/shared";
+import { TabNotesFormComponent } from "src/app/clients/shared";
 import { Notes, NoteService } from "src/app/_shared";
 
 @Component({
@@ -11,7 +11,7 @@ import { Notes, NoteService } from "src/app/_shared";
   styleUrls: ['./tab-notes.scss']
 })
 
-export class ClientTabNoteComponent implements OnInit {
+export class TabNoteComponent implements OnInit {
   destroyed$ = new Subject<void>();
   notesPath: string = 'Notes';
   note$!: Observable<Notes[]>;
@@ -27,7 +27,7 @@ export class ClientTabNoteComponent implements OnInit {
   }
 
   addNotes() {
-    const dialogRef = this.dialog.open(ClientTabNotesFormComponent, {
+    const dialogRef = this.dialog.open(TabNotesFormComponent, {
       data: { relativeId: this.clientId$ },
       width: '40%',
       disableClose: true

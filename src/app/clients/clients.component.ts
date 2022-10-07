@@ -3,7 +3,7 @@ import { Observable, Subject, takeUntil, tap, filter } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Clients, ClientsService } from 'src/app/clients/shared';
-import { ClientFormComponent } from 'src/app/clients';
+import { FormComponent } from 'src/app/clients';
 
 @Component({
   selector: 'app-clients',
@@ -28,7 +28,7 @@ export class ClientsComponent implements OnInit {
   }
 
   addClient() {
-    const dialogRef = this.dialog.open(ClientFormComponent, {
+    const dialogRef = this.dialog.open(FormComponent, {
       data: {},
       width: '40%',
       disableClose: true
@@ -45,7 +45,7 @@ export class ClientsComponent implements OnInit {
   }
 
   updateClient() {
-    const dialogRef = this.dialog.open(ClientFormComponent, {
+    const dialogRef = this.dialog.open(FormComponent, {
       data: { ...this.selectedClient },
       width: '40%',
       disableClose: true
