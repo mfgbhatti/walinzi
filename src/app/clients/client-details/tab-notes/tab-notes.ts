@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { filter, Observable, Subject, takeUntil, tap } from "rxjs";
 
-import { ClientDetailsService, ClientTabNotesFormComponent } from "src/app/clients/shared";
+import { ClientTabNotesFormComponent } from "src/app/clients/shared";
 import { Notes, NoteService } from "src/app/_shared";
 
 @Component({
@@ -42,9 +42,6 @@ export class ClientTabNoteComponent implements OnInit {
       )
       .subscribe();
   }
-
-
-
 
   ngOnDestroy() {
     this.destroyed$

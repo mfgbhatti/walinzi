@@ -13,13 +13,13 @@
     <app-site-tab-info [clientId$]="clientId" [siteId$]="siteId"></app-site-tab-info>
   </mat-tab>
   <mat-tab label="Extra Details">
-    <app-site-tab-extra></app-site-tab-extra>
+    <app-site-tab-extra [siteId$]="siteId"></app-site-tab-extra>
   </mat-tab>
   <mat-tab label="Notes">
-    <app-site-tab-notes></app-site-tab-notes>
+    <app-site-tab-notes [siteId$]="siteId"></app-site-tab-notes>
   </mat-tab>
   <mat-tab label="Rate Card">
-    <app-site-tab-rate></app-site-tab-rate>
+    <app-site-tab-rate [siteId$]="siteId"></app-site-tab-rate>
   </mat-tab>
   <mat-tab label="Documents">
     <app-site-tab-docs></app-site-tab-docs>

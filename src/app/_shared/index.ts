@@ -1,10 +1,11 @@
 export { MaterialModule } from './modules';
 export {
   Notes,
-  ExtraInfo,
+  ExtraDetail,
   ContactPerson,
 } from './modals';
 export {
   NoteService,
-  ContactPersonService
+  ContactPersonService,
+  ExtraDetailService
 } from './services';

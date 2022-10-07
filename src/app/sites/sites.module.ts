@@ -17,6 +17,11 @@ import {
   SiteTabDocsComponent,
   SiteTabTimesheetComponent,
   SiteDetailComponent,
+  TabNotesFormComponent,
+  TabExtraDetailFormComponent,
+  TabContactPersonFormComponent,
+  TabChargedRatesFormComponent,
+  TabPayRatesFormComponent
 } from 'src/app/sites';
 import { SiteService } from 'src/app/sites/shared';
 import { MaterialModule } from 'src/app/_shared';
@@ -34,7 +39,12 @@ import { MaterialModule } from 'src/app/_shared';
     SiteTabRateComponent,
     SiteTabStaffComponent,
     SiteTabDocsComponent,
-    SiteTabTimesheetComponent
+    SiteTabTimesheetComponent,
+    TabNotesFormComponent,
+    TabExtraDetailFormComponent,
+    TabContactPersonFormComponent,
+    TabChargedRatesFormComponent,
+    TabPayRatesFormComponent
   ],
   imports: [
     CommonModule,

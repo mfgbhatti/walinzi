@@ -4,11 +4,61 @@
       <h1>Other Information</h1>
       <div><button class="btn" mat-raised-button color="primary" (click)="addDetail()">Add</button></div>
     </div>
-  </div>
-  <div class="col ms-4">
-    <div class="d-flex justify-content-between">
-      <h1>Contact Person</h1>
-      <div><button class="btn" mat-raised-button color="primary" (click)="addDetail()">Add</button></div>
+    <div *ngIf="detail$ | async as details;">
+      <div *ngIf="details.length==0; then empty"></div>
+      <div *ngFor="let detail of details">
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <th scope="row">Title</th>
+              <td class="text-end">{{detail.title}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Description</th>
+              <td class="text-end">{{detail.description}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
+  <div class="col ms-4">
+    <!-- right side -->
+    <div class="d-flex justify-content-between">
+      <h1>Contact Person</h1>
+      <div>
+        <button class="btn my-btn" mat-raised-button color="primary" (click)="addContact()">
+          Add
+        </button>
+      </div>
+    </div>
+    <div *ngIf="contact$ | async as contacts;">
+      <div *ngIf="contacts.length==0; then empty"></div>
+      <div *ngFor="let contact of contacts">
+        <h3>{{contact.title}}&nbsp;{{contact.name}}</h3>
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <th scope="row">Job Title</th>
+              <td class="text-end">{{contact.job}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Phone Number</th>
+              <td class="text-end">{{contact.phone}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Email</th>
+              <td class="text-end">{{contact.email}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- right side -->
+  <ng-template #empty>
+    <div class="no-record">
+      There is no record to show.
+    </div>
+  </ng-template>
 </div>

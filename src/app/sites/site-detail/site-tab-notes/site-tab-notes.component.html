@@ -1,1 +1,24 @@
-<p>site-tab-notes works!</p>
+<div class="row mt-4 g-0">
+  <div class="col">
+    <div class="d-flex justify-content-between">
+    <h1>Notes</h1>
+    <span>
+      <button mat-raised-button color="primary" (click)="addNotes()">
+        Add
+      </button>
+    </span>
+  </div>
+  </div><!-- top -->
+  <div *ngIf="note$ | async as notes">
+    <div *ngIf="notes.length == 0; then empty"></div>
+    <div *ngFor="let note of notes; let index = index">
+      <h2>{{index+1}}</h2>
+      <p>{{note.note}}</p>
+    </div>
+  </div>
+  <ng-template #empty>
+    <div class="no-record">
+      There is no record to show.
+    </div>
+  </ng-template>
+</div>

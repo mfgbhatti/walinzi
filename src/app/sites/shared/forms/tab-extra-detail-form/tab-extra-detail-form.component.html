@@ -1,0 +1,22 @@
+<form [formGroup]="form" class="row">
+  <mat-form-field appearance="fill">
+    <mat-label>Title</mat-label>
+    <input required formControlName="title" placeholder="Call" type="string"
+      matInput />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Description</mat-label>
+    <input required formControlName="description" placeholder="Lorem ipsum loraioe" type="string"
+      matInput />
+  </mat-form-field>
+  <div class="d-flex justify-content-end">
+    <button type="button" mat-raised-button (click)="submit()" color="primary" class="btn submit col-3"
+    [disabled]="!this.form.valid"
+    >
+    Submit
+    </button>
+    <button type="button" mat-raised-button (click)="close()" color="accent" class="btn submit col-3 ms-4">
+      Close
+    </button>
+  </div>
+</form>

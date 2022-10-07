@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { filter, Observable, observable, Subject, Subscription, takeUntil, tap } from "rxjs";
+import { filter, Observable, Subject, takeUntil, tap } from "rxjs";
 
 import { 
   ClientDetails, 
@@ -22,7 +22,6 @@ export class ClientTabDetailComponent implements OnInit {
   extraDetailPath: string = 'ClientExtraDetails';
   detail$!: Observable<ClientDetails[]>;
   contact$!: Observable<ContactPerson[]>;
-  subscription!: Subscription;
   selectedDetail!: ClientDetails;
   @Input() clientId$!: string;
 

@@ -10,3 +10,10 @@ export {
   SiteTabTimesheetComponent,
   SiteDetailComponent,
 } from './site-detail';
+export { 
+  TabNotesFormComponent,
+  TabExtraDetailFormComponent,
+  TabContactPersonFormComponent,
+  TabChargedRatesFormComponent,
+  TabPayRatesFormComponent
+ } from './shared';

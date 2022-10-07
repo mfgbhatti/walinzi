@@ -1,1 +1,53 @@
-<p>site-tab-rate works!</p>
+<div class="row mt-4 g-0 align-items-start">
+  <div class="col">
+    <div class="d-flex justify-content-between">
+      <h1>Charged Rate</h1>
+      <div><button class="btn" mat-raised-button color="primary" (click)="addChargedRate()">Add</button></div>
+    </div>
+    <div *ngIf="charged$ | async as rates;">
+      <div *ngIf="rates.length==0; then empty"></div>
+      <div *ngFor="let rate of rates">
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <th scope="row">Type</th>
+              <td class="text-end">{{rate.type}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Rate</th>
+              <td class="text-end">£&nbsp;{{rate.charged_rate}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col ms-4">
+    <div class="d-flex justify-content-between">
+      <h1>Pay Rate</h1>
+      <div><button class="btn" mat-raised-button color="primary" (click)="addPayRate()">Add</button></div>
+    </div>
+    <div *ngIf="pay$ | async as rates;">
+      <div *ngIf="rates.length==0; then empty"></div>
+      <div *ngFor="let rate of rates">
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <th scope="row">Type</th>
+              <td class="text-end">{{rate.type}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Rate</th>
+              <td class="text-end">£&nbsp;{{rate.pay_rate}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <ng-template #empty>
+    <div class="no-record">
+      There is no record to show.
+    </div>
+  </ng-template>
+</div>
