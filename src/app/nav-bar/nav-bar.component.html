@@ -8,7 +8,7 @@
     <mat-nav-list>
       <a mat-list-item routerLink="/clients">Clients</a>
       <a mat-list-item routerLink="/sites">Sites</a>
-      <a mat-list-item href="#">Link 3</a>
+      <a mat-list-item routerLink="/subcontractors">Subcontractors</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -26,6 +26,7 @@
       <div class="d-flex" *ngIf="!(isHandset$ | async)">
         <a class="nav-link text-white" routerLink="/clients">Clients</a>
         <a class="nav-link text-white ms-2" routerLink="/sites">Sites</a>
+        <a class="nav-link text-white ms-2" routerLink="/subcontractors">Subcontractors</a>
       </div>
     </mat-toolbar>
     <!-- Add Content Here -->
