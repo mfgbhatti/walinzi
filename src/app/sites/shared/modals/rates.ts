@@ -13,6 +13,3 @@ export interface PayRate{
   status: boolean
 }
 
-
-export const RateTypes: string[] = ['Security Guard', 'Dog Handler', 'Door Supervisor', 'Receptionist'];
-

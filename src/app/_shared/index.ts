@@ -1,4 +1,5 @@
 export { MaterialModule } from './modules';
+export { StaffPosition } from './staff-position';
 export {
   Notes,
   ExtraDetail,

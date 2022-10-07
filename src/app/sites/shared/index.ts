@@ -1,4 +1,4 @@
-export { Site, ChargedRate, PayRate, PrefferedStaff, BannedStaff, RateTypes } from './modals';
+export { Site, ChargedRate, PayRate, PrefferedStaff, BannedStaff } from './modals';
 export { SiteService, RatesService } from './services';
 export { 
   TabNotesFormComponent,

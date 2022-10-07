@@ -2,7 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { ChargedRate, RateTypes } from 'src/app/sites/shared';
+import { ChargedRate } from 'src/app/sites/shared';
+import { StaffPosition } from 'src/app/_shared';
 
 @Component({
   selector: 'app-tab-charged-rates-form',
@@ -11,7 +12,7 @@ import { ChargedRate, RateTypes } from 'src/app/sites/shared';
 })
 export class TabChargedRatesFormComponent implements OnInit {
   form!: UntypedFormGroup;
-  rateType= RateTypes;
+  rateType= StaffPosition;
 
   constructor(
     private readonly fb: UntypedFormBuilder,
