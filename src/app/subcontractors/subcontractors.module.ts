@@ -7,9 +7,17 @@ import { SubcontractorComponent } from './subcontractors.component'
 import {
   SubListComponent,
   SubFormComponent,
-  SubDetailComponent
+  SubDetailComponent,
+  TabDetailComponent,
+  TabNotesComponent,
+  TabStaffComponent,
+  TabDocsComponent,
+  TabTimesheetsComponent,
+  TabSitesComponent
 } from 'src/app/subcontractors';
 import { MaterialModule } from 'src/app/_shared';
+
+
 
 
 @NgModule({
@@ -17,7 +25,13 @@ import { MaterialModule } from 'src/app/_shared';
     SubcontractorComponent,
     SubListComponent,
     SubFormComponent,
-    SubDetailComponent
+    SubDetailComponent,
+    TabDetailComponent,
+    TabNotesComponent,
+    TabStaffComponent,
+    TabDocsComponent,
+    TabTimesheetsComponent,
+    TabSitesComponent
   ],
   imports: [
     CommonModule,
