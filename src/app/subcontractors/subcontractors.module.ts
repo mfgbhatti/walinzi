@@ -1,14 +1,30 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { SubcontractorsRoutingModule } from './subcontractors-routing.module';
+import { SubcontractorRoutingModule } from './subcontractors-routing.module';
+import { SubcontractorComponent } from './subcontractors.component'
+import {
+  SubListComponent,
+  SubFormComponent,
+  SubDetailComponent
+} from 'src/app/subcontractors';
+import { MaterialModule } from 'src/app/_shared';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    SubcontractorComponent,
+    SubListComponent,
+    SubFormComponent,
+    SubDetailComponent
+  ],
   imports: [
     CommonModule,
-    SubcontractorsRoutingModule
+    SubcontractorRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MaterialModule
   ]
 })
 export class SubcontractorsModule { }
