@@ -1,7 +1,7 @@
 <div class="mt-4" *ngFor="let x of client">
   <div class="d-flex">
-    <h1>{{x.name}}</h1>
-    <a class="ms-4" href="mailto:{{x.email}}">
+    <h1 class="text-capitalize">{{x.name}}</h1>
+    <a class="ms-4 text-lowercase" href="mailto:{{x.email}}">
       <mat-icon>email</mat-icon>
     </a>
     <a class="ms-2" href="tel:{{x.phone}}">
@@ -9,10 +9,9 @@
     </a>
   </div>
   <div class="d-flex">
-    <h4>{{x.name}}</h4>
+    <h4 class="text-capitalize">{{x.name}}</h4>
     <div class="detail-divider">&nbsp;</div>
-    <div>{{x.first_line}},&nbsp;{{x.second_line}},&nbsp;{{x.post_code}}</div>
-
+    <div><span class="text-capitalize">{{x.first_line}}</span>,&nbsp;<span class="text-capitalize">{{x.second_line}}</span>,&nbsp;<span class="text-uppercase">{{x.post_code}}</span></div>
   </div>
 </div>
 <mat-tab-group mat-align-tabs="start">

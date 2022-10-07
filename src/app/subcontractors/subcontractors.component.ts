@@ -11,7 +11,7 @@ import { SubFormComponent } from 'src/app/subcontractors';
   styleUrls: ['./subcontractors.component.scss']
 })
 export class SubcontractorComponent implements OnInit {
-  allsub$!: Observable<Subcontractor[]>;
+  allSub$!: Observable<Subcontractor[]>;
   selectedSub?: Subcontractor;
   destroyed$ = new Subject<void>();
   isSelected: boolean = false;
@@ -21,7 +21,7 @@ export class SubcontractorComponent implements OnInit {
     private readonly db: SubcontractorService,
     private readonly dialog: MatDialog
   ) {
-    this.allsub$ = this.db.getAll();
+    this.allSub$ = this.db.getAll();
   }
 
   ngOnInit(): void {

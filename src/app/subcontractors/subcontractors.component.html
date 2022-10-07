@@ -5,4 +5,5 @@
       Edit
     </button></div>
 </div>
-<app-sub-list></app-sub-list>
+<app-sub-list [input$]="allSub$" (compEmitter)="selectSubcontractor($event)" (toggler)="updateStatus($event)">
+</app-sub-list>

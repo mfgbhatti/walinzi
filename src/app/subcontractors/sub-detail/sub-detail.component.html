@@ -1,1 +1,9 @@
-<p>sub-detail works!</p>
+<div class="mt-4" *ngFor="let sub of sub$">
+  <div>
+    <h1 class="text-capitalize">{{sub.name}}</h1>
+    <p><b>Address:</b>&nbsp;<span class="text-capitalize">{{sub.first_line}}</span>,&nbsp;<span
+        class="text-capitalize">{{sub.second_line}}</span>,&nbsp;<span class="text-uppercase">{{sub.post_code}}</span>
+      </p>
+      <p><b>Created By:</b>&nbsp;Name</p>
+  </div>
+</div>

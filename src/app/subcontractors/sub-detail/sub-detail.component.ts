@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+
+import { Subcontractor, SubcontractorService } from 'src/app/subcontractors/shared';
 
 @Component({
   selector: 'app-sub-detail',
@@ -6,10 +10,27 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sub-detail.component.scss']
 })
 export class SubDetailComponent implements OnInit {
+  subscription!: Subscription
+  sub$: Subcontractor[] = [];
+  subId!: string;
 
-  constructor() { }
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly db: SubcontractorService,
+  ) { }
 
   ngOnInit(): void {
+    this.subscription = this.route.params.subscribe (
+      (__param) => this.subId = __param['id']
+    );
+    this.subscription = this.db.get(this.subId).subscribe (
+      (list) => {
+        this.sub$.push({...list} as Subcontractor);
+      });
+  }
+  
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
 }

@@ -1,11 +1,11 @@
 <div class="mt-4" *ngFor="let site of site$">
   <div>
-    <h1>{{site.name}}</h1>
-    <p><b>Address:</b>&nbsp;{{site.address}},&nbsp;{{site.post_code}}</p>
+    <h1 class="text-capitalize">{{site.name}}</h1>
+    <p><b>Address:</b>&nbsp;<span class="text-capitalize">{{site.address}},</span>&nbsp;<span class="text-uppercase">{{site.post_code}}</span></p>
   </div>
   <div class="d-flex">
-    <p><b>Client:</b>&nbsp;{{site.clientName}}</p>
-    <p class="ms-2"><b>Created By:</b>&nbsp;Name</p>
+    <p class="text-capitalize"><b>Client:</b>&nbsp;{{site.clientName}}</p>
+    <p class="ms-2 text-capitalize"><b>Created By:</b>&nbsp;Name</p>
   </div>
 </div>
 <mat-tab-group class="mt-4">
