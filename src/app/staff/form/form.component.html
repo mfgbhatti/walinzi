@@ -1,1 +1,67 @@
-<p>form works!</p>
+<form [formGroup]="form" class="row">
+  <div class="d-flex justify-content-between">
+    <mat-form-field class="text-capitalize col-6">
+      <mat-label class="form-label">First Name</mat-label>
+      <input matInput required formControlName="first_name" placeholder="John" type="text" class="text-capitalize" />
+    </mat-form-field>
+    <mat-form-field class="text-capitalize ms-2 col-6">
+      <mat-label class="form-label">Last Name</mat-label>
+      <input matInput required formControlName="last_name" placeholder="Doe" type="text" class="text-capitalize" />
+    </mat-form-field>
+  </div>
+  <div class="d-flex justify-content-between">
+    <mat-form-field class="col-6">
+      <mat-label>Phone</mat-label>
+      <input matInput required formControlName="phone" placeholder="0333 222 3332" type="tel" pattern="[0-9]*" />
+    </mat-form-field>
+    <mat-form-field class="col-6 ms-2">
+      <mat-label>Mobile</mat-label>
+      <input matInput formControlName="mobile" placeholder="0333 222 3332" type="tel" pattern="[0-9]*" />
+    </mat-form-field>
+  </div>
+  <div class="d-flex justify-content-between">
+    <mat-form-field class="col-6">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" placeholder="email@example.com" type="email"
+        style="text-transform: lowercase;" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+    </mat-form-field>
+    <mat-form-field class="col-6 ms-2">
+      <mat-label>SIA Number</mat-label>
+      <input matInput required formControlName="sia_number" placeholder="000 000 000" type="number" pattern="^[0-9.]*" />
+    </mat-form-field>
+  </div>
+  <div class="d-flex justify-content-between">
+  <mat-form-field class="col-4">
+    <mat-label>Pay Rate</mat-label>
+    <input matInput required formControlName="pay_rate" placeholder="11.00" type="number" pattern="^[0-9.]*" />
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="col-4 ms-1">
+    <mat-label>Subcontractor</mat-label>
+    <mat-select formControlName="contractorName">
+      <mat-option *ngFor="let position of positions" [value]="position">{{position}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="col-4 ms-1">
+    <mat-label>Choose a Position</mat-label>
+    <mat-select formControlName="position">
+      <mat-option *ngFor="let position of positions" [value]="position">{{position}}</mat-option>
+    </mat-select>  
+  </mat-form-field>
+</div>
+  <mat-radio-group formControlName="status" aria-labelledby="radio-group-label"
+    class="col-4 d-flex justify-content-between">
+    <mat-radio-button class="radio-button" *ngFor="let x of status_list;" [value]="x.status">
+      {{x.label}}
+    </mat-radio-button>
+  </mat-radio-group>
+  <div class="d-flex justify-content-end">
+    <button type="button" mat-raised-button (click)="submit()" color="primary" class="btn submit col-3"
+    >
+    <!-- [disabled]="!this.form.valid" -->
+      Submit
+    </button>
+    <button type="button" mat-raised-button (click)="close()" color="accent" class="btn submit col-3 ms-4">
+      Close
+    </button>
+  </div>
+</form>

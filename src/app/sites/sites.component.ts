@@ -83,11 +83,11 @@ export class SitesComponent implements OnInit {
   }
 
   generateSin() {
-    const char = 'W';
+    const char = 'W7';
     const num = '0123456789';
     const length = 7;
     this.generatedSin += char
-    for (let i = 0; i < length; i++) {
+    for (let i = 1; i < length; i++) {
       this.generatedSin += num.charAt((Math.random()) * length);
     }
   }

@@ -1,3 +1,5 @@
+import { Timestamp } from "@angular/fire/firestore";
+
 export interface Staff {
   id: string;
   contractorId: string;
@@ -10,4 +12,7 @@ export interface Staff {
   sia_number: number;
   first_name: string;
   last_name: string;
+  pin: string;
+  status: boolean;
+  added: Timestamp;
 }

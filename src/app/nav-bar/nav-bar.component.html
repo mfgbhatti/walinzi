@@ -6,6 +6,7 @@
       [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
+      <a mat-list-item routerLink="/staff">Satff</a>
       <a mat-list-item routerLink="/clients">Clients</a>
       <a mat-list-item routerLink="/sites">Sites</a>
       <a mat-list-item routerLink="/subcontractors">Subcontractors</a>
@@ -13,6 +14,14 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
+      <span>Walinzi</span>
+      <span class="spacer"></span>
+      <div class="d-flex" *ngIf="!(isHandset$ | async)">
+        <a class="nav-link text-white" routerLink="/staff">Staff</a>
+        <a class="nav-link text-white ms-2" routerLink="/clients">Clients</a>
+        <a class="nav-link text-white ms-2" routerLink="/sites">Sites</a>
+        <a class="nav-link text-white ms-2" routerLink="/subcontractors">Subcontractors</a>
+      </div>
       <button
         type="button"
         aria-label="Toggle sidenav"
@@ -21,13 +30,6 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>Walinzi</span>
-      <span class="spacer"></span>
-      <div class="d-flex" *ngIf="!(isHandset$ | async)">
-        <a class="nav-link text-white" routerLink="/clients">Clients</a>
-        <a class="nav-link text-white ms-2" routerLink="/sites">Sites</a>
-        <a class="nav-link text-white ms-2" routerLink="/subcontractors">Subcontractors</a>
-      </div>
     </mat-toolbar>
     <!-- Add Content Here -->
     <ng-content></ng-content>
