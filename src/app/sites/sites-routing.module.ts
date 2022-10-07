@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SiteDetailComponent } from './site-detail/site-detail.component';
+import { SiteDetailComponent } from './detail/site-detail.component';
 
 import { SitesComponent } from './sites.component';
 

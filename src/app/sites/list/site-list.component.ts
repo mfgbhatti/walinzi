@@ -5,7 +5,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable, Subscription } from 'rxjs';
 
-import { Clients } from 'src/app/clients/shared';
 import { Site, SiteService } from '../shared';
 
 @Component({

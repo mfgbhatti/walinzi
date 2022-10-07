@@ -1,5 +1,5 @@
-export { SiteListComponent } from './site-list/site-list.component';
-export { SiteFormComponent } from './site-form/site-form.component';
+export { SiteListComponent } from './list/site-list.component';
+export { SiteFormComponent } from './form/site-form.component';
 export {
   SiteTabInfoComponent,
   SiteTabExtraComponent,
@@ -9,7 +9,7 @@ export {
   SiteTabDocsComponent,
   SiteTabTimesheetComponent,
   SiteDetailComponent,
-} from './site-detail';
+} from './detail';
 export { 
   TabNotesFormComponent,
   TabExtraDetailFormComponent,
