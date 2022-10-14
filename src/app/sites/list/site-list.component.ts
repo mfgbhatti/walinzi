@@ -3,9 +3,12 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { Subject } from 'rxjs/internal/Subject'
 
-import { Site, SiteService } from '../shared';
+import { Site } from '../shared';
+import { Client } from 'src/app/clients/shared';
 
 @Component({
   selector: 'app-site-list',
@@ -14,30 +17,43 @@ import { Site, SiteService } from '../shared';
 })
 export class SiteListComponent implements OnInit {
   @Input() site$!: Observable<Site[]>;
+  @Input() client$!: Observable<Client[]>;
   @Output() siteEmitter = new EventEmitter<Site>();
-  @Output() toggler = new EventEmitter<Site>();
+  @Output() statustoggler = new EventEmitter<Site>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  siteData!: MatTableDataSource<any>;
-  displayedColumns: string[] = ['select', 'name', 'sin', 'client', 'location', 'started', 'status'];
   sub!: Subscription;
-  selection = new SelectionModel<Site>(true, []);
+  dataSource!: MatTableDataSource<any>;
   newStatus!: boolean;
   selectedIndex!: number;
+  clients: Client[] = [];
+  destroyed$ = new Subject<void>();
+  displayedColumns: string[] = ['select', 'name', 'sin', 'client', 'location', 'started', 'status'];
+  selection = new SelectionModel<Site>(true, []);
 
   constructor(
-    private readonly siteService: SiteService
   ) { }
 
   ngOnInit(): void {
-    // this.sub = this.client$.subscribe( (data) => this.clients.push(...data));
+    this.sub = this.client$.subscribe( (data) => this.clients.push(...data));
     this.sub = this.site$.subscribe((list) => {
-      let array = list.map( (item: Site) => {return { ...item }});
+      let sites = list.map((item: Site) => { return { ...item } });
+      let new_sites: {[key:string]:string | boolean}[] = [];
+      sites.forEach( (data) => {
+        let result = this.clients.filter(a1 => a1.id == data.relative_id);
+        if(result.length > 0) {
+          new_sites.push({
+            id: data.id,
+            clientId: data.relative_id
+
+          });
+        }
+      });
+
       // change clientId to client name
       // array.map((x) => {
       //   // console.log(this.clients)
-      //   let result = this.clients.filter(a1 => a1.id == x.clientId);
       //   if (result.length > 0) {
       //     x.clientName = result[0].name
       //     // this.newsites.push({...x, clientName: result[0].name})
@@ -45,43 +61,37 @@ export class SiteListComponent implements OnInit {
       //     // this.siteService.update(x);
       //   }
       // });
-      this.siteData = new MatTableDataSource(array);
-      this.siteData.sort = this.sort;
-      this.siteData.paginator = this.paginator;
+      this.dataSource = new MatTableDataSource(new_sites);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
     });// end od sub
   }
 
-  isSelected() {
-    return this.selection.selected;
+  selectSite(data: Site) {
+    this.siteEmitter.emit(data);
   }
 
-  selectSite(site: Site) {
-    this.siteEmitter.emit(site);
-  }
-  toggleStatus(site: Site) {
-    if (!site.status) {
+  toggleStatus(data: Site) {
+    if (!data.status) {
       this.newStatus = true;
     } else {
       this.newStatus = false;
     }
-    site.status = this.newStatus
-    this.toggler.emit(site)
+    data.status = this.newStatus
+    this.statustoggler.emit(data)
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.siteData.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue.trim().toLowerCase();
 
-    if (this.siteData.paginator) {
-      this.siteData.paginator.firstPage();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
     }
   }
 
-  // changeSelection(event: Event, index: number | undefined) {
-  //   this.selectedIndex = event.target!.checked ? index : undefined;
-  // }
-
   ngOnDestroy(): void {
+    this.destroyed$.next()
     this.sub.unsubscribe();
   }
 

@@ -6,5 +6,5 @@ export interface ContactPerson {
   phone: string;
   email: string;
   title: string;
-  relativeId: string;
+  relative_id: string;
 }

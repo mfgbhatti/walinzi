@@ -28,7 +28,7 @@ export class TabChargedRatesFormComponent implements OnInit {
 
   setForm() {
     this.form = this.fb.group({
-      relativeId: [this.rate.relativeId],
+      relative_id: [this.rate.relative_id],
       type: [this.rate.type, [Validators.required]],
       charged_rate: [this.rate.charged_rate, [Validators.required]]
     })

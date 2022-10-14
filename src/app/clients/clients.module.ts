@@ -5,10 +5,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ClientsComponent } from './clients.component';
 import { ClientsRoutingModule } from './clients-routing.module';
 import {
-  ClientsService,
+  ClientService,
   FormComponent,
   ListComponent,
-  ClientDetailsService,
   DetailsComponent,
   TabDetailComponent,
   TabNoteComponent,
@@ -39,6 +38,6 @@ import { MaterialModule } from 'src/app/_shared';
     ReactiveFormsModule,
     MaterialModule
   ],
-  providers: [ClientsService, ClientDetailsService],
+  providers: [],
 })
 export class ClientsModule { }

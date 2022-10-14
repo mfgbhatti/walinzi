@@ -1,5 +1,5 @@
-export { Clients, ClientDetails, ClientContactPerson, ClientNotes } from './modals';
-export { ClientsService, ClientDetailsService } from './services';
+export { Client } from './modals';
+export { ClientService } from './services';
 export {
   TabDetailFormComponent,
   ContactFormComponent,

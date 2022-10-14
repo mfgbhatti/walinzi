@@ -28,7 +28,7 @@ export class TabPayRatesFormComponent implements OnInit {
 
   setForm() {
     this.form = this.fb.group({
-      relativeId: [this.rate.relativeId],
+      relative_id: [this.rate.relative_id],
       type: [this.rate.type, [Validators.required]],
       pay_rate: [this.rate.pay_rate, [Validators.required]]
     })

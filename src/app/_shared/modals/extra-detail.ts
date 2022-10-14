@@ -1,6 +1,6 @@
 export interface ExtraDetail {
   id: string;
-  relativeId: string;
+  relative_id: string;
   title: string;
   description: string;
 }

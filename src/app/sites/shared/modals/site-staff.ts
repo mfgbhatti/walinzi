@@ -1,12 +1,12 @@
 export interface PrefferedStaff{
   id: string;
-  relativeId: string;
+  relative_id: string;
   name: string;
   phone: string;
 }
 export interface BannedStaff{
   id: string;
-  relativeId: string;
+  relative_id: string;
   name: string;
   phone: string;
 }

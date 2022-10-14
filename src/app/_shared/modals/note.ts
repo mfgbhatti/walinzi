@@ -1,5 +1,5 @@
 export interface Notes {
   id: string;
-  relativeId: string;
+  relative_id: string;
   note: string;
 }

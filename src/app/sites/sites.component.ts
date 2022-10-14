@@ -7,6 +7,7 @@ import {
   Site
 } from './shared';
 import { SiteFormComponent } from 'src/app/sites';
+import { Client, ClientService } from 'src/app/clients/shared'
 
 type NewSite = Site & {
   clientName: string;
@@ -17,23 +18,27 @@ type NewSite = Site & {
   styleUrls: ['./sites.component.scss']
 })
 export class SitesComponent implements OnInit {
-  allSite$!: Observable<Site[]>;
-  selectedSite?: Site;
+  site$!: Observable<Site[]>;
+  client$!: Observable<Client[]>;
+  selectedSite!: Site | undefined;
+
   destroyed$ = new Subject<void>();
   isSelected: boolean = false;
   generatedSin: string = ''
 
   constructor(
-    private readonly db: SiteService,
+    private readonly siteservice: SiteService,
+    private readonly clientService: ClientService,
     private readonly dialog: MatDialog
   ) {
-    this.allSite$ = this.db.getAll();
+    this.site$ = this.siteservice.getAll();
+    this.client$ = this.clientService.getAll();
   }
 
   ngOnInit(): void {
   }
 
-  addSite() {
+  add() {
     this.generatedSin = '';
     this.generateSin();
     const dialogRef = this.dialog.open(SiteFormComponent, {
@@ -45,13 +50,13 @@ export class SitesComponent implements OnInit {
       .afterClosed()
       .pipe(
         filter(Boolean),
-        tap((data) => this.db.create(data)),
+        tap((data) => this.siteservice.create(data)),
         takeUntil(this.destroyed$)
       )
       .subscribe();
   }
 
-  updateSite() {
+  update() {
     const dialogRef = this.dialog.open(SiteFormComponent, {
       data: { ...this.selectedSite },
       width: '40%',
@@ -62,7 +67,7 @@ export class SitesComponent implements OnInit {
       .afterClosed()
       .pipe(
         filter(Boolean),
-        tap((data) => this.db.update(data)),
+        tap((data) => this.siteservice.update(data)),
         tap((data) => this.selectSite(data)),
         takeUntil(this.destroyed$)
       )
@@ -70,16 +75,12 @@ export class SitesComponent implements OnInit {
   }
 
   updateStatus(data: Site) {
-    this.db.update(data);
+    this.siteservice.update(data);
   }
+
   selectSite(data: Site) {
     this.isSelected = true;
     this.selectedSite = data
-  }
-
-  deleteClient() {
-    this.db.delete(this.selectedSite!.id);
-    this.selectedSite = undefined;
   }
 
   generateSin() {
@@ -93,8 +94,7 @@ export class SitesComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.destroyed$
-      .next();
+    this.destroyed$.next();
   }
 
 }

@@ -13,7 +13,4 @@ export {
   TabDetailFormComponent,
   ContactFormComponent,
 } from './shared'
-export {
-  ClientsService,
-  ClientDetailsService
-} from 'src/app/clients/shared';
+export { ClientService } from 'src/app/clients/shared';

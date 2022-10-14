@@ -3,7 +3,7 @@ import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
-import { Clients, ClientsService } from 'src/app/clients/shared';
+import { Client, ClientService } from 'src/app/clients/shared';
 import { Site } from 'src/app/sites/shared';
 
 @Component({
@@ -18,21 +18,29 @@ export class SiteFormComponent implements OnInit {
     { status: true, label: "Active" },
     { status: false, label: "Inactive" }
   ]
-  client$!: Observable<Clients[]>;
+  client$!: Observable<Client[]>;
   started!: FormControl;
-  selectedClient!: Clients;
+  givenClient: any[] = [];
+  // givenClient: [{clientId: string, clientName: string}] = [
+  //   {
+  //     clientId: '',
+  //     clientName: ''
+  //   }
+  // ];
+  selectedClient!: Client;
 
   constructor(
     private readonly formbuilder: UntypedFormBuilder,
     public readonly dialogRef: MatDialogRef<SiteFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Site,
-    private readonly clientService: ClientsService
+    private readonly clientService: ClientService
   ) {
     this.setForm();
   }
   
   ngOnInit(): void {
     this.client$ = this.clientService.getAll();
+    // console.log(this.givenClient)
   }
   
   setForm () {
@@ -43,7 +51,7 @@ export class SiteFormComponent implements OnInit {
     }
     this.form = this.formbuilder.group({
       name: [this.data.name, [Validators.required]],
-      clientId: [this.data.clientId, [Validators.required]],
+      relative_id: [this.data.relative_id, [Validators.required]],
       sin: [this.data.sin, [Validators.required]],
       started: [this.started.value, [Validators.required]],
       finished: [this.data.finished],
@@ -58,9 +66,8 @@ export class SiteFormComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  getClientName(value: Clients) {
-    this.selectedClient = value;
-    console.log(value)
+  getClientName(data: Client) {
+    this.selectedClient = data;
   }
 
   submit() {

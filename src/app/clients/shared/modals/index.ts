@@ -1,2 +1,1 @@
-export { Clients } from './clients';
-export { ClientDetails, ClientContactPerson, ClientNotes } from './client-details';
+export { Client } from './client';

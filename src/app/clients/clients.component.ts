@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, Subject, takeUntil, tap, filter } from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
+import { Subject } from 'rxjs/internal/Subject';
+import { takeUntil, tap, filter } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 
-import { Clients, ClientsService } from 'src/app/clients/shared';
+import { Client, ClientService } from 'src/app/clients/shared';
 import { FormComponent } from 'src/app/clients';
 
 @Component({
@@ -11,23 +13,23 @@ import { FormComponent } from 'src/app/clients';
   styleUrls: ['./clients.component.scss']
 })
 export class ClientsComponent implements OnInit {
-  allClient$!: Observable<Clients[]>;
-  selectedClient?: Clients;
+  client$!: Observable<Client[]>;
+  selected?: Client | undefined;
   destroyed$ = new Subject<void>();
   isSelected: boolean = false;
 
 
   constructor(
-    private readonly clientsService: ClientsService,
+    private readonly clientService: ClientService,
     private readonly dialog: MatDialog
   ) { 
-    this.allClient$ = this.clientsService.getAll();
+    this.client$ = this.clientService.getAll();
   }
 
   ngOnInit(): void {
   }
 
-  addClient() {
+  add() {
     const dialogRef = this.dialog.open(FormComponent, {
       data: {},
       width: '40%',
@@ -38,15 +40,15 @@ export class ClientsComponent implements OnInit {
       .afterClosed()
       .pipe(
         filter(Boolean),
-        tap((client) => this.clientsService.create(client)),
+        tap((client) => this.clientService.create(client)),
         takeUntil(this.destroyed$)
       )
       .subscribe();
   }
 
-  updateClient() {
+  update() {
     const dialogRef = this.dialog.open(FormComponent, {
-      data: { ...this.selectedClient },
+      data: { ...this.selected },
       width: '40%',
       disableClose: true
     });
@@ -55,28 +57,28 @@ export class ClientsComponent implements OnInit {
       .afterClosed()
       .pipe(
         filter(Boolean),
-        tap((client) => this.clientsService.update(client)),
-        tap((client) => this.selectClient(client)),
+        tap((client) => this.clientService.update(client)),
+        tap((client) => this.select(client)),
         takeUntil(this.destroyed$)
       )
       .subscribe();
   }
 
-  updateStatus(client: Clients) {
-    this.clientsService.update(client);
+  updateStatus(data: Client) {
+    this.clientService.update(data);
   }
-  selectClient(client: Clients) {
+
+  select(data: Client) {
     this.isSelected = true;
-    this.selectedClient = client
+    this.selected = data
   }
 
   deleteClient () {
-    this.clientsService.delete(this.selectedClient!.id);
-    this.selectedClient = undefined;
+    this.clientService.delete(this.selected!.id);
+    this.selected = undefined;
   }
 
   ngOnDestroy() {
-    this.destroyed$
-    .next()
+    this.destroyed$.next()
   }
 }

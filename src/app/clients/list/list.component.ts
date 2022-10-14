@@ -3,9 +3,10 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
+import { Subscription } from 'rxjs/internal/Subscription';
 
-import { Clients } from 'src/app/clients/shared';
+import { Client } from 'src/app/clients/shared';
 
 @Component({
   selector: 'app-clients-list',
@@ -13,15 +14,15 @@ import { Clients } from 'src/app/clients/shared';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  @Input() client$!: Observable<Clients[]>;
-  @Output() clientsEmitter = new EventEmitter<Clients>();
-  @Output() toggler = new EventEmitter<Clients>();
+  @Input() client$!: Observable<Client[]>;
+  @Output() clientEmitter = new EventEmitter<Client>();
+  @Output() toggler = new EventEmitter<Client>();
   dataSource!: MatTableDataSource<any>;
   displayedColumns: string[] = ['select', 'name', 'phone', 'mobile', 'email', 'status'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   subscription!: Subscription;
-  selection = new SelectionModel<Clients>(true, []);
+  selection = new SelectionModel<Client>(true, []);
   newStatus!: boolean
   selectedIndex!: number;
 
@@ -46,11 +47,11 @@ export class ListComponent implements OnInit {
     return this.selection.selected;
   }
 
-  selectClient(client: Clients) {
-    this.clientsEmitter.emit(client);
+  selectClient(client: Client) {
+    this.clientEmitter.emit(client);
   }
 
-  toggleStatus(client: Clients) {
+  toggleStatus(client: Client) {
     if (!client.status) {
       this.newStatus = true;
     } else {

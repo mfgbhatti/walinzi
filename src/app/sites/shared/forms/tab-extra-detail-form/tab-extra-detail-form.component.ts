@@ -25,7 +25,7 @@ export class TabExtraDetailFormComponent implements OnInit {
 
   setForm() {
     this.form = this.fb.group({
-      relativeId: [this.detail.relativeId],
+      relative_id: [this.detail.relative_id, [Validators.required]],
       title: [this.detail.title, [Validators.required]],
       description: [this.detail.description, [Validators.required]]
     })

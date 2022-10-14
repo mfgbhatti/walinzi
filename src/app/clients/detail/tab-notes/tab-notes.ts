@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { filter, Observable, Subject, takeUntil, tap } from "rxjs";
+import { Observable } from 'rxjs/internal/Observable';
+import { Subject } from 'rxjs/internal/Subject';
+import { takeUntil, tap, filter } from 'rxjs/operators';
 
 import { TabNotesFormComponent } from "src/app/clients/shared";
 import { Notes, NoteService } from "src/app/_shared";

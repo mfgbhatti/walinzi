@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { Clients } from 'src/app/clients/shared';
+import { Client } from 'src/app/clients/shared';
 
 @Component({
   selector: 'app-clients-form',
@@ -19,7 +19,7 @@ export class FormComponent implements OnInit {
   constructor(
     private readonly formbuilder: UntypedFormBuilder,
     public readonly dialogRef: MatDialogRef<FormComponent>,
-    @Inject(MAT_DIALOG_DATA) private readonly client: Clients
+    @Inject(MAT_DIALOG_DATA) private readonly data: Client
   ) { }
 
   ngOnInit(): void {
@@ -28,14 +28,14 @@ export class FormComponent implements OnInit {
 
   setForm() {
     this.form = this.formbuilder.group({
-      name: [this.client.name, [Validators.required, Validators.minLength(10)]],
-      phone: [this.client.phone, [Validators.required, Validators.pattern('[- +()0-9]+')]],
-      mobile: [this.client.mobile],
-      first_line: [this.client.first_line, [Validators.required]],
-      second_line: [this.client.second_line, [Validators.required]],
-      post_code: [this.client.post_code, [Validators.required]],
-      email: [this.client.email, [Validators.required, Validators.email]],
-      status: [this.client.status, [Validators.required]]
+      name: [this.data.name, [Validators.required, Validators.minLength(10)]],
+      phone: [this.data.phone, [Validators.required, Validators.pattern('[- +()0-9]+')]],
+      mobile: [this.data.mobile],
+      address: [this.data.address, [Validators.required]],
+      city: [this.data.city, [Validators.required]],
+      post_code: [this.data.post_code, [Validators.required]],
+      email: [this.data.email, [Validators.required, Validators.email]],
+      status: [this.data.status, [Validators.required]]
     })
   }
 
@@ -44,6 +44,6 @@ export class FormComponent implements OnInit {
   }
 
   submit() {
-    this.dialogRef.close({ ...this.client, ...this.form.value });
+    this.dialogRef.close({ ...this.data, ...this.form.value });
   }
 }

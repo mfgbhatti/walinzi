@@ -36,7 +36,7 @@ export class ContactFormComponent implements OnInit {
 
   setForm() {
     this.form = this.fb.group({
-      relativeId: [this.contact.relativeId, [Validators.required]],
+      relative_id: [this.contact.relative_id, [Validators.required]],
       title: [this.contact.title, [Validators.required]],
       name: [this.contact.name, [Validators.required]],
       phone: [this.contact.phone, [Validators.required, Validators.pattern('[- +()0-9]+')]],

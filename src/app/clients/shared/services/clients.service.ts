@@ -10,34 +10,34 @@ import {
   DocumentData,
   collectionData,
   CollectionReference,
-} from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+} from '@angular/fire/firestore/';
+import { Observable } from 'rxjs/internal/Observable';
 
-import { Clients } from 'src/app/clients/shared';
+import { Client } from 'src/app/clients/shared';
 
 @Injectable({
   providedIn: 'any'
 })
-export class ClientsService {
+export class ClientService {
   private ClientCollectionRef!: CollectionReference<DocumentData>;
-  clientsPath: string = 'Clients';
+  path: string = 'Clients';
 
   constructor(private readonly firestore: Firestore) {
-    this.ClientCollectionRef = collection(this.firestore, this.clientsPath);
+    this.ClientCollectionRef = collection(this.firestore, this.path);
   }
 
   getAll() {
     return collectionData(this.ClientCollectionRef, {
       idField: 'id'
-    }) as Observable<Clients[]>
+    }) as Observable<Client[]>
   }
 
   get(id: string) {
-    const docRef = doc(this.firestore, this.clientsPath, id);
+    const docRef = doc(this.firestore, this.path, id);
     return docData(docRef, { idField: 'id' });
   }
 
-  create(client: Clients) {
+  create(client: Client) {
     try {
       addDoc(this.ClientCollectionRef, client);
     } catch (err) {
@@ -45,16 +45,16 @@ export class ClientsService {
     }
   }
 
-  update(client: Clients) {
+  update(client: Client) {
     const docRef = doc(
       this.firestore,
-      `Clients/${client.id}`
+      `${this.path}/${client.id}`
     );
     return updateDoc(docRef, { ...client });
   }
 
   delete(id: string) {
-    const docRef = doc(this.firestore, this.clientsPath, id);
+    const docRef = doc(this.firestore, this.path, id);
     return deleteDoc(docRef);
   }
 

@@ -51,4 +51,8 @@ export class StaffComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this.destroyed$.next();
+  }
+
 }

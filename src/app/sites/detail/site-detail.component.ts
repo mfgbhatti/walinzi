@@ -32,7 +32,7 @@ export class SiteDetailComponent implements OnInit {
   }
   
   async getClientId() {
-    await this.site$.forEach( item => this.clientId = item.clientId);
+    await this.site$.forEach( item => this.clientId = item.relative_id);
   }
 
   ngOnDestroy() {

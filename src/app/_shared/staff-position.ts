@@ -1,6 +1,6 @@
 export const StaffPosition : string[] = [
+  'Security Guard', 
+  'Door Supervisor',
   'Dog Handler', 
   'Receptionist',
-  'Security Guard', 
-  'Door Supervisor' 
 ]

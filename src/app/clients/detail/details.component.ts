@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { Clients, ClientsService } from 'src/app/clients/shared';
+import { Client, ClientService } from 'src/app/clients/shared';
 
 @Component({
   selector: 'app-clients-details',
@@ -11,12 +11,12 @@ import { Clients, ClientsService } from 'src/app/clients/shared';
 })
 export class DetailsComponent implements OnInit {
   clientId!: string;
-  client: Clients[] = [];
+  client$: Client[] = [];
   subscription!: Subscription;
 
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly clientService: ClientsService
+    private readonly clientService: ClientService
   ) {  }
 
   ngOnInit(): void { 
@@ -28,7 +28,7 @@ export class DetailsComponent implements OnInit {
     this.subscription = this.clientService.get(this.clientId).subscribe(
       data => {
         // const item = Object.keys(list).map(key => ({type: key, value: list[key]}));
-        this.client.push({...data} as Clients);
+        this.client$.push({...data} as Client);
       });
 
   }

@@ -75,8 +75,7 @@ export class SubcontractorComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.destroyed$
-      .next();
+    this.destroyed$.next();
   }
 
 }

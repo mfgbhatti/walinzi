@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { addDoc, collection, collectionData, deleteDoc, doc, Firestore, query, updateDoc, where } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { addDoc, collection, collectionData, deleteDoc, doc, Firestore, query, updateDoc, where } from '@angular/fire/firestore/lite/';
+import { Observable } from 'rxjs/internal/Observable';
 
 import { ExtraDetail } from 'src/app/_shared';
 
@@ -9,6 +9,7 @@ import { ExtraDetail } from 'src/app/_shared';
 })
 export class ExtraDetailService {
   path: string = 'ExtraDetail';
+  id: string = 'relative_id';
 
   constructor(private readonly firestore: Firestore) { }
 
@@ -22,7 +23,7 @@ export class ExtraDetailService {
 
   get(id: string) {
     const detailRef = collection(this.firestore, this.path);
-    const q = query(detailRef, where('relativeId', '==', String(id)));
+    const q = query(detailRef, where(`${this.id}`, '==', String(id)));
     return collectionData(q, { idField: 'id' }) as Observable<any[]>;
   }
 

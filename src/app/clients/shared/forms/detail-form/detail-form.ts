@@ -1,9 +1,13 @@
-import { Component, Inject, Input, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
-import { ClientDetails } from "src/app/clients/shared";
-
+type detail = {
+  relative_id: string;
+  vat: string;
+  website: string;
+  submitted: boolean;
+}
 @Component({
   selector: 'app-detail-form',
   templateUrl: './detail-form.html',
@@ -16,23 +20,22 @@ export class TabDetailFormComponent implements OnInit {
   constructor(
     private readonly fb: UntypedFormBuilder,
     public readonly dialogRef: MatDialogRef<TabDetailFormComponent>,
-    @Inject(MAT_DIALOG_DATA) private readonly details: ClientDetails
+    @Inject(MAT_DIALOG_DATA) private readonly data: detail 
   ) {
     this.setForm();
   }
   setForm() {
     this.form = this.fb.group({
-      clientId: [this.details.clientId, [Validators.required]],
-      website: [this.details.website, [Validators.required, Validators.min(5)]],
-      vat: [this.details.vat, [Validators.required, Validators.pattern('[- +()0-9]+')]],
+      relative_id: [this.data.relative_id, [Validators.required]],
+      website: [this.data.website, [Validators.required, Validators.min(5)]],
+      vat: [this.data.vat, [Validators.required, Validators.pattern('[- +()0-9]+')]],
       submitted: [true, [Validators.required]],
     })
 
   }
 
   submit() {
-    this.dialogRef.close({ ...this.details, ...this.form.value })
-    console.log(this.details)
+    this.dialogRef.close({ ...this.data, ...this.form.value })
   }
 
   ngOnInit(): void {

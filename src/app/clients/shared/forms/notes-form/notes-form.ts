@@ -22,7 +22,7 @@ export class TabNotesFormComponent implements OnInit {
   }
   setForm() {
     this.form = this.fb.group({
-      relativeId: [this.note.relativeId, [Validators.required]],
+      relative_id: [this.note.relative_id, [Validators.required]],
       note: [this.note.note, [Validators.required]],
     })
 
