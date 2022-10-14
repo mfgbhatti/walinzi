@@ -20,14 +20,8 @@ export class SiteFormComponent implements OnInit {
   ]
   client$!: Observable<Client[]>;
   started!: FormControl;
-  givenClient: any[] = [];
-  // givenClient: [{clientId: string, clientName: string}] = [
-  //   {
-  //     clientId: '',
-  //     clientName: ''
-  //   }
-  // ];
-  selectedClient!: Client;
+  finished!: FormControl;
+
 
   constructor(
     private readonly formbuilder: UntypedFormBuilder,
@@ -40,34 +34,42 @@ export class SiteFormComponent implements OnInit {
   
   ngOnInit(): void {
     this.client$ = this.clientService.getAll();
-    // console.log(this.givenClient)
   }
-  
-  setForm () {
+
+  isStarted() {
     if (this.data.started == undefined) {
       this.started = new FormControl(new Date())
     } else {
       this.started = new FormControl(new Date(this.data.started.toDate()));
     }
+  }
+
+  isFinished() {
+    if (this.data.finished == undefined) {
+      this.finished = new FormControl(null)
+    } else {
+      this.finished = new FormControl(new Date(this.data.finished.toDate()));
+    }
+  }
+  
+  setForm () {
+    this.isStarted();
+    this.isFinished();
     this.form = this.formbuilder.group({
       name: [this.data.name, [Validators.required]],
       relative_id: [this.data.relative_id, [Validators.required]],
       sin: [this.data.sin, [Validators.required]],
       started: [this.started.value, [Validators.required]],
-      finished: [this.data.finished],
+      finished: [this.finished.value],
       status: [this.data.status, [Validators.required]],
       address: [this.data.address],
+      city: [this.data.city],
       post_code: [this.data.post_code, [Validators.required]],
-      // clientName: [this.clientName.nativeElement.value]
     });
   }
 
   close() {
     this.dialogRef.close();
-  }
-
-  getClientName(data: Client) {
-    this.selectedClient = data;
   }
 
   submit() {

@@ -13,5 +13,10 @@ mat-form-field {
 
 .radio-button:nth-child(2) {
   margin-left: 100px;
+}
 
+.mat-select-value {
+  .ng-star-inserted {
+    text-transform: capitalize;
+  }
 }

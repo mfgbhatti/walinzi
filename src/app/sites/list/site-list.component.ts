@@ -9,6 +9,7 @@ import { Subject } from 'rxjs/internal/Subject'
 
 import { Site } from '../shared';
 import { Client } from 'src/app/clients/shared';
+import { Timestamp } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-site-list',
@@ -39,28 +40,25 @@ export class SiteListComponent implements OnInit {
     this.sub = this.client$.subscribe( (data) => this.clients.push(...data));
     this.sub = this.site$.subscribe((list) => {
       let sites = list.map((item: Site) => { return { ...item } });
-      let new_sites: {[key:string]:string | boolean}[] = [];
+      let new_sites: {[key:string]:string | boolean | Timestamp}[] = [];
       sites.forEach( (data) => {
         let result = this.clients.filter(a1 => a1.id == data.relative_id);
         if(result.length > 0) {
           new_sites.push({
             id: data.id,
-            clientId: data.relative_id
-
+            relative_id: data.relative_id,
+            clientName: result[0].name,
+            name: data.name,
+            sin: data.sin,
+            post_code: data.post_code,
+            address: data.address,
+            city: data.city,
+            status: data.status,
+            started: data.started,
+            finished: data.finished,
           });
         }
       });
-
-      // change clientId to client name
-      // array.map((x) => {
-      //   // console.log(this.clients)
-      //   if (result.length > 0) {
-      //     x.clientName = result[0].name
-      //     // this.newsites.push({...x, clientName: result[0].name})
-      //     // console.log({...x})
-      //     // this.siteService.update(x);
-      //   }
-      // });
       this.dataSource = new MatTableDataSource(new_sites);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -68,7 +66,18 @@ export class SiteListComponent implements OnInit {
   }
 
   selectSite(data: Site) {
-    this.siteEmitter.emit(data);
+    this.siteEmitter.emit({
+      id: data.id,
+      relative_id: data.relative_id,
+      name: data.name,
+      sin: data.sin,
+      post_code: data.post_code,
+      address: data.address,
+      city: data.city,
+      status: data.status,
+      started: data.started,
+      finished: data.finished,
+    });
   }
 
   toggleStatus(data: Site) {

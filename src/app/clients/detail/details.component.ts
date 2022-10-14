@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 import { Client, ClientService } from 'src/app/clients/shared';
 
@@ -17,9 +17,9 @@ export class DetailsComponent implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly clientService: ClientService
-  ) {  }
+  ) { }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.subscription = this.route.params.subscribe(
       (__param) => {
         this.clientId = __param['id']
@@ -28,12 +28,9 @@ export class DetailsComponent implements OnInit {
     this.subscription = this.clientService.get(this.clientId).subscribe(
       data => {
         // const item = Object.keys(list).map(key => ({type: key, value: list[key]}));
-        this.client$.push({...data} as Client);
+        this.client$.push({ ...data } as Client);
       });
-
   }
-
-
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

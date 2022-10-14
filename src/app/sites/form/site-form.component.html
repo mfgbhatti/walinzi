@@ -1,19 +1,24 @@
 <form [formGroup]="form">
   <mat-form-field appearance="fill" *ngIf="client$ | async as clients">
     <mat-label>Choose Client</mat-label>
-    <mat-select formControlName="clientId" name="Clients">
-      <mat-option *ngFor="let client of clients" [value]="client.id">
+    <mat-select formControlName="relative_id">
+      <mat-option *ngFor="let client of clients" [value]="client.id" class="text-capitalize">
         {{client.name}}
       </mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Name</mat-label>
-    <input required formControlName="name" placeholder="Name" type="text" matInput class="text-capitalize" />
+    <input required formControlName="name" placeholder="Name" type="text" matInput class="text-capitalize"/>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Address</mat-label>
     <input formControlName="address" placeholder="12 High Road, High Barnet, London" type="text" matInput class="text-capitalize"/>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>City</mat-label>
+    <input matInput required formControlName="city" placeholder="London" class="text-capitalize"
+      type="text" />
   </mat-form-field>
   <mat-form-field>
     <mat-label>Post Code</mat-label>
@@ -44,7 +49,7 @@
       <input matInput [matDatepicker]="finishdatepicker" formControlName="finished">
     </ng-template>
     <ng-template #thereIsDate>
-      <input matInput [matDatepicker]="finishdatepicker" formControlName="finished" [value]="data.finished.toDate()">
+      <input matInput [matDatepicker]="finishdatepicker" formControlName="finished" [value]="finished.value">
     </ng-template>
     <mat-hint>DD/MM/YYYY</mat-hint>
     <mat-datepicker-toggle matSuffix [for]="finishdatepicker"></mat-datepicker-toggle>

@@ -10,7 +10,7 @@ import {
   DocumentData,
   collectionData,
   CollectionReference,
-} from '@angular/fire/firestore/';
+} from '@angular/fire/firestore';
 import { Observable } from 'rxjs/internal/Observable';
 
 import { Client } from 'src/app/clients/shared';

@@ -6,6 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Client, ClientService } from 'src/app/clients/shared';
 import { FormComponent } from 'src/app/clients';
+import { Sites } from '../_shared/data/site';
+import { Site, SiteService } from '../sites/shared';
 
 @Component({
   selector: 'app-clients',
@@ -13,6 +15,8 @@ import { FormComponent } from 'src/app/clients';
   styleUrls: ['./clients.component.scss']
 })
 export class ClientsComponent implements OnInit {
+  new_data = Sites
+  newclients: Client[] = [];
   client$!: Observable<Client[]>;
   selected?: Client | undefined;
   destroyed$ = new Subject<void>();
@@ -21,7 +25,8 @@ export class ClientsComponent implements OnInit {
 
   constructor(
     private readonly clientService: ClientService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly siteService: SiteService
   ) { 
     this.client$ = this.clientService.getAll();
   }
