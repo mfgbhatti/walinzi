@@ -1,0 +1,1 @@
+export { Destroy } from './destroy';

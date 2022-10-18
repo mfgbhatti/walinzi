@@ -1,25 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { filter, Subject, takeUntil, tap } from 'rxjs';
+import { filter, takeUntil, tap } from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
+import { Subject } from 'rxjs/internal/Subject';
 
 import { FormComponent } from 'src/app/staff';
-import { StaffService } from 'src/app/staff/shared';
+import { Staff, StaffService } from 'src/app/staff/shared';
 @Component({
   selector: 'app-staff',
   templateUrl: './staff.component.html',
   styleUrls: ['./staff.component.scss']
 })
-export class StaffComponent implements OnInit {
+export class StaffComponent implements OnInit, OnDestroy {
   generatedPin!: string;
+  staff$!: Observable<Staff[]>;
   destroyed$ = new Subject<void>();
   isSelected: boolean = false;
 
   constructor(
     private readonly dialog: MatDialog,
-    private readonly db: StaffService
+    private readonly staffservice: StaffService
   ) { }
 
   ngOnInit(): void {
+    this.staff$ = this.staffservice.getAll();
   }
 
   add() {
@@ -33,7 +37,7 @@ export class StaffComponent implements OnInit {
       .afterClosed()
       .pipe(
         filter(Boolean),
-        tap((data) => this.db.create(data)),
+        tap((data) => this.staffservice.create(data)),
         takeUntil(this.destroyed$)
       )
       .subscribe();

@@ -20,15 +20,19 @@ export class TabDetailFormComponent implements OnInit {
   constructor(
     private readonly fb: UntypedFormBuilder,
     public readonly dialogRef: MatDialogRef<TabDetailFormComponent>,
-    @Inject(MAT_DIALOG_DATA) private readonly data: detail 
+    @Inject(MAT_DIALOG_DATA) private readonly data: detail
   ) {
+  }
+
+  ngOnInit(): void {
     this.setForm();
   }
+
   setForm() {
     this.form = this.fb.group({
       relative_id: [this.data.relative_id, [Validators.required]],
+      vat: [this.data.vat, [Validators.required, Validators.pattern('[0-9]+')]],
       website: [this.data.website, [Validators.required, Validators.min(5)]],
-      vat: [this.data.vat, [Validators.required, Validators.pattern('[- +()0-9]+')]],
       submitted: [true, [Validators.required]],
     })
 
@@ -38,7 +42,4 @@ export class TabDetailFormComponent implements OnInit {
     this.dialogRef.close({ ...this.data, ...this.form.value })
   }
 
-  ngOnInit(): void {
-
-  }
 }

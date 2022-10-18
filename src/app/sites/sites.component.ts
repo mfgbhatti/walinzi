@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, Subject, takeUntil, tap, filter } from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
+import { Subject } from 'rxjs/internal/Subject';
+import { takeUntil, tap, filter } from 'rxjs/operators';
 
 import {
   SiteService,
@@ -17,7 +19,7 @@ type NewSite = Site & {
   templateUrl: './sites.component.html',
   styleUrls: ['./sites.component.scss']
 })
-export class SitesComponent implements OnInit {
+export class SitesComponent implements OnInit, OnDestroy {
   site$!: Observable<Site[]>;
   client$!: Observable<Client[]>;
   selectedSite!: Site | undefined;
@@ -31,11 +33,12 @@ export class SitesComponent implements OnInit {
     private readonly clientService: ClientService,
     private readonly dialog: MatDialog
   ) {
-    this.site$ = this.siteservice.getAll();
-    this.client$ = this.clientService.getAll();
+
   }
 
   ngOnInit(): void {
+    this.site$ = this.siteservice.getAll();
+    this.client$ = this.clientService.getAll();
   }
 
   add() {

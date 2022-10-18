@@ -26,7 +26,7 @@ export class SiteTabNotesComponent implements OnInit {
 
   addNotes() {
     const dialogRef = this.dialog.open(TabNotesFormComponent, {
-      data: { relativeId: this.siteId$ },
+      data: { relative_id: this.siteId$ },
       width: '40%',
       disableClose: true
     });

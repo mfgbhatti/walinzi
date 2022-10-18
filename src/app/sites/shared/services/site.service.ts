@@ -13,7 +13,7 @@ import {
   query,
   where
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
 
 import { Site } from 'src/app/sites/shared';
 
@@ -22,10 +22,11 @@ import { Site } from 'src/app/sites/shared';
 })
 export class SiteService {
   private SiteCollectionRef!: CollectionReference<DocumentData>;
-  sitePath: string = 'Sites';
+  path: string = 'Sites';
+  id: string = 'relative_id'
 
   constructor(private readonly firestore: Firestore) {
-    this.SiteCollectionRef = collection(this.firestore, this.sitePath);
+    this.SiteCollectionRef = collection(this.firestore, this.path);
   }
 
   getAll() {
@@ -35,13 +36,14 @@ export class SiteService {
   }
 
   get(id: string) {
-    const docRef = doc(this.firestore, this.sitePath, String(id));
-    return docData(docRef, { idField: 'id' });
+    const detailRef = collection(this.firestore, this.path);
+    const q = query(detailRef, where('id', '==', String(id)));
+    return collectionData(q, { idField: 'id' }) as Observable<any[]>;
   }
 
   search(id: string) {
-    const detailRef = collection(this.firestore, this.sitePath);
-    const q = query(detailRef, where('clientId', '==', String(id)));
+    const detailRef = collection(this.firestore, this.path);
+    const q = query(detailRef, where(`${this.id}`, '==', String(id)));
     return collectionData(q, {idField: 'id'}) as Observable<any[]>;
   }
 
@@ -56,13 +58,13 @@ export class SiteService {
   update(data: Site) {
     const docRef = doc(
       this.firestore,
-      `Sites/${data.id}`
+      `${this.path}/${data.id}`
     );
     return updateDoc(docRef, { ...data });
   }
 
   delete(id: string) {
-    const docRef = doc(this.firestore, this.sitePath, id);
+    const docRef = doc(this.firestore, this.path, id);
     return deleteDoc(docRef);
   }
 

@@ -14,9 +14,9 @@ export class ContactFormComponent implements OnInit {
   form!: UntypedFormGroup;
   titles: string[] = ['Mr', 'Mrs', 'Miss', 'Ms', 'Mx', 'Others'];
   jobs: string[] = [
-    'Manager', 
-    'Operations', 
-    'Customer Relations', 
+    'Manager',
+    'Operations',
+    'Customer Relations',
     'Security Guard',
     'Sales',
     'Owner'
@@ -27,11 +27,10 @@ export class ContactFormComponent implements OnInit {
     public readonly dialogRef: MatDialogRef<ContactFormComponent>,
     @Inject(MAT_DIALOG_DATA) private readonly contact: ContactPerson
   ) {
-    this.setForm();
   }
 
   ngOnInit(): void {
-
+    this.setForm();
   }
 
   setForm() {

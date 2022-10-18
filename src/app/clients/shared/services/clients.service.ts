@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {
   doc,
   addDoc,
-  docData,
   deleteDoc,
   updateDoc,
   Firestore,
@@ -10,6 +9,8 @@ import {
   DocumentData,
   collectionData,
   CollectionReference,
+  query,
+  where,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs/internal/Observable';
 
@@ -33,8 +34,9 @@ export class ClientService {
   }
 
   get(id: string) {
-    const docRef = doc(this.firestore, this.path, id);
-    return docData(docRef, { idField: 'id' });
+    const detailRef = collection(this.firestore, this.path);
+    const q = query(detailRef, where('id', '==', String(id)));
+    return collectionData(q, { idField: 'id' }) as Observable<any[]>;
   }
 
   create(client: Client) {

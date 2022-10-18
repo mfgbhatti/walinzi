@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
@@ -13,7 +13,7 @@ import { Notes, NoteService } from "src/app/_shared";
   styleUrls: ['./tab-notes.scss']
 })
 
-export class TabNoteComponent implements OnInit {
+export class TabNoteComponent implements OnInit, OnDestroy {
   destroyed$ = new Subject<void>();
   notesPath: string = 'Notes';
   note$!: Observable<Notes[]>;
@@ -30,7 +30,7 @@ export class TabNoteComponent implements OnInit {
 
   addNotes() {
     const dialogRef = this.dialog.open(TabNotesFormComponent, {
-      data: { relativeId: this.clientId$ },
+      data: { relative_id: this.clientId$ },
       width: '40%',
       disableClose: true
     });

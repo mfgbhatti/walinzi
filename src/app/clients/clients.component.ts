@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
 import { takeUntil, tap, filter } from 'rxjs/operators';
@@ -7,14 +7,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { Client, ClientService } from 'src/app/clients/shared';
 import { FormComponent } from 'src/app/clients';
 import { Sites } from '../_shared/data/site';
-import { Site, SiteService } from '../sites/shared';
 
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.scss']
 })
-export class ClientsComponent implements OnInit {
+export class ClientsComponent implements OnInit, OnDestroy {
   new_data = Sites
   newclients: Client[] = [];
   client$!: Observable<Client[]>;
@@ -26,12 +25,11 @@ export class ClientsComponent implements OnInit {
   constructor(
     private readonly clientService: ClientService,
     private readonly dialog: MatDialog,
-    private readonly siteService: SiteService
-  ) { 
-    this.client$ = this.clientService.getAll();
+  ) {
   }
 
   ngOnInit(): void {
+    this.client$ = this.clientService.getAll();
   }
 
   add() {
@@ -78,7 +76,7 @@ export class ClientsComponent implements OnInit {
     this.selected = data
   }
 
-  deleteClient () {
+  deleteClient() {
     this.clientService.delete(this.selected!.id);
     this.selected = undefined;
   }

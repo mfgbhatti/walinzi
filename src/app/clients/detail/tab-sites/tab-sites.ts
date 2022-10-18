@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable } from "rxjs/internal/Observable";
 
 import { SiteService, Site } from "src/app/sites/shared";
 
@@ -23,7 +23,5 @@ export class TabSitesComponent implements OnInit {
     this.site$ = this.siteService.search(this.clientId$);
   }
 
-  ngOnDestroy(): void {
-  }
 
 }

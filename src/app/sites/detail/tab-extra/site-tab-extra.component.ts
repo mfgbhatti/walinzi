@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { filter, Observable, Subject, takeUntil, tap } from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
+import { filter, takeUntil, tap } from 'rxjs/operators';
 
 import { TabContactPersonFormComponent, TabExtraDetailFormComponent } from 'src/app/sites/shared';
-import { ContactPerson, ContactPersonService, ExtraDetail, ExtraDetailService } from 'src/app/_shared';
+import { ContactPerson, ContactPersonService, Destroy, ExtraDetail, ExtraDetailService } from 'src/app/_shared';
 
 @Component({
   selector: 'app-site-tab-extra',
@@ -13,11 +14,11 @@ import { ContactPerson, ContactPersonService, ExtraDetail, ExtraDetailService } 
 export class SiteTabExtraComponent implements OnInit {
   contact$!: Observable<ContactPerson[]>;
   detail$!: Observable<ExtraDetail[]>;
-  destroyed$ = new Subject<void>();
   @Input() siteId$!: string;
 
   constructor(
     private readonly dialog: MatDialog,
+    private readonly destroy: Destroy,
     private readonly cps: ContactPersonService,
     private readonly eds: ExtraDetailService
   ) { }
@@ -29,7 +30,7 @@ export class SiteTabExtraComponent implements OnInit {
 
   addDetail() {
     const dialogRef = this.dialog.open(TabExtraDetailFormComponent, {
-      data: { relativeId: this.siteId$ },
+      data: { relative_id: this.siteId$ },
       width: '40%',
       disableClose: true
     });
@@ -39,14 +40,14 @@ export class SiteTabExtraComponent implements OnInit {
       .pipe(
         filter(Boolean),
         tap((data) => this.eds.add(data)),
-        takeUntil(this.destroyed$)
+        takeUntil(this.destroy)
       )
       .subscribe();
   }
   
   addContact() {
     const dialogRef = this.dialog.open(TabContactPersonFormComponent, {
-      data: { relativeId: this.siteId$ },
+      data: { relative_id: this.siteId$ },
       width: '40%',
       disableClose: true
     });
@@ -56,14 +57,8 @@ export class SiteTabExtraComponent implements OnInit {
       .pipe(
         filter(Boolean),
         tap((data) => this.cps.add(data)),
-        takeUntil(this.destroyed$)
+        takeUntil(this.destroy)
       )
       .subscribe();
   }
-
-  ngOnDestroy() {
-    this.destroyed$
-      .next();
-  }
-
 }

@@ -1,11 +1,11 @@
 <form [formGroup]="form">
   <mat-form-field>
     <mat-label class="form-label">Vat</mat-label>
-    <input required formControlName="vat" class="form-control" placeholder="000 000 000" type="number" matInput />
+    <input required formControlName="vat" placeholder="000 000 000" type="number" matInput />
   </mat-form-field>
   <mat-form-field>
     <mat-label>Website</mat-label>
-    <input required formControlName="website" class="form-control" placeholder="www.example.com" type="string"
+    <input required formControlName="website" placeholder="www.example.com" type="string"
       matInput />
   </mat-form-field>
   <button type="button" mat-raised-button (click)="submit()" color="primary" class="submit">

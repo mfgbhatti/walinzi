@@ -8,6 +8,7 @@ import { ChargedRate, PayRate } from '../modals';
   providedIn: 'root'
 })
 export class RatesService {
+  id: string = 'relative_id'
 
   constructor(private readonly firestore: Firestore) { }
 
@@ -21,7 +22,7 @@ export class RatesService {
 
   get(collectionPath: string, id: string) {
     const detailRef = collection(this.firestore, collectionPath);
-    const q = query(detailRef, where('relativeId', '==', String(id)));
+    const q = query(detailRef, where(`${this.id}`, '==', String(id)));
     return collectionData(q, { idField: 'id' }) as Observable<any[]>;
   }
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
@@ -21,7 +21,7 @@ type detail = {
   styleUrls: ['./tab-details.scss']
 })
 
-export class TabDetailComponent implements OnInit {
+export class TabDetailComponent implements OnInit, OnDestroy {
   destroyed$ = new Subject<void>();
   contactPersonPath: string = 'ContactPerson';
   extraDetailPath: string = 'ClientExtraDetails';
@@ -61,9 +61,9 @@ export class TabDetailComponent implements OnInit {
       .subscribe();
   }
 
-  editDetails() {
+  editDetails(data: detail) {
     const dialogRef = this.dialog.open(TabDetailFormComponent, {
-      data: {},
+      data: {...data},
       width: '40%',
     });
     dialogRef
@@ -98,7 +98,6 @@ export class TabDetailComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.destroyed$
-      .next();
+    this.destroyed$.next();
   }
 }

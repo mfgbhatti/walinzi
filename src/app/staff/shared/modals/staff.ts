@@ -2,8 +2,7 @@ import { Timestamp } from "@angular/fire/firestore";
 
 export interface Staff {
   id: string;
-  contractorId: string;
-  contractorName: string;
+  contractor_id: string;
   position: string;
   phone: string;
   mobile: string;

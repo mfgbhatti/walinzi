@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,7 +12,7 @@ import { Subcontractor } from 'src/app/subcontractors/shared';
   templateUrl: './sub-list.component.html',
   styleUrls: ['./sub-list.component.scss']
 })
-export class SubListComponent implements OnInit {
+export class SubListComponent implements OnInit, OnDestroy {
   @Input() input$!: Observable<Subcontractor[]>;
   @Output() compEmitter = new EventEmitter<Subcontractor>();
   @Output() toggler = new EventEmitter<Subcontractor>();

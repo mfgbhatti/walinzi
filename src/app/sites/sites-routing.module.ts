@@ -6,7 +6,7 @@ import { SitesComponent } from './sites.component';
 
 const routes: Routes = [
   {path: '', component: SitesComponent, title: 'Walinzi - Sites'},
-  {path: 'site-details/:id', component:SiteDetailComponent, title: 'Walinzi - Sites Details'}
+  {path: 'site-details/:clientId/:siteId', component:SiteDetailComponent, title: 'Walinzi - Sites Details'}
 ];
 
 @NgModule({

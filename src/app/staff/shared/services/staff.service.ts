@@ -13,7 +13,7 @@ import {
   query,
   where
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
 
 import { Staff } from 'src/app/staff/shared';
 
@@ -57,7 +57,7 @@ export class StaffService {
   update(data: Staff) {
     const docRef = doc(
       this.firestore,
-      `Staff/${data.id}`
+      `${this.path}/${data.id}`
     );
     return updateDoc(docRef, { ...data });
   }

@@ -27,27 +27,28 @@
     </mat-form-field>
     <mat-form-field class="col-6 ms-2">
       <mat-label>SIA Number</mat-label>
-      <input matInput required formControlName="sia_number" placeholder="000 000 000" type="number" pattern="^[0-9.]*" />
+      <input matInput required formControlName="sia_number" placeholder="000 000 000" type="number"
+        pattern="^[0-9.]*" />
     </mat-form-field>
   </div>
   <div class="d-flex justify-content-between">
-  <mat-form-field class="col-4">
-    <mat-label>Pay Rate</mat-label>
-    <input matInput required formControlName="pay_rate" placeholder="11.00" type="number" pattern="^[0-9.]*" />
-  </mat-form-field>
-  <mat-form-field appearance="fill" class="col-4 ms-1">
-    <mat-label>Subcontractor</mat-label>
-    <mat-select formControlName="contractorName">
-      <mat-option *ngFor="let position of positions" [value]="position">{{position}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field appearance="fill" class="col-4 ms-1">
-    <mat-label>Choose a Position</mat-label>
-    <mat-select formControlName="position">
-      <mat-option *ngFor="let position of positions" [value]="position">{{position}}</mat-option>
-    </mat-select>  
-  </mat-form-field>
-</div>
+    <mat-form-field class="col-4">
+      <mat-label>Pay Rate</mat-label>
+      <input matInput required formControlName="pay_rate" placeholder="11.00" type="number" pattern="^[0-9.]*" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="col-4 ms-1" *ngIf="subContr$ | async as subs">
+      <mat-label>Subcontractor</mat-label>
+      <mat-select formControlName="contractor_id">
+        <mat-option *ngFor="let sub of subs" value="{{sub.id}}">{{sub.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="col-4 ms-1">
+      <mat-label>Choose a Position</mat-label>
+      <mat-select formControlName="position">
+        <mat-option *ngFor="let position of positions" [value]="position">{{position}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
   <mat-radio-group formControlName="status" aria-labelledby="radio-group-label"
     class="col-4 d-flex justify-content-between">
     <mat-radio-button class="radio-button" *ngFor="let x of status_list;" [value]="x.status">
@@ -56,8 +57,7 @@
   </mat-radio-group>
   <div class="d-flex justify-content-end">
     <button type="button" mat-raised-button (click)="submit()" color="primary" class="btn submit col-3"
-    >
-    <!-- [disabled]="!this.form.valid" -->
+      [disabled]="!this.form.valid">
       Submit
     </button>
     <button type="button" mat-raised-button (click)="close()" color="accent" class="btn submit col-3 ms-4">

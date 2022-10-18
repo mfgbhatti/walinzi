@@ -29,7 +29,7 @@ export class SiteTabRateComponent implements OnInit {
   
   addChargedRate() {
     const dialogRef = this.dialog.open(TabChargedRatesFormComponent, {
-      data: { relativeId: this.siteId$ },
+      data: { relative_id: this.siteId$ },
       width: '40%',
       disableClose: true
     });
@@ -46,7 +46,7 @@ export class SiteTabRateComponent implements OnInit {
 
   addPayRate() {
     const dialogRef = this.dialog.open(TabPayRatesFormComponent, {
-      data: { relativeId: this.siteId$ },
+      data: { relative_id: this.siteId$ },
       width: '40%',
       disableClose: true
     });

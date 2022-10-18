@@ -1,5 +1,5 @@
 export { MaterialModule } from './modules';
-export { StaffPosition } from './staff-position';
+export { StaffPosition } from './types';
 export {
   Notes,
   ExtraDetail,
@@ -10,3 +10,4 @@ export {
   ContactPersonService,
   ExtraDetailService
 } from './services';
+export { Destroy } from './class';

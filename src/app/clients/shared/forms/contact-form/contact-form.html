@@ -7,7 +7,7 @@
   </mat-form-field>
   <mat-form-field>
     <mat-label class="form-label">Name</mat-label>
-    <input required formControlName="name" placeholder="John Doe" type="text" matInput />
+    <input required formControlName="name" placeholder="John Doe" type="text" matInput class="text-capitalize"  />
   </mat-form-field>
   <mat-form-field>
     <mat-label>Phone</mat-label>
@@ -15,8 +15,7 @@
   </mat-form-field>
   <mat-form-field>
     <mat-label>Email</mat-label>
-    <input matInput formControlName="email" placeholder="email@example.com" type="email"
-      style="text-transform: lowercase;" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+    <input matInput formControlName="email" placeholder="email@example.com" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" class="text-lowercase"/>
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Job Title</mat-label>

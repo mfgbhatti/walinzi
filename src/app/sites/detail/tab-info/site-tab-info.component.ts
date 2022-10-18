@@ -5,12 +5,10 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './site-tab-info.component.html',
   styleUrls: ['./site-tab-info.component.scss']
 })
-export class SiteTabInfoComponent implements OnInit {
+export class SiteTabInfoComponent {
   @Input() clientId$!: string;
   @Input() siteId$!: string;
   constructor() { }
 
-  ngOnInit(): void {
-  }
 
 }

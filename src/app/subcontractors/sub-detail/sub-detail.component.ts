@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 import { Subcontractor, SubcontractorService } from 'src/app/subcontractors/shared';
 
@@ -9,7 +9,7 @@ import { Subcontractor, SubcontractorService } from 'src/app/subcontractors/shar
   templateUrl: './sub-detail.component.html',
   styleUrls: ['./sub-detail.component.scss']
 })
-export class SubDetailComponent implements OnInit {
+export class SubDetailComponent implements OnInit, OnDestroy {
   subscription!: Subscription
   sub$: Subcontractor[] = [];
   subId!: string;

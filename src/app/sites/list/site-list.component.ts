@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -16,7 +16,7 @@ import { Timestamp } from '@angular/fire/firestore';
   templateUrl: './site-list.component.html',
   styleUrls: ['./site-list.component.scss']
 })
-export class SiteListComponent implements OnInit {
+export class SiteListComponent implements OnInit, OnDestroy {
   @Input() site$!: Observable<Site[]>;
   @Input() client$!: Observable<Client[]>;
   @Output() siteEmitter = new EventEmitter<Site>();

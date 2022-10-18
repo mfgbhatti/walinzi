@@ -4,14 +4,19 @@
     <div class="d-flex justify-content-between">
       <h1>Extra Details</h1>
       <div *ngIf="detail$ | async as details;">
-        <div *ngIf="details.length==0; then add"></div>
+        <div *ngIf="details.length===0; then add"></div>
         <div *ngFor="let detail of details">
           <div *ngIf="detail.submitted === true; then edit"></div>
+          <ng-template #edit>
+            <button class="btn" mat-raised-button color="primary" (click)="editDetails(detail)">
+            Edit
+            </button>
+          </ng-template>
         </div>
       </div>
     </div>
     <div *ngIf="detail$ | async as details;">
-      <div *ngIf="details.length==0; then empty"></div>
+      <div *ngIf="details.length===0; then empty"></div>
       <div *ngFor="let detail of details">
           <table class="table table-striped">
             <tbody>
@@ -27,11 +32,6 @@
           </table>
       </div>
     </div>
-      <ng-template #edit>
-        <button class="btn" mat-raised-button color="primary" (click)="editDetails()">
-        Edit
-        </button>
-      </ng-template>
       <ng-template #add>
         <div>
           <button class="btn" mat-raised-button color="primary" (click)="addDetail()">
@@ -55,7 +55,7 @@
       </div>
     </div>
     <div *ngIf="contact$ | async as contacts;">
-      <div *ngIf="contacts.length==0; then empty"></div>
+      <div *ngIf="contacts.length===0; then empty"></div>
       <div *ngFor="let contact of contacts">
         <div class="d-flex">
           <h3>{{contact.title}}&nbsp;{{contact.name}}</h3>

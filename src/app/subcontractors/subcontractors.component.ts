@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { filter, Observable, Subject, takeUntil, tap } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { SubFormComponent } from 'src/app/subcontractors';
   templateUrl: './subcontractors.component.html',
   styleUrls: ['./subcontractors.component.scss']
 })
-export class SubcontractorComponent implements OnInit {
+export class SubcontractorComponent implements OnInit, OnDestroy {
   allSub$!: Observable<Subcontractor[]>;
   selectedSub?: Subcontractor;
   destroyed$ = new Subject<void>();
@@ -20,16 +20,15 @@ export class SubcontractorComponent implements OnInit {
   constructor(
     private readonly db: SubcontractorService,
     private readonly dialog: MatDialog
-  ) {
-    this.allSub$ = this.db.getAll();
-  }
+  ) { }
 
   ngOnInit(): void {
+    this.allSub$ = this.db.getAll();
   }
 
   addSubcontractor() {
     const dialogRef = this.dialog.open(SubFormComponent, {
-      data: { },
+      data: {},
       width: '40%',
       disableClose: true
     });

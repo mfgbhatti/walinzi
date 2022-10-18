@@ -1,17 +1,22 @@
-<div class="mt-4" *ngFor="let client of client$">
-  <div class="d-fleclient">
-    <h1 class="teclientt-capitalize">{{client.name}}</h1>
-    <a class="ms-4 teclientt-lowercase" href="mailto:{{client.email}}">
-      <mat-icon>email</mat-icon>
-    </a>
-    <a class="ms-2" href="tel:{{client.phone}}">
-      <mat-icon>call</mat-icon>
-    </a>
-  </div>
-  <div class="d-fleclient">
-    <h4 class="teclientt-capitalize">{{client.name}}</h4>
-    <div class="detail-divider">&nbsp;</div>
-    <div><span class="teclientt-capitalize">{{client.address}}</span>,&nbsp;<span class="teclientt-capitalize">{{client.city}}</span>,&nbsp;<span class="teclientt-uppercase">{{client.post_code}}</span></div>
+<!-- <div class="mt-4" *ngFor="let client of client$"> -->
+<div class="mt-4" *ngIf="client$ | async as clients">
+  <div *ngFor="let client of clients">
+    <div class="d-flex">
+      <h1 class="text-capitalize">{{client.name}}</h1>
+      <a class="ms-4 text-lowercase" href="mailto:{{client.email}}">
+        <mat-icon>email</mat-icon>
+      </a>
+      <a class="ms-2" href="tel:{{client.phone}}">
+        <mat-icon>call</mat-icon>
+      </a>
+    </div>
+    <div class="d-flex">
+      <h4 class="text-capitalize">{{client.name}}</h4>
+      <div class="detail-divider">&nbsp;</div>
+      <div><span class="text-capitalize">{{client.address}}</span>,&nbsp;<span
+          class="text-capitalize">{{client.city}}</span>,&nbsp;<span class="text-uppercase">{{client.post_code}}</span>
+      </div>
+    </div>
   </div>
 </div>
 <mat-tab-group mat-align-tabs="start">

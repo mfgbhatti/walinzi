@@ -10,10 +10,8 @@ import {
   DocumentData,
   collectionData,
   CollectionReference,
-  query,
-  where
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
 
 import { Subcontractor } from 'src/app/subcontractors/shared';
 

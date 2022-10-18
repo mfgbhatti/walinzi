@@ -1,11 +1,16 @@
-<div class="mt-4" *ngFor="let site of site$">
-  <div>
-    <h1 class="text-capitalize">{{site.name}}</h1>
-    <p><b>Address:</b>&nbsp;<span class="text-capitalize">{{site.address}},</span>&nbsp;<span class="text-uppercase">{{site.post_code}}</span></p>
-  </div>
-  <div class="d-flex">
-    <p class="text-capitalize"><b>Client:</b>&nbsp;{{site.relative_id}}</p>
-    <p class="ms-2 text-capitalize"><b>Created By:</b>&nbsp;Name</p>
+<div class="mt-4" *ngIf="site$ | async as sites">
+  <div *ngFor="let site of sites">
+    <div>
+      <h1 class="text-capitalize">{{site.name}}</h1>
+      <p><b>Address:</b>&nbsp;<span class="text-capitalize">{{site.address}},</span>&nbsp;<span
+          class="text-uppercase">{{site.post_code}}</span></p>
+    </div>
+    <div  *ngIf="client$ | async as clients">
+      <div class="d-flex" *ngFor="let client of clients">
+        <p class="text-capitalize"><b>Client:</b>&nbsp;{{client.name}}</p>
+        <p class="ms-2 text-capitalize"><b>Created By:</b>&nbsp;Name</p>
+      </div>
+    </div>
   </div>
 </div>
 <mat-tab-group class="mt-4">
