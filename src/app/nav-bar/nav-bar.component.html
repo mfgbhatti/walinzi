@@ -1,4 +1,4 @@
-<mat-sidenav-container class="sidenav-container">
+<!-- <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport
       [ngClass]="{'hidden': !(isHandset$ | async)}"
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
@@ -30,8 +30,69 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-    </mat-toolbar>
-    <!-- Add Content Here -->
-    <ng-content></ng-content>
+    </mat-toolbar> -->
+<!-- Add Content Here -->
+<!-- <ng-content></ng-content>
   </mat-sidenav-content>
-</mat-sidenav-container>
+</mat-sidenav-container> -->
+<header class="p-3 text-bg-dark mb-3">
+  <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+    <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+      <svg width="32px" height="32px" viewBox="0 0 211.667 211.666" xmlns="http://www.w3.org/2000/svg">
+        <path
+          style="stroke:#fff;stroke-width:8.22873;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+          d="M4.114 4.114h203.438v203.438H4.114z" />
+        <g style="fill:#fff">
+          <path
+            d="m136.443 142.277-.823-.117q-1.137-7.212-2.274-13.443-1.097-6.232-2.233-11.758-1.098-5.526-2.195-10.504-1.058-4.977-2.077-9.641-1.45-6.506-2.587-11.993-1.137-5.526-2.39-10.582h-.275q-1.568 5.683-3.175 10.974-1.607 5.252-3.292 10.425-1.685 5.134-3.527 10.386-1.842 5.213-3.88 10.817-2.038 5.605-4.35 11.758-2.274 6.153-4.86 13.13l-6.742.548-.823-.117q-6.192-31.315-10.66-50.794-4.429-19.518-7.055-27.278-.705-2.116-1.489-3.566-.784-1.49-1.842-2.43-1.058-.94-2.508-1.372-1.411-.43-3.41-.43-1.293 0-2.822.195-1.568.157-3.449.47l-.43-3.488q6.074-1.49 10.072-2.273 4.036-.823 6.662-.823 2.077 0 3.41.588 1.372.549 2.312 1.803.94 1.254 1.646 3.253t1.49 4.86q1.136 4.076 2.704 10.346 1.607 6.232 3.527 14.737 1.92 8.504 4.155 19.282 2.234 10.778 4.664 23.947h.274q1.96-5.33 4.037-11.288 2.116-5.957 4.272-12.267 2.155-6.31 4.31-12.855 2.156-6.545 4.234-13.05 2.077-6.546 3.997-12.934 1.96-6.389 3.684-12.385.196-.706.941-1.02.745-.313 1.607-.313t1.568.235q1.019 3.92 2.312 9.328 1.293 5.37 2.704 11.68 1.411 6.27 2.9 13.247 1.529 6.937 2.979 14.07 1.49 7.133 2.861 14.187 1.372 7.055 2.548 13.482h.196q2.821-5.878 5.604-12.188 2.822-6.35 5.37-12.66 2.586-6.31 4.78-12.423 2.235-6.115 3.842-11.562 1.646-5.448 2.547-10.033.94-4.586.94-7.878 0-1.92-.352-3.88-.313-1.96-.98-3.684-.666-1.725-1.724-3.136-1.02-1.41-2.43-2.234l.157-.744q.784-.118 1.567-.196.784-.079 1.568-.079 2.195 0 4.194.549 1.998.549 3.527 1.725 1.528 1.175 2.43 3.057.901 1.88.901 4.507 0 1.998-.705 5.29-.706 3.254-2.038 7.526-1.293 4.272-3.136 9.406-1.842 5.095-4.115 10.817-2.234 5.722-4.86 11.954-2.586 6.192-5.447 12.62-2.822 6.388-5.84 12.894-2.979 6.466-6.036 12.776z"
+            transform="matrix(1.36996 0 0 1.62463 -57.448 -51.244)" aria-label="Walinzi" />
+        </g>
+      </svg>
+    </a>
+
+    <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+      aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button> -->
+
+    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+      <li><a class="nav-link text-white px-2" routerLink="/staff">Staff</a></li>
+      <li><a class="nav-link text-white px-2" routerLink="/clients">Clients</a></li>
+      <li><a class="nav-link text-white px-2" routerLink="/sites">Sites</a></li>
+      <li><a class="nav-link text-white px-2" routerLink="/subcontractors">Subcontractors</a></li>
+    </ul>
+
+    <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+      <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+    </form>
+
+    <div class="dropdown text-end">
+      <a href="#" class="d-block text-white text-decoration-none dropdown-toggle text-capitalize"
+        data-bs-toggle="dropdown" aria-expanded="false">
+        <svg class="rounded-circle" width="32" height="32" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"
+          alt="user">
+          <g transform="translate(-43.738 -113.251)">
+            <ellipse style="fill:#fff;stroke-width:.17656" cx="83.738" cy="131.904" rx="20.367" ry="18.652" />
+            <path style="fill:#fff;stroke-width:.434896"
+              d="M83.729 155.893a42.178 54.646 0 0 0-39.991 37.358h80a42.178 54.646 0 0 0-40.01-37.358Z" />
+          </g>
+        </svg>
+
+        farhan
+
+      </a>
+      <ul class="dropdown-menu text-small">
+        <li><a class="dropdown-item" href="#">New project...</a></li>
+        <li><a class="dropdown-item" href="#">Settings</a></li>
+        <li><a class="dropdown-item" href="#">Profile</a></li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li><a class="dropdown-item" href="#">Sign out</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+<div class="container">
+  <ng-content></ng-content>
+</div>

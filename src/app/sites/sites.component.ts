@@ -1,7 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs/internal/Observable';
-import { Subject } from 'rxjs/internal/Subject';
 import { takeUntil, tap, filter } from 'rxjs/operators';
 
 import {
@@ -10,28 +9,27 @@ import {
 } from './shared';
 import { SiteFormComponent } from 'src/app/sites';
 import { Client, ClientService } from 'src/app/clients/shared'
+import { Destroy } from '../_shared';
 
-type NewSite = Site & {
-  clientName: string;
-}
 @Component({
   selector: 'app-sites',
   templateUrl: './sites.component.html',
-  styleUrls: ['./sites.component.scss']
+  styleUrls: ['./sites.component.scss'],
+  providers: [Destroy]
 })
-export class SitesComponent implements OnInit, OnDestroy {
+export class SitesComponent implements OnInit {
   site$!: Observable<Site[]>;
   client$!: Observable<Client[]>;
   selectedSite!: Site | undefined;
 
-  destroyed$ = new Subject<void>();
   isSelected: boolean = false;
   generatedSin: string = ''
 
   constructor(
     private readonly siteservice: SiteService,
     private readonly clientService: ClientService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly destroy: Destroy
   ) {
 
   }
@@ -54,7 +52,7 @@ export class SitesComponent implements OnInit, OnDestroy {
       .pipe(
         filter(Boolean),
         tap((data) => this.siteservice.create(data)),
-        takeUntil(this.destroyed$)
+        takeUntil(this.destroy)
       )
       .subscribe();
   }
@@ -72,7 +70,7 @@ export class SitesComponent implements OnInit, OnDestroy {
         filter(Boolean),
         tap((data) => this.siteservice.update(data)),
         tap((data) => this.selectSite(data)),
-        takeUntil(this.destroyed$)
+        takeUntil(this.destroy)
       )
       .subscribe();
   }
@@ -87,7 +85,7 @@ export class SitesComponent implements OnInit, OnDestroy {
   }
 
   generateSin() {
-    const char = 'W7';
+    const char = 'w7';
     const num = '0123456789';
     const length = 7;
     this.generatedSin += char
@@ -96,8 +94,5 @@ export class SitesComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
-    this.destroyed$.next();
-  }
 
 }

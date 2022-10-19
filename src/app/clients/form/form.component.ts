@@ -28,7 +28,7 @@ export class FormComponent implements OnInit {
 
   setForm() {
     this.form = this.formbuilder.group({
-      name: [this.data.name, [Validators.required, Validators.minLength(10)]],
+      name: [this.data.name, [Validators.required, Validators.minLength(5)]],
       phone: [this.data.phone, [Validators.required, Validators.pattern('[- +()0-9]+')]],
       mobile: [this.data.mobile],
       address: [this.data.address, [Validators.required]],

@@ -16,8 +16,6 @@ import { Destroy } from '../_shared';
   providers: [Destroy]
 })
 export class ClientsComponent implements OnInit {
-  new_data = Sites
-  newclients: Client[] = [];
   client$!: Observable<Client[]>;
   selected?: Client | undefined;
   isSelected: boolean = false;
