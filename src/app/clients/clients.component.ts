@@ -7,24 +7,26 @@ import { MatDialog } from '@angular/material/dialog';
 import { Client, ClientService } from 'src/app/clients/shared';
 import { FormComponent } from 'src/app/clients';
 import { Sites } from '../_shared/data/site';
+import { Destroy } from '../_shared';
 
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
-  styleUrls: ['./clients.component.scss']
+  styleUrls: ['./clients.component.scss'],
+  providers: [Destroy]
 })
-export class ClientsComponent implements OnInit, OnDestroy {
+export class ClientsComponent implements OnInit {
   new_data = Sites
   newclients: Client[] = [];
   client$!: Observable<Client[]>;
   selected?: Client | undefined;
-  destroyed$ = new Subject<void>();
   isSelected: boolean = false;
 
 
   constructor(
     private readonly clientService: ClientService,
     private readonly dialog: MatDialog,
+    private readonly destroy: Destroy
   ) {
   }
 
@@ -44,7 +46,7 @@ export class ClientsComponent implements OnInit, OnDestroy {
       .pipe(
         filter(Boolean),
         tap((client) => this.clientService.create(client)),
-        takeUntil(this.destroyed$)
+        takeUntil(this.destroy)
       )
       .subscribe();
   }
@@ -62,7 +64,7 @@ export class ClientsComponent implements OnInit, OnDestroy {
         filter(Boolean),
         tap((client) => this.clientService.update(client)),
         tap((client) => this.select(client)),
-        takeUntil(this.destroyed$)
+        takeUntil(this.destroy)
       )
       .subscribe();
   }
@@ -81,7 +83,4 @@ export class ClientsComponent implements OnInit, OnDestroy {
     this.selected = undefined;
   }
 
-  ngOnDestroy() {
-    this.destroyed$.next()
-  }
 }

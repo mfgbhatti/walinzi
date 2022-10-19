@@ -1,27 +1,27 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Observable } from 'rxjs/internal/Observable';
-import { Subject } from 'rxjs/internal/Subject';
 import { takeUntil, tap, filter } from 'rxjs/operators';
 
 import { TabNotesFormComponent } from "src/app/clients/shared";
-import { Notes, NoteService } from "src/app/_shared";
+import { Destroy, Notes, NoteService } from "src/app/_shared";
 
 @Component({
   selector: 'app-client-note',
   templateUrl: './tab-notes.html',
-  styleUrls: ['./tab-notes.scss']
+  styleUrls: ['./tab-notes.scss'],
+  providers: [Destroy]
 })
 
-export class TabNoteComponent implements OnInit, OnDestroy {
-  destroyed$ = new Subject<void>();
+export class TabNoteComponent implements OnInit {
   notesPath: string = 'Notes';
   note$!: Observable<Notes[]>;
   @Input() clientId$!: string;
 
   constructor(
     private readonly dialog: MatDialog,
-    private readonly db: NoteService
+    private readonly db: NoteService,
+    private readonly destroy: Destroy
   ) { }
 
   ngOnInit(): void {
@@ -40,13 +40,9 @@ export class TabNoteComponent implements OnInit, OnDestroy {
       .pipe(
         filter(Boolean),
         tap((data) => this.db.add(data)),
-        takeUntil(this.destroyed$)
+        takeUntil(this.destroy)
       )
       .subscribe();
   }
 
-  ngOnDestroy() {
-    this.destroyed$
-      .next();
-  }
 }

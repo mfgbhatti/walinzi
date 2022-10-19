@@ -15,5 +15,6 @@ export class Destroy extends Observable<void> implements OnDestroy {
   ngOnDestroy(): void {
     this.destroySubject$.next();
     this.destroySubject$.complete();
+    // console.log('destroyed')
   }
 }

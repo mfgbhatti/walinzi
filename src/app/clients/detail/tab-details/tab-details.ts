@@ -8,7 +8,7 @@ import {
   ContactFormComponent,
   TabDetailFormComponent
 } from "src/app/clients/shared";
-import { ContactPerson, ContactPersonService, ExtraDetail, ExtraDetailService } from "src/app/_shared";
+import { ContactPerson, ContactPersonService, Destroy, ExtraDetail, ExtraDetailService } from "src/app/_shared";
 
 type detail = {
   vat: string;
@@ -18,10 +18,11 @@ type detail = {
 @Component({
   selector: 'app-client-detail',
   templateUrl: './tab-details.html',
-  styleUrls: ['./tab-details.scss']
+  styleUrls: ['./tab-details.scss'],
+  providers: [Destroy]
 })
 
-export class TabDetailComponent implements OnInit, OnDestroy {
+export class TabDetailComponent implements OnInit {
   destroyed$ = new Subject<void>();
   contactPersonPath: string = 'ContactPerson';
   extraDetailPath: string = 'ClientExtraDetails';
@@ -33,7 +34,8 @@ export class TabDetailComponent implements OnInit, OnDestroy {
   constructor(
     private readonly dialog: MatDialog,
     private readonly detailService: ExtraDetailService,
-    private readonly cps: ContactPersonService
+    private readonly cps: ContactPersonService,
+    private readonly destroy: Destroy
   ) { }
 
   ngOnInit(): void {
@@ -56,7 +58,7 @@ export class TabDetailComponent implements OnInit, OnDestroy {
       .pipe(
         filter(Boolean),
         tap((data) => this.detailService.add(data)),
-        takeUntil(this.destroyed$)
+        takeUntil(this.destroy)
       )
       .subscribe();
   }
@@ -71,7 +73,7 @@ export class TabDetailComponent implements OnInit, OnDestroy {
       .pipe(
         filter(Boolean),
         tap((data) => this.detailService.update(data)),
-        takeUntil(this.destroyed$)
+        takeUntil(this.destroy)
       )
       .subscribe();
   }
@@ -88,16 +90,12 @@ export class TabDetailComponent implements OnInit, OnDestroy {
       .pipe(
         filter(Boolean),
         tap((data) => this.cps.add(data)),
-        takeUntil(this.destroyed$)
+        takeUntil(this.destroy)
       )
       .subscribe();
   }
 
   delete(id: string) {
     this.cps.delete(id);
-  }
-
-  ngOnDestroy() {
-    this.destroyed$.next();
   }
 }

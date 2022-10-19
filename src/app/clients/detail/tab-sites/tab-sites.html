@@ -1,20 +1,37 @@
-<div *ngIf="site$ | async as sites" class="row mt-4 g-0">
-  <div *ngIf="sites.length == 0; then empty else show"></div>
-  <ng-template #empty>
-    <div class="mt-4">There is no record to show.</div>
+<div class="row mt-4 g-0">
+  <div class="col">
+    <h3>Active Sites</h3>
+    <div *ngIf="activeSites.length === 0; then empty else showActive"></div>
+    <ng-template #showActive>
+    <table class="table table-striped">
+      <tbody>
+        <tr *ngFor="let site of activeSites; let index = index">
+          <th scope="row">{{index + 1}}</th>
+          <td class="text-capitalize text-end">
+            <a  routerLink="/sites/site-details/{{site.relative_id}}/{{site.id}}">{{site.name}}</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </ng-template>
-  <ng-template #show>
-    <div class="col">
-      <h3>Active Sites</h3>
-      <div *ngFor="let site of sites; let index = index">
-        <a *ngIf="site.status===true" routerLink="/sites/site-details/{{site.id}}" class="text-capitalize">{{site.name}}</a>
-      </div>
-    </div>
-    <div class="col ms-4">
-      <h3>Inactive Sites</h3>
-      <div *ngFor="let site of sites">
-        <a *ngIf="site.status===false" routerLink="/sites/site-details/{{site.id}}" class="text-capitalize">{{site.name}}</a>
-      </div>
-    </div>
+  </div>
+  <div class="col ms-4">
+    <h3>Inactive Sites</h3>
+    <div *ngIf="inactiveSites.length === 0; then empty else showInactive"></div>
+    <ng-template #showInactive>
+    <table class="table table-striped">
+      <tbody>
+        <tr *ngFor="let site of inactiveSites; let index = index">
+          <th scope="row">{{index + 1}}</th>
+          <td class="text-capitalize text-end">
+            <a  routerLink="/sites/site-details/{{site.relative_id}}/{{site.id}}">{{site.name}}</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
+  </div>
+  <ng-template #empty>
+    <div class="mt-4">No sites available.</div>
   </ng-template>
 </div>

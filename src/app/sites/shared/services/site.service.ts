@@ -41,7 +41,7 @@ export class SiteService {
     return collectionData(q, { idField: 'id' }) as Observable<any[]>;
   }
 
-  search(id: string) {
+  searchByClientId(id: string) {
     const detailRef = collection(this.firestore, this.path);
     const q = query(detailRef, where(`${this.id}`, '==', String(id)));
     return collectionData(q, {idField: 'id'}) as Observable<any[]>;

@@ -4,16 +4,18 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs/internal/Observable';
-import { Subscription } from 'rxjs/internal/Subscription';
+import { map, takeUntil } from 'rxjs';
 
 import { Client } from 'src/app/clients/shared';
+import { Destroy } from 'src/app/_shared';
 
 @Component({
   selector: 'app-clients-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  styleUrls: ['./list.component.scss'],
+  providers: [Destroy]
 })
-export class ListComponent implements OnInit, OnDestroy {
+export class ListComponent implements OnInit {
   @Input() client$!: Observable<Client[]>;
   @Output() clientEmitter = new EventEmitter<Client>();
   @Output() toggler = new EventEmitter<Client>();
@@ -21,17 +23,16 @@ export class ListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['select', 'name', 'phone', 'mobile', 'email', 'status'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  subscription!: Subscription;
   selection = new SelectionModel<Client>(true, []);
   newStatus!: boolean
   selectedIndex!: number;
 
-  constructor() { }
+  constructor(private readonly destroy: Destroy) { }
 
   ngOnInit(): void {
-    this.subscription = this.client$.subscribe(
-      (list) => {
-        let array = list.map(
+    this.client$.pipe(
+      map(data => {
+        let array = data.map(
           item => {
             return {
               ...item
@@ -40,9 +41,11 @@ export class ListComponent implements OnInit, OnDestroy {
         this.dataSource = new MatTableDataSource(array);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
-      }
-    );
+      }),
+      takeUntil(this.destroy)
+    ).subscribe();
   }
+
   isSelected() {
     return this.selection.selected;
   }
@@ -69,8 +72,5 @@ export class ListComponent implements OnInit, OnDestroy {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
-  }
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }
