@@ -5,13 +5,16 @@ import { ClientsComponent } from './clients.component';
 import { DetailsComponent } from './detail/details.component';
 
 const routes: Routes = [
-    { path: '', component: ClientsComponent, title: 'Walinzi - Clients' },
-    { path: 'client-details/:id', component: DetailsComponent, title: 'Walinzi - Client Details' }
-]
+  { path: '', component: ClientsComponent, title: 'Walinzi - Clients' },
+  {
+    path: 'client-details/:id',
+    component: DetailsComponent,
+    title: 'Walinzi - Client Details',
+  },
+];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-
-export class ClientsRoutingModule { }
+export class ClientsRoutingModule {}

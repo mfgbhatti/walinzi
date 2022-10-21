@@ -14,7 +14,7 @@ import { Destroy } from 'src/app/_shared';
   selector: 'app-site-detail',
   templateUrl: './site-detail.component.html',
   styleUrls: ['./site-detail.component.scss'],
-  providers: [Destroy]
+  providers: [Destroy],
 })
 export class SiteDetailComponent implements OnInit {
   subscription!: Subscription;
@@ -27,20 +27,30 @@ export class SiteDetailComponent implements OnInit {
     private readonly siteService: SiteService,
     private readonly clientService: ClientService,
     private readonly destroy: Destroy
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.route.params.pipe(
-      tap((param: Params) => this.siteId = param['siteId']),
-      switchMap((param: Params) => this.site$ = this.siteService.get(param['siteId'])),
-      takeUntil(this.destroy)
-    ).subscribe();
+    this.route.params
+      .pipe(
+        tap((param: Params) => (this.siteId = param['siteId'])),
+        switchMap(
+          (param: Params) =>
+            (this.site$ = this.siteService.get(param['siteId']))
+        ),
+        takeUntil(this.destroy)
+      )
+      .subscribe();
 
-    this.route.params.pipe(
-      tap((param: Params) => this.clientId = param['clientId']),
-      switchMap((param: Params) => this.client$ = this.clientService.get(param['clientId'])),
-      takeUntil(this.destroy)
-    ).subscribe();
+    this.route.params
+      .pipe(
+        tap((param: Params) => (this.clientId = param['clientId'])),
+        switchMap(
+          (param: Params) =>
+            (this.client$ = this.clientService.get(param['clientId']))
+        ),
+        takeUntil(this.destroy)
+      )
+      .subscribe();
   }
 
   //   this.subscription = this.route.params.subscribe (

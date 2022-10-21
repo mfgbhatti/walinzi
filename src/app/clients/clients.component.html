@@ -1,5 +1,7 @@
 <div class="d-flex justify-content-end mt-4 mb-4">
     <div><button class="btn" mat-raised-button color="primary" (click)="add()">Add</button></div>
-    <div class="ms-4"><button class="btn" mat-raised-button color="primary" (click)="update()" [disabled]="!this.isSelected">Edit</button></div>
+    <div class="ms-4"><button class="btn" mat-raised-button color="primary" (click)="update()"
+            [disabled]="!this.isSelected">Edit</button></div>
 </div>
-<app-clients-list [client$]="client$" (toggler)="updateStatus($event)" (clientEmitter)="select($event)"></app-clients-list>
+<app-clients-list [client$]="client$" (toggler)="updateStatus($event)" (clientEmitter)="select($event)">
+</app-clients-list>

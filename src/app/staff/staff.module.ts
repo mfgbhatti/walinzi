@@ -7,16 +7,35 @@ import {
   StaffComponent,
   ListComponent,
   FormComponent,
-  DetailComponent
+  DetailComponent,
+  InfoComponent,
+  NotesComponent,
+  PreferredSitesComponent,
+  ExpertiseComponent,
+  BackgroundComponent,
+  HealthComponent,
+  VettingComponent,
+  DocumentsComponent,
+  TimesheetsComponent
 } from 'src/app/staff';
 import { MaterialModule } from 'src/app/_shared';
+
 
 @NgModule({
   declarations: [
     StaffComponent,
     ListComponent,
     FormComponent,
-    DetailComponent
+    DetailComponent,
+    InfoComponent,
+    NotesComponent,
+    PreferredSitesComponent,
+    ExpertiseComponent,
+    BackgroundComponent,
+    HealthComponent,
+    VettingComponent,
+    DocumentsComponent,
+    TimesheetsComponent
   ],
   imports: [
     CommonModule,

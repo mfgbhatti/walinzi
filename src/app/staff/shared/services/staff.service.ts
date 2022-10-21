@@ -36,15 +36,16 @@ export class StaffService {
   }
 
   get(id: string) {
-    const docRef = doc(this.firestore, this.path, String(id));
-    return docData(docRef, { idField: 'id' });
+    const detailRef = collection(this.firestore, this.path);
+    const q = query(detailRef, where('id', '==', String(id)));
+    return collectionData(q, {idField: 'id'}) as Observable<any[]>;
   }
 
-  // search(id: string) {
-  //   const detailRef = collection(this.firestore, this.path);
-  //   const q = query(detailRef, where('clientId', '==', String(id)));
-  //   return collectionData(q, {idField: 'id'}) as Observable<any[]>;
-  // }
+  searchByContractor(id: string) {
+    const detailRef = collection(this.firestore, this.path);
+    const q = query(detailRef, where('relative_id', '==', String(id)));
+    return collectionData(q, {idField: 'id'}) as Observable<any[]>;
+  }
 
   create(data: Staff) {
     try {

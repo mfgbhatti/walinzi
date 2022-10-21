@@ -1,1 +1,41 @@
-<p>detail works!</p>
+<div class="mt-4" *ngIf="staff$ | async as staffs">
+  <div *ngFor="let staff of staffs">
+    <div>
+      <h1 class="text-capitalize">{{staff.first_name}}&nbsp;{{staff.last_name}}</h1>
+      <p>Pin:&nbsp;{{staff.pin}}</p>
+      <p>Email:&nbsp;{{staff.email}}</p>
+      <p>mobile:&nbsp;{{staff.mobile}}</p>
+      <p>Rate:&nbsp;{{staff.pay_rate}}</p>
+    </div>
+  </div>
+</div>
+
+<mat-tab-group class="mt-4">
+  <mat-tab label="Information">
+    <app-info></app-info>
+  </mat-tab>
+  <mat-tab label="Background">
+    <app-background></app-background>
+  </mat-tab>
+  <mat-tab label="Health">
+    <app-health></app-health>
+  </mat-tab>
+  <mat-tab label="Vetting">
+    <app-vetting></app-vetting>
+  </mat-tab>
+  <mat-tab label="Expertise">
+    <app-expertise></app-expertise>
+  </mat-tab>
+  <mat-tab label="Documents">
+    <app-documents></app-documents>
+  </mat-tab>
+  <mat-tab label="Preffered Sites">
+    <app-preferred-sites></app-preferred-sites>
+  </mat-tab>
+  <mat-tab label="Notes">
+    <app-notes></app-notes>
+  </mat-tab>
+  <mat-tab label="Timesheets">
+    <app-timesheets></app-timesheets>
+  </mat-tab>
+</mat-tab-group>

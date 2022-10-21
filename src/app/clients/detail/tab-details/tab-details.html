@@ -9,7 +9,7 @@
           <div *ngIf="detail.submitted === true; then edit"></div>
           <ng-template #edit>
             <button class="btn" mat-raised-button color="primary" (click)="editDetails(detail)">
-            Edit
+              Edit
             </button>
           </ng-template>
         </div>
@@ -18,39 +18,39 @@
     <div *ngIf="detail$ | async as details;">
       <div *ngIf="details.length===0; then empty"></div>
       <div *ngFor="let detail of details">
-          <table class="table table-striped">
-            <tbody>
-              <tr>
-                <th scope="row">Vat Number</th>
-                <td class="text-end">{{detail.vat}}</td>
-              </tr>
-              <tr>
-                <th scope="row">Website</th>
-                <td class="text-end">{{detail.website}}</td>
-              </tr>
-            </tbody>
-          </table>
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <th scope="row">Vat Number</th>
+              <td class="text-end">{{detail.vat}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Website</th>
+              <td class="text-end">{{detail.website}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-      <ng-template #add>
-        <div>
-          <button class="btn" mat-raised-button color="primary" (click)="addDetail()">
+    <ng-template #add>
+      <div>
+        <button class="btn" mat-raised-button color="primary" (click)="addDetail()">
           Add
-          </button>
-        </div>
-      </ng-template>
-      <ng-template #empty>
-        <div class="no-record">
-          There is no record to show.
-        </div>
-      </ng-template>
-    </div> <!-- left side -->
-  <div class="col ms-4"> <!-- right side -->
+        </button>
+      </div>
+    </ng-template>
+    <ng-template #empty>
+      <div class="no-record">There is no record to show.</div>
+    </ng-template>
+  </div>
+  <!-- left side -->
+  <div class="col ms-4">
+    <!-- right side -->
     <div class="d-flex justify-content-between">
       <h1>Contact Person</h1>
       <div>
         <button class="btn my-btn" mat-raised-button color="primary" (click)="addContact()">
-        Add
+          Add
         </button>
       </div>
     </div>
@@ -59,7 +59,8 @@
       <div *ngFor="let contact of contacts">
         <div class="d-flex">
           <h3>{{contact.title}}&nbsp;{{contact.name}}</h3>
-            <mat-icon mat-raised-button class="ms-4" aria-hidden="false" aria-label="delete icon" fontIcon="delete" (click)="delete(contact.id)" style="cursor: pointer;"></mat-icon>
+          <mat-icon mat-raised-button class="ms-4" aria-hidden="false" aria-label="delete icon" fontIcon="delete"
+            (click)="delete(contact.id)" style="cursor: pointer"></mat-icon>
         </div>
         <table class="table table-striped">
           <tbody>
@@ -79,5 +80,6 @@
         </table>
       </div>
     </div>
-  </div> <!-- right side -->
+  </div>
+  <!-- right side -->
 </div>
