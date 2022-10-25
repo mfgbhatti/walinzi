@@ -5,4 +5,4 @@
       Edit
     </button></div>
 </div>
-<app-list [staff$]="staff$"></app-list>
+<app-list [staff$]="staff$" (staffEmitter)="selectStaff($event)"></app-list>

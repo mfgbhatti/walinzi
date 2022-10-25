@@ -1,7 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Observable } from 'rxjs/internal/Observable';
-import { Subject } from 'rxjs/internal/Subject';
 import { filter, takeUntil, tap } from "rxjs/operators";
 
 import {
@@ -23,7 +22,6 @@ type detail = {
 })
 
 export class TabDetailComponent implements OnInit {
-  destroyed$ = new Subject<void>();
   contactPersonPath: string = 'ContactPerson';
   extraDetailPath: string = 'ClientExtraDetails';
   detail$!: Observable<detail[]>;

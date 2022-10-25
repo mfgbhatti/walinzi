@@ -1,47 +1,66 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { map, takeUntil } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
-import { Subscription } from 'rxjs/internal/Subscription';
 
+import { Destroy } from 'src/app/_shared';
 import { Staff } from '../shared';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  styleUrls: ['./list.component.scss'],
+  providers: [Destroy],
 })
-export class ListComponent implements OnInit, OnDestroy {
+export class ListComponent implements OnInit {
   @Input() staff$!: Observable<Staff[]>;
   @Output() staffEmitter = new EventEmitter<Staff>();
   @Output() toggler = new EventEmitter<Staff>();
   dataSource!: MatTableDataSource<any>;
-  displayedColumns: string[] = ['select', 'name', 'pin', 'phone', 'mobile', 'email', 'added', 'status'];
+  displayedColumns: string[] = [
+    'select',
+    'name',
+    'pin',
+    'phone',
+    'mobile',
+    'email',
+    'added',
+    'status',
+  ];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  subscription!: Subscription;
   selection = new SelectionModel<Staff>(true, []);
-  newStatus!: boolean
+  newStatus!: boolean;
   selectedIndex!: number;
 
-  constructor() { }
+  constructor(private readonly destroy: Destroy) {}
 
   ngOnInit(): void {
-    this.subscription = this.staff$.subscribe(
-      (list) => {
-        let array = list.map(
-          item => {
+    this.staff$
+      .pipe(
+        map((data) => {
+          let array = data.map((item) => {
             return {
-              ...item
-            }
+              ...item,
+            };
           });
-        this.dataSource = new MatTableDataSource(array);
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-      }
-    );
+          this.dataSource = new MatTableDataSource(array);
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
+        }),
+        takeUntil(this.destroy)
+      )
+      .subscribe();
   }
   isSelected() {
     return this.selection.selected;
@@ -57,8 +76,8 @@ export class ListComponent implements OnInit, OnDestroy {
     } else {
       this.newStatus = false;
     }
-    data.status = this.newStatus
-    this.toggler.emit(data)
+    data.status = this.newStatus;
+    this.toggler.emit(data);
   }
 
   applyFilter(event: Event) {
@@ -69,8 +88,5 @@ export class ListComponent implements OnInit, OnDestroy {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
-  }
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }

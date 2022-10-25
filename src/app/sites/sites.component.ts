@@ -3,19 +3,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs/internal/Observable';
 import { takeUntil, tap, filter } from 'rxjs/operators';
 
-import {
-  SiteService,
-  Site
-} from './shared';
+import { SiteService, Site } from './shared';
 import { SiteFormComponent } from 'src/app/sites';
-import { Client, ClientService } from 'src/app/clients/shared'
+import { Client, ClientService } from 'src/app/clients/shared';
 import { Destroy } from '../_shared';
 
 @Component({
   selector: 'app-sites',
   templateUrl: './sites.component.html',
   styleUrls: ['./sites.component.scss'],
-  providers: [Destroy]
+  providers: [Destroy],
 })
 export class SitesComponent implements OnInit {
   site$!: Observable<Site[]>;
@@ -23,16 +20,14 @@ export class SitesComponent implements OnInit {
   selectedSite!: Site | undefined;
 
   isSelected: boolean = false;
-  generatedSin: string = ''
+  generatedSin: string = '';
 
   constructor(
     private readonly siteservice: SiteService,
     private readonly clientService: ClientService,
     private readonly dialog: MatDialog,
     private readonly destroy: Destroy
-  ) {
-
-  }
+  ) { }
 
   ngOnInit(): void {
     this.site$ = this.siteservice.getAll();
@@ -45,7 +40,7 @@ export class SitesComponent implements OnInit {
     const dialogRef = this.dialog.open(SiteFormComponent, {
       data: { sin: this.generatedSin },
       width: '40%',
-      disableClose: true
+      disableClose: true,
     });
     dialogRef
       .afterClosed()
@@ -61,7 +56,7 @@ export class SitesComponent implements OnInit {
     const dialogRef = this.dialog.open(SiteFormComponent, {
       data: { ...this.selectedSite },
       width: '40%',
-      disableClose: true
+      disableClose: true,
     });
 
     dialogRef
@@ -81,18 +76,16 @@ export class SitesComponent implements OnInit {
 
   selectSite(data: Site) {
     this.isSelected = true;
-    this.selectedSite = data
+    this.selectedSite = data;
   }
 
   generateSin() {
     const char = 'w7';
     const num = '0123456789';
     const length = 7;
-    this.generatedSin += char
+    this.generatedSin += char;
     for (let i = 1; i < length; i++) {
-      this.generatedSin += num.charAt((Math.random()) * length);
+      this.generatedSin += num.charAt(Math.random() * length);
     }
   }
-
-
 }

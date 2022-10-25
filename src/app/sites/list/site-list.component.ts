@@ -1,22 +1,30 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { map, takeUntil } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
-import { Subscription } from 'rxjs/internal/Subscription';
-import { Subject } from 'rxjs/internal/Subject'
+import { Timestamp } from '@angular/fire/firestore';
 
 import { Site } from '../shared';
 import { Client } from 'src/app/clients/shared';
-import { Timestamp } from '@angular/fire/firestore';
+import { Destroy } from 'src/app/_shared';
 
 @Component({
   selector: 'app-site-list',
   templateUrl: './site-list.component.html',
-  styleUrls: ['./site-list.component.scss']
+  styleUrls: ['./site-list.component.scss'],
+  providers: [Destroy],
 })
-export class SiteListComponent implements OnInit, OnDestroy {
+export class SiteListComponent implements OnInit {
   @Input() site$!: Observable<Site[]>;
   @Input() client$!: Observable<Client[]>;
   @Output() siteEmitter = new EventEmitter<Site>();
@@ -24,45 +32,62 @@ export class SiteListComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  sub!: Subscription;
   dataSource!: MatTableDataSource<any>;
   newStatus!: boolean;
   selectedIndex!: number;
   clients: Client[] = [];
-  destroyed$ = new Subject<void>();
-  displayedColumns: string[] = ['select', 'name', 'sin', 'client', 'location', 'started', 'status'];
+  displayedColumns: string[] = [
+    'select',
+    'name',
+    'sin',
+    'client',
+    'location',
+    'started',
+    'status',
+  ];
   selection = new SelectionModel<Site>(true, []);
 
-  constructor(
-  ) { }
+  constructor(private readonly destroy: Destroy) {}
 
   ngOnInit(): void {
-    this.sub = this.client$.subscribe( (data) => this.clients.push(...data));
-    this.sub = this.site$.subscribe((list) => {
-      let sites = list.map((item: Site) => { return { ...item } });
-      let new_sites: {[key:string]:string | boolean | Timestamp}[] = [];
-      sites.forEach( (data) => {
-        let result = this.clients.filter(a1 => a1.id == data.relative_id);
-        if(result.length > 0) {
-          new_sites.push({
-            id: data.id,
-            relative_id: data.relative_id,
-            clientName: result[0].name,
-            name: data.name,
-            sin: data.sin,
-            post_code: data.post_code,
-            address: data.address,
-            city: data.city,
-            status: data.status,
-            started: data.started,
-            finished: data.finished,
+    this.client$
+      .pipe(
+        map((data) => this.clients.push(...data)),
+        takeUntil(this.destroy)
+      )
+      .subscribe();
+    this.site$
+      .pipe(
+        map((data) => {
+          let sites = data.map((item: Site) => {
+            return { ...item };
           });
-        }
-      });
-      this.dataSource = new MatTableDataSource(new_sites);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-    });// end od sub
+          let new_sites: { [key: string]: string | boolean | Timestamp }[] = [];
+          sites.forEach((data) => {
+            let result = this.clients.filter((c) => c.id == data.relative_id);
+            if (result.length > 0) {
+              new_sites.push({
+                id: data.id,
+                relative_id: data.relative_id,
+                clientName: result[0].name,
+                name: data.name,
+                sin: data.sin,
+                post_code: data.post_code,
+                address: data.address,
+                city: data.city,
+                status: data.status,
+                started: data.started,
+                finished: data.finished,
+              });
+            }
+          });
+          this.dataSource = new MatTableDataSource(new_sites);
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
+        }),
+        takeUntil(this.destroy)
+      )
+      .subscribe();
   }
 
   selectSite(data: Site) {
@@ -86,8 +111,8 @@ export class SiteListComponent implements OnInit, OnDestroy {
     } else {
       this.newStatus = false;
     }
-    data.status = this.newStatus
-    this.statustoggler.emit(data)
+    data.status = this.newStatus;
+    this.statustoggler.emit(data);
   }
 
   applyFilter(event: Event) {
@@ -98,10 +123,4 @@ export class SiteListComponent implements OnInit, OnDestroy {
       this.dataSource.paginator.firstPage();
     }
   }
-
-  ngOnDestroy(): void {
-    this.destroyed$.next()
-    this.sub.unsubscribe();
-  }
-
 }
