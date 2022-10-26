@@ -1,0 +1,44 @@
+<form [formGroup]="form" class="row">
+  <mat-form-field appearance="fill">
+    <mat-label>Title</mat-label>
+    <mat-select formControlName="title" required>
+      <mat-option *ngFor="let title of titles" [value]="title">{{title}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label class="form-label">Name</mat-label>
+    <input required formControlName="name" placeholder="John Doe" type="text" matInput class="text-capitalize"  />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Phone</mat-label>
+    <input required formControlName="phone" placeholder="0333 222 3332" type="tel" pattern="[0-9]*" matInput />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" placeholder="email@example.com" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" class="text-lowercase"/>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label></mat-label>
+    <input type="text"
+           placeholder="Pick one"
+           aria-label="relation"
+           matInput
+           formControlName="job"
+           [matAutocomplete]="auto">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      <mat-option *ngFor="let option of relations" [value]="option">
+        {{option}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <div class="d-flex justify-content-end">
+    <button type="button" mat-raised-button (click)="submit()" color="primary" class="btn submit col-3"
+    >
+    <!-- [disabled]="!this.form.valid" -->
+    Submit
+    </button>
+    <button type="button" mat-raised-button (click)="close()" color="accent" class="btn submit col-3 ms-4">
+      Close
+    </button>
+  </div>
+</form>

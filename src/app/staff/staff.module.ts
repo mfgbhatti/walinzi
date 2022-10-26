@@ -16,7 +16,8 @@ import {
   HealthComponent,
   VettingComponent,
   DocumentsComponent,
-  TimesheetsComponent
+  TimesheetsComponent,
+  ContactFormComponent
 } from 'src/app/staff';
 import { MaterialModule } from 'src/app/_shared';
 
@@ -35,7 +36,8 @@ import { MaterialModule } from 'src/app/_shared';
     HealthComponent,
     VettingComponent,
     DocumentsComponent,
-    TimesheetsComponent
+    TimesheetsComponent,
+    ContactFormComponent
   ],
   imports: [
     CommonModule,
