@@ -1,0 +1,6 @@
+{
+  "/api": {
+    "target": "https://services.sia.homeoffice.gov.uk/PublicRegister/SearchPublicRegisterByLicence",
+    "secure": false
+  }
+}

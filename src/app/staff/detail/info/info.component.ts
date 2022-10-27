@@ -4,11 +4,11 @@ import { Observable } from 'rxjs';
 import {
   AddressService,
   DocumentService,
+  GetSiaDetailService,
   OriginService,
   PassportService,
   StaffAddress,
   StaffDocument,
-  StaffOrigin,
   StaffPassport,
   StaffVetting,
   VettingService,
@@ -20,7 +20,6 @@ import {
   styleUrls: ['./info.component.scss'],
 })
 export class InfoComponent implements OnInit {
-  staffOrigin$!: Observable<StaffOrigin[]>;
   staffAddress$!: Observable<StaffAddress[]>;
   vetting$!: Observable<StaffVetting[]>;
   passport$!: Observable<StaffPassport[]>;
@@ -29,25 +28,23 @@ export class InfoComponent implements OnInit {
   @Input() stafdId!: string;
 
   constructor(
-    private readonly originService: OriginService,
     private readonly addressService: AddressService,
     private readonly vettingService: VettingService,
     private readonly passportService: PassportService,
-    private readonly documentService: DocumentService
+    private readonly documentService: DocumentService,
+    private readonly sia: GetSiaDetailService
   ) {}
 
   ngOnInit(): void {
-    this.staffOrigin$ = this.originService.getAll();
     this.staffAddress$ = this.addressService.getAll();
     this.vetting$ = this.vettingService.getAll();
     this.passport$ = this.passportService.getAll();
     this.extraDocument$ = this.documentService.getAll();
+    this.sia.get('1013780138799882');
   }
-
   addDetail() {}
 
-  editDetail(data: StaffOrigin) {}
-
+  editDetail() {}
   addVetting() {}
   editVetting(data: StaffVetting) {}
 
@@ -55,5 +52,5 @@ export class InfoComponent implements OnInit {
   editPassport(data: StaffPassport) {}
 
   addDocument() {}
-  editDocument( data: StaffDocument) {}
+  editDocument(data: StaffDocument) {}
 }

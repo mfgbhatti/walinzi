@@ -8,3 +8,4 @@ export { VettingComponent } from './vetting/vetting.component';
 export { DocumentsComponent } from './documents/documents.component';
 export { TimesheetsComponent } from './timesheets/timesheets.component';
 export { DetailComponent } from './detail.component';
+export { OriginComponent } from './info/origin/origin.component';
