@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-center">
+  <div class="w-50">
+    <h1>SIA Lisence Details</h1>
+    <p>Find by licence number</p>
+    <div class="col">
+      <form class="row mt-4">
+        <mat-form-field appearance="fill">
+          <mat-label>Licence Number</mat-label>
+          <input type="number" matInput [formControl]="sia_number" [errorStateMatcher]="matcher"
+            placeholder="0000 0000 0000 0000">
+          <mat-hint>This is a 16 digit number. No spaces please</mat-hint>
+          <mat-error *ngIf="sia_number.hasError('pattern') && !sia_number.hasError('required')">
+            Please enter a valid SIA Licence number.
+          </mat-error>
+          <mat-error *ngIf="sia_number.hasError('required')">
+            Licence number is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <div class="col mt-2 d-flex justify-content-center">
+          <button type="button" mat-raised-button (click)="submit()" color="primary" class="btn submit col-3"
+            [disabled]="!this.sia_number.valid">
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="row mt-4" *ngIf="empty then emptyTemp else show"></div>
+    <ng-template #show>
+      <mat-card *ngIf="explaination!==undefined" class="mat-elevation-z8 mt-4">
+        <mat-card-subtitle *ngIf="otherData!==undefined" class="text-capitalize mt-2">{{otherData[5]}}</mat-card-subtitle>
+        <mat-card-title *ngIf="names!==undefined" class="text-capitalize mt-2">{{names[1]}}&nbsp;{{names[3]}}
+        </mat-card-title>
+        <mat-card-content *ngIf="expiryStatus!==undefined">
+          <div *ngIf="otherData!==undefined" class="mt-4">
+            <p *ngIf="explaination[1]==='active' then active else revoked">
+            </p>
+            <ng-template #active>
+                This liscence for sector {{otherData[5]}} will expire on <strong  class="text-capitalize">{{expiryStatus[1]}}</strong>.
+                Current status for this licence is <strong class="text-capitalize text-success">{{expiryStatus[3]}}</strong>
+            </ng-template>
+            <ng-template #revoked>
+                This liscence number {{otherData[1]}} has been <strong class="text-capitalize text-danger">{{explaination[1]}}</strong>.
+            </ng-template>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </ng-template>
+    <ng-template #emptyTemp>
+      <div class="mt-4 text-center text-lg-start">There is no record to show for this licence number. Make sure you have
+        entered a correct licence
+        number. If you see this message more than one time, please check your internet connection or retry in few
+        moments.
+      </div>
+    </ng-template>
+  </div>
+</div>

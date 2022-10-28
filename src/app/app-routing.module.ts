@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { SiaSearchComponent } from './sia-search/sia-search.component';
 
 const routes: Routes = [
   {
@@ -15,17 +16,25 @@ const routes: Routes = [
   {
     path: 'subcontractors',
     loadChildren: () =>
-      import('./subcontractors/subcontractors.module').then((sub) => sub.SubcontractorsModule)
+      import('./subcontractors/subcontractors.module').then(
+        (sub) => sub.SubcontractorsModule
+      ),
   },
   {
     path: 'staff',
     loadChildren: () =>
-      import('./staff/staff.module').then( (staff) => staff.StaffModule)
-  }
+      import('./staff/staff.module').then((staff) => staff.StaffModule),
+  },
+
+  {
+    path: 'sia/lisence-details',
+    component: SiaSearchComponent,
+    title: 'Walizi - SIA Lisence Details',
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
