@@ -1,0 +1,41 @@
+<div class="d-flex justify-content-between mt-2">
+  <h1>Extra Documents</h1>
+  <div *ngIf="extraDocument$ | async as details;">
+    <div *ngIf="details.length===0; then add"></div>
+    <ng-template #add>
+      <div>
+        <button class="btn" mat-raised-button color="primary" (click)="addDetail()">
+          Add
+        </button>
+      </div>
+    </ng-template>
+    <div *ngFor="let detail of details">
+      <div *ngIf="detail.submitted === true; then edit"></div>
+      <ng-template #edit>
+        <button class="btn" mat-raised-button color="primary" (click)="editDetail(detail)">
+          Edit
+        </button>
+      </ng-template>
+    </div>
+  </div>
+</div>
+<div *ngIf="extraDocument$ | async as details;">
+  <div *ngIf="details.length===0; then empty"></div>
+  <div *ngFor="let detail of details">
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <th scope="row">NI Number</th>
+          <td>Empty</td>
+        </tr>
+        <tr>
+          <th scope="row">Driving Licence</th>
+          <td>Empty</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #empty>
+    <div class="no-record">There is no record to show.</div>
+  </ng-template>
+</div>

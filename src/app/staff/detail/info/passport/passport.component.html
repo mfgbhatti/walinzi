@@ -1,0 +1,54 @@
+<div class="d-flex justify-content-between mt-2">
+  <h1>Passport</h1>
+  <div *ngIf="passport$ | async as passport;">
+    <div *ngIf="passport.length===0; then add"></div>
+    <ng-template #add>
+      <div>
+        <button class="btn" mat-raised-button color="primary" (click)="addDetail()">
+          Add
+        </button>
+      </div>
+    </ng-template>
+    <div *ngFor="let detail of passport">
+      <div *ngIf="detail.submitted === true; then edit"></div>
+      <ng-template #edit>
+        <button class="btn" mat-raised-button color="primary" (click)="editDetail(detail)">
+          Edit
+        </button>
+      </ng-template>
+    </div>
+  </div>
+</div>
+<div *ngIf="passport$ | async as passport">
+  <div *ngIf="passport.length===0; then empty"></div>
+  <div *ngFor="let detail of passport">
+    <h2>Identity Documents</h2>
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <th scope="row">Passport No</th>
+          <td>Empty</td>
+        </tr>
+        <tr>
+          <th scope="row">Country of Isuse</th>
+          <td>Empty</td>
+        </tr>
+        <tr>
+          <th scope="row">Date of Issue</th>
+          <td>Empty</td>
+        </tr>
+        <tr>
+          <th scope="row">Date of Expiry</th>
+          <td>Empty</td>
+        </tr>
+        <tr>
+          <th scope="row">Visa Needed</th>
+          <td>Empty</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #empty>
+    <div class="no-record">There is no record to show.</div>
+  </ng-template>
+</div>

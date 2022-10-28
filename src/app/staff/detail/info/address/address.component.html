@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-between mt-2">
+  <h1>Address</h1>
+  <div>
+    <button class="btn my-btn" mat-raised-button color="primary" (click)="addDetail()">
+      Add
+    </button>
+  </div>
+</div>
+<div *ngIf="staffAddress$ | async as addresses">
+  <div *ngIf="addresses.length===0; then empty"></div>
+  <div *ngFor="let address of addresses">
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <th scope="row">Current Address</th>
+          <td>Empty</td>
+        </tr>
+        <tr>
+          <th scope="row">Post Code</th>
+          <td>Empty</td>
+        </tr>
+        <tr>
+          <th scope="row">City</th>
+          <td>Empty</td>
+        </tr>
+        <tr>
+          <th scope="row">Living From</th>
+          <td>Empty</td>
+        </tr>
+        <tr>
+          <th scope="row">Previous Address</th>
+          <td>Empty</td>
+        </tr>
+        <tr>
+          <th scope="row">Post Code</th>
+          <td>Empty</td>
+        </tr>
+        <tr>
+          <th scope="row">City</th>
+          <td>Empty</td>
+        </tr>
+        <tr>
+          <th scope="row">Living From</th>
+          <td>Empty</td>
+        </tr>
+        <tr>
+          <th scope="row">Living To</th>
+          <td>Empty</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #empty>
+    <div class="no-record">There is no record to show.</div>
+  </ng-template>
+</div>

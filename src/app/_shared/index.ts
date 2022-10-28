@@ -4,10 +4,12 @@ export {
   Notes,
   ExtraDetail,
   ContactPerson,
+  SIA
 } from './modals';
 export {
   NoteService,
   ContactPersonService,
-  ExtraDetailService
+  ExtraDetailService,
+  GetSiaDetailService
 } from './services';
 export { Destroy } from './class';

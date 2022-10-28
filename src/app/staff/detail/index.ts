@@ -9,3 +9,8 @@ export { DocumentsComponent } from './documents/documents.component';
 export { TimesheetsComponent } from './timesheets/timesheets.component';
 export { DetailComponent } from './detail.component';
 export { OriginComponent } from './info/origin/origin.component';
+export { AddressComponent } from './info/address/address.component';
+export { BankDetailComponent } from './info/bank-detail/bank-detail.component';
+export { PassportComponent } from './info/passport/passport.component';
+export { ExtraDocumentComponent } from './info/extra-document/extra-document.component';
+export { VettingInfoComponent } from './info/vetting/vetting.component';

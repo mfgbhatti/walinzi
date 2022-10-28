@@ -4,4 +4,4 @@ export { AddressService } from './address.service';
 export { VettingService } from './vetting.service';
 export { PassportService } from './passport.service';
 export { DocumentService } from './extra.service';
-export { GetSiaDetailService } from './get-sia-detail.service';
+export { BankDetailService } from './bankDetail.service';

@@ -1,0 +1,36 @@
+<div class="d-flex justify-content-between mt-2">
+  <h1>Bank Details</h1>
+  <div>
+    <button class="btn my-btn" mat-raised-button color="primary" (click)="addDetail()">
+      Add
+    </button>
+  </div>
+</div>
+<div *ngIf="bankDetail$ | async as details;">
+  <div *ngIf="details.length===0; then empty"></div>
+  <div *ngFor="let detail of details">
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <th scope="row">Bank Name</th>
+          <td>Empty</td>
+        </tr>
+        <tr>
+          <th scope="row">Account Title</th>
+          <td>Empty</td>
+        </tr>
+        <tr>
+          <th scope="row">Account Sort Code</th>
+          <td>Empty</td>
+        </tr>
+        <tr>
+          <th scope="row">Account Number</th>
+          <td>Empty</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #empty>
+    <div class="no-record">There is no record to show.</div>
+  </ng-template>
+</div>

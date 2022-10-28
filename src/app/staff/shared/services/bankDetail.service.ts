@@ -21,7 +21,7 @@ import { StaffBankDetail } from 'src/app/staff/shared';
 @Injectable({
   providedIn: 'any'
 })
-export class StaffService {
+export class BankDetailService {
   private CollectionRef!: CollectionReference<DocumentData>;
   path: string = 'StaffBankDetail';
 

@@ -5,7 +5,7 @@ export {
   VettingService,
   PassportService,
   DocumentService,
-  GetSiaDetailService
+  BankDetailService
 } from './services';
 export { ContactFormComponent } from './forms';
 export {

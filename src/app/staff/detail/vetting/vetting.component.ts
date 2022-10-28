@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-vetting',
+  selector: 'app-detail-vetting',
   templateUrl: './vetting.component.html',
   styleUrls: ['./vetting.component.scss']
 })
-export class VettingComponent implements OnInit {
+export class VettingComponent {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
 
 }
