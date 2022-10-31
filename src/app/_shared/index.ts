@@ -1,15 +1,18 @@
 export { MaterialModule } from './modules';
-export { StaffPosition } from './types';
-export {
-  Notes,
-  ExtraDetail,
-  ContactPerson,
-  SIA
-} from './modals';
+export { Notes, ExtraDetail, ContactPerson, Country } from './modals';
 export {
   NoteService,
   ContactPersonService,
   ExtraDetailService,
-  GetSiaDetailService
+  GetSiaDetailService,
 } from './services';
 export { Destroy } from './class';
+
+export {
+  OriginGroups,
+  Countries,
+  StaffPosition,
+  Titles,
+  Jobs,
+  Genders,
+} from './data';

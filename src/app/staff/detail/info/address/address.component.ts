@@ -22,7 +22,7 @@ export class AddressComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.staffAddress$ = this.addressService.getAll();
+    this.staffAddress$ = this.addressService.searchByStaffId(this.staffId);
   }
 
   addDetail() {

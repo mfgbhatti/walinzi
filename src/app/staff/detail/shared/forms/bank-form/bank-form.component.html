@@ -1,1 +1,30 @@
-<p>bank-form works!</p>
+<form [formGroup]="form">
+  <mat-form-field>
+    <mat-label>Bank Name</mat-label>
+    <input formControlName="bank_name" placeholder="Xyz ltd" type="text" matInput class="text-capitalize"/>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Account Title</mat-label>
+    <input matInput required formControlName="account_title" placeholder="John Doe" class="text-capitalize"
+      type="text" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Account No.</mat-label>
+    <input matInput required formControlName="bank_account" placeholder="0000 0000"
+      type="number" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Sort Code</mat-label>
+    <input matInput required formControlName="sort_code" placeholder="00 00 00"
+      type="number" />
+  </mat-form-field>
+   <div class="d-flex justify-content-end mt-4">
+    <button type="button" mat-raised-button (click)="submit()" color="primary" class="submit col-3"
+      [disabled]="!this.form.valid">
+      Submit
+    </button>
+    <button type="button" mat-raised-button (click)="close()" color="accent" class="submit col-3 ms-4">
+      Close
+    </button>
+  </div>
+</form>

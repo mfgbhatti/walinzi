@@ -1,11 +1,11 @@
 <div class="d-flex justify-content-between">
   <h1>Vetting</h1>
-  <div *ngIf="vetting$ | async as vetting;">
-    <div *ngIf="vetting.length===0; then add"></div>
-    <div *ngFor="let x of vetting">
-      <div *ngIf="x.submitted === true; then edit"></div>
+  <div *ngIf="vettingDetail$ | async as details;">
+    <div *ngIf="details.length===0; then add"></div>
+    <div *ngFor="let detail of details">
+      <div *ngIf="detail.submitted === true; then edit"></div>
       <ng-template #edit>
-        <button class="btn" mat-raised-button color="primary" (click)="editVetting(x)">
+        <button class="btn" mat-raised-button color="primary" (click)="editDetail(detail)">
           Edit
         </button>
       </ng-template>
@@ -19,28 +19,28 @@
     </ng-template>
   </div>
 </div>
-<div *ngIf="vetting$ | async as vetting;">
-  <div *ngIf="vetting.length===0; then empty"></div>
-  <div *ngFor="let x of vetting">
+<div *ngIf="vettingDetail$ | async as details;">
+  <div *ngIf="details.length===0; then empty"></div>
+  <div *ngFor="let detail of details">
     <table class="table table-striped col">
       <tbody>
         <tr>
           <th scope="row">
             Vetting Start Date
           </th>
-          <td>Empty</td>
+          <td>{{detail.vetting_started}}</td>
         </tr>
         <tr>
           <th scope="row">Vetting End Date</th>
-          <td>Empty</td>
+          <td>{{detail.vetting_finished}}</td>
         </tr>
         <tr>
           <th scope="row">Contract Start Date</th>
-          <td>Empty</td>
+          <td>{{detail.contract_started}}</td>
         </tr>
         <tr>
           <th scope="row">Contract End Date</th>
-          <td>Empty</td>
+          <td>{{detail.contract_finished}}</td>
         </tr>
       </tbody>
     </table>

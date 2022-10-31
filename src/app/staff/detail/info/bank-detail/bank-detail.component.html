@@ -6,26 +6,26 @@
     </button>
   </div>
 </div>
-<div *ngIf="bankDetail$ | async as details;">
+<div *ngIf="StaffBankDetail$ | async as details;">
   <div *ngIf="details.length===0; then empty"></div>
   <div *ngFor="let detail of details">
     <table class="table table-striped">
       <tbody>
         <tr>
           <th scope="row">Bank Name</th>
-          <td>Empty</td>
+          <td>{{detail.bank_name}}</td>
         </tr>
         <tr>
           <th scope="row">Account Title</th>
-          <td>Empty</td>
+          <td>{{detail.account_title}}</td>
         </tr>
         <tr>
           <th scope="row">Account Sort Code</th>
-          <td>Empty</td>
+          <td>{{detail.sort_code}}</td>
         </tr>
         <tr>
           <th scope="row">Account Number</th>
-          <td>Empty</td>
+          <td>{{detail.sort_code}}</td>
         </tr>
       </tbody>
     </table>

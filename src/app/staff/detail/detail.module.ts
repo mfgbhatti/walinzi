@@ -24,10 +24,12 @@ import {
   VettingInfoComponent,
   OriginFormComponent,
   AddressFormComponent,
-  BankFormComponent
+  BankFormComponent,
+  VettingFormComponent
 } from 'src/app/staff/detail';
 import { ContactFormComponent } from '../shared';
 import { MaterialModule } from 'src/app/_shared';
+import { PassportFormComponent } from './shared/forms/passport-form/passport-form.component';
 
 
 
@@ -52,7 +54,9 @@ import { MaterialModule } from 'src/app/_shared';
     VettingInfoComponent,
     OriginFormComponent,
     AddressFormComponent,
-    BankFormComponent
+    BankFormComponent,
+    VettingFormComponent,
+    PassportFormComponent
   ],
   imports: [
     CommonModule,

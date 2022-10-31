@@ -23,7 +23,7 @@ export class OriginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.staffOrigin$ = this.originService.getAll();
+    this.staffOrigin$ = this.originService.searchByStaffId(this.staffId);
   }
 
   addDetail() {

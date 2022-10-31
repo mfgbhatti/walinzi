@@ -1,0 +1,67 @@
+<form [formGroup]="form">
+  <mat-form-field>
+    <mat-label>Passport No.</mat-label>
+    <input formControlName="passport_no" placeholder="LXL00000" type="text" matInput class="text-uppercase"/>
+  </mat-form-field>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Country of Issue</mat-label>
+    <input type="text" placeholder="Pick one" aria-label="Nationality" matInput [formControl]="issueCountry"
+      [matAutocomplete]="auto">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name" class="text-capitalize">
+        {{option.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Visa Required</mat-label>
+    <mat-select formControlName="visa">
+      <mat-option *ngFor="let option of options" [value]="option" class="text-capitalize">
+        {{option}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Issue Date</mat-label>
+    <div *ngIf="data.issued === undefined; then noDate else withDate"></div>
+    <ng-template #noDate>
+      <input matInput required [matDatepicker]="startdatepicker" formControlName="issued">
+    </ng-template>
+    <ng-template #withDate>
+      <input matInput required [matDatepicker]="startdatepicker" formControlName="issued" [value]="isssued.value">
+    </ng-template>
+    <mat-hint>DD/MM/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="startdatepicker"></mat-datepicker-toggle>
+    <mat-datepicker #startdatepicker>
+      <mat-datepicker-toggle matSuffix [for]="startdatepicker">
+        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+      </mat-datepicker-toggle>
+    </mat-datepicker>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Expiry Date</mat-label>
+    <div *ngIf="data.expired === undefined; then thereIsNoDate else thereIsDate"></div>
+    <ng-template #thereIsNoDate>
+      <input matInput [matDatepicker]="finishdatepicker" formControlName="expired">
+    </ng-template>
+    <ng-template #thereIsDate>
+      <input matInput [matDatepicker]="finishdatepicker" formControlName="expired" [value]="expired.value">
+    </ng-template>
+    <mat-hint>DD/MM/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="finishdatepicker"></mat-datepicker-toggle>
+    <mat-datepicker #finishdatepicker>
+      <mat-datepicker-toggle matSuffix [for]="finishdatepicker">
+        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+      </mat-datepicker-toggle>
+    </mat-datepicker>
+  </mat-form-field>
+   <div class="d-flex justify-content-end mt-4">
+    <button type="button" mat-raised-button (click)="submit()" color="primary" class="submit col-3"
+      [disabled]="!this.form.valid">
+      Submit
+    </button>
+    <button type="button" mat-raised-button (click)="close()" color="accent" class="submit col-3 ms-4">
+      Close
+    </button>
+  </div>
+</form>

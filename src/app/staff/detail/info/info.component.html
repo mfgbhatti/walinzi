@@ -1,13 +1,13 @@
 <div class="row mt-4 g-0 align-items-start">
 
   <div class="col">
-    <app-origin [staffId]="staffId"></app-origin>
-    <app-address></app-address>
-    <app-bank-detail></app-bank-detail>
+    <app-origin [staffId]="staffId$"></app-origin>
+    <app-address [staffId]="staffId$"></app-address>
+    <app-bank-detail [staffId]="staffId$"></app-bank-detail>
   </div>
   <!-- next column  -->
   <div class="col ms-4">
-    <app-info-vetting></app-info-vetting>
+    <app-info-vetting [staffId]="staffId$"></app-info-vetting>
     <app-passport></app-passport>
     <app-extra-document></app-extra-document>
 

@@ -18,4 +18,5 @@ export {
   OriginFormComponent,
   AddressFormComponent,
   BankFormComponent,
+  VettingFormComponent
 } from './shared';

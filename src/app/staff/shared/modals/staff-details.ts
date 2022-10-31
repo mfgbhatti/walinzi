@@ -40,19 +40,19 @@ export interface StaffPassport {
   id: string;
   relative_id: string;
   passport_no: string;
-  country_of_isuse: string;
-  date_of_issue: Timestamp;
-  date_of_expiry: Timestamp;
-  visa_needed: string;
+  country_of_issue: string;
+  issued: Timestamp;
+  expired: Timestamp;
+  visa: string;
   submitted: boolean;
 }
 
 export interface StaffVetting {
   id: string;
   relative_id: string;
-  vetting_start_date: Timestamp;
-  vetting_end_date: Timestamp;
-  contract_start_date: Timestamp;
-  contract_end_date: Timestamp;
+  vetting_started: Timestamp;
+  vetting_finished: Timestamp;
+  contract_started: Timestamp;
+  contract_finished: Timestamp;
   submitted: boolean;
 }

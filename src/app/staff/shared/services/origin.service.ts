@@ -41,7 +41,7 @@ export class OriginService {
     return collectionData(q, {idField: 'id'}) as Observable<any[]>;
   }
 
-  searchByStaff(id: string) {
+  searchByStaffId(id: string) {
     const detailRef = collection(this.firestore, this.path);
     const q = query(detailRef, where('relative_id', '==', String(id)));
     return collectionData(q, {idField: 'id'}) as Observable<any[]>;

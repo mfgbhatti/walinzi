@@ -16,8 +16,7 @@ export class AddressFormComponent implements OnInit {
   constructor(
     private readonly formbuilder: UntypedFormBuilder,
     public readonly dialogRef: MatDialogRef<AddressFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: StaffAddress,
-    private readonly addressService: AddressService
+    @Inject(MAT_DIALOG_DATA) public data: StaffAddress
   ) {}
 
   ngOnInit(): void {
