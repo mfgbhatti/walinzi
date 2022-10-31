@@ -1,5 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  FormControl,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs/internal/Observable';
 
@@ -9,36 +14,33 @@ import { Site } from 'src/app/sites/shared';
 @Component({
   selector: 'app-site-form',
   templateUrl: './site-form.component.html',
-  styleUrls: ['./site-form.component.scss']
+  styleUrls: ['./site-form.component.scss'],
 })
-
 export class SiteFormComponent implements OnInit {
   form!: UntypedFormGroup;
   status_list: Array<any> = [
-    { status: true, label: "Active" },
-    { status: false, label: "Inactive" }
-  ]
+    { status: true, label: 'Active' },
+    { status: false, label: 'Inactive' },
+  ];
   client$!: Observable<Client[]>;
   started!: FormControl;
   finished!: FormControl;
-
 
   constructor(
     private readonly formbuilder: UntypedFormBuilder,
     public readonly dialogRef: MatDialogRef<SiteFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Site,
     private readonly clientService: ClientService
-  ) {
-    this.setForm();
-  }
-  
+  ) {}
+
   ngOnInit(): void {
+    this.setForm();
     this.client$ = this.clientService.getAll();
   }
 
   isStarted() {
     if (this.data.started == undefined) {
-      this.started = new FormControl(new Date())
+      this.started = new FormControl(new Date());
     } else {
       this.started = new FormControl(new Date(this.data.started.toDate()));
     }
@@ -46,13 +48,13 @@ export class SiteFormComponent implements OnInit {
 
   isFinished() {
     if (this.data.finished == undefined) {
-      this.finished = new FormControl(null)
+      this.finished = new FormControl(null);
     } else {
       this.finished = new FormControl(new Date(this.data.finished.toDate()));
     }
   }
-  
-  setForm () {
+
+  setForm() {
     this.isStarted();
     this.isFinished();
     this.form = this.formbuilder.group({
@@ -75,5 +77,4 @@ export class SiteFormComponent implements OnInit {
   submit() {
     this.dialogRef.close({ ...this.data, ...this.form.value });
   }
-
 }

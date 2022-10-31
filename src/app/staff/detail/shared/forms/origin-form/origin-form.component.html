@@ -1,0 +1,64 @@
+<form [formGroup]="form" class="row">
+  <mat-form-field appearance="fill">
+    <mat-label>Ethnic Origin</mat-label>
+    <mat-select formControlName="ethnic_origin">
+      <mat-option>-- None --</mat-option>
+      <mat-optgroup *ngFor="let group of originGroup$" [label]="group.name" class="text-capitalize"
+        [disabled]="group.disabled">
+        <mat-option *ngFor="let origin of group.origins" [value]="origin.value" class="text-capitalize">
+          {{origin.value}}
+        </mat-option>
+      </mat-optgroup>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Choose start date</mat-label>
+    <div *ngIf="data.date_of_birth === undefined; then noDate else withDate"></div>
+    <ng-template #noDate>
+      <input matInput required [matDatepicker]="startdatepicker" formControlName="dobControl">
+    </ng-template>
+    <ng-template #withDate>
+      <input matInput required [matDatepicker]="startdatepicker" formControlName="dobControl"
+        [value]="dobControl.value">
+    </ng-template>
+    <mat-hint>DD/MM/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="startdatepicker"></mat-datepicker-toggle>
+    <mat-datepicker #startdatepicker>
+      <mat-datepicker-toggle matSuffix [for]="startdatepicker">
+        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+      </mat-datepicker-toggle>
+    </mat-datepicker>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Gender</mat-label>
+    <mat-select formControlName="gender">
+      <mat-option *ngFor="let gender of gender$" [value]="gender.value" class="text-capitalize">
+        {{gender.value}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Place of Birth</mat-label>
+    <input required formControlName="place_of_birth" placeholder="London" type="text" matInput
+      class="text-capitalize" />
+  </mat-form-field>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Nationality</mat-label>
+    <input type="text" placeholder="Pick one" aria-label="Nationality" matInput [formControl]="nationalityControl"
+      [matAutocomplete]="auto">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name" class="text-capitalize">
+        {{option.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <div class="d-flex justify-content-end">
+    <button type="button" mat-raised-button (click)="submit()" color="primary" class="btn submit col-3">
+      Submit
+      <!-- [disabled]="!this.form.valid" -->
+    </button>
+    <button type="button" mat-raised-button (click)="close()" color="accent" class="btn submit col-3 ms-4">
+      Close
+    </button>
+  </div>
+</form>

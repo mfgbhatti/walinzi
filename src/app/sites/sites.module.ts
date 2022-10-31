@@ -23,7 +23,6 @@ import {
   TabChargedRatesFormComponent,
   TabPayRatesFormComponent
 } from 'src/app/sites';
-import { SiteService } from 'src/app/sites/shared';
 import { MaterialModule } from 'src/app/_shared';
 
 
@@ -55,7 +54,6 @@ import { MaterialModule } from 'src/app/_shared';
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
-    SiteService
   ]
 })
 export class SitesModule { }

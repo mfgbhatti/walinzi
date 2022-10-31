@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DetailRoutingModule } from './detail-routing.module';
 import { HttpClientModule } from '@angular/common/http';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 import {
   DetailComponent,
@@ -20,10 +21,14 @@ import {
   BankDetailComponent,
   PassportComponent,
   ExtraDocumentComponent,
-  VettingInfoComponent
+  VettingInfoComponent,
+  OriginFormComponent,
+  AddressFormComponent,
+  BankFormComponent
 } from 'src/app/staff/detail';
 import { ContactFormComponent } from '../shared';
 import { MaterialModule } from 'src/app/_shared';
+
 
 
 @NgModule({
@@ -44,7 +49,10 @@ import { MaterialModule } from 'src/app/_shared';
     BankDetailComponent,
     PassportComponent,
     ExtraDocumentComponent,
-    VettingInfoComponent
+    VettingInfoComponent,
+    OriginFormComponent,
+    AddressFormComponent,
+    BankFormComponent
   ],
   imports: [
     CommonModule,
@@ -54,5 +62,6 @@ import { MaterialModule } from 'src/app/_shared';
     ReactiveFormsModule,
     HttpClientModule
   ],
+  providers: [ {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},]
 })
 export class DetailModule {}

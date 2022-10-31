@@ -1,16 +1,4 @@
 <form [formGroup]="form">
-  <mat-form-field appearance="fill" *ngIf="client$ | async as clients">
-    <mat-label>Choose Client</mat-label>
-    <mat-select formControlName="relative_id">
-      <mat-option *ngFor="let client of clients" [value]="client.id" class="text-capitalize">
-        {{client.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Name</mat-label>
-    <input required formControlName="name" placeholder="Name" type="text" matInput class="text-capitalize"/>
-  </mat-form-field>
   <mat-form-field>
     <mat-label>Address</mat-label>
     <input formControlName="address" placeholder="12 High Road, High Barnet, London" type="text" matInput class="text-capitalize"/>
@@ -26,8 +14,8 @@
       type="text" />
   </mat-form-field>
   <mat-form-field appearance="fill">
-    <mat-label>Choose start date</mat-label>
-    <div *ngIf="data.started === undefined; then noDate else withDate"></div>
+    <mat-label>Choose Living from</mat-label>
+    <div *ngIf="data.living_from === undefined; then noDate else withDate"></div>
     <ng-template #noDate>
       <input matInput required [matDatepicker]="startdatepicker" formControlName="started">
     </ng-template>
@@ -44,7 +32,7 @@
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Choose finish date</mat-label>
-    <div *ngIf="data.finished === undefined; then thereIsNoDate else thereIsDate"></div>
+    <div *ngIf="data.living_to === undefined; then thereIsNoDate else thereIsDate"></div>
     <ng-template #thereIsNoDate>
       <input matInput [matDatepicker]="finishdatepicker" formControlName="finished">
     </ng-template>
@@ -59,12 +47,7 @@
       </mat-datepicker-toggle>
     </mat-datepicker>
   </mat-form-field>
-  <mat-radio-group formControlName="status" aria-labelledby="example-radio-group-label" class="example-radio-group">
-    <mat-radio-button class="radio-button" *ngFor="let x of status_list;" [value]="x.status">
-      {{x.label}}
-    </mat-radio-button>
-  </mat-radio-group>
-  <div class="d-flex justify-content-end mt-4">
+   <div class="d-flex justify-content-end mt-4">
     <button type="button" mat-raised-button (click)="submit()" color="primary" class="submit col-3"
       [disabled]="!this.form.valid">
       Submit

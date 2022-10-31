@@ -41,10 +41,6 @@ export class TabDetailComponent implements OnInit {
     this.contact$ = this.cps.get(this.clientId$);
   }
 
-  select(data: ExtraDetail) {
-    this.selected = data;
-  }
-
   addDetail() {
     const dialogRef = this.dialog.open(TabDetailFormComponent, {
       data: { relative_id: this.clientId$ },

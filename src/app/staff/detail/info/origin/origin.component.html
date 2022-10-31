@@ -26,23 +26,23 @@
       <tbody>
         <tr>
           <th scope="row">Gender</th>
-          <td>Empty</td>
+          <td class="text-capitalize">{{detail.gender}}</td>
         </tr>
         <tr>
           <th scope="row">Ethnic Origin</th>
-          <td>Empty</td>
+          <td class="text-capitalize">{{detail.ethnic_origin}}</td>
         </tr>
         <tr>
           <th scope="row">Date of Birth</th>
-          <td>Empty</td>
+          <td class="text-capitalize">{{detail.date_of_birth.toDate() | date: 'd MMM, y'}}</td>
         </tr>
         <tr>
           <th scope="row">Place of Birth</th>
-          <td>Empty</td>
+          <td class="text-capitalize">{{detail.place_of_birth}}</td>
         </tr>
         <tr>
           <th scope="row">Nationality</th>
-          <td>Empty</td>
+          <td class="text-capitalize">{{detail.nationality}}</td>
         </tr>
       </tbody>
     </table>

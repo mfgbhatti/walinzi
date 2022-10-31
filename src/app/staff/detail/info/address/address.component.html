@@ -8,44 +8,28 @@
 </div>
 <div *ngIf="staffAddress$ | async as addresses">
   <div *ngIf="addresses.length===0; then empty"></div>
-  <div *ngFor="let address of addresses">
-    <table class="table table-striped">
+  <div>
+    <table class="table table-striped" *ngFor="let address of addresses">
       <tbody>
         <tr>
-          <th scope="row">Current Address</th>
-          <td>Empty</td>
+          <th scope="row">Address</th>
+          <td>{{address.address}}</td>
         </tr>
         <tr>
           <th scope="row">Post Code</th>
-          <td>Empty</td>
+          <td>{{address.post_code}}</td>
         </tr>
         <tr>
           <th scope="row">City</th>
-          <td>Empty</td>
+          <td>{{address.city}}</td>
         </tr>
         <tr>
           <th scope="row">Living From</th>
-          <td>Empty</td>
-        </tr>
-        <tr>
-          <th scope="row">Previous Address</th>
-          <td>Empty</td>
-        </tr>
-        <tr>
-          <th scope="row">Post Code</th>
-          <td>Empty</td>
-        </tr>
-        <tr>
-          <th scope="row">City</th>
-          <td>Empty</td>
-        </tr>
-        <tr>
-          <th scope="row">Living From</th>
-          <td>Empty</td>
+          <td>{{address.living_from.toDate() | date: 'd MMM, y'}}</td>
         </tr>
         <tr>
           <th scope="row">Living To</th>
-          <td>Empty</td>
+          <td>{{address.living_to.toDate() | date: 'd MMM, y'}}</td>
         </tr>
       </tbody>
     </table>
