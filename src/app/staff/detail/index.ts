@@ -14,9 +14,12 @@ export { BankDetailComponent } from './info/bank-detail/bank-detail.component';
 export { PassportComponent } from './info/passport/passport.component';
 export { ExtraDocumentComponent } from './info/extra-document/extra-document.component';
 export { VettingInfoComponent } from './info/vetting/vetting.component';
+export { SiaDetailComponent } from './info/sia-detail/sia-detail.component';
 export {
   OriginFormComponent,
   AddressFormComponent,
   BankFormComponent,
-  VettingFormComponent
+  VettingFormComponent,
+  PassportFormComponent,
+  DocumentFormComponent,
 } from './shared';

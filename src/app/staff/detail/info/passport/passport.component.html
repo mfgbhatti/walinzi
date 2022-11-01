@@ -22,28 +22,27 @@
 <div *ngIf="passport$ | async as passport">
   <div *ngIf="passport.length===0; then empty"></div>
   <div *ngFor="let detail of passport">
-    <h2>Identity Documents</h2>
     <table class="table table-striped">
       <tbody>
         <tr>
           <th scope="row">Passport No</th>
-          <td>{{detail.passport_no}}</td>
+          <td class="text-uppercase">{{detail.passport_no}}</td>
         </tr>
         <tr>
           <th scope="row">Country of Isuse</th>
-          <td>{{detail.country_of_issue}}</td>
-        </tr>
-        <tr>
-          <th scope="row">Date of Issue</th>
-          <td>{{detail.issued}}</td>
-        </tr>
-        <tr>
-          <th scope="row">Date of Expiry</th>
-          <td>{{detail.expired}}</td>
+          <td class="text-capitalize">{{detail.country_of_issue}}</td>
         </tr>
         <tr>
           <th scope="row">Visa Needed</th>
-          <td>{{detail.visa}}</td>
+          <td class="text-capitalize">{{detail.visa}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Date of Issue</th>
+          <td>{{detail.issued.toDate() | date: 'dd MMM, y'}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Date of Expiry</th>
+          <td>{{detail.expired.toDate() | date: 'd MMM, y'}}</td>
         </tr>
       </tbody>
     </table>

@@ -12,19 +12,18 @@
     </mat-select>
   </mat-form-field>
   <mat-form-field appearance="fill">
-    <mat-label>Choose start date</mat-label>
-    <div *ngIf="data.date_of_birth === undefined; then noDate else withDate"></div>
-    <ng-template #noDate>
-      <input matInput required [matDatepicker]="startdatepicker" formControlName="dobControl">
+    <mat-label>Date of Birth</mat-label>
+    <div *ngIf="data.date_of_birth === undefined; then thereIsNoDate else thereIsDate"></div>
+    <ng-template #thereIsNoDate>
+      <input matInput [matDatepicker]="finishdatepicker" formControlName="date_of_birth">
     </ng-template>
-    <ng-template #withDate>
-      <input matInput required [matDatepicker]="startdatepicker" formControlName="dobControl"
-        [value]="dobControl.value">
+    <ng-template #thereIsDate>
+      <input matInput [matDatepicker]="finishdatepicker" formControlName="date_of_birth" value="date_of_birth.value">
     </ng-template>
     <mat-hint>DD/MM/YYYY</mat-hint>
-    <mat-datepicker-toggle matSuffix [for]="startdatepicker"></mat-datepicker-toggle>
-    <mat-datepicker #startdatepicker>
-      <mat-datepicker-toggle matSuffix [for]="startdatepicker">
+    <mat-datepicker-toggle matSuffix [for]="finishdatepicker"></mat-datepicker-toggle>
+    <mat-datepicker #finishdatepicker>
+      <mat-datepicker-toggle matSuffix [for]="finishdatepicker">
         <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
       </mat-datepicker-toggle>
     </mat-datepicker>
@@ -44,7 +43,7 @@
   </mat-form-field>
   <mat-form-field class="example-full-width" appearance="fill">
     <mat-label>Nationality</mat-label>
-    <input type="text" placeholder="Pick one" aria-label="Nationality" matInput [formControl]="nationalityControl"
+    <input type="text" placeholder="Pick Country" aria-label="Nationality" matInput formControlName="nationality"
       [matAutocomplete]="auto">
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
       <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name" class="text-capitalize">
@@ -53,9 +52,8 @@
     </mat-autocomplete>
   </mat-form-field>
   <div class="d-flex justify-content-end">
-    <button type="button" mat-raised-button (click)="submit()" color="primary" class="btn submit col-3">
+    <button type="button" mat-raised-button (click)="submit()" color="primary" class="btn submit col-3" [disabled]="!this.form.valid">
       Submit
-      <!-- [disabled]="!this.form.valid" -->
     </button>
     <button type="button" mat-raised-button (click)="close()" color="accent" class="btn submit col-3 ms-4">
       Close

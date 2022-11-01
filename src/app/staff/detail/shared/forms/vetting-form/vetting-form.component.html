@@ -1,12 +1,12 @@
-<form [formGroup]="form">
+<form [formGroup]="form" class="row">
   <mat-form-field appearance="fill">
-    <mat-label>Choose Vetting Start</mat-label>
+    <mat-label>Vetting Start Date</mat-label>
     <div *ngIf="data.vetting_started === undefined; then noDate else withDate"></div>
     <ng-template #noDate>
-      <input matInput required [matDatepicker]="startdatepicker" formControlName="vettingStarted">
+      <input matInput [matDatepicker]="startdatepicker" formControlName="vetting_started">
     </ng-template>
     <ng-template #withDate>
-      <input matInput required [matDatepicker]="startdatepicker" formControlName="vettingStarted" [value]="vettingStarted.value">
+      <input matInput [matDatepicker]="startdatepicker" formControlName="vetting_started" value="vetting_started.value">
     </ng-template>
     <mat-hint>DD/MM/YYYY</mat-hint>
     <mat-datepicker-toggle matSuffix [for]="startdatepicker"></mat-datepicker-toggle>
@@ -17,13 +17,13 @@
     </mat-datepicker>
   </mat-form-field>
   <mat-form-field appearance="fill">
-    <mat-label>Choose Contract Start</mat-label>
-    <div *ngIf="data.contract_started === undefined; then thereIsNoDate else thereIsDate"></div>
-    <ng-template #thereIsNoDate>
-      <input matInput [matDatepicker]="contractstartdate" formControlName="contractStarted">
+    <mat-label>Contract Start Date</mat-label>
+    <div *ngIf="data.contract_started === undefined; then thereNODate else thereIsDate"></div>
+    <ng-template #thereNODate>
+      <input matInput [matDatepicker]="contractstartdate" formControlName="contract_started">
     </ng-template>
     <ng-template #thereIsDate>
-      <input matInput [matDatepicker]="contractstartdate" formControlName="contractStarted" [value]="contractStarted.value">
+      <input matInput [matDatepicker]="contractstartdate" formControlName="contract_started" value="contract_started.value">
     </ng-template>
     <mat-hint>DD/MM/YYYY</mat-hint>
     <mat-datepicker-toggle matSuffix [for]="contractstartdate"></mat-datepicker-toggle>
@@ -34,18 +34,18 @@
     </mat-datepicker>
   </mat-form-field>
   <mat-form-field appearance="fill">
-    <mat-label>Choose Contract Start</mat-label>
-    <div *ngIf="data.contract_finished === undefined; then thereIsNoDate else thereIsDate"></div>
-    <ng-template #thereIsNoDate>
-      <input matInput [matDatepicker]="finishdatepicker" formControlName="contractFinished">
+    <mat-label>Contract Finished Date</mat-label>
+    <div *ngIf="data.contract_finished === undefined; then thereisNoDate else thereIsADate"></div>
+    <ng-template #thereisNoDate>
+      <input matInput [matDatepicker]="contractfinishdate" formControlName="contract_finished">
     </ng-template>
-    <ng-template #thereIsDate>
-      <input matInput [matDatepicker]="finishdatepicker" formControlName="contractFinished" [value]="contractFinished.value">
+    <ng-template #thereIsADate>
+      <input matInput [matDatepicker]="contractfinishdate" formControlName="contract_finished" value="contract_finished.value">
     </ng-template>
     <mat-hint>DD/MM/YYYY</mat-hint>
-    <mat-datepicker-toggle matSuffix [for]="finishdatepicker"></mat-datepicker-toggle>
-    <mat-datepicker #finishdatepicker>
-      <mat-datepicker-toggle matSuffix [for]="finishdatepicker">
+    <mat-datepicker-toggle matSuffix [for]="contractfinishdate"></mat-datepicker-toggle>
+    <mat-datepicker #contractfinishdate>
+      <mat-datepicker-toggle matSuffix [for]="contractfinishdate">
         <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
       </mat-datepicker-toggle>
     </mat-datepicker>

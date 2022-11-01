@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {
-  FormControl,
+  UntypedFormControl,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
@@ -23,8 +23,8 @@ export class SiteFormComponent implements OnInit {
     { status: false, label: 'Inactive' },
   ];
   client$!: Observable<Client[]>;
-  started!: FormControl;
-  finished!: FormControl;
+  started!: UntypedFormControl;
+  finished!: UntypedFormControl;
 
   constructor(
     private readonly formbuilder: UntypedFormBuilder,
@@ -40,17 +40,17 @@ export class SiteFormComponent implements OnInit {
 
   isStarted() {
     if (this.data.started == undefined) {
-      this.started = new FormControl(new Date());
+      this.started = new UntypedFormControl(new Date());
     } else {
-      this.started = new FormControl(new Date(this.data.started.toDate()));
+      this.started = new UntypedFormControl(new Date(this.data.started.toDate()));
     }
   }
 
   isFinished() {
     if (this.data.finished == undefined) {
-      this.finished = new FormControl(null);
+      this.finished = new UntypedFormControl(null);
     } else {
-      this.finished = new FormControl(new Date(this.data.finished.toDate()));
+      this.finished = new UntypedFormControl(new Date(this.data.finished.toDate()));
     }
   }
 

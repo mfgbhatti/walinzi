@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {
-  FormControl,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
@@ -15,10 +14,6 @@ import { StaffVetting } from 'src/app/staff/shared';
 })
 export class VettingFormComponent implements OnInit {
   form!: UntypedFormGroup;
-  vettingStarted!: FormControl;
-  vettingFinished!: FormControl;
-  contractStarted!: FormControl;
-  contractFinished!: FormControl;
 
   constructor(
     private readonly formbuilder: UntypedFormBuilder,
@@ -28,6 +23,23 @@ export class VettingFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.setForm();
+    if (this.data.vetting_started == undefined) {
+      this.form.controls['vetting_started'].setValue(new Date());
+      this.form.controls['contract_started'].setValue(new Date());
+      this.form.controls['vetting_finished'].setValue(
+        new Date(this.addWeeks(12))
+      );
+    } else {
+      this.form.controls['vetting_finished'].setValue(
+        this.data.vetting_finished.toDate()
+      );
+      this.form.controls['vetting_started'].setValue(new Date(this.data.vetting_started.toDate()));
+      this.form.controls['contract_started'].setValue(new Date(this.data.contract_started.toDate()));
+
+    }
+    if(this.data.contract_finished !== null) {
+    this.form.controls['contract_finished'].setValue(new Date(this.data.contract_finished.toDate()));
+    }
   }
 
   addWeeks(weeks: number) {
@@ -36,61 +48,13 @@ export class VettingFormComponent implements OnInit {
     return result;
   }
 
-  isVettingStarted() {
-    if (this.data.vetting_started == undefined) {
-      this.vettingStarted = new FormControl(new Date());
-    } else {
-      this.vettingStarted = new FormControl(
-        new Date(this.data.vetting_started.toDate())
-      );
-    }
-  }
-
-  isVettingFinished() {
-    if (this.data.vetting_finished == undefined) {
-      this.vettingFinished = new FormControl(new Date(this.addWeeks(12)));
-    } else {
-      this.vettingFinished = new FormControl(
-        new Date(this.data.vetting_finished.toDate())
-      );
-    }
-  }
-
-  isContractStarted() {
-    if (this.data.contract_started == undefined) {
-      this.contractStarted = new FormControl(new Date());
-    } else {
-      this.contractStarted = new FormControl(
-        new Date(this.data.contract_started.toDate())
-      );
-    }
-  }
-
-  iscontractFinished() {
-    if (this.data.contract_finished == undefined) {
-      this.contractFinished = new FormControl(null);
-    } else {
-      this.contractFinished = new FormControl(
-        new Date(this.data.contract_finished.toDate())
-      );
-    }
-  }
-
-  startDates() {
-    this.isVettingStarted();
-    this.isVettingFinished();
-    this.isContractStarted();
-    this.iscontractFinished();
-  }
-
   setForm() {
-    this.startDates();
     this.form = this.formbuilder.group({
       relative_id: [this.data.relative_id, [Validators.required]],
-      vetting_started: [this.vettingStarted.value, [Validators.required]],
-      vetting_finished: [this.vettingFinished.value, [Validators.required]],
-      contract_started: [this.contractStarted.value, [Validators.required]],
-      contract_finished: [this.contractFinished.value, [Validators.required]],
+      vetting_started: [this.data.vetting_started, [Validators.required]],
+      vetting_finished: [this.data.vetting_finished, [Validators.required]],
+      contract_started: [this.data.contract_started, [Validators.required]],
+      contract_finished: [this.data.contract_finished],
       submitted: [true, [Validators.required]],
     });
   }

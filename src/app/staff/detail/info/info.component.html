@@ -2,14 +2,14 @@
 
   <div class="col">
     <app-origin [staffId]="staffId$"></app-origin>
-    <app-address [staffId]="staffId$"></app-address>
-    <app-bank-detail [staffId]="staffId$"></app-bank-detail>
+    <app-address [staffId]="staffId$" class="mt-4"></app-address>
+    <app-bank-detail [staffId]="staffId$" class="mt-4"></app-bank-detail>
   </div>
   <!-- next column  -->
   <div class="col ms-4">
     <app-info-vetting [staffId]="staffId$"></app-info-vetting>
-    <app-passport></app-passport>
-    <app-extra-document></app-extra-document>
+    <app-passport [staffId]="staffId$" class="mt-4"></app-passport>
+    <app-extra-document [staffId]="staffId$" class="mt-4"></app-extra-document>
 
     <div>
       <h2>SIA Details</h2>

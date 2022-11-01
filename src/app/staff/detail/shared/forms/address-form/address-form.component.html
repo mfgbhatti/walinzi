@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<form [formGroup]="form" class="row">
   <mat-form-field>
     <mat-label>Address</mat-label>
     <input formControlName="address" placeholder="12 High Road, High Barnet, London" type="text" matInput class="text-capitalize"/>
@@ -17,10 +17,10 @@
     <mat-label>Choose Living from</mat-label>
     <div *ngIf="data.living_from === undefined; then noDate else withDate"></div>
     <ng-template #noDate>
-      <input matInput required [matDatepicker]="startdatepicker" formControlName="started">
+      <input matInput required [matDatepicker]="startdatepicker" formControlName="living_from">
     </ng-template>
     <ng-template #withDate>
-      <input matInput required [matDatepicker]="startdatepicker" formControlName="started" [value]="started.value">
+      <input matInput required [matDatepicker]="startdatepicker" formControlName="living_from" value="living_from.value">
     </ng-template>
     <mat-hint>DD/MM/YYYY</mat-hint>
     <mat-datepicker-toggle matSuffix [for]="startdatepicker"></mat-datepicker-toggle>
@@ -34,10 +34,10 @@
     <mat-label>Choose finish date</mat-label>
     <div *ngIf="data.living_to === undefined; then thereIsNoDate else thereIsDate"></div>
     <ng-template #thereIsNoDate>
-      <input matInput [matDatepicker]="finishdatepicker" formControlName="finished">
+      <input matInput [matDatepicker]="finishdatepicker" formControlName="living_to">
     </ng-template>
     <ng-template #thereIsDate>
-      <input matInput [matDatepicker]="finishdatepicker" formControlName="finished" [value]="finished.value">
+      <input matInput [matDatepicker]="finishdatepicker" formControlName="living_to" value="living_to.value">
     </ng-template>
     <mat-hint>DD/MM/YYYY</mat-hint>
     <mat-datepicker-toggle matSuffix [for]="finishdatepicker"></mat-datepicker-toggle>

@@ -28,19 +28,19 @@
           <th scope="row">
             Vetting Start Date
           </th>
-          <td>{{detail.vetting_started}}</td>
+          <td>{{detail.vetting_started.toDate() | date: 'd MMM, y'}}</td>
         </tr>
         <tr>
           <th scope="row">Vetting End Date</th>
-          <td>{{detail.vetting_finished}}</td>
+          <td>{{detail.vetting_finished.toDate() | date: 'd MMM, y'}}</td>
         </tr>
         <tr>
           <th scope="row">Contract Start Date</th>
-          <td>{{detail.contract_started}}</td>
+          <td>{{detail.contract_started.toDate() | date: 'd MMM, y'}}</td>
         </tr>
         <tr>
           <th scope="row">Contract End Date</th>
-          <td>{{detail.contract_finished}}</td>
+          <td>{{(detail.contract_finished !== null) ? (detail.contract_finished.toDate() | date: 'd MMM, y'): ''}}</td>
         </tr>
       </tbody>
     </table>

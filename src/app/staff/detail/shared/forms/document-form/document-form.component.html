@@ -1,7 +1,11 @@
 <form [formGroup]="form" class="row">
   <mat-form-field appearance="fill">
-    <mat-label>Passport No.</mat-label>
-    <input formControlName="passport_no" placeholder="LXL00000" type="text" matInput class="text-uppercase"/>
+    <mat-label>Document Title</mat-label>
+    <input formControlName="title" placeholder="Driving Licence" type="text" matInput class="text-capitalize"/>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Document Number</mat-label>
+    <input formControlName="number" placeholder="XX000" type="text" matInput class="text-uppercase"/>
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Country of Issue</mat-label>
@@ -12,14 +16,6 @@
         {{option.name}}
       </mat-option>
     </mat-autocomplete>
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Visa Required</mat-label>
-    <mat-select formControlName="visa">
-      <mat-option *ngFor="let option of options" [value]="option" class="text-capitalize">
-        {{option}}
-      </mat-option>
-    </mat-select>
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Issue Date</mat-label>

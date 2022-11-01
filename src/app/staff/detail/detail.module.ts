@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DetailRoutingModule } from './detail-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 
+import { DetailRoutingModule } from './detail-routing.module';
 import {
   DetailComponent,
   InfoComponent,
@@ -25,11 +25,14 @@ import {
   OriginFormComponent,
   AddressFormComponent,
   BankFormComponent,
-  VettingFormComponent
+  VettingFormComponent,
+  PassportFormComponent,
+  DocumentFormComponent,
+  SiaDetailComponent
 } from 'src/app/staff/detail';
 import { ContactFormComponent } from '../shared';
 import { MaterialModule } from 'src/app/_shared';
-import { PassportFormComponent } from './shared/forms/passport-form/passport-form.component';
+
 
 
 
@@ -56,14 +59,16 @@ import { PassportFormComponent } from './shared/forms/passport-form/passport-for
     AddressFormComponent,
     BankFormComponent,
     VettingFormComponent,
-    PassportFormComponent
+    PassportFormComponent,
+    DocumentFormComponent,
+    SiaDetailComponent
   ],
   imports: [
     CommonModule,
-    DetailRoutingModule,
-    MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    DetailRoutingModule,
+    MaterialModule,
     HttpClientModule
   ],
   providers: [ {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},]

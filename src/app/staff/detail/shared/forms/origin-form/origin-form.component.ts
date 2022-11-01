@@ -1,6 +1,6 @@
-import { Component, Inject, inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
-  FormControl,
+  UntypedFormControl,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
@@ -24,8 +24,7 @@ import {
 })
 export class OriginFormComponent implements OnInit {
   form!: UntypedFormGroup;
-  dobControl!: FormControl;
-  nationalityControl!: FormControl;
+  birthDate!: UntypedFormControl;
 
   title$ = Titles;
   gender$ = Genders;
@@ -41,43 +40,20 @@ export class OriginFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.setForm();
-  }
-
-  setForm() {
-    this.setDate();
-    this.setNationality();
-    this.form = this.formBuilder.group({
-      relative_id: [this.data.relative_id, [Validators.required]],
-      gender: [this.data.gender, [Validators.required]],
-      ethnic_origin: [this.data.ethnic_origin, [Validators.required]],
-      place_of_birth: [this.data.place_of_birth, [Validators.required]],
-      nationality: [this.nationalityControl.value, [Validators.required]],
-      date_of_birth: [this.dobControl.value, [Validators.required]],
-      submitted: [true, [Validators.required]],
-    });
+    this.filteredOptions = this.form.controls['nationality'].valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value || ''))
+    );
   }
 
   setDate() {
     if (this.data.date_of_birth == undefined) {
-      this.dobControl = new FormControl(null);
+      this.birthDate = new UntypedFormControl(new Date());
     } else {
-      this.dobControl = new FormControl(
+      this.birthDate = new UntypedFormControl(
         new Date(this.data.date_of_birth.toDate())
       );
     }
-  }
-
-  setNationality() {
-    if (this.data.nationality == undefined) {
-      this.nationalityControl = new FormControl('');
-    } else {
-      this.nationalityControl = new FormControl(this.data.nationality);
-    }
-
-    this.filteredOptions = this.nationalityControl.valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filter(value || ''))
-    );
   }
 
   private _filter(value: string) {
@@ -85,6 +61,19 @@ export class OriginFormComponent implements OnInit {
     return this.countrie$.filter((option) =>
       option.name.toLowerCase().includes(filterValue)
     );
+  }
+
+  setForm() {
+    this.setDate();
+    this.form = this.formBuilder.group({
+      relative_id: [this.data.relative_id, [Validators.required]],
+      gender: [this.data.gender, [Validators.required]],
+      ethnic_origin: [this.data.ethnic_origin, [Validators.required]],
+      place_of_birth: [this.data.place_of_birth, [Validators.required]],
+      nationality: [this.data.nationality, [Validators.required]],
+      date_of_birth: [this.birthDate.value, [Validators.required]],
+      submitted: [true, [Validators.required]],
+    });
   }
 
   submit() {

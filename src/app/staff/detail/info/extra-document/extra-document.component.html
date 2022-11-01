@@ -1,36 +1,34 @@
 <div class="d-flex justify-content-between mt-2">
-  <h1>Extra Documents</h1>
-  <div *ngIf="extraDocument$ | async as details;">
-    <div *ngIf="details.length===0; then add"></div>
-    <ng-template #add>
+  <h1>Other Documents</h1>
+  <div *ngIf="document$ | async as documents;">
       <div>
         <button class="btn" mat-raised-button color="primary" (click)="addDetail()">
           Add
         </button>
       </div>
-    </ng-template>
-    <div *ngFor="let detail of details">
-      <div *ngIf="detail.submitted === true; then edit"></div>
-      <ng-template #edit>
-        <button class="btn" mat-raised-button color="primary" (click)="editDetail(detail)">
-          Edit
-        </button>
-      </ng-template>
-    </div>
   </div>
 </div>
-<div *ngIf="extraDocument$ | async as details;">
-  <div *ngIf="details.length===0; then empty"></div>
-  <div *ngFor="let detail of details">
-    <table class="table table-striped">
+<div *ngIf="document$ | async as documents;">
+  <div *ngIf="documents.length===0; then empty"></div>
+  <div *ngFor="let document of documents">
+    <strong class="text-capitalize">{{document.title}}</strong>
+    <table class="table table-striped mt-2">
       <tbody>
         <tr>
-          <th scope="row">NI Number</th>
-          <td>Empty</td>
+          <th scope="row">Identity Number</th>
+          <td class="text-uppercase">{{document.number}}</td>
         </tr>
         <tr>
-          <th scope="row">Driving Licence</th>
-          <td>Empty</td>
+          <th scope="row">Country of Isuse</th>
+          <td class="text-capitalize">{{document.country_of_issue}}</td>
+        </tr>
+        <tr *ngIf="document.issued!==null">
+          <th scope="row">Date of Issue</th>
+          <td>{{(document.issued !==null) ? (document.issued.toDate() | date: 'dd MMM, y'): ''}}</td>
+        </tr>
+        <tr *ngIf="document.expired!==null">
+          <th scope="row" >Date of Expiry</th>
+          <td>{{(document.expired !==null) ? (document.expired.toDate() | date: 'dd MMM, y'): ''}}</td>
         </tr>
       </tbody>
     </table>

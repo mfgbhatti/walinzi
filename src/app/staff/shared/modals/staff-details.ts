@@ -32,9 +32,11 @@ export interface StaffBankDetail {
 export interface StaffDocument {
   id: string;
   relative_id: string;
-  ni_number: string;
-  driving_licence: string;
-  submitted: boolean;
+  title: string
+  number: string
+  country_of_issue: string;
+  issued: Timestamp;
+  expired: Timestamp;
 }
 export interface StaffPassport {
   id: string;
