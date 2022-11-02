@@ -1,24 +1,32 @@
 <div class="row mt-4 g-0">
-    <div class="col">
-      <div class="d-flex justify-content-between">
+  <div class="col">
+    <div class="d-flex justify-content-between">
       <h1>Notes</h1>
       <span>
-        <button mat-raised-button color="primary" (click)="addNotes()">
+        <button mat-raised-button color="primary" (click)="add()">
           Add
         </button>
       </span>
     </div>
-    </div><!-- top -->
-    <div *ngIf="note$ | async as notes">
-      <div *ngIf="notes.length == 0; then empty"></div>
-      <div *ngFor="let note of notes; let index = index">
-        <h2>{{index+1}}</h2>
-        <p>{{note.note}}</p>
-      </div>
+  </div><!-- top -->
+  <div *ngIf="note$ | async as notes">
+    <div *ngIf="notes.length === 0; then empty"></div>
+    <div *ngFor="let note of notes; let index = index">
+        <div class="d-flex justify-content-between">
+          <h1>{{index+1}}</h1>
+            <div>
+              <mat-icon mat-raised-button class="ms-4" aria-hidden="false" aria-label="create icon" fontIcon="create"
+                (click)="edit(note)" style="cursor: pointer"></mat-icon>
+              <mat-icon mat-raised-button class="ms-4" aria-hidden="false" aria-label="delete icon" fontIcon="delete"
+                (click)="delete(note.id)" style="cursor: pointer"></mat-icon>
+            </div>
+        </div>
+      <p>{{note.note}}</p>
     </div>
-    <ng-template #empty>
-      <div class="no-record">
-        There is no record to show.
-      </div>
-    </ng-template>
   </div>
+  <ng-template #empty>
+    <div class="no-record">
+      There is no record to show.
+    </div>
+  </ng-template>
+</div>

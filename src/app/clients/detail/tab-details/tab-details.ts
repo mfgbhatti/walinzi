@@ -89,6 +89,23 @@ export class TabDetailComponent implements OnInit {
       .subscribe();
   }
 
+  editContact(data: ContactPerson) {
+    const dialogRef = this.dialog.open(ContactFormComponent, {
+      data: { ...data },
+      width: '40%',
+      disableClose: true
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter(Boolean),
+        tap((data) => this.cps.update(data)),
+        takeUntil(this.destroy)
+      )
+      .subscribe();
+  }
+
   delete(id: string) {
     this.cps.delete(id);
   }

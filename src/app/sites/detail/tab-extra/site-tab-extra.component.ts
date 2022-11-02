@@ -70,4 +70,24 @@ export class SiteTabExtraComponent implements OnInit {
       )
       .subscribe();
   }
+  editContact(data: ContactPerson) {
+    const dialogRef = this.dialog.open(TabContactPersonFormComponent, {
+      data: { ...data },
+      width: '40%',
+      disableClose: true,
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter(Boolean),
+        tap((data) => this.cps.update(data)),
+        takeUntil(this.destroy)
+      )
+      .subscribe();
+  }
+
+  deleteContact(id: string) {
+    this.cps.delete(id);
+  }
 }

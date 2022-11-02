@@ -1,11 +1,11 @@
-<div class="row mt-4 g-0 align-items-start">
+<div class="row mt-4 g-0 align-items-start vh-100">
   <div class="col">
     <div class="d-flex justify-content-between">
       <h1>Other Information</h1>
       <div><button class="btn" mat-raised-button color="primary" (click)="addDetail()">Add</button></div>
     </div>
     <div *ngIf="detail$ | async as details;">
-      <div *ngIf="details.length==0; then empty"></div>
+      <div *ngIf="details.length===0; then empty"></div>
       <div *ngFor="let detail of details">
         <table class="table table-striped">
           <tbody>
@@ -21,6 +21,11 @@
         </table>
       </div>
     </div>
+    <ng-template #empty>
+      <div class="no-record">
+        There is no record to show.
+      </div>
+    </ng-template>
   </div>
   <div class="col ms-4">
     <!-- right side -->
@@ -32,28 +37,32 @@
         </button>
       </div>
     </div>
-    <div *ngIf="contact$ | async as contacts;">
-      <div *ngIf="contacts.length==0; then empty"></div>
+    <div class="col mt-4" *ngIf="contact$ | async as contacts;">
+      <div *ngIf="contacts.length===0; then empty"></div>
       <div *ngFor="let contact of contacts">
-        <h3>{{contact.title}}&nbsp;{{contact.name}}</h3>
-        <table class="table table-striped">
-          <tbody>
-            <tr>
-              <th scope="row">Job Title</th>
-              <td class="text-end">{{contact.job}}</td>
-            </tr>
-            <tr>
-              <th scope="row">Phone Number</th>
-              <td class="text-end">{{contact.phone}}</td>
-            </tr>
-            <tr>
-              <th scope="row">Email</th>
-              <td class="text-end">{{contact.email}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+        <mat-card class="mat-elevation-z8 col-11 mt-4">
+          <mat-card-subtitle>{{contact.job}}</mat-card-subtitle>
+          <mat-card-title class="text-capitalize">{{contact.title}}&nbsp;{{contact.name}}</mat-card-title>
+          <mat-card-content class="d-flex">
+            <div class="d-flex mt-2">
+              <mat-icon>call</mat-icon>
+              <p class="ms-2 fs-6"><a href="tel:{{contact.phone}}">{{contact.phone}}</a></p>
+            </div>
+            <div class="d-flex mt-2 ms-4">
+              <mat-icon> email</mat-icon>
+              <p class="ms-2 fs-6 text-lowercase"><a href="mailto:{{contact.email}}">{{contact.email}}</a></p>
+            </div>
+          </mat-card-content>
+          <mat-divider inset></mat-divider>
+          <mat-card-actions class="d-flex justify-content-end">
+            <mat-icon mat-raised-button class="ms-4" aria-hidden="false" aria-label="create icon" fontIcon="create"
+            (click)="editContact(contact)" style="cursor: pointer"></mat-icon>
+            <mat-icon mat-raised-button class="ms-4" aria-hidden="false" aria-label="delete icon" fontIcon="delete"
+              (click)="deleteContact(contact.id)" style="cursor: pointer"></mat-icon>
+          </mat-card-actions>
+          <mat-card-footer>
+          </mat-card-footer>
+        </mat-card>
   </div>
   <!-- right side -->
   <ng-template #empty>

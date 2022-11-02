@@ -1,10 +1,10 @@
 export { MaterialModule } from './modules';
-export { Notes, ExtraDetail, ContactPerson, Country } from './modals';
+export { Notes, ExtraDetail, ContactPerson, Country, Licence } from './modals';
 export {
   NoteService,
   ContactPersonService,
   ExtraDetailService,
-  GetSiaDetailService,
+  SiaDetailService,
 } from './services';
 export { Destroy } from './class';
 

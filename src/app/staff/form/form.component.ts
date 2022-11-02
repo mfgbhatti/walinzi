@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { tap, takeUntil } from 'rxjs';
 
 import { Staff } from '../shared';
-import { Destroy, GetSiaDetailService, StaffPosition } from 'src/app/_shared';
+import { Destroy, SiaDetailService, StaffPosition } from 'src/app/_shared';
 import {
   Subcontractor,
   SubcontractorService,
@@ -38,7 +38,7 @@ export class FormComponent implements OnInit {
     private readonly formbuilder: UntypedFormBuilder,
     public readonly dialogRef: MatDialogRef<FormComponent>,
     private readonly subcontractService: SubcontractorService,
-    private readonly sia: GetSiaDetailService,
+    private readonly sia: SiaDetailService,
     @Inject(MAT_DIALOG_DATA) private readonly data: Staff,
     private readonly destroy: Destroy
   ) {}
