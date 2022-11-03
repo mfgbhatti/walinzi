@@ -18,6 +18,7 @@ import {
 import { catchError, Observable, throwError } from 'rxjs';
 import { Licence } from '../modals';
 
+type newLicence = Omit<Licence, 'id'>
 @Injectable({
   providedIn: 'any',
 })
@@ -55,7 +56,6 @@ export class SiaDetailService {
       }),
       responseType: 'text' as const,
     };
-
     return this.http
       .post(baseUrl, 'LicenseNo=' + number, httpOptions)
       .pipe(catchError(this.handleError));
@@ -64,7 +64,7 @@ export class SiaDetailService {
     //   console.log(new_data);
     // });
   }
-  add(data: Licence) {
+  add(data: newLicence) {
     try {
       addDoc(collection(this.firestore, this.path), data);
     } catch (err) {

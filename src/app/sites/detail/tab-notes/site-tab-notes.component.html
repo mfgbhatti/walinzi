@@ -10,7 +10,7 @@
   </div>
   </div><!-- top -->
   <div *ngIf="note$ | async as notes">
-    <div *ngIf="notes.length == 0; then empty"></div>
+    <div *ngIf="notes.length === 0; then empty"></div>
     <div *ngFor="let note of notes; let index = index">
       <h2>{{index+1}}</h2>
       <p>{{note.note}}</p>

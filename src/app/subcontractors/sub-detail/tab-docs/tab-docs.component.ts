@@ -1,15 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-tab-docs',
   templateUrl: './tab-docs.component.html',
-  styleUrls: ['./tab-docs.component.scss']
+  styleUrls: ['./tab-docs.component.scss'],
 })
-export class TabDocsComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+export class TabDocsComponent {
+  constructor() {}
 }

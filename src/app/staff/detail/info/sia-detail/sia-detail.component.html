@@ -1,1 +1,27 @@
-<p>sia-detail works!</p>
+<div *ngIf="licence$ | async as licences;">
+  <div *ngIf="licences.length===0; then empty"></div>
+  <div *ngFor="let licence of licences">
+    <div *ngIf="licence.error; else card"></div>
+    <ng-template #card>
+      <mat-card class="mat-elevation-z8">
+        <mat-card-subtitle class="text-capitalize">sector:&nbsp;{{licence.sector}}</mat-card-subtitle>
+        <mat-card-title class="text-capitalize">{{licence.licence_no}}</mat-card-title>
+        <mat-card-content>
+          <p class="text-capitalize">exipry date:&nbsp;{{licence.expired?.toDate() | date: 'd MMM, y'}}</p>
+        </mat-card-content>
+        <mat-divider inset></mat-divider>
+        <mat-card-actions class="d-flex justify-content-end">
+          <mat-icon mat-raised-button class="ms-4" aria-hidden="false" aria-label="create icon" fontIcon="create"
+            (click)="editLicence(licence)" style="cursor: pointer"></mat-icon>
+          <mat-icon mat-raised-button class="ms-4" aria-hidden="false" aria-label="delete icon" fontIcon="delete"
+            (click)="deleteLicence(licence.id)" style="cursor: pointer"></mat-icon>
+        </mat-card-actions>
+        <mat-card-footer>
+        </mat-card-footer>
+      </mat-card>
+    </ng-template>
+  </div>
+  <ng-template #empty>
+    <div class="no-record">There is no record to show.</div>
+  </ng-template>
+</div>

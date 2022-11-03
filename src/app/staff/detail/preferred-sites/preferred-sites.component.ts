@@ -1,15 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-preferred-sites',
   templateUrl: './preferred-sites.component.html',
-  styleUrls: ['./preferred-sites.component.scss']
+  styleUrls: ['./preferred-sites.component.scss'],
 })
-export class PreferredSitesComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+export class PreferredSitesComponent {
+  constructor() {}
 }

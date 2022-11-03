@@ -2,7 +2,7 @@
   <mat-form-field appearance="fill">
     <mat-label>Title</mat-label>
     <mat-select formControlName="title" required>
-      <mat-option *ngFor="let title of titles" [value]="title">{{title}}</mat-option>
+      <mat-option *ngFor="let title of titles" [value]="title.value">{{title.value}}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field>
@@ -27,8 +27,8 @@
            formControlName="job"
            [matAutocomplete]="auto">
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-      <mat-option *ngFor="let option of jobs" [value]="option">
-        {{option}}
+      <mat-option *ngFor="let option of jobs" [value]="option.value">
+        {{option.value}}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>

@@ -4,5 +4,6 @@ export {
   BankFormComponent,
   VettingFormComponent,
   PassportFormComponent,
-  DocumentFormComponent
+  DocumentFormComponent,
+  LicenceFormComponent
 } from './forms';

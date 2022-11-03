@@ -1,11 +1,26 @@
 <div class="mt-4" *ngIf="staff$ | async as staffs">
   <div *ngFor="let staff of staffs">
-    <div>
-      <h1 class="text-capitalize">{{staff.first_name}}&nbsp;{{staff.last_name}}</h1>
-      <p>Pin:&nbsp;{{staff.pin}}</p>
-      <p>Email:&nbsp;{{staff.email}}</p>
-      <p>mobile:&nbsp;{{staff.mobile}}</p>
-      <p>Rate:&nbsp;{{staff.pay_rate}}</p>
+    <div class="d-flex">
+      <div class="col">
+        <h1 class="text-capitalize">{{staff.first_name}}&nbsp;{{staff.last_name}}</h1>
+        <p>Pin:&nbsp;{{staff.pin}}</p>
+        <p>Email:&nbsp;{{staff.email}}</p>
+        <p>mobile:&nbsp;{{staff.mobile}}</p>
+        <p>Rate:&nbsp;{{staff.pay_rate}}</p>
+      </div>
+      <app-sia-detail [staffId]="staffId" class="col"></app-sia-detail>
+    </div>
+    <div *ngIf="siaNumberError;" class="text-danger d-flex justify-content-center fs-5">
+      <div class="pt-2">
+        There is no record to show for this licence number. Make sure you have
+        entered a correct licence
+        number!
+      </div>
+      <div class="ms-4">
+        <button class="btn" mat-raised-button color="warn" (click)="editLicense()">
+          Edit
+        </button>
+      </div>
     </div>
   </div>
 </div>

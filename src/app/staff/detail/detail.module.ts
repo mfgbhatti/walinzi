@@ -32,6 +32,7 @@ import {
 } from 'src/app/staff/detail';
 import { ContactFormComponent } from '../shared';
 import { MaterialModule } from 'src/app/_shared';
+import { LicenceFormComponent } from './shared/forms/licence-form/licence-form.component';
 
 
 
@@ -61,7 +62,8 @@ import { MaterialModule } from 'src/app/_shared';
     VettingFormComponent,
     PassportFormComponent,
     DocumentFormComponent,
-    SiaDetailComponent
+    SiaDetailComponent,
+    LicenceFormComponent
   ],
   imports: [
     CommonModule,
