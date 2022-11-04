@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { map, Observable, startWith } from 'rxjs';
-import { StaffDocument } from 'src/app/staff/shared';
+import { StaffDocument } from 'src/app/control/staff/shared';
 import { Countries, Country } from 'src/app/_shared';
 
 @Component({

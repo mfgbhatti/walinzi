@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { filter, Observable, takeUntil, tap } from 'rxjs';
 
-import { OriginService, StaffOrigin } from 'src/app/staff/shared';
+import { OriginService, StaffOrigin } from 'src/app/control/staff/shared';
 import { Destroy } from 'src/app/_shared';
 import { OriginFormComponent } from '../../shared';
 

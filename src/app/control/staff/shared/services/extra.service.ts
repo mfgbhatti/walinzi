@@ -15,7 +15,7 @@ import {
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs/internal/Observable';
 
-import { StaffDocument } from 'src/app/staff/shared';
+import { StaffDocument } from 'src/app/control/staff/shared';
 
 
 @Injectable({

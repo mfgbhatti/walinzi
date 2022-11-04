@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { StaffBankDetail } from 'src/app/staff/shared';
+import { StaffBankDetail } from 'src/app/control/staff/shared';
 
 @Component({
   selector: 'app-bank-form',

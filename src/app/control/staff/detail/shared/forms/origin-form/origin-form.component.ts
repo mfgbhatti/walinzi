@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { map, Observable, startWith } from 'rxjs';
-import { StaffOrigin } from 'src/app/staff/shared';
+import { StaffOrigin } from 'src/app/control/staff/shared';
 
 import {
   Countries,

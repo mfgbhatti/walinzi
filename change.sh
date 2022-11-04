@@ -8,7 +8,7 @@ if [ -z "$PAT" ]; then
   grep -r -E "$REG" src/app
 else
   while [ "$i" -lt "${#result[@]}" ]; do
-  sed -E "s#$REG#$PAT#g" "${result[$i]}"
+  sed -i -E "s#$REG#$PAT#g" "${result[$i]}"
   i=$(( i + 1 ))
   done
 fi

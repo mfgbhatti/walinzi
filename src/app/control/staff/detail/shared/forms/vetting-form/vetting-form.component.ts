@@ -5,7 +5,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { StaffVetting } from 'src/app/staff/shared';
+import { StaffVetting } from 'src/app/control/staff/shared';
 
 @Component({
   selector: 'app-vetting-form',
