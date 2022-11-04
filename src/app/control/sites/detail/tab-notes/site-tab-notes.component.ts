@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { filter, Observable, takeUntil, tap } from 'rxjs';
 
-import { TabNotesFormComponent } from 'src/app/sites';
+import { TabNotesFormComponent } from 'src/app/control/sites';
 import { Destroy, Notes, NoteService } from 'src/app/_shared';
 
 @Component({

@@ -7,7 +7,7 @@ import {
   StaffComponent,
   ListComponent,
   FormComponent,
-} from 'src/app/staff';
+} from 'src/app/control/staff';
 import { MaterialModule } from 'src/app/_shared';
 import { HttpClientModule } from '@angular/common/http';
 

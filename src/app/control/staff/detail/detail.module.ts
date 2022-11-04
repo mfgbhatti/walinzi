@@ -29,7 +29,7 @@ import {
   PassportFormComponent,
   DocumentFormComponent,
   SiaDetailComponent
-} from 'src/app/staff/detail';
+} from 'src/app/control/staff/detail';
 import { ContactFormComponent } from '../shared';
 import { MaterialModule } from 'src/app/_shared';
 import { LicenceFormComponent } from './shared/forms/licence-form/licence-form.component';

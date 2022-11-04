@@ -14,10 +14,9 @@ import { MatCardModule } from '@angular/material/card';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
-import { NavBarComponent } from './control/nav-bar/nav-bar.component';
 import { SiaSearchComponent } from './sia-search/sia-search.component';
 @NgModule({
-  declarations: [AppComponent, NavBarComponent, SiaSearchComponent],
+  declarations: [AppComponent, SiaSearchComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

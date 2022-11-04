@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SubcontractorComponent } from './subcontractors.component';
-import { SubDetailComponent } from 'src/app/subcontractors'
+import { SubDetailComponent } from 'src/app/control/subcontractors'
 
 const routes: Routes = [
   { path: '', component: SubcontractorComponent, title: 'Walinzi - Subcontractors' },
