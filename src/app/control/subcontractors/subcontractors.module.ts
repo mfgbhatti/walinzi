@@ -14,7 +14,7 @@ import {
   TabDocsComponent,
   TabTimesheetsComponent,
   TabSitesComponent
-} from 'src/app/subcontractors';
+} from 'src/app/control/subcontractors';
 import { MaterialModule } from 'src/app/_shared';
 
 
