@@ -4,9 +4,9 @@ import { Observable } from 'rxjs/internal/Observable';
 import { takeUntil, tap, filter } from 'rxjs/operators';
 
 import { SiteService, Site } from './shared';
-import { SiteFormComponent } from 'src/app/sites';
 import { Client, ClientService } from 'src/app/control/clients/shared';
-import { Destroy } from '../_shared';
+import { Destroy } from 'src/app/_shared';
+import { SiteFormComponent } from './form/site-form.component';
 
 @Component({
   selector: 'app-sites',

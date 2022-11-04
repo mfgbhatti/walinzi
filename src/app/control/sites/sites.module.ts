@@ -22,7 +22,7 @@ import {
   TabContactPersonFormComponent,
   TabChargedRatesFormComponent,
   TabPayRatesFormComponent
-} from 'src/app/sites';
+} from 'src/app/control/sites';
 import { MaterialModule } from 'src/app/_shared';
 
 
