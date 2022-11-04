@@ -15,8 +15,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 import { SiaSearchComponent } from './sia-search/sia-search.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
 @NgModule({
-  declarations: [AppComponent, SiaSearchComponent],
+  declarations: [AppComponent, SiaSearchComponent, NavBarComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

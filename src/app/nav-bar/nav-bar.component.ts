@@ -4,11 +4,11 @@ import { Observable } from 'rxjs/internal/Observable';
 import { map, shareReplay } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-control-nav-bar',
+  selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.scss'],
 })
-export class ControlNavBarComponent {
+export class NavBarComponent {
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(
