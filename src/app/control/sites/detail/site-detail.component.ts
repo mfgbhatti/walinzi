@@ -7,7 +7,7 @@ import { tap } from 'rxjs/internal/operators/tap';
 import { Observable } from 'rxjs/internal/Observable';
 
 import { Client, ClientService } from 'src/app/control/clients/shared';
-import { Site, SiteService } from 'src/app/sites/shared';
+import { Site, SiteService } from 'src/app/control/sites/shared';
 import { Destroy } from 'src/app/_shared';
 
 @Component({

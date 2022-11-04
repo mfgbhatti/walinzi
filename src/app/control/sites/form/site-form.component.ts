@@ -9,7 +9,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs/internal/Observable';
 
 import { Client, ClientService } from 'src/app/control/clients/shared';
-import { Site } from 'src/app/sites/shared';
+import { Site } from 'src/app/control/sites/shared';
 
 @Component({
   selector: 'app-site-form',

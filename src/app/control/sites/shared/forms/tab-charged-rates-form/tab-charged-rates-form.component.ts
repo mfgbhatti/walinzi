@@ -6,7 +6,7 @@ import {
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { ChargedRate } from 'src/app/sites/shared';
+import { ChargedRate } from 'src/app/control/sites/shared';
 import { StaffPosition } from 'src/app/_shared';
 
 @Component({

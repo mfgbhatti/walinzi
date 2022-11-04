@@ -6,7 +6,7 @@ import { filter, takeUntil, tap } from 'rxjs/operators';
 import {
   TabContactPersonFormComponent,
   TabExtraDetailFormComponent,
-} from 'src/app/sites/shared';
+} from 'src/app/control/sites/shared';
 import {
   ContactPerson,
   ContactPersonService,

@@ -15,7 +15,7 @@ import {
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs/internal/Observable';
 
-import { Site } from 'src/app/sites/shared';
+import { Site } from 'src/app/control/sites/shared';
 
 @Injectable({
   providedIn: 'any'

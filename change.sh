@@ -3,8 +3,12 @@ REG=$1
 PAT=$2
 mapfile -t result<<<"$(grep -r -E "$REG" src/app  | sed -E 's/(.*):.*/\1/')"
 i=0
-while [ "$i" -le "${#result[@]}" ]; do
-sed -n -i -E "s#$REG#$PAT#g" "${result[$i]}"
-i=$(( i + 1 ))
-done
-
+if [ -z "$PAT" ]; then
+  echo "checking existance"
+  grep -r -E "$REG" src/app
+else
+  while [ "$i" -lt "${#result[@]}" ]; do
+  sed -E "s#$REG#$PAT#g" "${result[$i]}"
+  i=$(( i + 1 ))
+  done
+fi

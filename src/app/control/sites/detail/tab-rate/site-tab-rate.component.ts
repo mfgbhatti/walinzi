@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { filter, Observable, Subject, takeUntil, tap } from 'rxjs';
+import { filter, Observable, takeUntil, tap } from 'rxjs';
 
-import { ChargedRate, PayRate, RatesService, TabChargedRatesFormComponent, TabPayRatesFormComponent } from 'src/app/sites/shared';
+import { ChargedRate, PayRate, RatesService, TabChargedRatesFormComponent, TabPayRatesFormComponent } from 'src/app/control/sites/shared';
 import { Destroy } from 'src/app/_shared';
 
 @Component({
