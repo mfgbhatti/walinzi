@@ -9,7 +9,7 @@ import { DocumentFormComponent } from '../../shared';
   selector: 'app-extra-document',
   templateUrl: './extra-document.component.html',
   styleUrls: ['./extra-document.component.scss'],
-  providers: [Destroy]
+  providers: [Destroy],
 })
 export class ExtraDocumentComponent implements OnInit {
   document$!: Observable<StaffDocument[]>;
@@ -55,5 +55,9 @@ export class ExtraDocumentComponent implements OnInit {
         takeUntil(this.destroy)
       )
       .subscribe();
+  }
+
+  delete(id: string) {
+    this.documentService.delete(id);
   }
 }

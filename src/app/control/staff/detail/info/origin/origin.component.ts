@@ -57,4 +57,8 @@ export class OriginComponent implements OnInit {
       )
       .subscribe();
   }
+
+  delete(id: string) {
+    this.originService.delete(id);
+  }
 }

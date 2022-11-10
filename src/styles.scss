@@ -10,3 +10,11 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+.myIcon {
+  transform: scale(1.5);
+  cursor: pointer;
+}
+.editIcon {
+  transform: scale(0.8);
+  cursor: pointer;
+}

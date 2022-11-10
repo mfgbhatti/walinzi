@@ -56,4 +56,8 @@ export class PassportComponent implements OnInit {
       )
       .subscribe();
   }
+
+  delete(id: string) {
+    this.passportService.delete(id);
+  }
 }

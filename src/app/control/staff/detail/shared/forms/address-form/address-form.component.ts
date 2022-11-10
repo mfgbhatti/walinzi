@@ -23,6 +23,20 @@ export class AddressFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.setForm();
+    if (
+      this.data.living_from == undefined ||
+      this.data.living_to == undefined
+    ) {
+      this.form.controls['living_from'].setValue(new Date());
+      this.form.controls['living_to'].setValue(new Date());
+    } else {
+      this.form.controls['living_from'].setValue(
+        new Date(this.data.living_from.toDate())
+      );
+      this.form.controls['living_to'].setValue(
+        new Date(this.data.living_to.toDate())
+      );
+    }
   }
 
   setForm() {

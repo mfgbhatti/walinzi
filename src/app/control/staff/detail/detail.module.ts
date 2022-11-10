@@ -33,6 +33,8 @@ import {
 import { ContactFormComponent } from '../shared';
 import { MaterialModule } from 'src/app/_shared';
 import { LicenceFormComponent } from './shared/forms/licence-form/licence-form.component';
+import { EmploymentFormComponent } from './shared/forms/employment-form/employment-form.component';
+import { EmploymentComponent } from './background/employment/employment.component';
 
 
 
@@ -63,7 +65,9 @@ import { LicenceFormComponent } from './shared/forms/licence-form/licence-form.c
     PassportFormComponent,
     DocumentFormComponent,
     SiaDetailComponent,
-    LicenceFormComponent
+    LicenceFormComponent,
+    EmploymentFormComponent,
+    EmploymentComponent
   ],
   imports: [
     CommonModule,

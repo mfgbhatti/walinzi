@@ -4,17 +4,17 @@
     <div *ngIf="passport.length===0; then add"></div>
     <ng-template #add>
       <div>
-        <button class="btn" mat-raised-button color="primary" (click)="addDetail()">
-          Add
-        </button>
+        <mat-icon mat-raised-button class="me-4 myIcon" aria-hidden="false" aria-label="add icon" fontIcon="add_box"
+        (click)="addDetail()" color="primary"></mat-icon>
       </div>
     </ng-template>
     <div *ngFor="let detail of passport">
       <div *ngIf="detail.submitted === true; then edit"></div>
       <ng-template #edit>
-        <button class="btn" mat-raised-button color="primary" (click)="editDetail(detail)">
-          Edit
-        </button>
+        <mat-icon mat-raised-button class="ms-4" aria-hidden="false" aria-label="create icon" fontIcon="create"
+        (click)="editDetail(detail)" style="cursor: pointer" color="primary"></mat-icon>
+        <mat-icon mat-raised-button class="ms-4" aria-hidden="false" aria-label="delete icon" fontIcon="delete"
+        (click)="delete(detail.id)" style="cursor: pointer" color="warn"></mat-icon>
       </ng-template>
     </div>
   </div>

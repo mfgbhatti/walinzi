@@ -16,4 +16,5 @@ export {
   StaffDocument,
   StaffPassport,
   StaffVetting,
+  StaffEmployment
 } from './modals';

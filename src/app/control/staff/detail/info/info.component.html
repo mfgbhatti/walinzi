@@ -1,5 +1,4 @@
 <div class="row mt-4 g-0 align-items-start">
-
   <div class="col">
     <app-origin [staffId]="staffId$"></app-origin>
     <app-address [staffId]="staffId$" class="mt-4"></app-address>
@@ -10,25 +9,5 @@
     <app-info-vetting [staffId]="staffId$"></app-info-vetting>
     <app-passport [staffId]="staffId$" class="mt-4"></app-passport>
     <app-extra-document [staffId]="staffId$" class="mt-4"></app-extra-document>
-    <div>
-      <h2>
-        Emergency Contacts
-      </h2>
-    </div>
-    <div>
-      <h2>
-        Tests
-      </h2>
-    </div>
-    <ng-template #add>
-      <div>
-        <button class="btn" mat-raised-button color="primary" (click)="addDetail()">
-          Add
-        </button>
-      </div>
-    </ng-template>
-    <ng-template #empty>
-      <div class="no-record">There is no record to show.</div>
-    </ng-template>
   </div>
 </div>

@@ -56,4 +56,8 @@ export class AddressComponent implements OnInit {
       )
       .subscribe();
   }
+
+  delete(id: string) {
+    this.addressService.delete(id);
+  }
 }

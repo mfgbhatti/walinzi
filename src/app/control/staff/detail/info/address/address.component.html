@@ -1,15 +1,19 @@
 <div class="d-flex justify-content-between mt-2">
   <h1>Address</h1>
   <div>
-    <button class="btn my-btn" mat-raised-button color="primary" (click)="addDetail()">
-      Add
-    </button>
+    <mat-icon mat-raised-button class="ms-4 myIcon" aria-hidden="false" aria-label="add icon" fontIcon="add_box"
+    (click)="addDetail()" color="primary"></mat-icon>
   </div>
 </div>
 <div *ngIf="staffAddress$ | async as addresses">
   <div *ngIf="addresses.length===0; then empty"></div>
-  <div>
-    <table class="table table-striped" *ngFor="let address of addresses">
+  <div *ngFor="let address of addresses; let index = index">
+    <span class="fs-5">Address No. {{index + 1}}</span>
+    <mat-icon mat-raised-button class="ms-4 editIcon" aria-hidden="false" aria-label="create icon" fontIcon="create"
+    (click)="editDetail(address)" color="primary"></mat-icon>
+    <mat-icon mat-raised-button class="ms-2 editIcon" aria-hidden="false" aria-label="delete icon" fontIcon="delete"
+    (click)="delete(address.id)" color="warn"></mat-icon>
+    <table class="table table-striped">
       <tbody>
         <tr>
           <th scope="row">Address</th>
