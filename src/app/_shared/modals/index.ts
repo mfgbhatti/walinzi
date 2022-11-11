@@ -1,5 +1,5 @@
-export { ContactPerson } from './contact-person';
-export { Notes } from './note';
-export { ExtraDetail } from './extra-detail';
-export { Country } from './country';
-export { Licence } from './licence';
+export { ContactPerson } from './contact-person.types';
+export { Notes } from './note.types';
+export { ExtraDetail } from './extra-detail.types';
+export { Country } from './country.types';
+export { Licence } from './licence.types';

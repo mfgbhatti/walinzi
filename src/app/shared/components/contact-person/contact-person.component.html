@@ -1,0 +1,41 @@
+<div class="d-flex justify-content-between">
+  <h1>Contact Person</h1>
+  <div>
+    <button class="btn my-btn" mat-raised-button color="primary" (click)="add()">
+      Add
+    </button>
+  </div>
+</div>
+<div class="col mt-4" *ngIf="contact$ | async as contacts;">
+  <div *ngIf="contacts.length===0; then empty"></div>
+  <div *ngFor="let contact of contacts">
+    <mat-card class="mat-elevation-z8 col-11 mt-4">
+      <mat-card-subtitle>{{contact.job}}</mat-card-subtitle>
+      <mat-card-title class="text-capitalize">{{contact.title}}&nbsp;{{contact.name}}</mat-card-title>
+      <mat-card-content class="d-flex">
+        <div class="d-flex mt-2">
+          <mat-icon>call</mat-icon>
+          <p class="ms-2 fs-6"><a href="tel:{{contact.phone}}">{{contact.phone}}</a></p>
+        </div>
+        <div class="d-flex mt-2 ms-4">
+          <mat-icon> email</mat-icon>
+          <p class="ms-2 fs-6 text-lowercase"><a href="mailto:{{contact.email}}">{{contact.email}}</a></p>
+        </div>
+      </mat-card-content>
+      <mat-divider inset></mat-divider>
+      <mat-card-actions class="d-flex justify-content-end">
+        <mat-icon mat-raised-button class="ms-4" aria-hidden="false" aria-label="create icon" fontIcon="create"
+        (click)="edit(contact)" style="cursor: pointer"></mat-icon>
+        <mat-icon mat-raised-button class="ms-4" aria-hidden="false" aria-label="delete icon" fontIcon="delete"
+          (click)="delete(contact.id)" style="cursor: pointer"></mat-icon>
+      </mat-card-actions>
+      <mat-card-footer>
+      </mat-card-footer>
+    </mat-card>
+</div>
+<!-- right side -->
+<ng-template #empty>
+<div class="no-record">
+  There is no record to show.
+</div>
+</ng-template>

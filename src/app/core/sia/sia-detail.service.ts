@@ -16,7 +16,7 @@ import {
   where,
 } from '@angular/fire/firestore';
 import { catchError, Observable, throwError } from 'rxjs';
-import { Licence } from '../modals';
+import { Licence } from '../../_shared/modals';
 
 type newLicence = Omit<Licence, 'id'>
 @Injectable({

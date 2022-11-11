@@ -8,7 +8,8 @@ import {
 import { ErrorStateMatcher } from '@angular/material/core';
 import { takeUntil, tap } from 'rxjs';
 
-import { Destroy, SiaDetailService } from '../_shared';
+import { Destroy } from '../shared/destroy.class';
+import { SiaDetailService } from 'src/app/core/sia/sia-detail.service'
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {

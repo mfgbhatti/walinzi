@@ -1,4 +1,6 @@
-import { Country } from "../modals";
+export interface Country {
+  name: string
+}
 
 export const Countries: Country[] = [
   {
