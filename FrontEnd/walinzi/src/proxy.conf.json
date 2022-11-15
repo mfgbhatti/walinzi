@@ -1,6 +1,15 @@
+
 {
-  "/sia/check_license": {
+  "/check_license": {
     "target": "https://services.sia.homeoffice.gov.uk/PublicRegister/SearchPublicRegisterByLicence",
+    "secure": false,
+    "pathRewrite": {
+      "^/check_license": ""
+    },
+    "changeOrigin": true
+  },
+  "/api": {
+    "target": "http://localhost:8000/",
     "secure": false,
     "pathRewrite": {
       "^/api": ""
