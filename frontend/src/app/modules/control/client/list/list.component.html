@@ -1,0 +1,28 @@
+<ng-container *ngIf="client$ | async as clients">
+  <ng-container *ngIf="clients.length; else noclients">
+    <ng-container *ngFor="let client of clients; let i = index; trackBy: trackByFn">
+      <!-- Group -->
+      <ng-container *ngIf="i === 0 || client.name.charAt(0) !== clients[i - 1].name.charAt(0)">
+        <div>
+          {{client.name.charAt(0)}}
+        </div>
+      </ng-container>
+      <!-- client -->
+      <a [ngClass]="{'hover:bg-gray-100 dark:hover:bg-hover': !selectedClient || selectedClient.id !== client.id,
+                          'bg-primary-50 dark:bg-hover': selectedClient && selectedClient.id === client.id}"
+        [routerLink]="['./', client.id]">
+        <div>
+        </div>
+        <div>
+          <div>{{client.name}}</div>
+          <div>{{client.phone}}</div>
+        </div>
+      </a>
+    </ng-container>
+  </ng-container>
+</ng-container>
+
+<!-- No clients -->
+<ng-template #noclients>
+  <div>There are no clients!</div>
+</ng-template>
