@@ -1,28 +1,46 @@
-<ng-container *ngIf="client$ | async as clients">
-  <ng-container *ngIf="clients.length; else noclients">
-    <ng-container *ngFor="let client of clients; let i = index; trackBy: trackByFn">
-      <!-- Group -->
-      <ng-container *ngIf="i === 0 || client.name.charAt(0) !== clients[i - 1].name.charAt(0)">
-        <div>
-          {{client.name.charAt(0)}}
-        </div>
+<header class="d-flex p-5">
+  <div class="row">
+    <div class="">
+      <div class="fs-2 fw-bolder">Clients</div>
+      <div class="ms-1 fs-6 pt-2 text-secondary">
+        <ng-container *ngIf="clientCount > 0">
+          {{clientCount}}
+        </ng-container>
+        {{clientCount | i18nPlural:{
+        '=0': 'No clients',
+        '=1': 'client',
+        'other': 'clients'
+        } }}
+      </div>
+    </div>
+  </div>
+</header>
+<div class="px-5">
+  <ng-container *ngIf="client$ | async as clients">
+    <ng-container *ngIf="clients.length; else noclients">
+      <ng-container *ngFor="let client of clients; let i = index; trackBy: trackByFn">
+        <!-- Group -->
+        <ng-container *ngIf="i === 0 || client.name.charAt(0) !== clients[i - 1].name.charAt(0)">
+          <div class="bg-light text-secondary text-uppercase fs-6 border-top border-bottom py-1">
+            {{client.name.charAt(0)}}
+          </div>
+        </ng-container>
+        <!-- client -->
+        <a [ngClass]="{'hover:bg-gray-100': !selectedClient || selectedClient.id !== client.id}"
+          [routerLink]="['./', client.id]">
+          <div>
+          </div>
+          <div class="border-bottom py-2">
+            <div class="text-capitalize">{{client.name}}</div>
+            <div class="text-secondary">{{client.display_name}}</div>
+          </div>
+        </a>
       </ng-container>
-      <!-- client -->
-      <a [ngClass]="{'hover:bg-gray-100 dark:hover:bg-hover': !selectedClient || selectedClient.id !== client.id,
-                          'bg-primary-50 dark:bg-hover': selectedClient && selectedClient.id === client.id}"
-        [routerLink]="['./', client.id]">
-        <div>
-        </div>
-        <div>
-          <div>{{client.name}}</div>
-          <div>{{client.phone}}</div>
-        </div>
-      </a>
     </ng-container>
   </ng-container>
-</ng-container>
 
-<!-- No clients -->
-<ng-template #noclients>
-  <div>There are no clients!</div>
-</ng-template>
+  <!-- No clients -->
+  <ng-template #noclients>
+    <div>There are no clients!</div>
+  </ng-template>
+</div>

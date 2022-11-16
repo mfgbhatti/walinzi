@@ -20,25 +20,25 @@ export class ClientsResolver implements Resolve<any> {
   }
 }
 
-// @Injectable({ providedIn: 'root' })
-// export class ClientResolver implements Resolve<any> {
-//   constructor(
-//     private readonly _clientService: ClientService,
-//     private readonly _router: Router
-//   ) {}
-//   resolve(
-//     route: ActivatedRouteSnapshot,
-//     state: RouterStateSnapshot
-//   ): Observable<Client> {
-//     return this._clientService
-//       .getClientById(route.paramMap.get('id') as string)
-//       .pipe(
-//         catchError((error) => {
-//           console.log(error);
-//           const parentUrl = state.url.split('/').slice(0, 1).join('/');
-//           this._router.navigateByUrl(parentUrl);
-//           return throwError(error);
-//         })
-//       );
-//   }
-// }
+@Injectable({ providedIn: 'root' })
+export class ClientResolver implements Resolve<any> {
+  constructor(
+    private readonly _clientService: ClientService,
+    private readonly _router: Router
+  ) {}
+  resolve(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<Client> {
+    return this._clientService
+      .getClientById(route.paramMap.get('id') as string)
+      .pipe(
+        catchError((error) => {
+          console.log(error);
+          const parentUrl = state.url.split('/').slice(0, 1).join('/');
+          this._router.navigateByUrl(parentUrl);
+          return throwError(error);
+        })
+      );
+  }
+}

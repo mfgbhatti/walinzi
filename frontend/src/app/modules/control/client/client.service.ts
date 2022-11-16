@@ -41,7 +41,8 @@ export class ClientService {
       .get<Client[]>(this.baseUrl + 'all', this.httpOptions)
       .pipe(
         tap((response) => {
-          this._clients.next(response);
+          const clients = response.sort((a, b) => a.name.localeCompare(b.name))
+          this._clients.next(clients);
         })
       );
   }

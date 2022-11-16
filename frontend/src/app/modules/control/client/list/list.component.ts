@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnInit,
   ViewEncapsulation,
@@ -27,11 +28,18 @@ export class ListComponent implements OnInit {
 
   constructor(
     private readonly destroy: Destroy,
-    private readonly _clientService: ClientService
+    private readonly _clientService: ClientService,
+    private readonly _changeRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.client$ = this._clientService.clients$;
+    this._clientService.clients$.pipe(takeUntil(this.destroy)).subscribe((clients)=> {
+      if(clients) {
+        this.clientCount = clients.length
+      }
+      this._changeRef.markForCheck();
+    })
     this._clientService.client$
       .pipe(takeUntil(this.destroy))
       .subscribe((client) => (this.selectedClient = client));
