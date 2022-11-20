@@ -29,7 +29,7 @@ export class ClientResolver implements Resolve<any> {
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<Client> {
+  ): Observable<Client | null> {
     return this._clientService
       .getClientById(route.paramMap.get('id') as string)
       .pipe(

@@ -14,8 +14,6 @@ export class ClientService {
     headers: new HttpHeaders({
       'Content-Type': 'application/json; charset=UTF-8',
       'Access-Control-Allow-Origin': '*',
-      'User-Agent':
-        'Mozilla/5.0 (X11; Linux x86_64; rv:106.0) Gecko/20100101 Firefox/106.0',
     }),
     responseType: 'json' as const,
   };
@@ -41,7 +39,7 @@ export class ClientService {
       .get<Client[]>(this.baseUrl + 'all', this.httpOptions)
       .pipe(
         tap((response) => {
-          const clients = response.sort((a, b) => a.name.localeCompare(b.name))
+          const clients = response.sort((a, b) => a.name.localeCompare(b.name));
           this._clients.next(clients);
         })
       );
@@ -67,7 +65,51 @@ export class ClientService {
   // search(query: string): Observable<Client[]> {
 
   // }
-  create(data: Client) {}
+  create() {
+    const client = {
+      "name": "xyz limited",
+      "detail": {
+        "display_name": "xyz",
+        "address": "22, high road, london, ll34rr",
+        "vat": "12345678",
+        "website": "xyz.com"
+      },
+        "notes": [{
+          "description": "this is an example for a note",
+          "label": "this will be label"
+        }],
+        "emails":[{
+          "email": "helpdesk@xyz.com",
+          "label": "helpdesk"
+        },
+        {
+          "email": "control@xyz.com",
+          "label": "control"
+        }],
+        "phone_numbers": [{
+          "phone_number": "0204765555",
+          "label": "helpdesk"
+        },
+        {
+          "phone_number": "0204765555",
+          "label": "control"
+        }]
+    }
+    return this.clients$.pipe(
+      take(1),
+      switchMap((clients) =>
+        this._httpClient
+          .post<Client>(this.baseUrl + 'create', client, this.httpOptions)
+          .pipe(
+            map((newClient) => {
+              const result = {...newClient, ...clients}
+              this._clients.next([result]);
+              return newClient;
+            })
+          )
+      )
+    );
+  }
   update(data: Client) {}
   delete(id: string) {}
 }

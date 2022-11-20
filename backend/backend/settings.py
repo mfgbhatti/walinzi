@@ -1,3 +1,4 @@
+"""main setting file"""
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -13,9 +14,21 @@ SECRET_KEY = "django-insecure-ccc6d!h@+#20rfq-@@l5k$jto3rv08%%+z_pt2z0q-qv(_op9e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+CSRF_USE_SESSIONS = False
+CSRF_COOKIE_HTTPONLY = False  # this is the default, and should be kept this way
+CSRF_COOKIE_NAME = 'XSRF-TOKEN'
+CSRF_HEADER_NAME = 'HTTP_X_XSRF_TOKEN'
+
 ALLOWED_HOSTS = []
 
 CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4200",
+    "http://127.0.0.1:4200",
+]
+
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:4200",
     "http://127.0.0.1:4200",
 ]
 
@@ -34,6 +47,8 @@ INSTALLED_APPS = [
     "corsheaders",
     # apps
     "clients.apps.ClientsConfig",
+    # nest_admin
+    "nested_admin",
 ]
 
 MIDDLEWARE = [
