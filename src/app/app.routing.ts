@@ -9,7 +9,7 @@ import { InitialDataResolver } from 'app/app.resolvers';
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 export const appRoutes: Route[] = [
     // Redirect empty path to '/example'
-    { path: '', pathMatch: 'full', redirectTo: 'example' },
+    { path: '', pathMatch: 'full', redirectTo: 'control/clients' },
 
     // Redirect signed in user to the '/example'
     //
@@ -122,14 +122,7 @@ export const appRoutes: Route[] = [
         },
         children: [
             {
-                path: 'example',
-                loadChildren: () =>
-                    import('app/modules/admin/example/example.module').then(
-                        (m) => m.ExampleModule
-                    ),
-            },
-            {
-                path: 'clients',
+                path: 'control/clients',
                 loadChildren: () =>
                     import('app/modules/admin/contacts/contacts.module').then(
                         (m) => m.ContactsModule
