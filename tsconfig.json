@@ -5,6 +5,7 @@
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "paths": {
+      "@fuse/*": ["src/@fuse/*"],
       "@core/*": ["src/app/core/*"],
       "@modules/*": ["src/app/modules/*"]
     },
