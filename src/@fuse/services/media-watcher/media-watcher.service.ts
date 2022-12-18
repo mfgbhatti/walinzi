@@ -4,10 +4,19 @@ import { map, Observable, ReplaySubject, switchMap } from 'rxjs';
 import { fromPairs } from 'lodash-es';
 import { FuseConfigService } from '@fuse/services/config';
 
+interface MediaQueries {
+    [alias: string]: string;
+  }
+
+  interface MediaChange {
+    matchingAliases: string[];
+    matchingQueries: MediaQueries;
+  }
+
 @Injectable()
 export class FuseMediaWatcherService
 {
-    private _onMediaChange: ReplaySubject<{ matchingAliases: string[]; matchingQueries: any }> = new ReplaySubject<{ matchingAliases: string[]; matchingQueries: any }>(1);
+    private _onMediaChange: ReplaySubject<MediaChange> = new ReplaySubject<MediaChange>(1);
 
     /**
      * Constructor
@@ -24,14 +33,14 @@ export class FuseMediaWatcherService
 
                     // Prepare the observable values and set their defaults
                     const matchingAliases: string[] = [];
-                    const matchingQueries: any = {};
+                    const matchingQueries: MediaQueries = {};
 
                     // Get the matching breakpoints and use them to fill the subject
-                    const matchingBreakpoints = Object.entries(state.breakpoints).filter(([query, matches]) => matches) ?? [];
+                    const matchingBreakpoints = Object.entries(state.breakpoints).filter(([ matches]) => matches) ?? [];
                     for ( const [query] of matchingBreakpoints )
                     {
                         // Find the alias of the matching query
-                        const matchingAlias = Object.entries(screens).find(([alias, q]) => q === query)[0];
+                        const matchingAlias = Object.entries(screens).find(([q]) => q === query)?.[0];
 
                         // Add the matching query to the observable values
                         if ( matchingAlias )
@@ -58,7 +67,7 @@ export class FuseMediaWatcherService
     /**
      * Getter for _onMediaChange
      */
-    get onMediaChange$(): Observable<{ matchingAliases: string[]; matchingQueries: any }>
+    get onMediaChange$(): Observable<MediaChange>
     {
         return this._onMediaChange.asObservable();
     }
