@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@angular/core';
 import { FuseNavigationItem } from '@fuse/components/navigation/navigation.types';
 
@@ -16,6 +14,7 @@ export class FuseNavigationService {
   /**
    * Constructor
    */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor() {}
 
   // -----------------------------------------------------------------------------------------------------

@@ -28,7 +28,11 @@ ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
-LOCAL_APPS = ["backend.users.apps.UsersConfig", "backend.common.apps.CommonConfig"]
+LOCAL_APPS = [
+    "backend.users.apps.UsersConfig",
+    "backend.common.apps.CommonConfig",
+    "backend.navigation.apps.NavigationConfig",
+]
 
 THIRD_PARTY_APPS = [
     "rest_framework",
