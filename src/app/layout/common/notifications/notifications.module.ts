@@ -5,26 +5,20 @@ import { PortalModule } from '@angular/cdk/portal';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { NotificationsComponent } from 'app/layout/common/notifications/notifications.component';
-import { SharedModule } from 'app/shared/shared.module';
+import { NotificationsComponent } from '@layout/common/notifications/notifications.component';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
-    declarations: [
-        NotificationsComponent
-    ],
-    imports     : [
-        RouterModule,
-        OverlayModule,
-        PortalModule,
-        MatButtonModule,
-        MatIconModule,
-        MatTooltipModule,
-        SharedModule
-    ],
-    exports     : [
-        NotificationsComponent
-    ]
+  declarations: [NotificationsComponent],
+  imports: [
+    RouterModule,
+    OverlayModule,
+    PortalModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    SharedModule,
+  ],
+  exports: [NotificationsComponent],
 })
-export class NotificationsModule
-{
-}
+export class NotificationsModule {}

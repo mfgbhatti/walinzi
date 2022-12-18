@@ -1,3 +1,5 @@
 import { InjectionToken } from '@angular/core';
 
-export const FUSE_APP_CONFIG = new InjectionToken<any>('FUSE_APP_CONFIG');
+import { AppConfig } from '@fuse/services/config/config.types';
+
+export const FUSE_APP_CONFIG = new InjectionToken<AppConfig>('FUSE_APP_CONFIG');

@@ -3,30 +3,33 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { FuseNavigationService, FuseVerticalNavigationComponent } from '@fuse/components/navigation';
-import { Navigation } from 'app/core/navigation/navigation.types';
-import { NavigationService } from 'app/core/navigation/navigation.service';
+import { Navigation } from '@core/navigation/navigation.types';
+import { NavigationService } from '@core/navigation/navigation.service';
+import { Destroy } from '@fuse/services/utils/destroy';
 
 @Component({
+    // eslint-disable-next-line @angular-eslint/component-selector
     selector     : 'dense-layout',
     templateUrl  : './dense.component.html',
+    providers: [Destroy],
     encapsulation: ViewEncapsulation.None
 })
-export class DenseLayoutComponent implements OnInit, OnDestroy
+export class DenseLayoutComponent implements OnInit
 {
-    isScreenSmall: boolean;
-    navigation: Navigation;
+    isScreenSmall!: boolean;
+    navigation!: Navigation;
     navigationAppearance: 'default' | 'dense' = 'dense';
-    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
      * Constructor
      */
     constructor(
-        private _activatedRoute: ActivatedRoute,
-        private _router: Router,
-        private _navigationService: NavigationService,
-        private _fuseMediaWatcherService: FuseMediaWatcherService,
-        private _fuseNavigationService: FuseNavigationService
+        private readonly _activatedRoute: ActivatedRoute,
+        private readonly _router: Router,
+        private readonly _navigationService: NavigationService,
+        private readonly _fuseMediaWatcherService: FuseMediaWatcherService,
+        private readonly _fuseNavigationService: FuseNavigationService,
+        private readonly _unsubscribeAll: Destroy
     )
     {
     }
@@ -70,16 +73,6 @@ export class DenseLayoutComponent implements OnInit, OnDestroy
                 // Change the navigation appearance
                 this.navigationAppearance = this.isScreenSmall ? 'default' : 'dense';
             });
-    }
-
-    /**
-     * On destroy
-     */
-    ngOnDestroy(): void
-    {
-        // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next(null);
-        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
