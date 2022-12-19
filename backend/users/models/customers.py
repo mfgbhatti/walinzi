@@ -2,7 +2,7 @@
 import uuid
 from django.db import models
 
-from backend.common.models import BaseModel, BaseAddress
+from backend.common.models import BaseModel, BaseAddress, BaseDetail
 
 
 class Customer(BaseModel):
@@ -36,3 +36,18 @@ class CustomerAddress(BaseAddress):
     def get_full_address(self):
         """Get full address."""
         return f"{self.street}, {self.post_code}, {self.city}."
+
+class CustomerDetail(BaseDetail):
+    """Customer details model."""
+
+    customer = models.OneToOneField(
+        Customer,
+        on_delete=models.CASCADE,
+        related_name="details",
+    )
+
+    class Meta:
+        """Meta class."""
+
+        verbose_name = "Customer Detail"
+        verbose_name_plural = "Customer Detail"

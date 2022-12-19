@@ -36,3 +36,22 @@ class BaseAddress(models.Model):
         """Meta option."""
 
         abstract = True
+
+
+class BaseDetail(models.Model):
+    """Base detail model."""
+
+    phone = models.CharField(
+        max_length=20,
+    )
+    email = models.EmailField(
+        max_length=100,
+    )
+    website = models.URLField(
+        max_length=100,
+    )
+
+    class Meta:
+        """Meta option."""
+
+        abstract = True
