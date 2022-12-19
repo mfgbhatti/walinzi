@@ -40,7 +40,7 @@ class BaseUser(AbstractUser, PermissionsMixin):
     customer = models.ForeignKey(
         Customer,
         on_delete=models.CASCADE,
-        related_name="company",
+        related_name="users",
         null=True,
         blank=True,
     )
