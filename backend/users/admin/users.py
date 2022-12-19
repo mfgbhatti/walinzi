@@ -16,7 +16,9 @@ class UserCreationForm(forms.ModelForm):
     fields, plus a repeated password."""
 
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
-    password2 = forms.CharField(label="Password confirmation", widget=forms.PasswordInput)
+    password2 = forms.CharField(
+        label="Password confirmation", widget=forms.PasswordInput
+    )
 
     class Meta:
         model = User
@@ -49,7 +51,15 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ("email", "password", "username", "is_active", "is_admin", "customer")
+        fields = (
+            "email",
+            "password",
+            "first_name",
+            "last_name",
+            "is_active",
+            "is_admin",
+            "customer",
+        )
 
 
 class UserAdmin(BaseUserAdmin):
@@ -64,8 +74,28 @@ class UserAdmin(BaseUserAdmin):
     list_filter = ("is_admin",)
     fieldsets = (
         (None, {"fields": ("email", "password")}),
-        ("Personal info", {"fields": ("username", "avatar", "is_active", "customer",)}),
-        ("Permissions", {"fields": ("is_admin", "groups", "user_permissions",)}),
+        (
+            "Personal info",
+            {
+                "fields": (
+                    "first_name",
+                    "last_name",
+                    "avatar",
+                    "is_active",
+                    "customer",
+                )
+            },
+        ),
+        (
+            "Permissions",
+            {
+                "fields": (
+                    "is_admin",
+                    "groups",
+                    "user_permissions",
+                )
+            },
+        ),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
     # overrides get_fieldsets to use this attribute when creating a user.
