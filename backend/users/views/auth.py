@@ -48,7 +48,7 @@ class LoginView(views.APIView):
         user = serializer.validated_data["user"]
         tokens = get_tokens_for_user(user)
         login(request, user)
-        response = Response(data={"access": tokens["access"]}, status=status.HTTP_202_ACCEPTED)
+        response = Response(data={"accessToken": tokens["access"]}, status=status.HTTP_202_ACCEPTED)
         expiry = datetime.datetime.now() + datetime.timedelta(days=1)
         response.set_cookie(
             key="refresh", value=tokens["refresh"], httponly=True, expires=expiry, secure=False, samesite=None

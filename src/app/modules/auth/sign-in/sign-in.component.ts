@@ -43,7 +43,6 @@ export class AuthSignInComponent implements OnInit {
     this.signInForm = this._formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
-      rememberMe: [''],
     });
   }
 
@@ -54,6 +53,21 @@ export class AuthSignInComponent implements OnInit {
   /**
    * Sign in
    */
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  signIn(): void {}
+
+  signIn(): void {
+    this._authService.signIn(this.signInForm.value).subscribe(
+      (response) => {
+        // Handle success
+        this.alert.type = 'success';
+        this.alert.message = 'You have been signed in successfully!';
+        this.showAlert = true;
+      },
+      (error) => {
+        // Handle error
+        this.alert.type = 'error';
+        this.alert.message = error.error.message;
+        this.showAlert = true;
+      }
+    );
+  }
 }
