@@ -41,6 +41,7 @@ THIRD_PARTY_APPS = [
     "nested_admin",
     # for token
     "rest_framework_simplejwt",
+    "rest_framework_simplejwt.token_blacklist",
 ]
 
 INSTALLED_APPS = [
