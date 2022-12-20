@@ -7,5 +7,5 @@ from config.env import env
 JWT_EXPIRATION_DELTA_SECONDS = env("JWT_EXPIRATION_DELTA_SECONDS", default=60 * 60 * 24 * 1)
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=JWT_EXPIRATION_DELTA_SECONDS),
+    # 'ACCESS_TOKEN_LIFETIME': timedelta(seconds=JWT_EXPIRATION_DELTA_SECONDS),
 }
