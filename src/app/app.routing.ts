@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@core/auth/guards/auth.guard';
 
 import { NoAuthGuard } from '@core/auth/guards/noAuth.guard';
+import { InitialDataResolver } from './app.resolvers';
 import { LayoutComponent } from './layout/layout.component';
 
 const routes: Routes = [
@@ -78,9 +79,9 @@ const routes: Routes = [
         path: '',
         canMatch: [AuthGuard],
         component: LayoutComponent,
-        // resolve: {
-        //     initialData: InitialDataResolver,
-        // },
+        resolve: {
+            initialData: InitialDataResolver,
+        },
         children: [
             {path: 'example', loadChildren: () => import('@modules/admin/example/example.module').then(m => m.ExampleModule)},
         ]
