@@ -2,6 +2,7 @@
 
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from ..models import AppConfig
 from ..serializers import AppConfigSerializer
@@ -16,4 +17,8 @@ class AppConfigViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """Return queryset."""
         return self.queryset.filter(user=self.request.user)
-    
+    def list(self, request, *args, **kwargs):
+        """List configs."""
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset.first())
+        return Response(serializer.data)
