@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { BooleanInput } from '@angular/cdk/coercion';
-import { Subject, takeUntil } from 'rxjs';
+import { takeUntil } from 'rxjs';
 import { User } from '@core/user/user.types';
 import { UserService } from '@core/user/user.service';
 import { Destroy } from '@fuse/services/utils/destroy';
