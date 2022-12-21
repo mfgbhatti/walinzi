@@ -9,7 +9,7 @@ const routes: Routes = [
   // Redirect empty path to '/home'
   { path: '', pathMatch: 'full', redirectTo: 'home' },
 
-  { path: 'signed-in-redirect', pathMatch: 'full', redirectTo: 'home' },
+  { path: 'signed-in-redirect', pathMatch: 'full', redirectTo: 'example' },
     // Landing routes
     {
       path: '',
@@ -73,6 +73,18 @@ const routes: Routes = [
     ],
   },
   // admin routes
+      // Admin routes
+      {
+        path: '',
+        canMatch: [AuthGuard],
+        component: LayoutComponent,
+        // resolve: {
+        //     initialData: InitialDataResolver,
+        // },
+        children: [
+            {path: 'example', loadChildren: () => import('@modules/admin/example/example.module').then(m => m.ExampleModule)},
+        ]
+    }
 
 ];
 
