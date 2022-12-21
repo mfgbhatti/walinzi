@@ -16,11 +16,9 @@ class NavigationViewSet(viewsets.ModelViewSet):
 
     def list(self, request, format=None):
         """List."""
-        # send all navigation items as defaultNavigation, compactNavigation
-        # and fullNavigation
         queryset = self.get_queryset()  # get all navigation items
         serializer = NavigationSerializer(queryset, many=True)
-        response = Response(
+        return Response(
             {
                 "compact": serializer.data,
                 "default": serializer.data,
@@ -28,4 +26,3 @@ class NavigationViewSet(viewsets.ModelViewSet):
                 "horizontal": serializer.data,
             }
         )
-        return response

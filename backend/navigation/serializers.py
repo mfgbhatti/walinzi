@@ -41,9 +41,11 @@ class ChildNavigationSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "type",
+            "title",
             # "main",
             # "hidden",
-            "active",
+            # "active",
+            "icon",
             # "disabled",
             # "tooltip",
             "link",
@@ -67,4 +69,4 @@ class NavigationSerializer(serializers.ModelSerializer):
         """Meta class."""
 
         model = MainNavigation
-        fields = ["id", "title", "subtitle", "type", "children"]
+        fields = ("id", "title", "icon", "subtitle", "type", "children",)
