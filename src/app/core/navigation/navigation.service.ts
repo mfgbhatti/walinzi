@@ -41,7 +41,6 @@ export class NavigationService
         return this._httpClient.get<Navigation>('api/navigation/').pipe(
             tap((navigation) => {
                 this._navigation.next(navigation);
-                console.log(navigation);
             })
         );
     }
