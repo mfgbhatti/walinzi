@@ -46,7 +46,6 @@ class MainNavigationAdmin(admin.ModelAdmin):
         """get subnavigation"""
         return ChildNavigation.objects.filter(main=obj).count()
 
-    get_subnavigation.short_description = "Subnavigation"
+    get_subnavigation.short_description = "children"
 admin.site.register(MainNavigation, MainNavigationAdmin)
 admin.site.register(ChildNavigation, ChildNavigationAdmin)
-# Register your models here.

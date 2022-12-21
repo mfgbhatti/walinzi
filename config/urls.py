@@ -20,4 +20,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("backend.users.urls.auth")),
     path("", include("backend.users.urls.shortcuts")),
+    path("", include("backend.navigation.urls")),
 ]

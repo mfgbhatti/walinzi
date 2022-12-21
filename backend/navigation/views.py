@@ -1,3 +1,13 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 
-# Create your views here.
+from .models import MainNavigation
+
+from .serializers import NavigationSerializer
+
+class NavigationViewSet(viewsets.ModelViewSet):
+    """Navigation viewset."""
+
+    serializer_class = NavigationSerializer
+    permission_classes = (IsAuthenticated,)
+    queryset = MainNavigation.objects.all()
