@@ -2,6 +2,7 @@
 
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from backend.users.models import BaseUser as User
 from backend.users.serializers.user import UserSerializer
@@ -15,6 +16,13 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """get queryset"""
         return User.objects.filter(id=self.request.user.id)
+
+    def list(self, request, format=None):
+        """list"""
+        instance = request.user
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
 
     def perform_create(self, serializer):
         """perform create"""
