@@ -12,7 +12,7 @@ class AppConfigSerializer(serializers.ModelSerializer):
         """Meta class."""
 
         model = AppConfig
-        fields = ("id", "user", "layout", "scheme", "theme")
+        fields = ("layout", "scheme", "theme")
 
     def create(self, validated_data):
         """Create a new user config."""
