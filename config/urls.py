@@ -22,4 +22,5 @@ urlpatterns = [
     path("", include("backend.users.urls.shortcuts")),
     path("", include("backend.navigation.urls")),
     path("", include("backend.users.urls.user")),
+    path("", include("backend.users.urls.configs")),
 ]
