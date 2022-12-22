@@ -11,16 +11,20 @@ const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
 
   { path: 'signed-in-redirect', pathMatch: 'full', redirectTo: 'example' },
-    // Landing routes
-    {
-      path: '',
-      component: LayoutComponent,
-      data: {
-          layout: 'empty'
+  // Landing routes
+  {
+    path: '',
+    component: LayoutComponent,
+    data: {
+      layout: 'empty',
+    },
+    children: [
+      {
+        path: 'home',
+        loadChildren: () =>
+          import('@modules/home/home.module').then((m) => m.LandingHomeModule),
       },
-      children: [
-          {path: 'home', loadChildren: () => import('@modules/home/home.module').then(m => m.LandingHomeModule)},
-      ]
+    ],
   },
 
   // Auth routes for guests
@@ -74,19 +78,26 @@ const routes: Routes = [
     ],
   },
   // admin routes
-      // Admin routes
+  // Admin routes
+  {
+    path: '',
+    canMatch: [AuthGuard],
+    component: LayoutComponent,
+    resolve: {
+      initialData: InitialDataResolver,
+    },
+    children: [
       {
-        path: '',
-        canMatch: [AuthGuard],
-        component: LayoutComponent,
-        resolve: {
-            initialData: InitialDataResolver,
-        },
-        children: [
-            {path: 'example', loadChildren: () => import('@modules/admin/example/example.module').then(m => m.ExampleModule)},
-        ]
-    }
-
+        path: 'example',
+        loadChildren: () =>
+          import('@modules/admin/example/example.module').then(
+            (m) => m.ExampleModule
+          ),
+      },
+      // Settings
+      {path: 'settings', loadChildren: () => import('@modules/admin/settings/settings.module').then(m => m.SettingsModule)},
+    ],
+  },
 ];
 
 @NgModule({

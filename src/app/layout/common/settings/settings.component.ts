@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs';
 import { FuseConfigService } from '@fuse/services/config';
+import { AppConfigService } from '@core/config/app.config.service';
 import {
   AppConfig,
   Scheme,
@@ -47,6 +48,7 @@ export class SettingsComponent implements OnInit {
   constructor(
     private readonly _router: Router,
     private readonly _fuseConfigService: FuseConfigService,
+    private readonly _appConfigService: AppConfigService,
     private readonly _unsubscribeAll: Destroy
   ) {}
 
@@ -65,6 +67,11 @@ export class SettingsComponent implements OnInit {
         // Store the config
         this.config = config;
       });
+
+      // this._appConfigService.config$.pipe(takeUntil(this._unsubscribeAll)).subscribe((config: AppConfig) => {
+      //   this.config = config;
+      //   console.log(config)
+      // });
   }
   // -----------------------------------------------------------------------------------------------------
   // @ Public methods
