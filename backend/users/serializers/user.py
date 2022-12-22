@@ -10,6 +10,11 @@ class UserSerializer(serializers.ModelSerializer):
 
     name = serializers.SerializerMethodField(read_only=True)
     status = serializers.SerializerMethodField(read_only=True)
+    customer = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    def get_customer(self, obj):
+        """get customer of user"""
+        return obj.customer.name
 
     def get_name(self, obj):
         """get full name of user"""
@@ -23,6 +28,9 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             "id",
+            "username",
+            "title",
+            "phone",
             "customer",
             "email",
             "name",

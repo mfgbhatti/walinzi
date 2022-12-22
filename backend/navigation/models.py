@@ -25,6 +25,8 @@ class MainNavigation(Navigation):
     class Meta:
         """Meta class."""
 
+        db_table = "main_navigation"
+
         verbose_name = "Main Navigation"
         verbose_name_plural = "Main Navigation"
 
@@ -51,6 +53,8 @@ class ChildNavigation(Navigation):
     class Meta:
         """Meta class."""
 
+        db_table = "child_navigation"
+
         verbose_name = "Child Navigation"
         verbose_name_plural = "Child Navigation"
 
@@ -68,9 +72,19 @@ class ChildNavigationClass(models.Model):
     icon = models.CharField(max_length=50, default="")
     wrapper = models.CharField(max_length=50, default="")
 
+    class Meta:
+        """Meta class."""
+
+        db_table = "child_navigation_class"
+
 
 class ChildNavigationBadge(models.Model):
     """model for child navigation badge"""
     title = models.CharField(max_length=50, blank=True)
     classes = models.CharField(max_length=50, default="")
     Navigation = models.OneToOneField(ChildNavigation, on_delete=models.CASCADE, null=False, related_name="badge")
+
+    class Meta:
+        """Meta class."""
+
+        db_table = "child_navigation_badge"

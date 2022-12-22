@@ -15,24 +15,25 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         """get queryset"""
-        return User.objects.filter(id=self.request.user.id)
+        if self.request.user.is_superuser:
+            return User.objects.all()
+        else:
+            return User.objects.filter(customer=self.request.user.customer)
 
     def list(self, request, format=None):
         """list"""
         instance = request.user
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
+class UsersViewSet(viewsets.ModelViewSet):
+    """viewset for users model"""
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (IsAuthenticated,)
 
-
-    def perform_create(self, serializer):
-        """perform create"""
-        serializer.save(customer=self.request.user.customer)
-
-    def perform_update(self, serializer):
-        """perform update"""
-        serializer.save(customer=self.request.user.customer)
-
-    def perform_destroy(self, instance):
-        """perform destroy"""
-        instance.is_active = False
-        instance.save()
+    def get_queryset(self):
+        """get queryset"""
+        if self.request.user.is_superuser:
+            return User.objects.all()
+        else:
+            return User.objects.filter(customer=self.request.user.customer)

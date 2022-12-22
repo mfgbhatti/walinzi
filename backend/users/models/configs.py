@@ -15,6 +15,8 @@ class AppConfig(models.Model):
     class Meta:
         """Meta options."""
 
+        db_table = "user_config"
+
         verbose_name = "App config"
         verbose_name_plural = "App configs"
 

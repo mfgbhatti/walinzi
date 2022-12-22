@@ -11,6 +11,13 @@ class Customer(BaseModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=80, default="")
 
+    class Meta:
+        """Meta class."""
+        db_table = "customers"
+
+        verbose_name = "Customer"
+        verbose_name_plural = "Customers"
+
     def __str__(self):
         return self.name
 
@@ -26,6 +33,8 @@ class CustomerAddress(BaseAddress):
 
     class Meta:
         """Meta class."""
+
+        db_table = "customer_address"
 
         verbose_name = "Customer Address"
         verbose_name_plural = "Customer Addresses"
@@ -48,6 +57,8 @@ class CustomerDetail(BaseDetail):
 
     class Meta:
         """Meta class."""
+
+        db_table = "customer_detail"
 
         verbose_name = "Customer Detail"
         verbose_name_plural = "Customer Detail"
