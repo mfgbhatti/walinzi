@@ -20,16 +20,6 @@ export class InitialDataResolver implements Resolve<any> {
     private readonly _userService: UserService
   ) {}
 
-  // -----------------------------------------------------------------------------------------------------
-  // @ Public methods
-  // -----------------------------------------------------------------------------------------------------
-
-  /**
-   * Use this resolver to resolve initial mock-api for the application
-   *
-   * @param route
-   * @param state
-   */
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
