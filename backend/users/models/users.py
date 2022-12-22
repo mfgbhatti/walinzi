@@ -49,6 +49,7 @@ class BaseUser(AbstractUser, PermissionsMixin):
     avatar = models.CharField(max_length=210, default="", blank=True, null=True)
     title = models.CharField(max_length=80, default="", blank=True)
     phone = models.CharField(max_length=10, default="", blank=True)
+    about = models.TextField(default="", blank=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
@@ -71,10 +72,6 @@ class BaseUser(AbstractUser, PermissionsMixin):
     def has_perm(self, perm, obj=None):
         """Does the user have a specific permission?"""
         return True
-
-    def get_customer(self):
-        """Get customer."""
-        return self.customer.name
 
     def has_module_perms(self, app_label):
         """Does the user have permissions to view the app `app_label`?"""

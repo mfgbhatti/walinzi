@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from backend.users.models import BaseUser as User
-from backend.users.serializers.user import UserSerializer
+from backend.users.serializers.user import UserSerializer, UserListSerializer
 
 class UserViewSet(viewsets.ModelViewSet):
     """viewset for user model"""
@@ -25,15 +25,14 @@ class UserViewSet(viewsets.ModelViewSet):
         instance = request.user
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
-class UsersViewSet(viewsets.ModelViewSet):
+
+
+class UserListViewSet(viewsets.ModelViewSet):
     """viewset for users model"""
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserListSerializer
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         """get queryset"""
-        if self.request.user.is_superuser:
-            return User.objects.all()
-        else:
-            return User.objects.filter(customer=self.request.user.customer)
+        return User.objects.filter(customer=self.request.user.customer)
