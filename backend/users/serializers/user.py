@@ -10,7 +10,6 @@ class UserSerializer(serializers.ModelSerializer):
 
     name = serializers.SerializerMethodField(read_only=True)
     status = serializers.SerializerMethodField(read_only=True)
-    customer = serializers.PrimaryKeyRelatedField(read_only=True)
 
     def get_customer(self, obj):
         """get customer of user"""
@@ -31,10 +30,8 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "title",
             "phone",
-            "customer",
             "email",
             "name",
             "avatar",
             "status",
         )
-
