@@ -10,6 +10,7 @@ class UserListSerializer(serializers.ModelSerializer):
 
     name = serializers.SerializerMethodField(read_only=True)
     status = serializers.SerializerMethodField(read_only=True)
+    customer = serializers.CharField(source="customer.name", read_only=True)
 
     def get_name(self, obj):
         """get full name of user"""
@@ -34,11 +35,13 @@ class UserListSerializer(serializers.ModelSerializer):
             "status",
         )
 
+
 class UserSerializer(serializers.ModelSerializer):
     """serializer for user"""
 
     name = serializers.SerializerMethodField(read_only=True)
     status = serializers.SerializerMethodField(read_only=True)
+    customer = serializers.CharField(source="customer.name", read_only=True)
 
     def get_name(self, obj):
         """get full name of user"""
@@ -52,11 +55,13 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             "id",
-            "username",
             "title",
+            "customer",
             "phone",
             "email",
             "name",
             "avatar",
             "status",
+            "is_superuser",
+            "about",
         )

@@ -1,14 +1,30 @@
 """admin for customers"""
 from django.contrib import admin
-from ..models import Customer, CustomerAddress, CustomerDetail
+from ..models import Customer, CustomerAddress, CustomerDetail, CustomerEmail, CustomerPhone, CustomerNotes
+
+class CustomerNotesInline(admin.TabularInline):
+    """Customer notes inline admin class."""
+    model = CustomerNotes
+    extra = 0
+
+class CustomerPhoneInline(admin.TabularInline):
+    """Customer phone inline admin class."""
+    model = CustomerPhone
+    extra = 0
+
+class CustomerEmailInline(admin.TabularInline):
+    """Customer email inline admin class."""
+    model = CustomerEmail
+    extra = 0
 
 class CustomerAddressInline(admin.TabularInline):
     """Customer address inline admin class."""
     model = CustomerAddress
     extra = 0
 
-class CustomerDetailInline(admin.TabularInline):
+class CustomerDetailAdmin(admin.ModelAdmin):
     """Customer detail inline admin class."""
+    inlines = [CustomerNotesInline, CustomerPhoneInline, CustomerEmailInline]
     model = CustomerDetail
     extra = 0
 
@@ -21,3 +37,4 @@ class CustomerAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Customer, CustomerAdmin)
+admin.site.register(CustomerDetail, CustomerDetailAdmin)

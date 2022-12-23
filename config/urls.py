@@ -15,7 +15,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-
+"""urls for customers their users and user configs, navigation, shorcuts and auth"""
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("backend.users.urls.auth")),
@@ -23,4 +23,5 @@ urlpatterns = [
     path("", include("backend.navigation.urls")),
     path("", include("backend.users.urls.user")),
     path("", include("backend.users.urls.configs")),
+    path("", include("backend.users.urls.customer")),
 ]

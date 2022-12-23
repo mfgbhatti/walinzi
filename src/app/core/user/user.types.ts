@@ -1,7 +1,7 @@
 export interface User
 {
     id: string;
-    customer: string;
+    customer?: string;
     email: string;
     username?: string;
     name: string;
@@ -10,4 +10,6 @@ export interface User
     role?: string;
     title?: string;
     phone?: string;
+    about?: string;
+    is_superuser?: boolean;
 }

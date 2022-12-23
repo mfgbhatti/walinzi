@@ -2,7 +2,7 @@
 
 from django.urls import path
 
-from backend.users.views.user import UserViewSet, UserListViewSet
+from backend.users.views.user import UserViewSet, UserListViewSet, UserByCustomerViewSet
 
 urlpatterns = [
     path("user/", UserViewSet.as_view({"get": "list",})),
