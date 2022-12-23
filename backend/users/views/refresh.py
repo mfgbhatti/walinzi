@@ -2,7 +2,7 @@
 import datetime
 from rest_framework_simplejwt.views import TokenRefreshView
 
-from ..serializers import CookieTokenRefreshSerializer
+from backend.users.serializers.refresh import CookieTokenRefreshSerializer
 
 class CookieTokenRefreshView(TokenRefreshView):
     def finalize_response(self, request, response, *args, **kwargs):

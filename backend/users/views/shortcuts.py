@@ -2,8 +2,8 @@
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 
-from ..models import UserShortcuts
-from ..serializers import UserShortcutsSerializer
+from backend.users.models.shortcuts import UserShortcuts
+from backend.users.serializers.shortcuts import UserShortcutsSerializer
 
 
 class UserShortcutsView(viewsets.ModelViewSet):

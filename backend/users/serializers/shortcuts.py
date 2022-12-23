@@ -2,7 +2,7 @@
 from rest_framework import serializers
 from rest_framework.fields import CurrentUserDefault
 
-from ..models import UserShortcuts
+from backend.users.models.shortcuts import UserShortcuts
 
 class UserShortcutsSerializer(serializers.ModelSerializer):
     """User shortcuts serializer."""

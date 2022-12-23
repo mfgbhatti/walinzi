@@ -1,3 +1,3 @@
 from rest_framework import serializers
 
-from ..models import Customer
+from backend.users.models.customers import Customer

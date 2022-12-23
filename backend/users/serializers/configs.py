@@ -2,7 +2,7 @@
 
 from rest_framework import serializers
 
-from ..models import AppConfig
+from backend.users.models.configs import AppConfig
 
 
 class AppConfigSerializer(serializers.ModelSerializer):

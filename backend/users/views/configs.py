@@ -4,8 +4,8 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from ..models import AppConfig
-from ..serializers import AppConfigSerializer
+from backend.users.models.configs import AppConfig
+from backend.users.serializers.configs import AppConfigSerializer
 
 class AppConfigViewSet(viewsets.ModelViewSet):
     """App config view set."""

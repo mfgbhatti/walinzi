@@ -6,7 +6,7 @@ from rest_framework import views, status
 from rest_framework.response import Response
 import datetime
 
-from ..serializers import LoginSerializer
+from backend.users.serializers.auth import LoginSerializer
 
 
 class LoginView(views.APIView):
