@@ -7,4 +7,5 @@ from backend.users.views.user import UserViewSet, UserListViewSet, UserByCustome
 urlpatterns = [
     path("user/", UserViewSet.as_view({"get": "list",})),
     path("users/", UserListViewSet.as_view({"get": "list", "post": "create",})),
+    path("users/<uuid:pk>/", UserByCustomerViewSet.as_view({"get": "list",})),
 ]
