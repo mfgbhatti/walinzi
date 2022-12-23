@@ -5,7 +5,7 @@ from django.db import models
 class Navigation(models.Model):
     """base navigation model."""
 
-    id = models.CharField(max_length=50, primary_key=True, default="", blank=False)
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=50, blank=True)
 
     icon = models.CharField(max_length=50, default="")
