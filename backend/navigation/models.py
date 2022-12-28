@@ -1,90 +1,57 @@
-"""Navigation models"""
+"""Navigation models."""
+from django.contrib.auth.models import Group
 from django.db import models
 
 
 class Navigation(models.Model):
-    """base navigation model."""
+    """Navigation item model."""
 
-    id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=50, blank=True)
+    TYPE_CHOICES = (
+        ("aside", "Aside"),
+        ("basic", "Basic"),
+        ("collapsable", "Collapsable"),
+        ("divider", "Divider"),
+        ("group", "Group"),
+        ("spacer", "Spacer"),
+    )
 
-    icon = models.CharField(max_length=50, default="")
-
-    class Meta:
-        """Meta class."""
-
-        abstract = True
-
-
-class MainNavigation(Navigation):
-    """Main navigation model."""
-    subtitle = models.CharField(max_length=50, blank=True)
-    type = models.CharField(max_length=15, default="group")
-    pass
-
-    class Meta:
-        """Meta class."""
-
-        db_table = "main_navigation"
-
-        verbose_name = "Main Navigation"
-        verbose_name_plural = "Main Navigation"
-
-    def __str__(self):
-        """Return the navigation."""
-        return self.title
-
-
-class ChildNavigation(Navigation):
-    type = models.CharField(max_length=15, blank=True, default="basic")
-    main = models.ForeignKey(MainNavigation, on_delete=models.CASCADE, null=False, related_name="children")
-    hidden = models.BooleanField(blank=True)
-    active = models.BooleanField(default=True)
-    disabled = models.BooleanField(blank=True)
-    tooltip = models.CharField(max_length=50, blank=True)
-    link = models.CharField(max_length=50, default="", blank=False)
-    fragment = models.CharField(max_length=50, blank=True)
-    preserveFragment = models.BooleanField(blank=True)
-    externalLink = models.BooleanField(blank=True)
-    target = models.CharField(max_length=50, blank=True)
-    exactMatch = models.BooleanField(blank=True)
-    meta = models.CharField(max_length=50, blank=True)
-
-    class Meta:
-        """Meta class."""
-
-        db_table = "child_navigation"
-
-        verbose_name = "Child Navigation"
-        verbose_name_plural = "Child Navigation"
+    TARGET_CHOICES = (
+        ("_blank", "Blank"),
+        ("_self", "Self"),
+        ("_parent", "Parent"),
+        ("_top", "Top"),
+    )
+    id = models.CharField(max_length=255, primary_key=True)
+    title = models.CharField(max_length=255)
+    subtitle = models.CharField(max_length=255, blank=True)
+    icon = models.CharField(max_length=255, default="")
+    link = models.CharField(max_length=255, blank=True)
+    type = models.CharField(max_length=255, choices=TYPE_CHOICES)
+    children = models.ForeignKey("self", blank=True, on_delete=models.CASCADE, default="", null=True)
+    visible_to = models.ForeignKey(Group, blank=True, on_delete=models.CASCADE, default="",null=True)
+    hidden = models.BooleanField(default=False)
+    active = models.BooleanField(default=False)
+    disabled = models.BooleanField(default=False)
+    tooltip = models.CharField(max_length=255, blank=True)
+    fragment = models.CharField(max_length=255, blank=True)
+    preserve_fragment = models.BooleanField(default=False)
+    query_params = models.TextField(blank=True)
+    query_params_handling = models.CharField(max_length=255, blank=True)
+    external_link = models.BooleanField(default=False)
+    target = models.CharField(max_length=255, blank=True, choices=TARGET_CHOICES)
+    exact_match = models.BooleanField(default=False)
+    is_active_match_options = models.TextField(blank=True)
+    function = models.TextField(blank=True)
+    classes = models.TextField(blank=True)
+    badge = models.TextField(blank=True)
+    meta = models.TextField(blank=True)
 
     def __str__(self):
-        """Return the navigation."""
         return self.title
 
-
-class ChildNavigationClass(models.Model):
-    """model for child navigation class."""
-
-    navigation = models.OneToOneField(ChildNavigation, on_delete=models.CASCADE, null=False, related_name="classes")
-    title = models.CharField(max_length=50, blank=True)
-    subtitle = models.CharField(max_length=50, blank=True)
-    icon = models.CharField(max_length=50, default="")
-    wrapper = models.CharField(max_length=50, default="")
-
     class Meta:
-        """Meta class."""
+        """Meta options."""
 
-        db_table = "child_navigation_class"
-
-
-class ChildNavigationBadge(models.Model):
-    """model for child navigation badge"""
-    title = models.CharField(max_length=50, blank=True)
-    classes = models.CharField(max_length=50, default="")
-    Navigation = models.OneToOneField(ChildNavigation, on_delete=models.CASCADE, null=False, related_name="badge")
-
-    class Meta:
-        """Meta class."""
-
-        db_table = "child_navigation_badge"
+        db_table = "navigations"
+        verbose_name = "Navigation Item"
+        verbose_name_plural = "Navigation Items"

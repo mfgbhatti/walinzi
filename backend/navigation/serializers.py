@@ -1,72 +1,109 @@
+"""Navigation serializers."""
 from rest_framework import serializers
 
-from .models import (
-    MainNavigation,
-    ChildNavigation,
-    ChildNavigationBadge,
-    ChildNavigationClass,
-)
-
-
-class ChildNavigationBadgeSerializer(serializers.ModelSerializer):
-    """Child navigation badge serializer."""
-
-    class Meta:
-        """Meta class."""
-
-        model = ChildNavigationBadge
-        fields = ("classes", "title")
-
-
-class ChildNavigationClassSerializer(serializers.ModelSerializer):
-    """Child navigation class serializer."""
-
-    class Meta:
-        """Meta class."""
-
-        model = ChildNavigationClass
-        fields = ("title", "subtitle", "icon", "wrapper")
-
-
-class ChildNavigationSerializer(serializers.ModelSerializer):
-    """Child navigation serializer."""
-
-    classes = ChildNavigationClassSerializer()
-    badge = ChildNavigationBadgeSerializer()
-
-    class Meta:
-        """Meta class."""
-
-        model = ChildNavigation
-        fields = [
-            "id",
-            "type",
-            "title",
-            # "main",
-            # "hidden",
-            # "active",
-            "icon",
-            # "disabled",
-            # "tooltip",
-            "link",
-            # "fragment",
-            # "preserveFragment",
-            # "externalLink",
-            # "target",
-            "exactMatch",
-            # "meta",
-            "classes",
-            "badge",
-        ]
+from .models import Navigation
 
 
 class NavigationSerializer(serializers.ModelSerializer):
     """Navigation serializer."""
 
-    children = ChildNavigationSerializer(many=True)
+    exactMatch = serializers.BooleanField(source="exact_match", read_only=True)
 
     class Meta:
         """Meta class."""
 
-        model = MainNavigation
-        fields = ("id", "title", "icon", "subtitle", "type", "children",)
+        depth = 1
+        model = Navigation
+        fields = [
+            "id",
+            "type",
+            "title",
+            "icon",
+            "link",
+            "exactMatch",
+            "classes",
+            "badge",
+            "children",
+            # "main",
+            # "hidden",
+            # "active",
+            # "disabled",
+            # "tooltip",
+            # "fragment",
+            # "preserveFragment",
+            # "externalLink",
+            # "target",
+            # "meta",
+        ]
+
+
+# from .models import (
+#     MainNavigation,
+#     ChildNavigation,
+#     ChildNavigationBadge,
+#     ChildNavigationClass,
+# )
+
+
+# class ChildNavigationBadgeSerializer(serializers.ModelSerializer):
+#     """Child navigation badge serializer."""
+
+#     class Meta:
+#         """Meta class."""
+
+#         model = ChildNavigationBadge
+#         fields = ("classes", "title")
+
+
+# class ChildNavigationClassSerializer(serializers.ModelSerializer):
+#     """Child navigation class serializer."""
+
+#     class Meta:
+#         """Meta class."""
+
+#         model = ChildNavigationClass
+#         fields = ("title", "subtitle", "icon", "wrapper")
+
+
+# class ChildNavigationSerializer(serializers.ModelSerializer):
+#     """Child navigation serializer."""
+
+#     classes = ChildNavigationClassSerializer()
+#     badge = ChildNavigationBadgeSerializer()
+
+#     class Meta:
+#         """Meta class."""
+
+#         model = ChildNavigation
+#         fields = [
+#             "id",
+#             "type",
+#             "title",
+#             # "main",
+#             # "hidden",
+#             # "active",
+#             "icon",
+#             # "disabled",
+#             # "tooltip",
+#             "link",
+#             # "fragment",
+#             # "preserveFragment",
+#             # "externalLink",
+#             # "target",
+#             "exactMatch",
+#             # "meta",
+#             "classes",
+#             "badge",
+#         ]
+
+
+# class NavigationSerializer(serializers.ModelSerializer):
+#     """Navigation serializer."""
+
+#     children = ChildNavigationSerializer(many=True)
+
+#     class Meta:
+#         """Meta class."""
+
+#         model = MainNavigation
+#         fields = ("id", "title", "icon", "subtitle", "type", "children",)
