@@ -17,7 +17,7 @@ class NavigationViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """Get queryset."""
         user_groups = self.request.user.groups.all()
-        return Navigation.objects.filter(visible_to__in=user_groups).prefetch_related("children")
+        return Navigation.objects.filter(visible_to__in=user_groups, parent=None).prefetch_related("children")
 
     def list(self, request, format=None):
         """List."""
