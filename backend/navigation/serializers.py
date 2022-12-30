@@ -1,5 +1,6 @@
 """Navigation serializers."""
 from rest_framework import serializers
+from rest_framework_recursive.fields import RecursiveField
 
 from .models import Navigation
 
@@ -8,6 +9,7 @@ class NavigationSerializer(serializers.ModelSerializer):
     """Navigation serializer."""
 
     exactMatch = serializers.BooleanField(source="exact_match", read_only=True)
+    children = RecursiveField(many=True, read_only=True)
 
     class Meta:
         """Meta class."""
