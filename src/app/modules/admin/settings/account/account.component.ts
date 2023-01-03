@@ -11,10 +11,13 @@ import {
 } from '@angular/forms';
 import { UserService } from '@core/user/user.service';
 import { User } from '@core/user/user.types';
+import { Destroy } from '@fuse/services/utils/destroy';
+import { takeUntil } from 'rxjs';
 
 @Component({
     selector: 'settings-account',
     templateUrl: './account.component.html',
+    providers: [Destroy],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -27,7 +30,8 @@ export class SettingsAccountComponent implements OnInit {
      */
     constructor(
         private readonly _formBuilder: UntypedFormBuilder,
-        private readonly _userService: UserService
+        private readonly _userService: UserService,
+        private readonly _unsubscribeAll: Destroy
     ) {}
 
     // -----------------------------------------------------------------------------------------------------
@@ -38,23 +42,29 @@ export class SettingsAccountComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-
+        this._userService.user$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((user) => (this.user = user));
+        this.buildForm();
     }
 
     // Create the form
     buildForm(): void {
         this.accountForm = this._formBuilder.group({
-            name: ['Brian Hughes'],
-            username: ['brianh'],
-            title: ['Senior Frontend Developer'],
-            company: ['YXZ Software'],
-            about: [
-                "Hey! This is Brian; husband, father and gamer. I'm mostly passionate about bleeding edge tech and chocolate! 🍫",
-            ],
-            email: ['hughes.brian@mail.com', Validators.email],
-            phone: ['121-490-33-12'],
-            country: ['usa'],
-            language: ['english'],
+            name: [this.user.name, Validators.required],
+            username: [this.user.username],
+            title: [this.user.title],
+            company: [this.user.customer],
+            about: [this.user.about],
+            email: [this.user.email, Validators.email],
+            phone: [this.user.phone],
         });
+    }
+
+    updateUserData(): void {
+        this._userService
+            .update({id: this.user.id,...this.accountForm.value})
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((user:User) => (this.user = user));
     }
 }

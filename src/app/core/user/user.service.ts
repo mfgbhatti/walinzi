@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable, ReplaySubject, tap } from 'rxjs';
 import { User } from 'app/core/user/user.types';
 
+
 @Injectable({
     providedIn: 'root'
 })
@@ -60,7 +61,7 @@ export class UserService
      */
     update(user: User): Observable<any>
     {
-        return this._httpClient.patch<User>('api/user/', {user}).pipe(
+        return this._httpClient.put<User>('api/update-user/' +user.id+ '/', {user}).pipe(
             map((response) => {
                 this._user.next(response);
             })

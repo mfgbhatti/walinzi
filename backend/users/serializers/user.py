@@ -69,6 +69,7 @@ class UserSerializer(serializers.ModelSerializer):
             "email",
             "name",
             "avatar",
+            "username",
             "status",
             "groups",
             "about",
@@ -91,6 +92,26 @@ class CreateUserSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "avatar",
+            "about",
+        )
+
+class UpdateUserSerializer(serializers.ModelSerializer):
+    """serializer for update user"""
+
+    name = serializers.SerializerMethodField(read_only=True)
+
+    def get_name(self, obj):
+        """get full name of user"""
+        return "{} {}".format(obj.first_name, obj.last_name)
+
+    class Meta:
+        model = User
+        fields = (
+            "title",
+            "phone",
+            "name",
+            "first_name",
+            "last_name",
             "about",
         )
 
