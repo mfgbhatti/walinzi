@@ -8,12 +8,14 @@ import { MatMenuModule } from '@angular/material/menu';
 import { FuseFullscreenModule } from '@fuse/components/fullscreen';
 import { FuseLoadingBarModule } from '@fuse/components/loading-bar';
 import { FuseNavigationModule } from '@fuse/components/navigation';
-import { NotificationsModule } from '@layout/common/notifications/notifications.module';
-import { SearchModule } from '@layout/common/search/search.module';
-import { ShortcutsModule } from '@layout/common/shortcuts/shortcuts.module';
-import { UserModule } from '@layout/common/user/user.module';
-import { SharedModule } from '@shared/shared.module';
-import { MaterialLayoutComponent } from '@layout/layouts/horizontal/material/material.component';
+import { LanguagesModule } from 'app/layout/common/languages/languages.module';
+import { MessagesModule } from 'app/layout/common/messages/messages.module';
+import { NotificationsModule } from 'app/layout/common/notifications/notifications.module';
+import { SearchModule } from 'app/layout/common/search/search.module';
+import { ShortcutsModule } from 'app/layout/common/shortcuts/shortcuts.module';
+import { UserModule } from 'app/layout/common/user/user.module';
+import { SharedModule } from 'app/shared/shared.module';
+import { MaterialLayoutComponent } from 'app/layout/layouts/horizontal/material/material.component';
 
 @NgModule({
     declarations: [
@@ -29,6 +31,8 @@ import { MaterialLayoutComponent } from '@layout/layouts/horizontal/material/mat
         FuseFullscreenModule,
         FuseLoadingBarModule,
         FuseNavigationModule,
+        LanguagesModule,
+        MessagesModule,
         NotificationsModule,
         SearchModule,
         ShortcutsModule,

@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChangeDetectionStrategy, Component, Inject, Input, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { FSDocument, FSDocumentElement } from '@fuse/components/fullscreen/fullscreen.types';
 
 @Component({
-    // eslint-disable-next-line @angular-eslint/component-selector
     selector       : 'fuse-fullscreen',
     templateUrl    : './fullscreen.component.html',
     encapsulation  : ViewEncapsulation.None,
@@ -13,11 +11,11 @@ import { FSDocument, FSDocumentElement } from '@fuse/components/fullscreen/fulls
 })
 export class FuseFullscreenComponent implements OnInit
 {
-    @Input() iconTpl!: TemplateRef<any>;
-    @Input() tooltip!: string;
+    @Input() iconTpl: TemplateRef<any>;
+    @Input() tooltip: string;
     private _fsDoc: FSDocument;
-    private _fsDocEl!: FSDocumentElement;
-    private _isFullscreen= false;
+    private _fsDocEl: FSDocumentElement;
+    private _isFullscreen: boolean = false;
 
     /**
      * Constructor
@@ -71,7 +69,7 @@ export class FuseFullscreenComponent implements OnInit
      *
      * @private
      */
-    private _getBrowserFullscreenElement(): Element | null
+    private _getBrowserFullscreenElement(): Element
     {
         if ( typeof this._fsDoc.fullscreenElement !== 'undefined' )
         {

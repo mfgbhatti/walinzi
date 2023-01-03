@@ -1,7 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FuseConfigService } from '@fuse/services/config/config.service';
 import { FUSE_APP_CONFIG } from '@fuse/services/config/config.constants';
-import { AppConfig } from '@fuse/services/config/config.types';
 
 @NgModule()
 export class FuseConfigModule
@@ -9,7 +8,7 @@ export class FuseConfigModule
     /**
      * Constructor
      */
-    constructor(private readonly _fuseConfigService: FuseConfigService)
+    constructor(private _fuseConfigService: FuseConfigService)
     {
     }
 
@@ -18,7 +17,7 @@ export class FuseConfigModule
      *
      * @param config
      */
-    static forRoot(config: AppConfig): ModuleWithProviders<FuseConfigModule>
+    static forRoot(config: any): ModuleWithProviders<FuseConfigModule>
     {
         return {
             ngModule : FuseConfigModule,

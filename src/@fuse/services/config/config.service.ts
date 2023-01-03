@@ -2,19 +2,18 @@ import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { merge } from 'lodash-es';
 import { FUSE_APP_CONFIG } from '@fuse/services/config/config.constants';
-import { AppConfig } from '@fuse/services/config/config.types';
 
 @Injectable({
     providedIn: 'root'
 })
 export class FuseConfigService
 {
-    private _config: BehaviorSubject<AppConfig>;
+    private _config: BehaviorSubject<any>;
 
     /**
      * Constructor
      */
-    constructor(@Inject(FUSE_APP_CONFIG) config: AppConfig)
+    constructor(@Inject(FUSE_APP_CONFIG) config: any)
     {
         // Private
         this._config = new BehaviorSubject(config);
@@ -27,7 +26,7 @@ export class FuseConfigService
     /**
      * Setter & getter for config
      */
-    set config(value: AppConfig)
+    set config(value: any)
     {
         // Merge the new config over to the current config
         const config = merge({}, this._config.getValue(), value);
@@ -37,7 +36,7 @@ export class FuseConfigService
     }
 
     // eslint-disable-next-line @typescript-eslint/member-ordering
-    get config$(): Observable<AppConfig>
+    get config$(): Observable<any>
     {
         return this._config.asObservable();
     }

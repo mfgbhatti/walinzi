@@ -1,47 +1,37 @@
 <svg
-    xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1440" height="1440">
-    <defs id="defs334">
-        <linearGradient id="base" x1="167.639" x2="165.832" y1="-52.401" y2="236.729" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#0d3c61" stop-opacity="1"/>
-            <stop offset="1" stop-color="#2a9ff4" stop-opacity="1"/>
-        </linearGradient>
-        <linearGradient href="#base" id="linearGradient4128" x1="102.338" x2="165.832" y1="-55.083" y2="236.729" gradientUnits="userSpaceOnUse"/>
-    </defs>
-    <g id="g329" transform="scale(1 2)">
-        <linearGradient id="g" x1="545.779" x2="891.408" y1="-273.529" y2="301.694" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#0d3c61" stop-opacity="1"/>
-            <stop offset="1" stop-color="#2196f3" stop-opacity="1"/>
-        </linearGradient>
-        <path id="polygon285" fill="url(#g)" fill-rule="evenodd" d="M964.7 720 720.6 366.4 476.3 719.8 0 16.4h354.8l134 212.5L718.5 0l230.6 228.4 134.8-212H1440z" clip-rule="evenodd"/>
-        <linearGradient id="f" x1="1005.684" x2="788.037" y1="177.738" y2="265.673" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#0d3c61" stop-opacity="1"/>
-            <stop offset="1" stop-color="#2196f3" stop-opacity="1"/>
-        </linearGradient>
-        <path fill="url(#f)" fill-rule="evenodd" d="M949.1 228.4c-36.5 103.4-73 206.8-109.6 310.3-39.6-57.4-79.3-114.8-118.9-172.2L718.5.1c76.8 76 153.7 152.2 230.6 228.3z" clip-rule="evenodd" display="inline"/>
-        <linearGradient id="e" x1="1382.265" x2="852.832" y1="656.132" y2="-191.138" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#0d3c61" stop-opacity="1"/>
-            <stop offset="1" stop-color="#2196f3" stop-opacity="1"/>
-        </linearGradient>
-        <path fill="url(#e)" fill-rule="evenodd" d="M1084.1 16.4H1440C1281.6 250.9 1123.1 485.5 964.7 720c39.8-234.5 79.6-469.1 119.4-703.6Z" clip-rule="evenodd" display="inline"/>
-        <linearGradient id="d" x1="254.666" x2="222.534" y1="-116.058" y2="804.081" gradientUnits="userSpaceOnUse" spreadMethod="pad">
-            <stop offset="0" stop-color="#0d3c61" stop-opacity="1"/>
-            <stop offset="1" stop-color="#2196f3" stop-opacity="1"/>
-        </linearGradient>
-        <path fill="url(#d)" fill-opacity="1" fill-rule="evenodd" d="M475.6 718.6 0 16.4h354.8c40.2 234.1 80.5 468.2 120.8 702.2z" clip-rule="evenodd" display="inline"/>
-        <linearGradient id="c" x1="629.367" x2="588.993" y1="64.441" y2="448.572" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#0d3c61" stop-opacity="1"/>
-            <stop offset="1" stop-color="#2196f3" stop-opacity="1"/>
-        </linearGradient>
-        <path fill="url(#c)" fill-rule="evenodd" d="M720.6 366.4 611.2 524.7l-122-296.2L718.5 0l2.1 366.4z" clip-rule="evenodd" display="inline"/>
-        <linearGradient id="b" x1="1289.884" x2="1200.894" y1="-114.926" y2="303.741" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#0d3c61" stop-opacity="1"/>
-            <stop offset="1" stop-color="#2196f3" stop-opacity="1"/>
-        </linearGradient>
-        <path fill="url(#b)" fill-rule="evenodd" d="M1083.9 16.4H1440l-148.9 220.4c-69-73.5-138.1-146.9-207.2-220.4Z" clip-rule="evenodd" display="inline"/>
-        <linearGradient id="a" x1="167.639" x2="165.832" y1="-52.401" y2="236.729" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#000" stop-opacity="1"/>
-            <stop offset="1" stop-color="#2196f3" stop-opacity="1"/>
-        </linearGradient>
-        <path fill="url(#linearGradient4128)" fill-opacity="1" fill-rule="evenodd" d="M151.8 240.5 0 16.4h354.8c-67.7 74.7-135.4 149.4-203 224.1z" clip-rule="evenodd" display="inline"/>
-    </g>
+    width="32"
+    height="32"
+    viewBox="0 0 32 32"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg">
+    <path
+        d="M16 6.75556V0L1.02839 14.6389C0.462304 15.1924 0.457197 16.1016 1.01703 16.6615L3.55556 19.2"
+        fill="#2196F3"/>
+    <path
+        d="M16 6.75556V0L30.9716 14.6389C31.5377 15.1924 31.5428 16.1016 30.983 16.6615L28.4444 19.2"
+        fill="#1878C6"/>
+    <path
+        d="M3.55556 19.2L9.6 13.1556H16V19.2"
+        fill="#1565C0"/>
+    <path
+        d="M28.4444 19.2L22.4 13.1556H16V19.2"
+        fill="#10519D"/>
+    <path
+        d="M16 25.9556H9.95555L12.9778 22.7556L16 25.9556Z"
+        fill="#1565C0"/>
+    <path
+        d="M16 32L22.0444 25.9556L16 25.9556V32Z"
+        fill="#1878C6"/>
+    <path
+        d="M16 32L9.95555 25.9556H16V32Z"
+        fill="#2196F3"/>
+    <path
+        d="M16 25.9556H22.0444L19.0222 22.7556L16 25.9556Z"
+        fill="#10519D"/>
+    <path
+        d="M7.72363 21.7502C7.18605 22.3085 7.19441 23.1944 7.74243 23.7424L9.95556 25.9556L16 19.5556V13.1556"
+        fill="#2196F3"/>
+    <path
+        d="M24.2764 21.7502C24.814 22.3085 24.8056 23.1944 24.2576 23.7424L22.0444 25.9556L16 19.5556V13.1556"
+        fill="#1878C6"/>
 </svg>

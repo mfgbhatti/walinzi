@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
-import { AuthUtils } from '@core/auth/auth.utils';
-import { UserService } from '@core/user/user.service';
+import { AuthUtils } from 'app/core/auth/auth.utils';
+import { UserService } from 'app/core/user/user.service';
 
 @Injectable()
 export class AuthService
 {
-    private _authenticated = false;
+    private _authenticated: boolean = false;
 
     /**
      * Constructor
@@ -28,12 +28,12 @@ export class AuthService
      */
     set accessToken(token: string)
     {
-        localStorage.setItem('access', token);
+        localStorage.setItem('accessToken', token);
     }
 
     get accessToken(): string
     {
-        return localStorage.getItem('access') ?? '';
+        return localStorage.getItem('accessToken') ?? '';
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -73,11 +73,11 @@ export class AuthService
             return throwError('User is already logged in.');
         }
 
-        return this._httpClient.post('api/sign-in/', credentials).pipe(
+        return this._httpClient.post('api/auth/sign-in', credentials).pipe(
             switchMap((response: any) => {
 
                 // Store the access token in the local storage
-                this.accessToken = response.access;
+                this.accessToken = response.accessToken;
 
                 // Set the authenticated flag to true
                 this._authenticated = true;
@@ -116,7 +116,7 @@ export class AuthService
                 // piece of code can replace the token with the refreshed one.
                 if ( response.accessToken )
                 {
-                    this.accessToken = response.access;
+                    this.accessToken = response.accessToken;
                 }
 
                 // Set the authenticated flag to true
@@ -137,7 +137,7 @@ export class AuthService
     signOut(): Observable<any>
     {
         // Remove the access token from the local storage
-        localStorage.removeItem('access');
+        localStorage.removeItem('accessToken');
 
         // Set the authenticated flag to false
         this._authenticated = false;

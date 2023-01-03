@@ -6,7 +6,7 @@ import { FuseLoadingService } from '@fuse/services/loading/loading.service';
 @Injectable()
 export class FuseLoadingInterceptor implements HttpInterceptor
 {
-    handleRequestsAutomatically!: boolean;
+    handleRequestsAutomatically: boolean;
 
     /**
      * Constructor

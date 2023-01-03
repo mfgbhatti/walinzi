@@ -43,7 +43,7 @@ export class FuseLoadingService
     /**
      * Getter for progress
      */
-    get progress$(): Observable<number | null>
+    get progress$(): Observable<number>
     {
         return this._progress$.asObservable();
     }

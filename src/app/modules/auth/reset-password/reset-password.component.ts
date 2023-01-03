@@ -4,10 +4,9 @@ import { finalize } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseValidators } from '@fuse/validators';
 import { FuseAlertType } from '@fuse/components/alert';
-import { AuthService } from '@core/auth/auth.service';
+import { AuthService } from 'app/core/auth/auth.service';
 
 @Component({
-    // eslint-disable-next-line @angular-eslint/component-selector
     selector     : 'auth-reset-password',
     templateUrl  : './reset-password.component.html',
     encapsulation: ViewEncapsulation.None,
@@ -15,14 +14,14 @@ import { AuthService } from '@core/auth/auth.service';
 })
 export class AuthResetPasswordComponent implements OnInit
 {
-    @ViewChild('resetPasswordNgForm') resetPasswordNgForm!: NgForm;
+    @ViewChild('resetPasswordNgForm') resetPasswordNgForm: NgForm;
 
     alert: { type: FuseAlertType; message: string } = {
         type   : 'success',
         message: ''
     };
-    resetPasswordForm!: UntypedFormGroup;
-    showAlert = false;
+    resetPasswordForm: UntypedFormGroup;
+    showAlert: boolean = false;
 
     /**
      * Constructor
@@ -76,7 +75,7 @@ export class AuthResetPasswordComponent implements OnInit
         this.showAlert = false;
 
         // Send the request to the server
-        this._authService.resetPassword(this.resetPasswordForm.get('password')?.value)
+        this._authService.resetPassword(this.resetPasswordForm.get('password').value)
             .pipe(
                 finalize(() => {
 

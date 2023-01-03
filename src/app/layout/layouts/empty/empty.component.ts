@@ -1,18 +1,33 @@
-import { Component, ViewEncapsulation } from '@angular/core';
-import { Destroy } from '@fuse/services/utils/destroy';
+import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'empty-layout',
-  templateUrl: './empty.component.html',
-  providers: [Destroy],
-  encapsulation: ViewEncapsulation.None,
+    selector     : 'empty-layout',
+    templateUrl  : './empty.component.html',
+    encapsulation: ViewEncapsulation.None
 })
-export class EmptyLayoutComponent {
+export class EmptyLayoutComponent implements OnDestroy
+{
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  /**
-   * Constructor
-   */
-  constructor(private readonly _destroy: Destroy) {}
+    /**
+     * Constructor
+     */
+    constructor()
+    {
+    }
 
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void
+    {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
+    }
 }

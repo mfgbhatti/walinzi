@@ -1,73 +1,82 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { BooleanInput } from '@angular/cdk/coercion';
-import { takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { FuseVerticalNavigationComponent } from '@fuse/components/navigation/vertical/vertical.component';
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
 import { FuseNavigationItem } from '@fuse/components/navigation/navigation.types';
-import { Destroy } from '@fuse/services/utils/destroy';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'fuse-vertical-navigation-group-item',
-  templateUrl: './group.component.html',
-  providers: [Destroy],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector       : 'fuse-vertical-navigation-group-item',
+    templateUrl    : './group.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FuseVerticalNavigationGroupItemComponent implements OnInit {
-  static ngAcceptInputType_autoCollapse: BooleanInput;
-  @Input() autoCollapse!: boolean;
-  @Input() item!: FuseNavigationItem;
-  @Input() name!: string;
+export class FuseVerticalNavigationGroupItemComponent implements OnInit, OnDestroy
+{
+    /* eslint-disable @typescript-eslint/naming-convention */
+    static ngAcceptInputType_autoCollapse: BooleanInput;
+    /* eslint-enable @typescript-eslint/naming-convention */
 
-  private _fuseVerticalNavigationComponent!: FuseVerticalNavigationComponent;
+    @Input() autoCollapse: boolean;
+    @Input() item: FuseNavigationItem;
+    @Input() name: string;
 
-  /**
-   * Constructor
-   */
-  constructor(
-    private readonly _changeDetectorRef: ChangeDetectorRef,
-    private readonly _fuseNavigationService: FuseNavigationService,
-    private readonly _unsubscribeAll: Destroy
-  ) {}
+    private _fuseVerticalNavigationComponent: FuseVerticalNavigationComponent;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  // -----------------------------------------------------------------------------------------------------
-  // @ Lifecycle hooks
-  // -----------------------------------------------------------------------------------------------------
+    /**
+     * Constructor
+     */
+    constructor(
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseNavigationService: FuseNavigationService
+    )
+    {
+    }
 
-  /**
-   * On init
-   */
-  ngOnInit(): void {
-    // Get the parent navigation component
-    this._fuseVerticalNavigationComponent =
-      this._fuseNavigationService.getComponent(this.name);
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
 
-    // Subscribe to onRefreshed on the navigation component
-    this._fuseVerticalNavigationComponent.onRefreshed
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe(() => {
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
-      });
-  }
+    /**
+     * On init
+     */
+    ngOnInit(): void
+    {
+        // Get the parent navigation component
+        this._fuseVerticalNavigationComponent = this._fuseNavigationService.getComponent(this.name);
 
-  // -----------------------------------------------------------------------------------------------------
-  // @ Public methods
-  // -----------------------------------------------------------------------------------------------------
+        // Subscribe to onRefreshed on the navigation component
+        this._fuseVerticalNavigationComponent.onRefreshed.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(() => {
 
-  /**
-   * Track by function for ngFor loops
-   *
-   * @param index
-   * @param item
-   */
-  trackByFn(index: number, item: any): any {
-    return item.id || index;
-  }
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        });
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void
+    {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Track by function for ngFor loops
+     *
+     * @param index
+     * @param item
+     */
+    trackByFn(index: number, item: any): any
+    {
+        return item.id || index;
+    }
 }

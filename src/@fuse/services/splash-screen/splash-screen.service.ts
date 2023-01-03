@@ -10,7 +10,7 @@ export class FuseSplashScreenService
      * Constructor
      */
     constructor(
-        @Inject(DOCUMENT) private _document: Document,
+        @Inject(DOCUMENT) private _document: any,
         private _router: Router
     )
     {

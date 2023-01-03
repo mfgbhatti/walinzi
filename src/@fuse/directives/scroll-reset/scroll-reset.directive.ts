@@ -1,24 +1,21 @@
-import { Directive, ElementRef, OnInit } from '@angular/core';
+import { Directive, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Destroy } from '@fuse/services/utils/destroy';
-import { filter, takeUntil } from 'rxjs';
+import { filter, Subject, takeUntil } from 'rxjs';
 
 @Directive({
-    // eslint-disable-next-line @angular-eslint/directive-selector
     selector: '[fuseScrollReset]',
-    providers: [Destroy],
     exportAs: 'fuseScrollReset'
 })
-export class FuseScrollResetDirective implements OnInit
+export class FuseScrollResetDirective implements OnInit, OnDestroy
 {
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
      * Constructor
      */
     constructor(
-        private readonly _elementRef: ElementRef,
-        private readonly _router: Router,
-        private readonly _unsubscribeAll: Destroy
+        private _elementRef: ElementRef,
+        private _router: Router
     )
     {
     }
@@ -41,5 +38,15 @@ export class FuseScrollResetDirective implements OnInit
             // Reset the element's scroll position to the top
             this._elementRef.nativeElement.scrollTop = 0;
         });
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void
+    {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
     }
 }

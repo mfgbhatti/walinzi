@@ -1,15 +1,8 @@
 export interface User
 {
     id: string;
-    customer?: string;
-    email: string;
-    username?: string;
     name: string;
+    email: string;
     avatar?: string;
     status?: string;
-    role?: string;
-    title?: string;
-    phone?: string;
-    about?: string;
-    is_superuser?: boolean;
 }
