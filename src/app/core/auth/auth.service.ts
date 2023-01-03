@@ -73,7 +73,7 @@ export class AuthService
             return throwError('User is already logged in.');
         }
 
-        return this._httpClient.post('api/auth/sign-in', credentials).pipe(
+        return this._httpClient.post('api/sign-in/', credentials).pipe(
             switchMap((response: any) => {
 
                 // Store the access token in the local storage
@@ -97,7 +97,7 @@ export class AuthService
     signInUsingToken(): Observable<any>
     {
         // Sign in using the token
-        return this._httpClient.post('api/auth/sign-in-with-token', {
+        return this._httpClient.post('api/refresh/', {
             accessToken: this.accessToken
         }).pipe(
             catchError(() =>

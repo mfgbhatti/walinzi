@@ -38,7 +38,7 @@ export class NavigationService
      */
     get(): Observable<Navigation>
     {
-        return this._httpClient.get<Navigation>('api/common/navigation').pipe(
+        return this._httpClient.get<Navigation>('api/navigation/').pipe(
             tap((navigation) => {
                 this._navigation.next(navigation);
             })
