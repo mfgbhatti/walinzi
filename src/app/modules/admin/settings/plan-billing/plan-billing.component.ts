@@ -1,15 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
-export interface Plan {
-    value: string;
-    label: string;
-    details: string;
-    price: string;
-}
-
 @Component({
-    // eslint-disable-next-line @angular-eslint/component-selector
     selector       : 'settings-plan-billing',
     templateUrl    : './plan-billing.component.html',
     encapsulation  : ViewEncapsulation.None,
@@ -17,8 +9,8 @@ export interface Plan {
 })
 export class SettingsPlanBillingComponent implements OnInit
 {
-    planBillingForm!: UntypedFormGroup;
-    plans!: Plan[];
+    planBillingForm: UntypedFormGroup;
+    plans: any[];
 
     /**
      * Constructor

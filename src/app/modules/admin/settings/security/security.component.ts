@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 @Component({
-    // eslint-disable-next-line @angular-eslint/component-selector
     selector       : 'settings-security',
     templateUrl    : './security.component.html',
     encapsulation  : ViewEncapsulation.None,
@@ -10,7 +9,7 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 })
 export class SettingsSecurityComponent implements OnInit
 {
-    securityForm!: UntypedFormGroup;
+    securityForm: UntypedFormGroup;
 
     /**
      * Constructor

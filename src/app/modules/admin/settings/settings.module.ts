@@ -19,26 +19,28 @@ import { SettingsTeamComponent } from '@modules/admin/settings/team/team.compone
 import { settingsRoutes } from '@modules/admin/settings/settings.routing';
 
 @NgModule({
-  declarations: [
-    SettingsComponent,
-    SettingsAccountComponent,
-    SettingsSecurityComponent,
-    SettingsPlanBillingComponent,
-    SettingsNotificationsComponent,
-    SettingsTeamComponent,
-  ],
-  imports: [
-    RouterModule.forChild(settingsRoutes),
-    MatButtonModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatRadioModule,
-    MatSelectModule,
-    MatSidenavModule,
-    MatSlideToggleModule,
-    FuseAlertModule,
-    SharedModule,
-  ],
+    declarations: [
+        SettingsComponent,
+        SettingsAccountComponent,
+        SettingsSecurityComponent,
+        SettingsPlanBillingComponent,
+        SettingsNotificationsComponent,
+        SettingsTeamComponent
+    ],
+    imports     : [
+        RouterModule.forChild(settingsRoutes),
+        MatButtonModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatRadioModule,
+        MatSelectModule,
+        MatSidenavModule,
+        MatSlideToggleModule,
+        FuseAlertModule,
+        SharedModule
+    ]
 })
-export class SettingsModule {}
+export class SettingsModule
+{
+}
