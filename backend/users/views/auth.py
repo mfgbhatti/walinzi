@@ -33,12 +33,13 @@ class LoginView(views.APIView):
         user = serializer.validated_data["user"]
         tokens = get_tokens_for_user(user)
         login(request, user)
+        """token names in angular are accessToken and refreshToken"""
         response = Response(
-            data={"access": tokens["access"]}, status=status.HTTP_202_ACCEPTED
+            data={"accessToken": tokens["access"]}, status=status.HTTP_202_ACCEPTED
         )
         cookie_max_age = datetime.datetime.now() + datetime.timedelta(hours=1)
         response.set_cookie(
-            key="refresh_token",
+            key="refreshToken",
             value=tokens["refresh"],
             httponly=True,
             expires=cookie_max_age,
@@ -55,13 +56,14 @@ class LogoutView(views.APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request, format=None):
-        if "refresh_token" in request.COOKIES:
-            refresh_token = request.COOKIES.get('refresh_token')
+        """token names in angular are accessToken and refreshToken"""
+        if "refreshToken" in request.COOKIES:
+            refresh_token = request.COOKIES.get('refreshToken')
             token = RefreshToken(refresh_token)
             token.blacklist()
             logout(request)
             response = Response(status=status.HTTP_204_NO_CONTENT)
-            response.delete_cookie('refresh_token')
+            response.delete_cookie('refreshToken')
             return response
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
