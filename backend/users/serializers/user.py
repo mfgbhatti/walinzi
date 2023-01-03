@@ -51,6 +51,14 @@ class UserSerializer(serializers.ModelSerializer):
         """get status of user"""
         return obj.is_active
 
+    """
+    superuser 1
+    admin 2
+    account 5
+    control 3
+    humres 4
+    """
+
     class Meta:
         model = User
         fields = (
@@ -62,6 +70,27 @@ class UserSerializer(serializers.ModelSerializer):
             "name",
             "avatar",
             "status",
-            "is_superuser",
+            "groups",
             "about",
         )
+
+class CreateUserSerializer(serializers.ModelSerializer):
+    """serializer for create user"""
+
+    name = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = User
+        fields = (
+            "id",
+            "title",
+            "customer",
+            "phone",
+            "email",
+            "name",
+            "first_name",
+            "last_name",
+            "avatar",
+            "about",
+        )
+
