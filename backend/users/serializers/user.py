@@ -55,8 +55,8 @@ class UserSerializer(serializers.ModelSerializer):
     superuser 1
     admin 2
     account 5
-    control 3
     humres 4
+    control 3
     """
 
     class Meta:
@@ -78,7 +78,11 @@ class UserSerializer(serializers.ModelSerializer):
 class CreateUserSerializer(serializers.ModelSerializer):
     """serializer for create user"""
 
-    name = serializers.CharField(read_only=True)
+    name = serializers.SerializerMethodField(read_only=True)
+
+    def get_name(self, obj):
+        """get full name of user"""
+        return "{} {}".format(obj.first_name, obj.last_name)
 
     class Meta:
         model = User
@@ -86,11 +90,13 @@ class CreateUserSerializer(serializers.ModelSerializer):
             "id",
             "title",
             "customer",
+            "username",
             "phone",
             "email",
             "name",
             "first_name",
             "last_name",
+            "is_active",
             "avatar",
             "about",
         )
