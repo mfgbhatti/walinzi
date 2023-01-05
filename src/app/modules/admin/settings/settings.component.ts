@@ -11,6 +11,8 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { takeUntil } from 'rxjs';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { Destroy } from '@fuse/services/utils/destroy';
+import { User } from '@core/user/user.types';
+import { UserService } from '@core/user/user.service';
 
 @Component({
     selector: 'settings',
@@ -24,15 +26,18 @@ export class SettingsComponent implements OnInit {
     drawerMode: 'over' | 'side' = 'side';
     drawerOpened: boolean = true;
     panels: any[] = [];
-    selectedPanel: string = 'account';
+    selectedPanel: string = '';
+    allowedPanels: string[] = [];
+    role: string;
 
     /**
      * Constructor
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseMediaWatcherService: FuseMediaWatcherService,
-        private _unsubscribeAll: Destroy
+        private readonly _changeDetectorRef: ChangeDetectorRef,
+        private readonly _fuseMediaWatcherService: FuseMediaWatcherService,
+        private readonly _userService: UserService,
+        private readonly _unsubscribeAll: Destroy
     ) {}
 
     // -----------------------------------------------------------------------------------------------------
@@ -43,6 +48,30 @@ export class SettingsComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
+        this._userService.user$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((user: User) => {
+                user.groups.forEach((group) => {
+                    this.role = group.name;
+                });
+                if (this.role === 'superuser' || this.role === 'admin') {
+                  this.selectedPanel = 'team';
+                    this.allowedPanels = [
+                        'account',
+                        'security',
+                        'notifications',
+                        'plan-billing',
+                        'team',
+                    ];
+                } else {
+                  this.selectedPanel = 'account';
+                    this.allowedPanels = [
+                        'account',
+                        'security',
+                        'notifications',
+                    ];
+                }
+            });
         // Setup available panels
         this.panels = [
             {

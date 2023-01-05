@@ -54,7 +54,7 @@ export class SettingsAccountComponent implements OnInit {
             name: [this.user.name],
             username: [this.user.username],
             title: [this.user.title],
-            company: [this.user.customer],
+            company: [this.user.customerName],
             about: [this.user.about],
             email: [this.user.email],
             phone: [this.user.phone],
