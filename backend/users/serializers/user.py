@@ -1,8 +1,16 @@
 """serializers for user model"""
-from django.contrib.auth import get_user_model as UserModel
+from django.contrib.auth.models import Group
 from rest_framework import serializers
 
 from backend.users.models import BaseUser as User
+
+
+class GroupSerializer(serializers.ModelSerializer):
+    """serializer for group"""
+
+    class Meta:
+        model = Group
+        fields = ("id", "name")
 
 
 class UserListSerializer(serializers.ModelSerializer):
@@ -10,7 +18,7 @@ class UserListSerializer(serializers.ModelSerializer):
 
     name = serializers.SerializerMethodField(read_only=True)
     status = serializers.SerializerMethodField(read_only=True)
-    customer = serializers.CharField(source="customer.name", read_only=True)
+    groups = GroupSerializer(many=True, read_only=True)
 
     def get_name(self, obj):
         """get full name of user"""
@@ -32,6 +40,7 @@ class UserListSerializer(serializers.ModelSerializer):
             "email",
             "name",
             "avatar",
+            "groups",
             "status",
         )
 
@@ -41,7 +50,9 @@ class UserSerializer(serializers.ModelSerializer):
 
     name = serializers.SerializerMethodField(read_only=True)
     status = serializers.SerializerMethodField(read_only=True)
-    customer = serializers.CharField(source="customer.name", read_only=True)
+    customerName = serializers.CharField(source="customer.name", read_only=True)
+    customerId = serializers.CharField(source="customer.id", read_only=True)
+    groups = GroupSerializer(many=True, read_only=True)
 
     def get_name(self, obj):
         """get full name of user"""
@@ -64,7 +75,8 @@ class UserSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "title",
-            "customer",
+            "customerName",
+            "customerId",
             "phone",
             "email",
             "name",
@@ -74,6 +86,7 @@ class UserSerializer(serializers.ModelSerializer):
             "groups",
             "about",
         )
+
 
 class CreateUserSerializer(serializers.ModelSerializer):
     """serializer for create user"""
@@ -101,6 +114,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
             "about",
         )
 
+
 class UpdateUserSerializer(serializers.ModelSerializer):
     """serializer for update user"""
 
@@ -120,4 +134,3 @@ class UpdateUserSerializer(serializers.ModelSerializer):
             "last_name",
             "about",
         )
-
