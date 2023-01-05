@@ -48,7 +48,7 @@ class BaseUser(AbstractUser, PermissionsMixin):
     last_name = models.CharField(max_length=80, default="", blank=True, null=True)
     avatar = models.CharField(max_length=210, default="", blank=True, null=True)
     title = models.CharField(max_length=80, default="", blank=True)
-    phone = models.CharField(max_length=10, default="", blank=True)
+    phone = models.CharField(max_length=11, default="", blank=True)
     about = models.TextField(default="", blank=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)

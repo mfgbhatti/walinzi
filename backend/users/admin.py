@@ -80,6 +80,10 @@ class UserAdmin(BaseUserAdmin):
                 "fields": (
                     "first_name",
                     "last_name",
+                    "username",
+                    "phone",
+                    "title",
+                    "about",
                     "avatar",
                     "is_active",
                     "customer",
