@@ -18,10 +18,10 @@ from django.urls import path, include
 """urls for customers their users and user configs, navigation, shorcuts and auth"""
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("backend.users.urls.auth")),
-    path("", include("backend.users.urls.shortcuts")),
-    path("", include("backend.navigation.urls")),
     path("", include("backend.users.urls.user")),
-    path("", include("backend.users.urls.configs")),
-    path("", include("backend.users.urls.customer")),
+    path("", include("backend.users.urls.auth")),
+    path("", include("backend.customers.urls")),
+    path("", include("backend.navigation.urls")),
+    path("", include("backend.shortcuts.urls")),
+    path("", include("backend.configs.urls")),
 ]

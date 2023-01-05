@@ -1,11 +1,11 @@
 """authentication end points"""
 
 from django.urls import path
-from backend.users.views import auth as views
-from backend.users.views import refresh as token_views
+from backend.users.views.auth import LoginView, LogoutView
+from backend.users.views.refresh import CookieTokenRefreshView
 
 urlpatterns = [
-    path("sign-in/", views.LoginView.as_view(), name="token_obtain_pair"),
-    path("refresh/", token_views.CookieTokenRefreshView.as_view(), name="auth_token_refresh"),
-    path("sign-out/", views.LogoutView.as_view(), name="auth_logout"),
+    path("sign-in/", LoginView.as_view(), name="token_obtain_pair"),
+    path("refresh/", CookieTokenRefreshView.as_view(), name="auth_token_refresh"),
+    path("sign-out/", LogoutView.as_view(), name="auth_logout"),
 ]

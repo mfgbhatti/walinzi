@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate
 
 from rest_framework import serializers
 
-from backend.users.models.users import BaseUser as User
+from backend.users.models import BaseUser as User
 
 
 class LoginSerializer(serializers.Serializer):

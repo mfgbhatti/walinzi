@@ -41,6 +41,7 @@ class CreateUserViewSet(viewsets.ModelViewSet):
                 data["last_name"] = names[-1]
                 del data["name"]
             data["is_active"] = False
+            data["username"] = " ".join(names[:-1]) + names[-1]
             serializer = self.get_serializer(data=data)
             serializer.is_valid(raise_exception=True)
             serializer.save()

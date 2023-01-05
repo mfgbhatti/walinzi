@@ -30,8 +30,12 @@ ALLOWED_HOSTS = ["*"]
 
 LOCAL_APPS = [
     "backend.users.apps.UsersConfig",
-    "backend.common.apps.CommonConfig",
+    "backend.customers.apps.CustomersConfig",
     "backend.navigation.apps.NavigationConfig",
+    "backend.common.apps.CommonConfig",
+    "backend.shortcuts.apps.ShortcutsConfig",
+    "backend.configs.apps.ConfigsConfig",
+
 ]
 
 THIRD_PARTY_APPS = [
