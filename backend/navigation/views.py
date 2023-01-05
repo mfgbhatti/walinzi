@@ -26,17 +26,23 @@ class NavigationViewSet(viewsets.ModelViewSet):
         serializer = NavigationSerializer(queryset, many=True)
         compact = copy.deepcopy(serializer.data)
         futuristic = copy.deepcopy(serializer.data)
+        horizontal = copy.deepcopy(serializer.data)
         for key in compact:
             key["type"] = "aside"
             key["tooltip"] = key["title"]
+            del key["subtitle"]
 
         for key in futuristic:
             key["title"] = key["title"].upper()
+            del key["subtitle"]
+
+        for key in horizontal:
+            del key["subtitle"]
         return Response(
             {
                 "compact": compact,
                 "default": serializer.data,
                 "futuristic": futuristic,
-                "horizontal": serializer.data,
+                "horizontal": horizontal,
             }
         )
