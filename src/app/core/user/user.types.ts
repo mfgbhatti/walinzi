@@ -4,10 +4,17 @@ export interface User
     name: string;
     username?: string;
     title?: string;
-    customer?: string;
+    customerId?: string;
+    customerName?: string;
+    groups?: Groups[];
     about?: string;
     phone?: string;
     email: string;
     avatar?: string;
     status?: string;
+}
+
+type Groups = {
+    id: number;
+    name: string;
 }
