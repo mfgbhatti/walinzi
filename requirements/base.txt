@@ -4,6 +4,7 @@ django-cors-headers==3.13.0
 djangorestframework==3.14.0
 django-nested-admin==4.0.2
 djangorestframework-simplejwt==5.2.2
+djangorestframework-recursive==0.1.2
 black==22.10.0
 pylint==2.15.5
 pylint-django==2.5.3
