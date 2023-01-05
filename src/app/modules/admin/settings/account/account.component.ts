@@ -51,20 +51,20 @@ export class SettingsAccountComponent implements OnInit {
     // Create the form
     buildForm(): void {
         this.accountForm = this._formBuilder.group({
-            name: [this.user.name, Validators.required],
+            name: [this.user.name],
             username: [this.user.username],
             title: [this.user.title],
             company: [this.user.customer],
             about: [this.user.about],
-            email: [this.user.email, Validators.email],
+            email: [this.user.email],
             phone: [this.user.phone],
         });
     }
 
     updateUserData(): void {
         this._userService
-            .update({id: this.user.id,...this.accountForm.value})
+            .update({ id: this.user.id, ...this.accountForm.value })
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((user:User) => (this.user = user));
+            .subscribe((user: User) => (this.user = user));
     }
 }
