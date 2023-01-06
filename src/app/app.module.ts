@@ -11,6 +11,7 @@ import { mockApiServices } from 'app/mock-api';
 import { LayoutModule } from 'app/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
+import { MAT_SELECT_SCROLL_STRATEGY_PROVIDER } from '@angular/material/select';
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -39,6 +40,9 @@ const routerConfig: ExtraOptions = {
     ],
     bootstrap   : [
         AppComponent
+    ],
+    providers: [
+      MAT_SELECT_SCROLL_STRATEGY_PROVIDER
     ]
 })
 export class AppModule

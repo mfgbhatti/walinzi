@@ -65,9 +65,13 @@
         <!-- Load settings panel -->
         <div class="mt-8">
           <ng-container [ngSwitch]="selectedPanel">
+            <!-- Team -->
+            <ng-container *ngSwitchCase="'team'">
+              <settings-team [_members]="members"></settings-team>
+            </ng-container>
             <!-- Account -->
-            <ng-container *ngSwitchCase="'account'">
-              <settings-account></settings-account>
+            <ng-container *ngSwitchCase="'profile'">
+              <settings-account [user]="user"></settings-account>
             </ng-container>
             <!-- Security -->
             <ng-container *ngSwitchCase="'security'">
@@ -80,10 +84,6 @@
             <!-- Notifications -->
             <ng-container *ngSwitchCase="'notifications'">
               <settings-notifications></settings-notifications>
-            </ng-container>
-            <!-- Team -->
-            <ng-container *ngSwitchCase="'team'">
-              <settings-team></settings-team>
             </ng-container>
           </ng-container>
 

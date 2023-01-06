@@ -1,14 +1,17 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Input,
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { UserService } from '@core/user/user.service';
 
 import { User } from '@core/user/user.types';
-import { UserService } from '@core/user/user.service';
 import { Destroy } from '@fuse/services/utils/destroy';
-import { takeUntil } from 'rxjs';
+import { filter, takeUntil, tap } from 'rxjs';
+import { UserFormComponent } from './form/form.component';
 
 export type Role = {
   label: string;
@@ -24,6 +27,8 @@ export type Role = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingsTeamComponent implements OnInit {
+  @Input() _user!: User;
+  @Input() _members!: User[];
   user: User;
   members: User[] = [];
   roles: Role[];
@@ -32,8 +37,9 @@ export class SettingsTeamComponent implements OnInit {
    * Constructor
    */
   constructor(
+    private readonly _unsubscribeAll: Destroy,
     private readonly _userService: UserService,
-    private readonly _unsubscribeAll: Destroy
+    private readonly _dialog: MatDialog,
   ) { }
 
   // -----------------------------------------------------------------------------------------------------
@@ -44,18 +50,6 @@ export class SettingsTeamComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
-    this._userService.user$
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((user: User) => {
-        this.user = user;
-      });
-    // Setup the team members
-    this._userService
-      .getUsers(this.user.customerId)
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((users: User[]) => {
-        this.members = users;
-      });
 
     // Setup the roles
     this.roles = [
@@ -86,16 +80,22 @@ export class SettingsTeamComponent implements OnInit {
     ];
   }
 
-  // -----------------------------------------------------------------------------------------------------
-  // @ Public methods
-  // -----------------------------------------------------------------------------------------------------
+  add(): void {
+    const dialogRef = this._dialog.open(UserFormComponent, {
+      data: {},
+      width: '40%',
+      disableClose: true
+    });
 
-  /**
-   * Track by function for ngFor loops
-   *
-   * @param index
-   * @param item
-   */
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter(Boolean),
+        tap((data) => this._userService.create(data)),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe();
+  }
   trackByFn(index: number, item: any): any {
     return item.id || index;
   }

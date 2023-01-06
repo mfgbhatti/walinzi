@@ -17,30 +17,31 @@ import { SettingsPlanBillingComponent } from '@modules/admin/settings/plan-billi
 import { SettingsNotificationsComponent } from '@modules/admin/settings/notifications/notifications.component';
 import { SettingsTeamComponent } from '@modules/admin/settings/team/team.component';
 import { settingsRoutes } from '@modules/admin/settings/settings.routing';
+import { UserFormComponent } from './team/form/form.component';
 
 @NgModule({
-    declarations: [
-        SettingsComponent,
-        SettingsAccountComponent,
-        SettingsSecurityComponent,
-        SettingsPlanBillingComponent,
-        SettingsNotificationsComponent,
-        SettingsTeamComponent
-    ],
-    imports     : [
-        RouterModule.forChild(settingsRoutes),
-        MatButtonModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatRadioModule,
-        MatSelectModule,
-        MatSidenavModule,
-        MatSlideToggleModule,
-        FuseAlertModule,
-        SharedModule
-    ]
+  declarations: [
+    SettingsComponent,
+    SettingsAccountComponent,
+    SettingsSecurityComponent,
+    SettingsPlanBillingComponent,
+    SettingsNotificationsComponent,
+    SettingsTeamComponent,
+    UserFormComponent
+  ],
+  imports: [
+    RouterModule.forChild(settingsRoutes),
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatSidenavModule,
+    MatSlideToggleModule,
+    FuseAlertModule,
+    SharedModule
+  ]
 })
-export class SettingsModule
-{
+export class SettingsModule {
 }

@@ -1,0 +1,19 @@
+<form [formGroup]="form">
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input required formControlName="name" placeholder="Abc Xyz limited" type="text" matInput class="text-capitalize" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input matInput required formControlName="email" placeholder="email@example.com" type="email"
+      style="text-transform: lowercase;" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Choose Role</mat-label>
+    <mat-select formControlName="groups">
+      <mat-option *ngFor="let role of roles" [value]="role.value" class="text-capitalize">
+        {{role.label}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</form>

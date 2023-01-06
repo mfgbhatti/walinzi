@@ -19,6 +19,7 @@ class UserListSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField(read_only=True)
     status = serializers.SerializerMethodField(read_only=True)
     groups = GroupSerializer(many=True, read_only=True)
+    customerId = serializers.CharField(source="customer.id", read_only=True)
 
     def get_name(self, obj):
         """get full name of user"""
@@ -32,7 +33,7 @@ class UserListSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             "id",
-            "customer",
+            "customerId",
             "username",
             "about",
             "title",
@@ -63,11 +64,26 @@ class UserSerializer(serializers.ModelSerializer):
         return obj.is_active
 
     """
-    superuser 1
-    admin 2
-    account 5
-    humres 4
-    control 3
+    "groups":{
+            "id": 1,
+            "name": "superuser"
+        },
+        {
+            "id": 2,
+            "name": "accounts"
+        },
+        {
+            "id": 3,
+            "name": "admin"
+        },
+        {
+            "id": 4,
+            "name": "humres"
+        },
+        {
+            "id": 5,
+            "name": "control"
+        }
     """
 
     class Meta:
@@ -92,26 +108,28 @@ class CreateUserSerializer(serializers.ModelSerializer):
     """serializer for create user"""
 
     name = serializers.SerializerMethodField(read_only=True)
+    groups = GroupSerializer(many=True, read_only=True)
 
     def get_name(self, obj):
         """get full name of user"""
         return "{} {}".format(obj.first_name, obj.last_name)
 
+    def get_status(self, obj):
+        """get status of user"""
+        return obj.is_active
+
     class Meta:
         model = User
         fields = (
             "id",
-            "title",
             "customer",
-            "username",
-            "phone",
             "email",
             "name",
+            "username",
             "first_name",
             "last_name",
             "is_active",
-            "avatar",
-            "about",
+            "groups",
         )
 
 
