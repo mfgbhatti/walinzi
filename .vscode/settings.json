@@ -13,11 +13,10 @@
     "[python]": {
         "editor.tabSize": 4
     },
-
     "[typescript]": {
-        "editor.tabSize": 2
+        "editor.tabSize": 2,
     },
     "[json]": {
-        "editor.tabSize": 4
+        "editor.tabSize": 2
     }
 }
