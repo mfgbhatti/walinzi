@@ -7,6 +7,7 @@ from rest_framework.response import Response
 import datetime
 
 from backend.users.serializers.auth import LoginSerializer
+from backend.users.serializers.user import UserSerializer
 
 
 class LoginView(views.APIView):
@@ -34,8 +35,9 @@ class LoginView(views.APIView):
         tokens = get_tokens_for_user(user)
         login(request, user)
         """token names in angular are accessToken and refreshToken"""
+        user_serializer = UserSerializer(user)
         response = Response(
-            data={"accessToken": tokens["access"]}, status=status.HTTP_202_ACCEPTED
+            data={"accessToken": tokens["access"], "user": user_serializer.data}, status=status.HTTP_202_ACCEPTED
         )
         cookie_max_age = datetime.datetime.now() + datetime.timedelta(hours=1)
         response.set_cookie(
