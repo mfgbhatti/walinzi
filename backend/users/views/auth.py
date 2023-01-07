@@ -6,7 +6,7 @@ from rest_framework import views, status
 from rest_framework.response import Response
 import datetime
 
-from backend.users.serializers.auth import LoginSerializer
+from backend.users.serializers.auth import LoginSerializer, ChangePasswordSerializer
 from backend.users.serializers.user import UserSerializer
 
 
@@ -70,3 +70,19 @@ class LogoutView(views.APIView):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+class ChangePasswordView(views.APIView):
+    """reset password"""
+
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def put(self, request, format=None):
+        """reset password"""
+        serializer = ChangePasswordSerializer(
+            data=self.request.data, context={"user": self.request.user}
+        )
+        serializer.is_valid(raise_exception=True)
+        user = self.request.user
+
+        user.set_password(serializer.validated_data["password1"])
+        user.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)

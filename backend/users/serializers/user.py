@@ -109,6 +109,8 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
     name = serializers.SerializerMethodField(read_only=True)
     groups = GroupSerializer(many=True, read_only=True)
+    first_name = serializers.CharField(write_only=True)
+    last_name = serializers.CharField(write_only=True)
 
     def get_name(self, obj):
         """get full name of user"""
@@ -137,6 +139,8 @@ class UpdateUserSerializer(serializers.ModelSerializer):
     """serializer for update user"""
 
     name = serializers.SerializerMethodField(read_only=True)
+    first_name = serializers.CharField(write_only=True)
+    last_name = serializers.CharField(write_only=True)
 
     def get_name(self, obj):
         """get full name of user"""

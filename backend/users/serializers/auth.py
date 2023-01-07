@@ -14,10 +14,8 @@ class LoginSerializer(serializers.Serializer):
     It will try to authenticate the user with when validated.
     """
 
-    email = serializers.CharField(label="Email", write_only=True)
-    password = serializers.CharField(
-        label="password", style={"input_type": "Password"}, trim_whitespace=False, write_only=True
-    )
+    email = serializers.CharField(write_only=True)
+    password = serializers.CharField(trim_whitespace=False, write_only=True)
 
     def validate(self, attrs):
         email = attrs.get("email")
@@ -36,3 +34,26 @@ class LoginSerializer(serializers.Serializer):
         attrs["user"] = user
         return attrs
 
+
+class ChangePasswordSerializer(serializers.Serializer):
+    """Reset password serializer"""
+
+    oldPassword = serializers.CharField(write_only=True)
+    password1 = serializers.CharField(write_only=True)
+    password2 = serializers.CharField(write_only=True)
+
+    def validate(self, attrs):
+        old_password = attrs.get("oldPassword")
+        password1 = attrs.get("password1")
+        password2 = attrs.get("password2")
+        user = self.context.get("user")
+
+        if not user.check_password(old_password):
+            msg = "Old password is incorrect"
+            raise serializers.ValidationError(msg, code="authorization")
+
+        if password1 != password2:
+            msg = "Passwords do not match"
+            raise serializers.ValidationError(msg, code="authorization")
+
+        return attrs
