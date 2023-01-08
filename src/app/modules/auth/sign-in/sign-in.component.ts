@@ -19,8 +19,8 @@ export class AuthSignInComponent implements OnInit
         type   : 'success',
         message: ''
     };
-    signInForm: UntypedFormGroup;
     showAlert: boolean = false;
+    signInForm: UntypedFormGroup;
 
     /**
      * Constructor

@@ -27,9 +27,7 @@ class LoginView(views.APIView):
                 "access": str(refresh.access_token),
             }
 
-        serializer = LoginSerializer(
-            data=self.request.data, context={"request": self.request}
-        )
+        serializer = LoginSerializer(data=self.request.data, context={"request": self.request})
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data["user"]
         tokens = get_tokens_for_user(user)
@@ -60,29 +58,28 @@ class LogoutView(views.APIView):
     def post(self, request, format=None):
         """token names in angular are accessToken and refreshToken"""
         if "refreshToken" in request.COOKIES:
-            refresh_token = request.COOKIES.get('refreshToken')
+            refresh_token = request.COOKIES.get("refreshToken")
             token = RefreshToken(refresh_token)
             token.blacklist()
             logout(request)
             response = Response(status=status.HTTP_204_NO_CONTENT)
-            response.delete_cookie('refreshToken')
+            response.delete_cookie("refreshToken")
             return response
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+
 class ChangePasswordView(views.APIView):
     """reset password"""
-
+    serializer_class = ChangePasswordSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
-    def put(self, request, format=None):
+    def put(self, request):
         """reset password"""
-        serializer = ChangePasswordSerializer(
-            data=self.request.data, context={"user": self.request.user}
-        )
+
+        serializer = ChangePasswordSerializer(data=self.request.data, context={"user": self.request.user})
         serializer.is_valid(raise_exception=True)
         user = self.request.user
-
         user.set_password(serializer.validated_data["password1"])
         user.save()
         return Response(status=status.HTTP_204_NO_CONTENT)

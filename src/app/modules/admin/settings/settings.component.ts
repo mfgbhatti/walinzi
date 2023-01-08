@@ -101,14 +101,14 @@ export class SettingsComponent implements OnInit {
         icon: 'heroicons_outline:user-circle',
         title: 'Profile',
         description:
-        'Manage Name, title and other personal information',
+          'Manage Name, title and other personal information',
       },
       {
         id: 'security',
         icon: 'heroicons_outline:lock-closed',
         title: 'Security',
         description:
-        'Manage your password and 2-step verification preferences',
+          'Manage your password and 2-step verification preferences',
       },
       {
         id: 'notifications',
