@@ -41,16 +41,7 @@ export class SettingsTeamComponent implements OnInit {
     private readonly _userService: UserService,
     private readonly _dialog: MatDialog,
   ) { }
-
-  // -----------------------------------------------------------------------------------------------------
-  // @ Lifecycle hooks
-  // -----------------------------------------------------------------------------------------------------
-
-  /**
-   * On init
-   */
   ngOnInit(): void {
-
     // Setup the roles
     this.roles = [
       {
@@ -82,7 +73,7 @@ export class SettingsTeamComponent implements OnInit {
 
   add(): void {
     const dialogRef = this._dialog.open(UserFormComponent, {
-      data: {},
+      data: { customer: this._user.customerId },
       width: '40%',
       disableClose: true
     });
@@ -96,6 +87,12 @@ export class SettingsTeamComponent implements OnInit {
       )
       .subscribe();
   }
+
+  delete(userId): void {
+    this._userService.delete(userId);
+    console.log('delete:', userId);
+  }
+
   trackByFn(index: number, item: any): any {
     return item.id || index;
   }

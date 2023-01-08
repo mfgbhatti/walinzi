@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable, ReplaySubject, tap } from 'rxjs';
 import { User } from 'app/core/user/user.types';
 
-export type NewUser = Omit<User, 'id'>;
+type UnsavedUser = Omit<User, 'id'>;
 @Injectable({
   providedIn: 'root',
 })
@@ -46,12 +46,25 @@ export class UserService {
       );
   }
 
-  create(user: NewUser): Observable<any> {
-    return this._httpClient.post<User>('api/users/create/', user).pipe(
-      map((response) => {
-          this._users.next([...this._members, response]);
-      })
-    );
+  create(user: UnsavedUser): Observable<any> {
+    return this._httpClient
+      .post<UnsavedUser>('api/users/create/', user)
+      .pipe(
+        map((response: User) => {
+          this._members.push(response);
+          this._users.next(this._members);
+        })
+      );
+  }
+
+  delete(userId: string) {
+    return this._httpClient
+      .delete('api/users/delete/' + userId + '/')
+      .pipe(
+        tap(() => {
+          this._members = this._members.filter((user) => user.id !== userId);
+          this._users.next(this._members);
+        }));
   }
 
   getUsers(customerId: string): Observable<User[]> {

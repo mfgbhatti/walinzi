@@ -1,19 +1,37 @@
 <form [formGroup]="form">
-  <mat-form-field>
-    <mat-label>Name</mat-label>
-    <input required formControlName="name" placeholder="Abc Xyz limited" type="text" matInput class="text-capitalize" />
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Email</mat-label>
-    <input matInput required formControlName="email" placeholder="email@example.com" type="email"
-      style="text-transform: lowercase;" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Choose Role</mat-label>
-    <mat-select formControlName="groups">
-      <mat-option *ngFor="let role of roles" [value]="role.value" class="text-capitalize">
-        {{role.label}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+  <div class="flex item-center justify-end">
+    <button mat-button (click)="close()">
+      <mat-icon svgIcon="close"></mat-icon>
+    </button>
+  </div>
+  <p class="text-lg font-medium">Basic information</p>
+  <p class="text-secondary mb-6">
+    Set your information for new user. They can change or add more information later.
+  </p>
+  <div class="flex flex-col gt-xs:flex-row">
+    <mat-form-field class="flex-auto gt-xs:pl-3">
+      <input matInput [placeholder]="'Email Address'" formControlName="email">
+      <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+    </mat-form-field>
+    <mat-form-field class="flex-auto gt-xs:pl-3">
+      <input matInput [placeholder]="'name'" formControlName="name">
+      <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+    </mat-form-field>
+
+
+    <mat-form-field class="flex-auto gt-xs:pr-3">
+      <mat-select [placeholder]="'Roles'" formControlName="groups">
+        <mat-option *ngFor="let role of roles" [value]="role.value">{{role.label}}</mat-option>
+      </mat-select>
+      <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_outline:user-group'"></mat-icon>
+    </mat-form-field>
+  </div>
+  <div class="flex items-center justify-end border-t mt-8 px-8 py-5">
+    <button mat-button (click)="close()">
+      Cancel
+    </button>
+    <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="submit()" [disabled]="!this.form.valid">
+      Save
+    </button>
+  </div>
 </form>

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from "@angular/core";
-import { UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 export type Role = {
@@ -7,12 +7,12 @@ export type Role = {
   value: string;
 }
 
-export type Group = {
+type Group = {
   name: string;
   id: number;
 }
 
-export type User = {
+type User = {
   customer: string;
   email: string;
   name: string;
@@ -52,9 +52,9 @@ export class UserFormComponent implements OnInit {
   setForm(): void {
     this.form = this._formBuilder.group({
       customer: [this.data.customer],
-      email: [this.data.email],
-      name: [this.data.name],
-      groups: [this.data.groups],
+      email: [this.data.email, Validators.required],
+      name: [this.data.name, Validators.required],
+      groups: [this.data.groups, Validators.required],
     })
   }
 

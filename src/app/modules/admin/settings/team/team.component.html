@@ -53,7 +53,7 @@
             </mat-form-field>
           </div>
           <div class="order-1 sm:order-2 sm:ml-3">
-            <button mat-icon-button>
+            <button mat-icon-button (click)="delete(member.id)">
               <mat-icon class="text-hint" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
             </button>
           </div>
