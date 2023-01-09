@@ -23,6 +23,10 @@ export class UserService {
     return this._user.asObservable();
   }
 
+  get users$(): Observable<User[]> {
+    return this._users.asObservable();
+  }
+
   get(): Observable<User> {
     return this._httpClient.get<User>('api/users/get/').pipe(
       tap((user) => {
