@@ -17,7 +17,7 @@ type Detail = {
   vatNumber?: string;
   website?: string;
   phoneNumbers?: {
-    phoneNumber: string;
+    phone: string;
     label: string;
   }[];
   emails?: {

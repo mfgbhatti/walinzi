@@ -11,15 +11,15 @@ import {
   tap,
   throwError,
 } from 'rxjs';
-import { Contact as DataType } from '@modules/admin/clients/clients.types';
+import { Client as DataType } from '@modules/admin/clients/clients.types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ContactsService {
   itemName = 'Client';
-  // url: string = 'api/clients';
-  url: string = 'api/apps/contacts';
+  url: string = 'api/clients';
+  // url: string = 'api/apps/contacts';
   // Private
   private readonly _item: BehaviorSubject<DataType | null> =
     new BehaviorSubject(null);
@@ -105,14 +105,14 @@ export class ContactsService {
     );
   }
 
-  updateItem(id: string, contact: DataType): Observable<DataType> {
+  updateItem(id: string, item: DataType): Observable<DataType> {
     return this.items$.pipe(
       take(1),
       switchMap((items) =>
         this._httpClient
           .patch<DataType>(this.url + '/update/', {
             id,
-            contact,
+            item,
           })
           .pipe(
             map((updateditem) => {

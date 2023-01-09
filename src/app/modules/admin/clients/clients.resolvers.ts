@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
 import { ContactsService as DataService } from '@modules/admin/clients/clients.service';
-import { Contact as DataType } from '@modules/admin/clients/clients.types';
+import { Client as DataType } from '@modules/admin/clients/clients.types';
 
 @Injectable({
   providedIn: 'root'

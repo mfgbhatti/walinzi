@@ -1,3 +1,4 @@
+"""Client serializers."""
 from rest_framework import serializers
 
 from backend.customers.models import Customer
@@ -49,7 +50,6 @@ class ClientEmailSerializer(serializers.ModelSerializer):
 class ClientAddressSerializer(serializers.ModelSerializer):
     """Client address serializer."""
 
-
     class Meta:
         """short description of the class"""
 
@@ -60,12 +60,9 @@ class ClientAddressSerializer(serializers.ModelSerializer):
 class ClientDetailSerializer(serializers.ModelSerializer):
     """Client detail serializer."""
 
-    phones = ClientPhoneSerializer(many=True)
+    phoneNumbers = ClientPhoneSerializer(many=True)
     emails = ClientEmailSerializer(many=True)
     notes = ClientNotesSerializer(many=True)
-
-    def get_vatNumber(self, obj):
-        return obj.vat_number
 
     class Meta:
         """short description of the class"""
@@ -74,7 +71,7 @@ class ClientDetailSerializer(serializers.ModelSerializer):
         fields = (
             "website",
             "vat_number",
-            "phones",
+            "phoneNumbers",
             "emails",
             "notes",
         )
@@ -123,7 +120,7 @@ class ClientSerializer(serializers.ModelSerializer):
         validated_data["updated_by"] = user_instance
         detail_data = validated_data.pop("detail")
         address_data = validated_data.pop("address")
-        phone_data = detail_data.pop("phones")
+        phone_data = detail_data.pop("phoneNumbers")
         email_data = detail_data.pop("emails")
         note_data = detail_data.pop("notes")
         client = Client.objects.create(owned_by=instance, created_by=user_instance, **validated_data)
@@ -149,7 +146,7 @@ class ClientSerializer(serializers.ModelSerializer):
         user_instance = User.objects.get(id=user.id)
         detail_data = validated_data.pop("detail")
         address_data = validated_data.pop("address")
-        phone_data = detail_data.pop("phones")
+        phone_data = detail_data.pop("phoneNumbers")
         email_data = detail_data.pop("emails")
         note_data = detail_data.pop("notes")
 
@@ -171,7 +168,7 @@ class ClientSerializer(serializers.ModelSerializer):
         detail.vat_number = detail_data.get("vat_number", detail.vat_number)
         detail.save()
 
-        def UpdateArray(model_data, STRING, MODEL):
+        def update_array(model_data, STRING, MODEL):
             # change detail to instance and add that instance in parameters
             # detail=detail.pk to detail=instance.pk
             # MODEL.objects.create(detail=detail to MODEL.objects.create(detail=instance
@@ -197,8 +194,8 @@ class ClientSerializer(serializers.ModelSerializer):
                     MODEL.objects.filter(pk=item_id).delete()
 
         """for arrays like phones, emails, notes"""
-        UpdateArray(phone_data, "phone", ClientPhone)
-        UpdateArray(email_data, "email", ClientEmail)
-        UpdateArray(note_data, "note", ClientNotes)
+        update_array(phone_data, "phone", ClientPhone)
+        update_array(email_data, "email", ClientEmail)
+        update_array(note_data, "note", ClientNotes)
 
         return instance

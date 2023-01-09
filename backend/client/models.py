@@ -84,7 +84,7 @@ class ClientPhone(models.Model):
     detail = models.ForeignKey(
         ClientDetail,
         on_delete=models.CASCADE,
-        related_name="phones",
+        related_name="phoneNumbers",
     )
     label = models.CharField(max_length=20, default="")
     phone = models.CharField(
