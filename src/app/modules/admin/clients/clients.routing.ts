@@ -1,37 +1,32 @@
 import { Route } from '@angular/router';
-import { CanDeactivateContactsDetails } from 'app/modules/admin/apps/contacts/contacts.guards';
-import { ContactsContactResolver, ContactsCountriesResolver, ContactsResolver, ContactsTagsResolver } from 'app/modules/admin/apps/contacts/contacts.resolvers';
-import { ContactsComponent } from 'app/modules/admin/apps/contacts/contacts.component';
-import { ContactsListComponent } from 'app/modules/admin/apps/contacts/list/list.component';
-import { ContactsDetailsComponent } from 'app/modules/admin/apps/contacts/details/details.component';
+import { CanDeactivateItemsDetails } from '@modules/admin/clients/clients.guards';
+import { ItemResolver, ItemsResolver } from '@modules/admin/clients/clients.resolvers';
+import { ClientsComponent } from '@modules/admin/clients/clients.component';
+import { ListComponent } from '@modules/admin/clients/list/list.component';
+import { DetailsComponent } from '@modules/admin/clients/details/details.component';
 
-export const contactsRoutes: Route[] = [
-    {
-        path     : '',
-        component: ContactsComponent,
-        resolve  : {
-            tags: ContactsTagsResolver
+export const ClientsRoutes: Route[] = [
+  {
+    path: '',
+    component: ClientsComponent,
+    children: [
+      {
+        path: '',
+        component: ListComponent,
+        resolve: {
+          items: ItemsResolver,
         },
-        children : [
-            {
-                path     : '',
-                component: ContactsListComponent,
-                resolve  : {
-                    contacts : ContactsResolver,
-                    countries: ContactsCountriesResolver
-                },
-                children : [
-                    {
-                        path         : ':id',
-                        component    : ContactsDetailsComponent,
-                        resolve      : {
-                            contact  : ContactsContactResolver,
-                            countries: ContactsCountriesResolver
-                        },
-                        canDeactivate: [CanDeactivateContactsDetails]
-                    }
-                ]
-            }
+        children: [
+          {
+            path: ':id',
+            component: DetailsComponent,
+            resolve: {
+              item: ItemResolver,
+            },
+            canDeactivate: [CanDeactivateItemsDetails]
+          }
         ]
-    }
+      }
+    ]
+  }
 ];

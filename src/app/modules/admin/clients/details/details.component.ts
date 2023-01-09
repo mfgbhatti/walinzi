@@ -1,67 +1,53 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, Renderer2, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { MatDrawerToggleResult } from '@angular/material/sidenav';
-import { debounceTime, Subject, takeUntil } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { Contact as DataType, Country, Tag } from '@modules/admin/clients/clients.types';
 import { ListComponent } from '@modules/admin/clients/list/list.component';
 import { ContactsService as DataService } from '@modules/admin/clients/clients.service';
+import { Destroy } from '@fuse/services/utils/destroy';
 
 @Component({
   selector: 'clients-details',
   templateUrl: './details.component.html',
+  providers: [Destroy],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DetailsComponent implements OnInit, OnDestroy {
+export class DetailsComponent implements OnInit {
+  itemName: string = 'Client';
   @ViewChild('avatarFileInput') private _avatarFileInput: ElementRef;
-  @ViewChild('tagsPanel') private _tagsPanel: TemplateRef<any>;
-  @ViewChild('tagsPanelOrigin') private _tagsPanelOrigin: ElementRef;
 
   editMode: boolean = false;
-  tags: Tag[];
-  tagsEditMode: boolean = false;
-  filteredTags: Tag[];
-  contact: Contact;
-  contactForm: UntypedFormGroup;
-  contacts: Contact[];
-  countries: Country[];
-  private _tagsPanelOverlayRef: OverlayRef;
-  private _unsubscribeAll: Subject<any> = new Subject<any>();
+  item: DataType;
+  itemForm: UntypedFormGroup;
+  items: DataType[];
 
-  /**
-   * Constructor
-   */
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _changeDetectorRef: ChangeDetectorRef,
     private _itemsListComponent: ListComponent,
-    private _contactsService: ContactsService,
+    private _dataService: DataService,
     private _formBuilder: UntypedFormBuilder,
     private _fuseConfirmationService: FuseConfirmationService,
     private _renderer2: Renderer2,
     private _router: Router,
     private _overlay: Overlay,
-    private _viewContainerRef: ViewContainerRef
+    private _viewContainerRef: ViewContainerRef,
+    private readonly _unsubscribeAll: Destroy
   ) {
   }
 
-  // -----------------------------------------------------------------------------------------------------
-  // @ Lifecycle hooks
-  // -----------------------------------------------------------------------------------------------------
-
-  /**
-   * On init
-   */
   ngOnInit(): void {
     // Open the drawer
-    this._contactsListComponent.matDrawer.open();
+    this._itemsListComponent.matDrawer.open();
 
     // Create the contact form
-    this.contactForm = this._formBuilder.group({
+    this.itemForm = this._formBuilder.group({
       id: [''],
       avatar: [null],
       name: ['', [Validators.required]],
@@ -72,43 +58,42 @@ export class DetailsComponent implements OnInit, OnDestroy {
       birthday: [null],
       address: [null],
       notes: [null],
-      tags: [[]]
     });
 
     // Get the contacts
-    this._contactsService.contacts$
+    this._dataService.items$
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((contacts: Contact[]) => {
-        this.contacts = contacts;
+      .subscribe((items: DataType[]) => {
+        this.items = items;
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
       });
 
     // Get the contact
-    this._contactsService.contact$
+    this._dataService.item$
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((contact: Contact) => {
+      .subscribe((item: DataType) => {
 
         // Open the drawer in case it is closed
-        this._contactsListComponent.matDrawer.open();
+        this._itemsListComponent.matDrawer.open();
 
         // Get the contact
-        this.contact = contact;
+        this.item = item;
 
         // Clear the emails and phoneNumbers form arrays
-        (this.contactForm.get('emails') as UntypedFormArray).clear();
-        (this.contactForm.get('phoneNumbers') as UntypedFormArray).clear();
+        (this.itemForm.get('emails') as UntypedFormArray).clear();
+        (this.itemForm.get('phoneNumbers') as UntypedFormArray).clear();
 
         // Patch values to the form
-        this.contactForm.patchValue(contact);
+        this.itemForm.patchValue(item);
 
         // Setup the emails form array
         const emailFormGroups = [];
 
-        if (contact.emails.length > 0) {
+        if (item.emails.length > 0) {
           // Iterate through them
-          contact.emails.forEach((email) => {
+          item.emails.forEach((email) => {
 
             // Create an email form group
             emailFormGroups.push(
@@ -131,15 +116,15 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
         // Add the email form groups to the emails form array
         emailFormGroups.forEach((emailFormGroup) => {
-          (this.contactForm.get('emails') as UntypedFormArray).push(emailFormGroup);
+          (this.itemForm.get('emails') as UntypedFormArray).push(emailFormGroup);
         });
 
         // Setup the phone numbers form array
         const phoneNumbersFormGroups = [];
 
-        if (contact.phoneNumbers.length > 0) {
+        if (item.phoneNumbers.length > 0) {
           // Iterate through them
-          contact.phoneNumbers.forEach((phoneNumber) => {
+          item.phoneNumbers.forEach((phoneNumber) => {
 
             // Create an email form group
             phoneNumbersFormGroups.push(
@@ -164,7 +149,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
         // Add the phone numbers form groups to the phone numbers form array
         phoneNumbersFormGroups.forEach((phoneNumbersFormGroup) => {
-          (this.contactForm.get('phoneNumbers') as UntypedFormArray).push(phoneNumbersFormGroup);
+          (this.itemForm.get('phoneNumbers') as UntypedFormArray).push(phoneNumbersFormGroup);
         });
 
         // Toggle the edit mode off
@@ -173,59 +158,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
         // Mark for check
         this._changeDetectorRef.markForCheck();
       });
-
-    // Get the country telephone codes
-    this._contactsService.countries$
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((codes: Country[]) => {
-        this.countries = codes;
-
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
-      });
-
-    // Get the tags
-    this._contactsService.tags$
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((tags: Tag[]) => {
-        this.tags = tags;
-        this.filteredTags = tags;
-
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
-      });
   }
 
-  /**
-   * On destroy
-   */
-  ngOnDestroy(): void {
-    // Unsubscribe from all subscriptions
-    this._unsubscribeAll.next(null);
-    this._unsubscribeAll.complete();
-
-    // Dispose the overlays if they are still on the DOM
-    if (this._tagsPanelOverlayRef) {
-      this._tagsPanelOverlayRef.dispose();
-    }
-  }
-
-  // -----------------------------------------------------------------------------------------------------
-  // @ Public methods
-  // -----------------------------------------------------------------------------------------------------
-
-  /**
-   * Close the drawer
-   */
   closeDrawer(): Promise<MatDrawerToggleResult> {
-    return this._contactsListComponent.matDrawer.close();
+    return this._itemsListComponent.matDrawer.close();
   }
 
-  /**
-   * Toggle edit mode
-   *
-   * @param editMode
-   */
   toggleEditMode(editMode: boolean | null = null): void {
     if (editMode === null) {
       this.editMode = !this.editMode;
@@ -238,20 +176,17 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this._changeDetectorRef.markForCheck();
   }
 
-  /**
-   * Update the contact
-   */
-  updateContact(): void {
+  updateItem(): void {
     // Get the contact object
-    const contact = this.contactForm.getRawValue();
+    const item = this.itemForm.getRawValue();
 
     // Go through the contact object and clear empty values
-    contact.emails = contact.emails.filter(email => email.email);
+    item.emails = item.emails.filter(email => email.email);
 
-    contact.phoneNumbers = contact.phoneNumbers.filter(phoneNumber => phoneNumber.phoneNumber);
+    item.phoneNumbers = item.phoneNumbers.filter(phoneNumber => phoneNumber.phoneNumber);
 
     // Update the contact on the server
-    this._contactsService.updateContact(contact.id, contact).subscribe(() => {
+    this._dataService.updateItem(item.id, item).subscribe(() => {
 
       // Toggle the edit mode off
       this.toggleEditMode(false);
@@ -261,11 +196,11 @@ export class DetailsComponent implements OnInit, OnDestroy {
   /**
    * Delete the contact
    */
-  deleteContact(): void {
+  deleteItem(): void {
     // Open the confirmation dialog
     const confirmation = this._fuseConfirmationService.open({
-      title: 'Delete contact',
-      message: 'Are you sure you want to delete this contact? This action cannot be undone!',
+      title: 'Delete '+ this.item.name,
+      message: 'Are you sure you want to delete this '+ this.itemName+'? This action cannot be undone!',
       actions: {
         confirm: {
           label: 'Delete'
@@ -279,15 +214,15 @@ export class DetailsComponent implements OnInit, OnDestroy {
       // If the confirm button pressed...
       if (result === 'confirmed') {
         // Get the current contact's id
-        const id = this.contact.id;
+        const id = this.item.id;
 
         // Get the next/previous contact's id
-        const currentContactIndex = this.contacts.findIndex(item => item.id === id);
-        const nextContactIndex = currentContactIndex + ((currentContactIndex === (this.contacts.length - 1)) ? -1 : 1);
-        const nextContactId = (this.contacts.length === 1 && this.contacts[0].id === id) ? null : this.contacts[nextContactIndex].id;
+        const currentItemIndex = this.items.findIndex(item => item.id === id);
+        const nextItemIndex = currentItemIndex + ((currentItemIndex === (this.items.length - 1)) ? -1 : 1);
+        const nextItemId = (this.items.length === 1 && this.items[0].id === id) ? null : this.items[nextItemIndex].id;
 
         // Delete the contact
-        this._contactsService.deleteContact(id)
+        this._dataService.deleteItem(id)
           .subscribe((isDeleted) => {
 
             // Return if the contact wasn't deleted...
@@ -296,8 +231,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
             }
 
             // Navigate to the next contact if available
-            if (nextContactId) {
-              this._router.navigate(['../', nextContactId], { relativeTo: this._activatedRoute });
+            if (nextItemId) {
+              this._router.navigate(['../', nextItemId], { relativeTo: this._activatedRoute });
             }
             // Otherwise, navigate to the parent
             else {
@@ -315,279 +250,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   }
 
-  /**
-   * Upload avatar
-   *
-   * @param fileList
-   */
-  uploadAvatar(fileList: FileList): void {
-    // Return if canceled
-    if (!fileList.length) {
-      return;
-    }
-
-    const allowedTypes = ['image/jpeg', 'image/png'];
-    const file = fileList[0];
-
-    // Return if the file is not allowed
-    if (!allowedTypes.includes(file.type)) {
-      return;
-    }
-
-    // Upload the avatar
-    this._contactsService.uploadAvatar(this.contact.id, file).subscribe();
-  }
-
-  /**
-   * Remove the avatar
-   */
-  removeAvatar(): void {
-    // Get the form control for 'avatar'
-    const avatarFormControl = this.contactForm.get('avatar');
-
-    // Set the avatar as null
-    avatarFormControl.setValue(null);
-
-    // Set the file input value as null
-    this._avatarFileInput.nativeElement.value = null;
-
-    // Update the contact
-    this.contact.avatar = null;
-  }
-
-  /**
-   * Open tags panel
-   */
-  openTagsPanel(): void {
-    // Create the overlay
-    this._tagsPanelOverlayRef = this._overlay.create({
-      backdropClass: '',
-      hasBackdrop: true,
-      scrollStrategy: this._overlay.scrollStrategies.block(),
-      positionStrategy: this._overlay.position()
-        .flexibleConnectedTo(this._tagsPanelOrigin.nativeElement)
-        .withFlexibleDimensions(true)
-        .withViewportMargin(64)
-        .withLockedPosition(true)
-        .withPositions([
-          {
-            originX: 'start',
-            originY: 'bottom',
-            overlayX: 'start',
-            overlayY: 'top'
-          }
-        ])
-    });
-
-    // Subscribe to the attachments observable
-    this._tagsPanelOverlayRef.attachments().subscribe(() => {
-
-      // Add a class to the origin
-      this._renderer2.addClass(this._tagsPanelOrigin.nativeElement, 'panel-opened');
-
-      // Focus to the search input once the overlay has been attached
-      this._tagsPanelOverlayRef.overlayElement.querySelector('input').focus();
-    });
-
-    // Create a portal from the template
-    const templatePortal = new TemplatePortal(this._tagsPanel, this._viewContainerRef);
-
-    // Attach the portal to the overlay
-    this._tagsPanelOverlayRef.attach(templatePortal);
-
-    // Subscribe to the backdrop click
-    this._tagsPanelOverlayRef.backdropClick().subscribe(() => {
-
-      // Remove the class from the origin
-      this._renderer2.removeClass(this._tagsPanelOrigin.nativeElement, 'panel-opened');
-
-      // If overlay exists and attached...
-      if (this._tagsPanelOverlayRef && this._tagsPanelOverlayRef.hasAttached()) {
-        // Detach it
-        this._tagsPanelOverlayRef.detach();
-
-        // Reset the tag filter
-        this.filteredTags = this.tags;
-
-        // Toggle the edit mode off
-        this.tagsEditMode = false;
-      }
-
-      // If template portal exists and attached...
-      if (templatePortal && templatePortal.isAttached) {
-        // Detach it
-        templatePortal.detach();
-      }
-    });
-  }
-
-  /**
-   * Toggle the tags edit mode
-   */
-  toggleTagsEditMode(): void {
-    this.tagsEditMode = !this.tagsEditMode;
-  }
-
-  /**
-   * Filter tags
-   *
-   * @param event
-   */
-  filterTags(event): void {
-    // Get the value
-    const value = event.target.value.toLowerCase();
-
-    // Filter the tags
-    this.filteredTags = this.tags.filter(tag => tag.title.toLowerCase().includes(value));
-  }
-
-  /**
-   * Filter tags input key down event
-   *
-   * @param event
-   */
-  filterTagsInputKeyDown(event): void {
-    // Return if the pressed key is not 'Enter'
-    if (event.key !== 'Enter') {
-      return;
-    }
-
-    // If there is no tag available...
-    if (this.filteredTags.length === 0) {
-      // Create the tag
-      this.createTag(event.target.value);
-
-      // Clear the input
-      event.target.value = '';
-
-      // Return
-      return;
-    }
-
-    // If there is a tag...
-    const tag = this.filteredTags[0];
-    const isTagApplied = this.contact.tags.find(id => id === tag.id);
-
-    // If the found tag is already applied to the contact...
-    if (isTagApplied) {
-      // Remove the tag from the contact
-      this.removeTagFromContact(tag);
-    }
-    else {
-      // Otherwise add the tag to the contact
-      this.addTagToContact(tag);
-    }
-  }
-
-  /**
-   * Create a new tag
-   *
-   * @param title
-   */
-  createTag(title: string): void {
-    const tag = {
-      title
-    };
-
-    // Create tag on the server
-    this._contactsService.createTag(tag)
-      .subscribe((response) => {
-
-        // Add the tag to the contact
-        this.addTagToContact(response);
-      });
-  }
-
-  /**
-   * Update the tag title
-   *
-   * @param tag
-   * @param event
-   */
-  updateTagTitle(tag: Tag, event): void {
-    // Update the title on the tag
-    tag.title = event.target.value;
-
-    // Update the tag on the server
-    this._contactsService.updateTag(tag.id, tag)
-      .pipe(debounceTime(300))
-      .subscribe();
-
-    // Mark for check
-    this._changeDetectorRef.markForCheck();
-  }
-
-  /**
-   * Delete the tag
-   *
-   * @param tag
-   */
-  deleteTag(tag: Tag): void {
-    // Delete the tag from the server
-    this._contactsService.deleteTag(tag.id).subscribe();
-
-    // Mark for check
-    this._changeDetectorRef.markForCheck();
-  }
-
-  /**
-   * Add tag to the contact
-   *
-   * @param tag
-   */
-  addTagToContact(tag: Tag): void {
-    // Add the tag
-    this.contact.tags.unshift(tag.id);
-
-    // Update the contact form
-    this.contactForm.get('tags').patchValue(this.contact.tags);
-
-    // Mark for check
-    this._changeDetectorRef.markForCheck();
-  }
-
-  /**
-   * Remove tag from the contact
-   *
-   * @param tag
-   */
-  removeTagFromContact(tag: Tag): void {
-    // Remove the tag
-    this.contact.tags.splice(this.contact.tags.findIndex(item => item === tag.id), 1);
-
-    // Update the contact form
-    this.contactForm.get('tags').patchValue(this.contact.tags);
-
-    // Mark for check
-    this._changeDetectorRef.markForCheck();
-  }
-
-  /**
-   * Toggle contact tag
-   *
-   * @param tag
-   */
-  toggleContactTag(tag: Tag): void {
-    if (this.contact.tags.includes(tag.id)) {
-      this.removeTagFromContact(tag);
-    }
-    else {
-      this.addTagToContact(tag);
-    }
-  }
-
-  /**
-   * Should the create tag button be visible
-   *
-   * @param inputValue
-   */
-  shouldShowCreateTagButton(inputValue: string): boolean {
-    return !!!(inputValue === '' || this.tags.findIndex(tag => tag.title.toLowerCase() === inputValue.toLowerCase()) > -1);
-  }
-
-  /**
-   * Add the email field
-   */
   addEmailField(): void {
     // Create an empty email form group
     const emailFormGroup = this._formBuilder.group({
@@ -596,20 +258,15 @@ export class DetailsComponent implements OnInit, OnDestroy {
     });
 
     // Add the email form group to the emails form array
-    (this.contactForm.get('emails') as UntypedFormArray).push(emailFormGroup);
+    (this.itemForm.get('emails') as UntypedFormArray).push(emailFormGroup);
 
     // Mark for check
     this._changeDetectorRef.markForCheck();
   }
 
-  /**
-   * Remove the email field
-   *
-   * @param index
-   */
   removeEmailField(index: number): void {
     // Get form array for emails
-    const emailsFormArray = this.contactForm.get('emails') as UntypedFormArray;
+    const emailsFormArray = this.itemForm.get('emails') as UntypedFormArray;
 
     // Remove the email field
     emailsFormArray.removeAt(index);
@@ -630,7 +287,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     });
 
     // Add the phone number form group to the phoneNumbers form array
-    (this.contactForm.get('phoneNumbers') as UntypedFormArray).push(phoneNumberFormGroup);
+    (this.itemForm.get('phoneNumbers') as UntypedFormArray).push(phoneNumberFormGroup);
 
     // Mark for check
     this._changeDetectorRef.markForCheck();
@@ -643,7 +300,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
    */
   removePhoneNumberField(index: number): void {
     // Get form array for phone numbers
-    const phoneNumbersFormArray = this.contactForm.get('phoneNumbers') as UntypedFormArray;
+    const phoneNumbersFormArray = this.itemForm.get('phoneNumbers') as UntypedFormArray;
 
     // Remove the phone number field
     phoneNumbersFormArray.removeAt(index);
@@ -652,14 +309,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this._changeDetectorRef.markForCheck();
   }
 
-  /**
-   * Get country info by iso code
-   *
-   * @param iso
-   */
-  getCountryByIso(iso: string): Country {
-    return this.countries.find(country => country.iso === iso);
-  }
 
   /**
    * Track by function for ngFor loops

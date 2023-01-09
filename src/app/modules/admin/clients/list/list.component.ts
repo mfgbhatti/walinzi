@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntypedFormControl } from '@angular/forms';
@@ -14,13 +14,14 @@ import { ContactsService as DataService } from '@modules/admin/clients/clients.s
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ListComponent implements OnInit, OnDestroy {
+export class ListComponent implements OnInit {
+  itemName = 'Clients';
   @ViewChild('matDrawer', { static: true }) matDrawer: MatDrawer;
 
   items$: Observable<DataType[]>;
 
-  contactsCount: number = 0;
-  contactsTableColumns: string[] = ['name', 'email', 'phoneNumber', 'job'];
+  itemsCount: number = 0;
+  itemsTableColumns: string[] = ['name', 'email', 'phoneNumber', 'job'];
   drawerMode: 'side' | 'over';
   searchInputControl: UntypedFormControl = new UntypedFormControl();
   selectedItem: DataType;
@@ -48,20 +49,20 @@ export class ListComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     // Get the contacts
-    this.items$ = this._dataServices.contacts$;
-    this._dataServices.contacts$
+    this.items$ = this._dataServices.items$;
+    this._dataServices.items$
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((contacts: DataType[]) => {
+      .subscribe((items: DataType[]) => {
 
         // Update the counts
-        this.contactsCount = contacts.length;
+        this.itemsCount = items.length;
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
       });
 
     // Get the contact
-    this._dataServices.contact$
+    this._dataServices.item$
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((item: DataType) => {
 
@@ -80,7 +81,7 @@ export class ListComponent implements OnInit, OnDestroy {
         switchMap(query =>
 
           // Search
-          this._dataServices.searchContacts(query)
+          this._dataServices.searchItems(query)
         )
       )
       .subscribe();
@@ -127,14 +128,6 @@ export class ListComponent implements OnInit, OnDestroy {
       });
   }
 
-  /**
-   * On destroy
-   */
-  ngOnDestroy(): void {
-    // Unsubscribe from all subscriptions
-    this._unsubscribeAll.next(null);
-    this._unsubscribeAll.complete();
-  }
 
   // -----------------------------------------------------------------------------------------------------
   // @ Public methods
@@ -156,10 +149,10 @@ export class ListComponent implements OnInit, OnDestroy {
    */
   createContact(): void {
     // Create the contact
-    this._dataServices.createContact().subscribe((newContact) => {
+    this._dataServices.createNewItem().subscribe((newItem) => {
 
       // Go to the new contact
-      this._router.navigate(['./', newContact.id], { relativeTo: this._activatedRoute });
+      this._router.navigate(['./', newItem.id], { relativeTo: this._activatedRoute });
 
       // Mark for check
       this._changeDetectorRef.markForCheck();
