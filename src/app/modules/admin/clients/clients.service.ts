@@ -18,7 +18,8 @@ import { Contact as DataType } from '@modules/admin/clients/clients.types';
 })
 export class ContactsService {
   itemName = 'Client';
-  url: string = 'api/clients';
+  // url: string = 'api/clients';
+  url: string = 'api/apps/contacts';
   // Private
   private readonly _item: BehaviorSubject<DataType | null> =
     new BehaviorSubject(null);

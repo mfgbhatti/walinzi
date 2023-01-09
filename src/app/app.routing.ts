@@ -132,6 +132,7 @@ export const appRoutes: Route[] = [
                         (m) => m.SettingsModule
                     ),
             },
+            {path: 'clients', loadChildren: () => import('app/modules/admin/clients/clients.module').then(m => m.ClientsModule)},
         ],
     },
 ];

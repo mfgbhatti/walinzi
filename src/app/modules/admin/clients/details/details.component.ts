@@ -6,7 +6,7 @@ import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { MatDrawerToggleResult } from '@angular/material/sidenav';
 import { debounceTime, takeUntil } from 'rxjs';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { Contact as DataType, Country, Tag } from '@modules/admin/clients/clients.types';
+import { Contact as DataType } from '@modules/admin/clients/clients.types';
 import { ListComponent } from '@modules/admin/clients/list/list.component';
 import { ContactsService as DataService } from '@modules/admin/clients/clients.service';
 import { Destroy } from '@fuse/services/utils/destroy';

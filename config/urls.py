@@ -25,3 +25,8 @@ urlpatterns = [
     path("", include("backend.shortcuts.urls")),
     path("", include("backend.configs.urls")),
 ]
+
+""" urls for customers' clients"""#
+urlpatterns += [
+    path("clients/", include("backend.client.urls")),
+]

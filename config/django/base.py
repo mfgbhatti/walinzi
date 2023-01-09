@@ -35,7 +35,7 @@ LOCAL_APPS = [
     "backend.common.apps.CommonConfig",
     "backend.shortcuts.apps.ShortcutsConfig",
     "backend.configs.apps.ConfigsConfig",
-
+    "backend.client.apps.ClientConfig",
 ]
 
 THIRD_PARTY_APPS = [

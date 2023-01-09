@@ -1,37 +1,31 @@
-export interface Contact
-{
-    id: string;
-    avatar?: string | null;
-    background?: string | null;
-    name: string;
-    emails?: {
-        email: string;
-        label: string;
-    }[];
-    phoneNumbers?: {
-        country: string;
-        phoneNumber: string;
-        label: string;
-    }[];
-    title?: string;
-    company?: string;
-    birthday?: string | null;
-    address?: string | null;
-    notes?: string | null;
-    tags: string[];
+export interface Client {
+  id: string;
+  name: string;
+  title?: string;
+  detail?: Detail;
+  address?: Address;
+
 }
 
-export interface Country
-{
-    id: string;
-    iso: string;
-    name: string;
-    code: string;
-    flagImagePos: string;
+type Address = {
+  street?: string;
+  city?: string;
+  postCode?: string;
 }
 
-export interface Tag
-{
-    id?: string;
-    title?: string;
+type Detail = {
+  vatNumber?: string;
+  website?: string;
+  phoneNumbers?: {
+    phoneNumber: string;
+    label: string;
+  }[];
+  emails?: {
+    email: string;
+    label: string;
+  }[];
+  notes?: {
+    label: string;
+    note: string;
+  }[];
 }

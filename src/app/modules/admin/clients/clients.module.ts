@@ -67,5 +67,5 @@ import { ListComponent } from '@modules/admin/clients/list/list.component';
     }
   ]
 })
-export class ContactsModule {
+export class ClientsModule {
 }
