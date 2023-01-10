@@ -12,6 +12,7 @@ import {
   throwError,
 } from 'rxjs';
 import { Client as DataType } from '@modules/admin/clients/clients.types';
+import { cloneDeep } from 'lodash';
 
 @Injectable({
   providedIn: 'root',
@@ -48,6 +49,20 @@ export class ContactsService {
 
   // search items
   searchItems(query: string): Observable<DataType[]> {
+    // return this._items.pipe(
+    //   take(1),
+    //   map((items) => {
+    //     let newItems = cloneDeep(items)
+    //     if (query) {
+    //       newItems = newItems.filter((item) => item.name && item.name.toLowerCase().includes(query.toLowerCase()));
+    //     }
+    //     newItems.sort((a, b) => a.name.localeCompare(b.name));
+
+    //     this._items.next(newItems);
+    //     return newItems;
+
+    //   })
+    // );
     return this._httpClient
       .get<DataType[]>(this.url + '/search/', {
         params: { query },
@@ -63,10 +78,9 @@ export class ContactsService {
     return this._items.pipe(
       take(1),
       map((items) => {
-        console.log(items);
         // Find the on item by id
-        const item = items.find((item) => item && item.id === id) || null;
-        console.log(item);
+        const item =
+          items.find((item) => item && item.id === id) || null;
 
         // Update the item
         this._item.next(item);
@@ -75,7 +89,6 @@ export class ContactsService {
         return item;
       }),
       switchMap((item) => {
-        console.log(item);
         if (!item) {
           return throwError(
             'Could not found ' +
@@ -92,18 +105,36 @@ export class ContactsService {
   }
 
   createNewItem(): Observable<DataType> {
+    const NewClient = {
+      name: 'New Client',
+      address: {
+        street: 'road',
+        city: 'City',
+        post_code: 'and post code',
+      },
+      detail: {
+        website: 'https://example.com',
+        vat_number: 'Add VAT Number',
+        phoneNumbers: [{ phone: '0000000000', label: 'Your label' }],
+        emails: [{ email: 'test@example.com', label: 'Your label' }],
+        notes: [{ note: 'First Note', label: 'Your label' }],
+      },
+    };
+
     return this.items$.pipe(
       take(1),
       switchMap((items) =>
-        this._httpClient.post<DataType>(this.url + '/create/', {}).pipe(
-          map((newItem) => {
-            // Update the contacts with the new contact
-            this._items.next([newItem, ...items]);
+        this._httpClient
+          .post<DataType>(this.url + '/create/', NewClient)
+          .pipe(
+            map((newItem) => {
+              // Update the contacts with the new contact
+              this._items.next([newItem, ...items]);
 
-            // Return the new contact
-            return newItem;
-          })
-        )
+              // Return the new contact
+              return newItem;
+            })
+          )
       )
     );
   }
@@ -113,10 +144,7 @@ export class ContactsService {
       take(1),
       switchMap((items) =>
         this._httpClient
-          .patch<DataType>(this.url + '/update/', {
-            id,
-            item,
-          })
+          .put<DataType>(this.url + '/update/' + id + '/', item)
           .pipe(
             map((updateditem) => {
               // Find the index of the updated contact
@@ -156,22 +184,21 @@ export class ContactsService {
       take(1),
       switchMap((items) =>
         this._httpClient
-          .delete(this.url + '/delete/', { params: { id } })
+          .delete(this.url + '/delete/' + id + '/', {
+            observe: 'response',
+          })
           .pipe(
-            map((isDeleted: boolean) => {
-              // Find the index of the deleted item
-              const index = items.findIndex(
-                (item) => item.id === id
-              );
-
-              // Delete the item
-              items.splice(index, 1);
-
-              // Update the items
-              this._items.next(items);
-
-              // Return the deleted status
-              return isDeleted;
+            map((response) => {
+              if (response.status === 204) {
+                const index = items.findIndex(
+                  (item) => item.id === id
+                );
+                items.splice(index, 1);
+                this._items.next(items);
+                return true;
+              } else {
+                return false;
+              }
             })
           )
       )

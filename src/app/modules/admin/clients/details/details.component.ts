@@ -48,8 +48,8 @@ export class DetailsComponent implements OnInit {
 
     // Create the contact form
     this.itemForm = this._formBuilder.group({
+      id: [''],
       name: ['', [Validators.required]],
-      title: [''],
       detail: this._formBuilder.group({
         phoneNumbers: this._formBuilder.array([]),
         emails: this._formBuilder.array([]),
@@ -87,9 +87,9 @@ export class DetailsComponent implements OnInit {
         this.item = item;
 
         // Clear the emails and phoneNumbers form arrays
-        (this.itemForm.get('emails') as UntypedFormArray).clear();
-        (this.itemForm.get('phoneNumbers') as UntypedFormArray).clear();
-        (this.itemForm.get('notes') as UntypedFormArray).clear();
+        (this.itemForm.get('detail.emails') as UntypedFormArray).clear();
+        (this.itemForm.get('detail.phoneNumbers') as UntypedFormArray).clear();
+        (this.itemForm.get('detail.notes') as UntypedFormArray).clear();
 
         // Patch values to the form
         this.itemForm.patchValue(item);
@@ -122,7 +122,7 @@ export class DetailsComponent implements OnInit {
 
         // Add the email form groups to the emails form array
         emailFormGroups.forEach((emailFormGroup) => {
-          (this.itemForm.get('emails') as UntypedFormArray).push(emailFormGroup);
+          (this.itemForm.get('detail.emails') as UntypedFormArray).push(emailFormGroup);
         });
 
         // Setup the phone numbers form array
@@ -153,7 +153,7 @@ export class DetailsComponent implements OnInit {
 
         // Add the phone numbers form groups to the phone numbers form array
         phoneNumbersFormGroups.forEach((phoneNumbersFormGroup) => {
-          (this.itemForm.get('phoneNumbers') as UntypedFormArray).push(phoneNumbersFormGroup);
+          (this.itemForm.get('detail.phoneNumbers') as UntypedFormArray).push(phoneNumbersFormGroup);
         });
         // setup the notes form array
         const notesFormGroups = [];
@@ -180,7 +180,7 @@ export class DetailsComponent implements OnInit {
 
         // Add the notes form groups to the notes form array
         notesFormGroups.forEach((notesFormGroup) => {
-          (this.itemForm.get('notes') as UntypedFormArray).push(notesFormGroup);
+          (this.itemForm.get('detail.notes') as UntypedFormArray).push(notesFormGroup);
         });
 
 
@@ -215,7 +215,7 @@ export class DetailsComponent implements OnInit {
     // Go through the contact object and clear empty values
     item.detail.emails = item.detail.emails.filter(email => email.email);
 
-    item.detail.phoneNumbers = item.detail.phoneNumbers.filter(phoneNumber => phoneNumber.phoneNumber);
+    item.detail.phoneNumbers = item.detail.phoneNumbers.filter(phone => phone.phone);
 
     item.detail.notes = item.detail.notes.filter(note => note.note);
 
@@ -292,7 +292,7 @@ export class DetailsComponent implements OnInit {
     });
 
     // Add the email form group to the emails form array
-    (this.itemForm.get('emails') as UntypedFormArray).push(emailFormGroup);
+    (this.itemForm.get('detail.emails') as UntypedFormArray).push(emailFormGroup);
 
     // Mark for check
     this._changeDetectorRef.markForCheck();
@@ -300,7 +300,7 @@ export class DetailsComponent implements OnInit {
 
   removeEmailField(index: number): void {
     // Get form array for emails
-    const emailsFormArray = this.itemForm.get('emails') as UntypedFormArray;
+    const emailsFormArray = this.itemForm.get('detail.emails') as UntypedFormArray;
 
     // Remove the email field
     emailsFormArray.removeAt(index);
@@ -320,7 +320,7 @@ export class DetailsComponent implements OnInit {
     });
 
     // Add the phone number form group to the phoneNumbers form array
-    (this.itemForm.get('phoneNumbers') as UntypedFormArray).push(phoneNumberFormGroup);
+    (this.itemForm.get('detail.phoneNumbers') as UntypedFormArray).push(phoneNumberFormGroup);
 
     // Mark for check
     this._changeDetectorRef.markForCheck();
@@ -328,7 +328,7 @@ export class DetailsComponent implements OnInit {
 
   removePhoneNumberField(index: number): void {
     // Get form array for phone numbers
-    const phoneNumbersFormArray = this.itemForm.get('phoneNumbers') as UntypedFormArray;
+    const phoneNumbersFormArray = this.itemForm.get('detail.phoneNumbers') as UntypedFormArray;
 
     // Remove the phone number field
     phoneNumbersFormArray.removeAt(index);
@@ -343,14 +343,14 @@ export class DetailsComponent implements OnInit {
       note: [''],
       label: ['']
     });
-    (this.itemForm.get('notes') as UntypedFormArray).push(noteFormGroup);
+    (this.itemForm.get('detail.notes') as UntypedFormArray).push(noteFormGroup);
     this._changeDetectorRef.markForCheck();
 
   }
 
   removeNoteField(index: number): void {
     // Get form array for notes
-    const notesFormArray = this.itemForm.get('notes') as UntypedFormArray;
+    const notesFormArray = this.itemForm.get('detail.notes') as UntypedFormArray;
     notesFormArray.removeAt(index);
     this._changeDetectorRef.markForCheck();
   }
