@@ -199,3 +199,31 @@ class ClientSerializer(serializers.ModelSerializer):
         update_array(note_data, "note", ClientNotes)
 
         return instance
+
+
+class CreateClientSerializer(serializers.ModelSerializer):
+    """Create client serializer."""
+
+    class Meta:
+        """short description of the class"""
+
+        model = Client
+        fields = (
+            "id",
+            "name",
+        )
+
+    def create(self, validated_data):
+        """Create client."""
+        user = None
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+
+        instance = Customer.objects.get(id=user.customer.id)
+        user_instance = User.objects.get(id=user.id)
+
+        validated_data["updated_by"] = user_instance
+        validated_data["name"] = "New Client"
+        client = Client.objects.create(owned_by=instance, created_by=user_instance, **validated_data)
+        return client
