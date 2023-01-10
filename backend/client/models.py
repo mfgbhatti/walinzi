@@ -10,7 +10,7 @@ from backend.common.models import BaseModel, BaseAddress, BaseDetail
 class Client(BaseModel):
     """Client model."""
 
-    id = models.AutoField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     owned_by = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="clients")
     name = models.CharField(max_length=80, default="")
     created_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name="created_by_user")
