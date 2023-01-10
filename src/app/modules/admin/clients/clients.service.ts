@@ -63,8 +63,10 @@ export class ContactsService {
     return this._items.pipe(
       take(1),
       map((items) => {
+        console.log(items);
         // Find the on item by id
-        const item = items.find((item) => item.id === id) || null;
+        const item = items.find((item) => item && item.id === id) || null;
+        console.log(item);
 
         // Update the item
         this._item.next(item);
@@ -73,6 +75,7 @@ export class ContactsService {
         return item;
       }),
       switchMap((item) => {
+        console.log(item);
         if (!item) {
           return throwError(
             'Could not found ' +

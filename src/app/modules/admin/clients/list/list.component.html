@@ -31,9 +31,9 @@
                                 {{itemsCount}}
                             </ng-container>
                             {{itemsCount| i18nPlural: {
-                            '=0'   : 'No contacts',
-                            '=1'   : 'contact',
-                            'other': 'contacts'
+                            '=0'   : 'No client',
+                            '=1'   : 'client',
+                            'other': 'clients'
                         } }}
                         </div>
                     </div>
@@ -61,7 +61,7 @@
                             class="ml-4"
                             mat-flat-button
                             [color]="'primary'"
-                            (click)="createContact()">
+                            (click)="createItem()">
                             <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                             <span class="ml-2 mr-1">Add</span>
                         </button>

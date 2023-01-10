@@ -5,7 +5,7 @@ import { UntypedFormControl } from '@angular/forms';
 import { MatDrawer } from '@angular/material/sidenav';
 import { filter, fromEvent, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { Contact as DataType } from '@modules/admin/clients/clients.types';
+import { Client as DataType } from '@modules/admin/clients/clients.types';
 import { ContactsService as DataService } from '@modules/admin/clients/clients.service';
 
 @Component({
@@ -124,18 +124,11 @@ export class ListComponent implements OnInit {
         )
       )
       .subscribe(() => {
-        this.createContact();
+        this.createItem();
       });
   }
 
 
-  // -----------------------------------------------------------------------------------------------------
-  // @ Public methods
-  // -----------------------------------------------------------------------------------------------------
-
-  /**
-   * On backdrop clicked
-   */
   onBackdropClicked(): void {
     // Go back to the list
     this._router.navigate(['./'], { relativeTo: this._activatedRoute });
@@ -147,7 +140,7 @@ export class ListComponent implements OnInit {
   /**
    * Create contact
    */
-  createContact(): void {
+  createItem(): void {
     // Create the contact
     this._dataServices.createNewItem().subscribe((newItem) => {
 
@@ -159,12 +152,6 @@ export class ListComponent implements OnInit {
     });
   }
 
-  /**
-   * Track by function for ngFor loops
-   *
-   * @param index
-   * @param item
-   */
   trackByFn(index: number, item: any): any {
     return item.id || index;
   }

@@ -14,7 +14,7 @@ type Address = {
 }
 
 type Detail = {
-  vatNumber?: string;
+  vat_number?: string;
   website?: string;
   phoneNumbers?: {
     phone: string;

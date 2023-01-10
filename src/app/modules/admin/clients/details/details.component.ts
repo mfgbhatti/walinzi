@@ -6,7 +6,7 @@ import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { MatDrawerToggleResult } from '@angular/material/sidenav';
 import { debounceTime, takeUntil } from 'rxjs';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { Contact as DataType } from '@modules/admin/clients/clients.types';
+import { Client as DataType } from '@modules/admin/clients/clients.types';
 import { ListComponent } from '@modules/admin/clients/list/list.component';
 import { ContactsService as DataService } from '@modules/admin/clients/clients.service';
 import { Destroy } from '@fuse/services/utils/destroy';
@@ -48,16 +48,21 @@ export class DetailsComponent implements OnInit {
 
     // Create the contact form
     this.itemForm = this._formBuilder.group({
-      id: [''],
-      avatar: [null],
       name: ['', [Validators.required]],
-      emails: this._formBuilder.array([]),
-      phoneNumbers: this._formBuilder.array([]),
       title: [''],
-      company: [''],
-      birthday: [null],
-      address: [null],
-      notes: [null],
+      detail: this._formBuilder.group({
+        phoneNumbers: this._formBuilder.array([]),
+        emails: this._formBuilder.array([]),
+        notes: this._formBuilder.array([]),
+        vat_number: [''],
+        website: [''],
+
+      }),
+      address: this._formBuilder.group({
+        street: [''],
+        city: [''],
+        post_code: ['']
+      })
     });
 
     // Get the contacts
@@ -84,6 +89,7 @@ export class DetailsComponent implements OnInit {
         // Clear the emails and phoneNumbers form arrays
         (this.itemForm.get('emails') as UntypedFormArray).clear();
         (this.itemForm.get('phoneNumbers') as UntypedFormArray).clear();
+        (this.itemForm.get('notes') as UntypedFormArray).clear();
 
         // Patch values to the form
         this.itemForm.patchValue(item);
@@ -91,9 +97,9 @@ export class DetailsComponent implements OnInit {
         // Setup the emails form array
         const emailFormGroups = [];
 
-        if (item.emails.length > 0) {
+        if (item.detail.emails.length > 0) {
           // Iterate through them
-          item.emails.forEach((email) => {
+          item.detail.emails.forEach((email) => {
 
             // Create an email form group
             emailFormGroups.push(
@@ -122,15 +128,14 @@ export class DetailsComponent implements OnInit {
         // Setup the phone numbers form array
         const phoneNumbersFormGroups = [];
 
-        if (item.phoneNumbers.length > 0) {
+        if (item.detail.phoneNumbers.length > 0) {
           // Iterate through them
-          item.phoneNumbers.forEach((phoneNumber) => {
+          item.detail.phoneNumbers.forEach((phoneNumber) => {
 
             // Create an email form group
             phoneNumbersFormGroups.push(
               this._formBuilder.group({
-                country: [phoneNumber.country],
-                phoneNumber: [phoneNumber.phoneNumber],
+                phone: [phoneNumber.phone],
                 label: [phoneNumber.label]
               })
             );
@@ -140,8 +145,7 @@ export class DetailsComponent implements OnInit {
           // Create a phone number form group
           phoneNumbersFormGroups.push(
             this._formBuilder.group({
-              country: ['us'],
-              phoneNumber: [''],
+              phone: [''],
               label: ['']
             })
           );
@@ -151,6 +155,34 @@ export class DetailsComponent implements OnInit {
         phoneNumbersFormGroups.forEach((phoneNumbersFormGroup) => {
           (this.itemForm.get('phoneNumbers') as UntypedFormArray).push(phoneNumbersFormGroup);
         });
+        // setup the notes form array
+        const notesFormGroups = [];
+
+        if (item.detail.notes.length > 0) {
+          // Iterate through them
+          item.detail.notes.forEach((note) => {
+            notesFormGroups.push(
+              this._formBuilder.group({
+                note: [note.note],
+                label: [note.label]
+              })
+            );
+          });
+        } else {
+          // Create a note form group
+          notesFormGroups.push(
+            this._formBuilder.group({
+              note: [''],
+              label: ['']
+            })
+          );
+        }
+
+        // Add the notes form groups to the notes form array
+        notesFormGroups.forEach((notesFormGroup) => {
+          (this.itemForm.get('notes') as UntypedFormArray).push(notesFormGroup);
+        });
+
 
         // Toggle the edit mode off
         this.toggleEditMode(false);
@@ -181,9 +213,11 @@ export class DetailsComponent implements OnInit {
     const item = this.itemForm.getRawValue();
 
     // Go through the contact object and clear empty values
-    item.emails = item.emails.filter(email => email.email);
+    item.detail.emails = item.detail.emails.filter(email => email.email);
 
-    item.phoneNumbers = item.phoneNumbers.filter(phoneNumber => phoneNumber.phoneNumber);
+    item.detail.phoneNumbers = item.detail.phoneNumbers.filter(phoneNumber => phoneNumber.phoneNumber);
+
+    item.detail.notes = item.detail.notes.filter(note => note.note);
 
     // Update the contact on the server
     this._dataService.updateItem(item.id, item).subscribe(() => {
@@ -199,8 +233,8 @@ export class DetailsComponent implements OnInit {
   deleteItem(): void {
     // Open the confirmation dialog
     const confirmation = this._fuseConfirmationService.open({
-      title: 'Delete '+ this.item.name,
-      message: 'Are you sure you want to delete this '+ this.itemName+'? This action cannot be undone!',
+      title: 'Delete ' + this.item.name,
+      message: 'Are you sure you want to delete this ' + this.itemName + '? This action cannot be undone!',
       actions: {
         confirm: {
           label: 'Delete'
@@ -281,8 +315,7 @@ export class DetailsComponent implements OnInit {
   addPhoneNumberField(): void {
     // Create an empty phone number form group
     const phoneNumberFormGroup = this._formBuilder.group({
-      country: ['us'],
-      phoneNumber: [''],
+      phone: [''],
       label: ['']
     });
 
@@ -293,11 +326,6 @@ export class DetailsComponent implements OnInit {
     this._changeDetectorRef.markForCheck();
   }
 
-  /**
-   * Remove the phone number field
-   *
-   * @param index
-   */
   removePhoneNumberField(index: number): void {
     // Get form array for phone numbers
     const phoneNumbersFormArray = this.itemForm.get('phoneNumbers') as UntypedFormArray;
@@ -309,13 +337,24 @@ export class DetailsComponent implements OnInit {
     this._changeDetectorRef.markForCheck();
   }
 
+  addNoteField(): void {
+    // Create an empty note form group
+    const noteFormGroup = this._formBuilder.group({
+      note: [''],
+      label: ['']
+    });
+    (this.itemForm.get('notes') as UntypedFormArray).push(noteFormGroup);
+    this._changeDetectorRef.markForCheck();
 
-  /**
-   * Track by function for ngFor loops
-   *
-   * @param index
-   * @param item
-   */
+  }
+
+  removeNoteField(index: number): void {
+    // Get form array for notes
+    const notesFormArray = this.itemForm.get('notes') as UntypedFormArray;
+    notesFormArray.removeAt(index);
+    this._changeDetectorRef.markForCheck();
+  }
+
   trackByFn(index: number, item: any): any {
     return item.id || index;
   }
