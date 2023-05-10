@@ -1,0 +1,22 @@
+{
+    "python.linting.pylintEnabled": true,
+    "python.linting.pylintPath": "/home/farhan/Projects/walinzi/env/bin/pylint",
+    "python.linting.pylintArgs": [
+        "--load-plugins",
+        "pylint_django",
+        "--django-settings-module=config.django.base"
+    ],
+    "python.linting.enabled": true,
+    "python.formatting.provider": "black",
+    "editor.detectIndentation": false,
+    "editor.insertSpaces": true,
+    "[python]": {
+        "editor.tabSize": 4
+    },
+    "[typescript]": {
+        "editor.tabSize": 2,
+    },
+    "[json]": {
+        "editor.tabSize": 2
+    }
+}
