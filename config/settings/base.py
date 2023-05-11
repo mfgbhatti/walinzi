@@ -80,7 +80,7 @@ TEMPLATES = [
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": env("DATABASE_NAME"),
+        "NAME": env("DATABASE_NAME", default="database.db"),
     },
 }
 
