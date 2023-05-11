@@ -30,6 +30,9 @@ LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/dashboard/"
 LOGOUT_REDIRECT_URL = "/login/"
 
+# Session
+SESSION_COOKIE_AGE= env("SESSION_COOKIE_AGE", default=60*30)
+
 
 LOCAL_APPS = ["accounts.apps.AccountsConfig", "dashboard.apps.DashboardConfig"]
 
