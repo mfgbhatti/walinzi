@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Walinzi - Login{% endblock %}
+{% block extrastyle %}
+  <link rel="stylesheet" href="{% static 'css/login.css' %}" media="screen">
+{% endblock %}
+
+{% block content %}
+<div class="text-center">
+  <div class="form-signin w-100 m-auto">
+    <form data-bitwarden-watching="1" method="post">
+      {% csrf_token %}
+      <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="57">
+      <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+      <div class="form-floating">
+        {{ form.username }}
+        <label for="floatingInput">{{ form.username.label_tag }}</label>
+      </div>
+      <div class="form-floating">
+        {{ form.password }}
+        <label for="floatingPassword">{{ form.password.label_tag }}</label>
+      </div>
+
+      <button class="w-100 btn btn-lg btn-primary mt-2" type="submit">Sign in</button>
+      <p class="mt-5 mb-3 text-body-secondary">© 2017–2023</p>
+    </form>
+  </div>
+</div>
+{% endblock content %}

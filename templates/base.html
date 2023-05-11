@@ -1,40 +1,74 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{% block title %}Walizi{% endblock %}</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<head>
-  <meta charset="utf-8">
-  <title>{% block title %}Walizi{% endblock %}</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <link rel="stylesheet" href="{% static "css/base.css" %}" media="screen">
-  <!-- <meta property="og:title" content="">
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% block extrastyle %}{% endblock %}
+    <!-- <meta property="og:title" content="">
   <meta property="og:type" content="">
   <meta property="og:url" content="">
   <meta property="og:image" content=""> -->
 
-  <!-- <link rel="icon" href="/favicon.ico" sizes="any">
+    <!-- <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icon.png"> -->
 
-  <!-- <link rel="stylesheet" href="css/normalize.css">
+    <!-- <link rel="stylesheet" href="css/normalize.css">
 
   <link rel="manifest" href="site.webmanifest"> -->
-  <meta name="theme-color" content="#fafafa">
-  {% block head %}{% endblock %}
-</head>
+    <meta name="theme-color" content="#fafafa" />
+    {% block head %}{% endblock %}
+  </head>
 
-<body>
+  <body>
+    {% if user.is_authenticated %}
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark" aria-label="Fourth navbar example">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Expand at md</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
 
+          <div class="collapse navbar-collapse" id="navbarsExample04">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled">Disabled</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="/logout/">Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+            <form role="search">
+              <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+            </form>
+          </div>
+        </div>
+      </nav>
+    {% endif %}
 
-  {% block content %}{% endblock %}
+    <div class="container">
 
-  <!-- Add your site or application content here -->
-  <p>Hello world! This is HTML5 Boilerplate.</p>
-  <!-- <script src="js/vendor/modernizr-3.12.0.min.js"></script>
-  <script src="js/app.js"></script> -->
+    {% block content %}{% endblock content %}
 
-</body>
+    </div>
 
+    {% bootstrap_javascript %}
+  </body>
 </html>
