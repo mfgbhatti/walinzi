@@ -4,12 +4,13 @@
     "python.linting.pylintArgs": [
         "--load-plugins",
         "pylint_django",
-        "--django-settings-module=config.django.base"
+        "--django-settings-module=config.settings.base"
     ],
     "python.linting.enabled": true,
     "python.formatting.provider": "black",
     "editor.detectIndentation": false,
     "editor.insertSpaces": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "[python]": {
         "editor.tabSize": 4
     },
