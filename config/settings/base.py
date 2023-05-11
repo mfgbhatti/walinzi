@@ -23,12 +23,17 @@ SECRET_KEY = "00000000000000000000000000000000000000000000000000000000"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 ALLOWED_HOSTS = []
 
-LOCAL_APPS = ["accounts.apps.AccountsConfig"]
+# Login & Logout URLs
+LOGIN_URL = "/login/"
+LOGIN_REDIRECT_URL = "/dashboard/"
+LOGOUT_REDIRECT_URL = "/login/"
 
-THIRD_PARTY_APPS = []
+
+LOCAL_APPS = ["accounts.apps.AccountsConfig", "dashboard.apps.DashboardConfig"]
+
+THIRD_PARTY_APPS = ["bootstrap5"]
 
 
 # Application definition
