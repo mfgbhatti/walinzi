@@ -18,5 +18,16 @@
     },
     "[json]": {
         "editor.tabSize": 2
+    },
+    "[django-html]": {
+        "editor.quickSuggestions": {
+            "other": true,
+            "comments": true,
+            "strings": true
+        },
+        "editor.tabSize": 2,
+    },
+    "emmet.includeLanguages": {
+        "django-html": "html"
     }
 }
