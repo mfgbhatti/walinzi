@@ -26,7 +26,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOCAL_APPS = []
+LOCAL_APPS = ["accounts.apps.AccountsConfig"]
 
 THIRD_PARTY_APPS = []
 
