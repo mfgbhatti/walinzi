@@ -31,10 +31,17 @@ LOGIN_REDIRECT_URL = "/dashboard/"
 LOGOUT_REDIRECT_URL = "/login/"
 
 # Session
-SESSION_COOKIE_AGE= env("SESSION_COOKIE_AGE", default=60*30)
+SESSION_COOKIE_AGE = env("SESSION_COOKIE_AGE", default=60 * 30)
 
+# Authentication
+AUTH_USER_MODEL = "accounts.BaseUser"
 
-LOCAL_APPS = ["accounts.apps.AccountsConfig", "dashboard.apps.DashboardConfig"]
+LOCAL_APPS = [
+    "common.apps.CommonConfig",
+    "accounts.apps.AccountsConfig",
+    "customers.apps.CustomersConfig",
+    "dashboard.apps.DashboardConfig",
+]
 
 THIRD_PARTY_APPS = ["bootstrap5"]
 
