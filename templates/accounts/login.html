@@ -1,29 +1,50 @@
 {% extends "base.html" %}
 {% load static %}
-
-{% block title %}Walinzi - Login{% endblock %}
+{% block title %}Login{% endblock %}
 {% block extrastyle %}
-  <link rel="stylesheet" href="{% static 'css/login.css' %}" media="screen">
-{% endblock %}
+  <link rel="stylesheet" href="{% static 'css/login.css' %}" media="screen" />
+{% endblock %} {% block content %}
 
-{% block content %}
 <div class="text-center">
   <div class="form-signin w-100 m-auto">
     <form data-bitwarden-watching="1" method="post">
       {% csrf_token %}
-      <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="57">
+      <img
+        class="mb-4"
+        src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg"
+        alt=""
+        width="72"
+        height="57"
+      />
       <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
       <div class="form-floating">
-        {{ form.username }}
+        <input
+          type="email"
+          name="username"
+          class="form-control"
+          id="floatingInput"
+          placeholder="email@example.com"
+          maxlength="150"
+          required
+        />
         <label for="floatingInput">{{ form.username.label_tag }}</label>
       </div>
       <div class="form-floating">
-        {{ form.password }}
+        <input
+          type="password"
+          name="password"
+          class="form-control"
+          id="floatingInput"
+          placeholder="password"
+          maxlength="150"
+          required
+        />
         <label for="floatingPassword">{{ form.password.label_tag }}</label>
       </div>
-
-      <button class="w-100 btn btn-lg btn-primary mt-2" type="submit">Sign in</button>
+      <button class="w-100 btn btn-lg btn-primary mt-2" type="submit">
+        Sign in
+      </button>
       <p class="mt-5 mb-3 text-body-secondary">© 2017–2023</p>
     </form>
   </div>
