@@ -52,6 +52,8 @@ class BaseUser(AbstractUser, PermissionsMixin):
     about = models.TextField(default="", blank=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
+    activation_key = models.CharField(max_length=255, blank=True, null=True)
+    activation_link = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         """Meta class."""
