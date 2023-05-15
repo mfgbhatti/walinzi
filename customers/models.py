@@ -75,8 +75,8 @@ class CustomerDetail(BaseDetail):
 class CustomerPhone(models.Model):
     """Customer phone model."""
 
-    detail = models.ForeignKey(
-        CustomerDetail,
+    customer = models.ForeignKey(
+        Customer,
         on_delete=models.CASCADE,
         related_name="phones",
     )
@@ -99,8 +99,8 @@ class CustomerPhone(models.Model):
 class CustomerEmail(models.Model):
     """Customer email model."""
 
-    detail= models.ForeignKey(
-        CustomerDetail,
+    customer = models.ForeignKey(
+        Customer,
         on_delete=models.CASCADE,
         related_name="emails",
     )
@@ -123,8 +123,8 @@ class CustomerEmail(models.Model):
 class CustomerNotes(models.Model):
     """Customer notes model."""
 
-    detail = models.ForeignKey(
-        CustomerDetail,
+    customer = models.ForeignKey(
+        Customer,
         on_delete=models.CASCADE,
         related_name="notes",
     )
