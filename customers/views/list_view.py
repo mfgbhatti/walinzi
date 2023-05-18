@@ -8,24 +8,30 @@ from customers.models import Customer
 from customers.forms import CreateCustomerForm
 
 
-# Create your views here.
+# @permission_required
 @login_required
 def CustomerList(request):
     """list for customers"""
-
-    form = CreateCustomerForm(request.POST or None)
-    customers = Customer.objects.all()
-    if request.method == "POST":
-        if form.is_valid:
-            form.save()
-            return redirect("customers:customer_list")
-
     context = {
         "user.is_authenticated": request.user.is_authenticated,
-        "customers": customers,
-        "customers_active": "active",
-        "form": form,
     }
+    if request.user.is_superuser:
+        form = CreateCustomerForm(request.POST or None)
+        customers = Customer.objects.all().order_by("name")
+        if request.method == "POST":
+            if form.is_valid:
+                form.save()
+                return redirect("customers:customer_list")
 
-    return render(request, "customers/index.html", context)
+        context.update(
+            {
+                "customers": customers,
+                "form": form,
+                "is_authed": "True",
+                "customers_active": "active",
+            }
+        )
 
+        return render(request, "customers/index.html", context)
+    else:
+        return render(request, "500.html", context)
