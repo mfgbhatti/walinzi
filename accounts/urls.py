@@ -10,7 +10,7 @@ from accounts.views import CreateUserView, ActivateUserView
 
 
 # from accounts.views import Authencate
-app_name="accounts"
+app_name = "accounts"
 
 urlpatterns = [
     path(
@@ -18,6 +18,5 @@ urlpatterns = [
     ),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("create_user/<uuid:customer_id>/", CreateUserView, name="create_user"),
-    path("activate/<uuid:pk>/?P<key>\d{10}-[0-9a-f]{32}/", ActivateUserView, name="activate_user")
-
+    path("activate/<uuid:pk>/<key>/", ActivateUserView, name="activate_user"),
 ]

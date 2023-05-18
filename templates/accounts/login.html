@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Login{% endblock %}
+
 {% block extrastyle %}
   <link rel="stylesheet" href="{% static 'css/login.css' %}" media="screen" />
-{% endblock %} {% block content %}
+{% endblock extrastyle %}
+
+{% block content %}
 
 <div class="text-center">
   <div class="form-signin w-100 m-auto">
