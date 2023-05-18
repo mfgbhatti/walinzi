@@ -6,6 +6,7 @@ from django.db import models
 
 from common.models import BaseModel, BaseAddress
 from clients.models import Client
+from customers.models import Customer
 
 # Create your models here.
 
@@ -21,6 +22,12 @@ class Site(BaseModel):
         related_name="sites",
         null=True,
         blank=True,
+    )
+    customer = models.ForeignKey(
+        Customer, on_delete=models.CASCADE,
+        related_name="sites",
+        null=True,
+        blank=True
     )
 
     class Meta:

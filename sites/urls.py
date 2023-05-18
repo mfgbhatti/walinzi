@@ -1,0 +1,15 @@
+"""
+urls for site
+"""
+from django.urls import path
+
+from sites.views import SiteList, SiteDetailsView
+
+app_name = "sites"
+
+urlpatterns = [
+    path("sites/", SiteList, name="site_list"),
+    path("sites/site_detail/<uuid:site_id>", SiteDetailsView, name="site_details")
+]
+
+
