@@ -40,7 +40,7 @@ LOCAL_APPS = [
     "common.apps.CommonConfig",
     "accounts.apps.AccountsConfig",
     "customers.apps.CustomersConfig",
-    "clients.apps.CleintsConfig",
+    "clients.apps.ClientsConfig",
     "dashboard.apps.DashboardConfig",
 ]
 
