@@ -1,2 +1,2 @@
-from .list_view import SiteList
+from .list import SiteList
 from .details import SiteDetailsView

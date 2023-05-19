@@ -1,4 +1,4 @@
-from .create_customer import CreateCustomerForm
-from .customer_details import CustomerDetailForm
-from .customer_address import CustomerAddressForm
-from .customer_other import CustomerPhoneForm, CustomerEmailForm, CustomerNoteForm
+from .create import CreateCustomerForm
+from .details import CustomerDetailForm
+from .address import CustomerAddressForm
+from .others import CustomerPhoneForm, CustomerEmailForm, CustomerNoteForm

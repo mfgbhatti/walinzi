@@ -12,4 +12,4 @@ class CreateSiteForm(forms.ModelForm):
     class Meta:
         model = Site
 
-        exclude = (id,)
+        exclude = ("id",)

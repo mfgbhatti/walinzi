@@ -1,2 +1,2 @@
-from .list_view import CustomerList
+from .list import CustomerList
 from .details import CustomerDetailsView
