@@ -22,9 +22,10 @@ class Staff(BaseModel):
         """Meta class."""
 
         db_table = "staff"
+        ordering = ("name",)
 
         verbose_name = "Staff"
         verbose_name_plural = "Staff"
 
-    def __str__(self):
-        return self.name
+    # def __str__(self):
+    #     return self.name
