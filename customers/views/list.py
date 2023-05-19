@@ -32,6 +32,6 @@ def CustomerList(request):
             }
         )
 
-        return render(request, "customers/index.html", context)
+        return render(request, "customers/list.html", context)
     else:
         return render(request, "500.html", context)

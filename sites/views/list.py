@@ -45,4 +45,4 @@ def SiteList(request):
         "sites_active": "active",
     }
 
-    return render(request, "sites/index.html", context)
+    return render(request, "sites/list.html", context)

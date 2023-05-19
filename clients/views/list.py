@@ -40,4 +40,4 @@ def ClientList(request):
         "clients_active": "active",
     }
 
-    return render(request, "clients/index.html", context)
+    return render(request, "clients/list.html", context)
