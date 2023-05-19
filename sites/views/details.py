@@ -3,6 +3,7 @@ views for site
 """
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 
 from sites.models import Site, SiteAddress, SitePhone, SiteEmail, SiteNotes
 from sites.forms import (
@@ -12,11 +13,17 @@ from sites.forms import (
     SiteNoteForm,
 )
 
+Users = get_user_model()
 
 @login_required
 def SiteDetailsView(request, site_id):
     """site detail"""
     site = Site.objects.get(pk=site_id)
+
+    """make sure the user requesting site details is from same customer, where site belongs to"""
+    user = Users.objects.get(email=request.user.email)
+    if user.customer != site.customer:
+        return redirect("sites:site_list")
     # below code do not work with empty table No SiteAddress matches the given query.
     # site_address = get_object_or_404(SiteAddress, site=site_id)
 

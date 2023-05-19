@@ -3,6 +3,7 @@ views for client
 """
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 
 from clients.models import Client, ClientAddress, ClientDetail, ClientPhone, ClientEmail, ClientNotes
 from clients.forms import (
@@ -13,6 +14,7 @@ from clients.forms import (
     ClientNoteForm,
 )
 
+Users = get_user_model()
 
 @login_required
 def ClientDetailsView(request, client_id):
@@ -20,6 +22,11 @@ def ClientDetailsView(request, client_id):
     client = Client.objects.get(pk=client_id)
     # below code do not work with empty table No ClientAddress matches the given query.
     # client_address = get_object_or_404(ClientAddress, client=client_id)
+
+    """make sure the user requesting site details is from same customer, where site belongs to"""
+    user = Users.objects.get(email=request.user.email)
+    if user.customer != client.customer:
+        return redirect("clients:client_list")
 
     try:
         client_address = ClientAddress.objects.get(client=client_id)
