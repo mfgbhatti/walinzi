@@ -1,0 +1,1 @@
+from .duration import get_cumulative_duration
