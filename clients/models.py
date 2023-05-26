@@ -1,5 +1,4 @@
 """models for clients"""
-import uuid
 from django.db import models
 
 from common.models import BaseModel, BaseAddress, BaseDetail
@@ -9,8 +8,6 @@ from customers.models import Customer
 class Client(BaseModel):
     """Client model."""
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=80, default="")
     customer = models.ForeignKey(
         Customer,
         on_delete=models.CASCADE,
@@ -21,6 +18,7 @@ class Client(BaseModel):
 
     class Meta:
         """Meta class."""
+
         db_table = "clients"
 
         verbose_name = "Client"
@@ -56,6 +54,7 @@ class ClientAddress(BaseAddress):
         """Get full address."""
         return f"{self.street}, {self.post_code}, {self.city}."
 
+
 class ClientDetail(BaseDetail):
     """Client details model.
     with vat_number, website
@@ -79,6 +78,7 @@ class ClientDetail(BaseDetail):
 
     def __str__(self):
         return self.client.name
+
 
 class ClientPhone(models.Model):
     """Client phone model."""
@@ -104,6 +104,7 @@ class ClientPhone(models.Model):
     def __str__(self):
         return self.phone
 
+
 class ClientEmail(models.Model):
     """Client email model."""
 
@@ -127,6 +128,7 @@ class ClientEmail(models.Model):
 
     def __str__(self):
         return self.email
+
 
 class ClientNotes(models.Model):
     """Client notes model."""

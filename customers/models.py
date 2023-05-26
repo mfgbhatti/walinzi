@@ -8,11 +8,9 @@ from common.models import BaseModel, BaseAddress, BaseDetail
 class Customer(BaseModel):
     """Customer model."""
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=80, default="")
-
     class Meta:
         """Meta class."""
+
         db_table = "customers"
 
         verbose_name = "Customer"
@@ -48,6 +46,7 @@ class CustomerAddress(BaseAddress):
         """Get full address."""
         return f"{self.street}, {self.post_code}, {self.city}."
 
+
 class CustomerDetail(BaseDetail):
     """Customer details model.
     with vat_number, website
@@ -71,6 +70,7 @@ class CustomerDetail(BaseDetail):
 
     def __str__(self):
         return self.customer.name
+
 
 class CustomerPhone(models.Model):
     """Customer phone model."""
@@ -96,6 +96,7 @@ class CustomerPhone(models.Model):
     def __str__(self):
         return self.phone
 
+
 class CustomerEmail(models.Model):
     """Customer email model."""
 
@@ -119,6 +120,7 @@ class CustomerEmail(models.Model):
 
     def __str__(self):
         return self.email
+
 
 class CustomerNotes(models.Model):
     """Customer notes model."""
