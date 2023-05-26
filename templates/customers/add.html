@@ -1,0 +1,39 @@
+<!-- Add customer modal start-->
+<div
+  class="modal"
+  id="add_customer_modal"
+  tabindex="-1"
+  role="dialog"
+  data-overlay-dismissal-disabled="true"
+  data-esc-dismissal-disabled="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <a href="#" class="close" role="button" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </a>
+      <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          {% csrf_token %}
+          <label for="customer-name" class="required">{{ form.name.label }}</label>
+          <input
+            type="text"
+            name="name"
+            class="form-control text-capitalize"
+            id="customer-name"
+            placeholder="Name"
+            maxlength="150"
+            required
+          />
+        </div>
+        <div class="text-right mt-20">
+          <!-- text-right = text-align: right, mt-20 = margin-top: 2rem (20px) -->
+          <a href="#" class="btn mr-5" role="button">Close</a>
+          <button class="btn btn-primary" role="button" type="submit" name="address_form">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Add customer modal end-->

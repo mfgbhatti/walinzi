@@ -47,11 +47,10 @@
     data-sidebar-shortcut-enabled="true"
     data-set-preferred-mode-onload="true"
   >
+    {% block modal %}
     <!-- Modals go here -->
     <!-- Reference: https://www.gethalfmoon.com/docs/modal -->
-    {% if user.is_superuser %}
-    {% include "customers/address.html" %}
-    {% endif %}
+    {% endblock modal %}
 
     <!-- Page wrapper start -->
     <div
@@ -61,12 +60,15 @@
       <!-- Sticky alerts (toasts), empty container -->
       <!-- Reference: https://www.gethalfmoon.com/docs/sticky-alerts-toasts -->
       <div class="sticky-alerts"></div>
+
       <!-- Navbar start -->
       {% include 'navbar.html' %}
       <!-- Navbar end -->
+
       <!-- Sidebar overlay start -->
       <div class="sidebar-overlay" onclick="halfmoon.toggleSidebar()"></div>
       <!-- Sidebar overlay end -->
+
       <!-- Sidebar start -->
       {% include 'sidebar.html' %}
       <!-- Sidebar end -->

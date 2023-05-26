@@ -15,7 +15,7 @@
       <form method="post">
         {% csrf_token %}
         <div class="form-group">
-          <label for="floatingInput">{{ address_form.street.label_tag }}</label>
+          <label for="floatingInput" class="required">{{ address_form.street.label_tag }}</label>
           <input
             type="text"
             name="street"
@@ -30,7 +30,7 @@
           />
         </div>
         <div class="form-group">
-          <label for="floatingInput">{{ address_form.city.label_tag }}</label>
+          <label for="floatingInput" class="required">{{ address_form.city.label_tag }}</label>
           <input
             type="text"
             name="city"
@@ -45,7 +45,7 @@
           />
         </div>
         <div class="form-floating mb-2">
-          <label for="floatingInput"
+          <label for="floatingInput" class="required"
             >{{ address_form.post_code.label_tag }}</label
           >
           <input

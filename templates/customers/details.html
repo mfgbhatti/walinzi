@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}{{customer.name|title}}{% endblock title %}
+{% block modal %}
+{% include "customers/address.html" %}
+{% endblock modal %}
 {% block content %}
 <div class="row">
   <div class="col-xl-12">
@@ -22,7 +25,7 @@
       <div class="d-flex justify-content-between">
         <h2 class="content-title">Address</h2>
         <a href="#address_modal" class="btn" role="button">
-        <i class="fa fa-list" aria-hidden="true"></i>
+        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
         </a>
       </div>
       <p> here will a paragraph
@@ -53,7 +56,7 @@
   </div>
 </div>
 <!-- Customer address end-->
-{% include "customers/address.html" %} {% include "customers/info.html" %}
+{% include "customers/info.html" %}
 <div class="row">
 </div>
 <div class="row">

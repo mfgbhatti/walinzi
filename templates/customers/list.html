@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Customers{% endblock title %}
+{% block modal %}
+{% include 'customers/add.html' %}
+{% endblock modal %}
 {% block content %}
 <div class="row">
-  <div class="col-xl-8">
+  <div class="col-xl-9">
     <div class="content">
       <h1 class="content-title">Customer list</h1>
       <p>There will be a paragraph</p>
@@ -37,35 +40,16 @@
       </div>
     </div>
   </div>
-  <div class="col-xl-4">
+  <div class="col-xl-3 on-this-page-nav-container">
     <div class="content">
-      <h2 class="content-title">Add a new customer</h2>
-      <p class="text-justify">
-        At this stage only customer name is required. After adding, you can
-        further add information about customer.
-      </p>
-    </div>
-    <div class="card p-0">
-      <div class="content">
-        <form method="post">
-          <div class="form-group">
-            {% csrf_token %}
-            <label for="customer-name" class="required">{{ form.name.label }}</label>
-            <input
-              type="text"
-              name="name"
-              class="form-control text-capitalize"
-              id="customer-name"
-              placeholder="Name"
-              maxlength="150"
-              required
-            />
-          </div>
-          {% if form.errors %} {{form.errors}} {% endif%}
-          <button class="btn btn-primary btn-block" type="submit">Save
-          </button>
-        </form>
-      </div>
+        <div class="on-this-page-nav" id="on-this-page-nav">
+            <div class="title">On this page</div>
+            <a href="#add_customer_modal">Add customer</a>
+            <p class="text-justify">
+              At this stage only customer name is required. After adding, you can
+              further add information about customer by visiting their detail page.
+            </p>
+        </div>
     </div>
   </div>
 </div>
