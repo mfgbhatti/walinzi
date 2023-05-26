@@ -1,70 +1,56 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block title %}Clients{% endblock title %}
-
+{% block modal %}
+{% include 'clients/add.html' %}
+{% endblock modal %}
 {% block content %}
-
-{% if is_authed is not None %}
-  <div class="row mt-4 mb-2">
-    <h2>Client's List</h2>
-  </div>
-  <div class="row">
-    <div class="col-8">
-    <!-- record list -->
-      <div class="table-responsive">
-        <table class="table table-striped table-sm">
+<div class="row">
+  <div class="col-xl-9">
+    <div class="content">
+      <h1 class="content-title">Clients list</h1>
+      <p>There will be a paragraph</p>
+    </div>
+    <div class="card p-0">
+      <div class="content">
+        <table class="table table-hover">
           <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
+              <th>#</th>
+              <th>Client name</th>
             </tr>
           </thead>
           <tbody>
             {% for client in clients %}
             <tr>
-              <td>{{ forloop.counter }}</td>
+              <td>{{forloop.counter}}</td>
               <td>
-                <a href="./client_detail/{{client.id}}" class="link-primary text-capitalize">
-                  {{ client.name }}
-                </a>
+                <a href="./client_detail/{{client.id}}" class="hyperlink">
+                  {{ client.name | title }}</a
+                >
               </td>
             </tr>
             {% empty %}
             <tr>
-              <td colspan="2" class="text-capitalize">no client is available</td>
+              <td colspan="2">No client is available</td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
       </div>
     </div>
-    <!-- add client-->
-    <div class="col-4 mt-4">
-      <form method="post">
-        <div class="form-floating mt-2 mb-2">{% csrf_token %}
-          <input
-                type="text"
-                name="name"
-                class="form-control text-capitalize"
-                id="floatingInput"
-                placeholder="Name"
-                maxlength="150"
-                required
-              />
-          <label for="floatingInput">{{ form.name.label_tag }}</label>
-        </div>
-        {% if form.errors %} {{form.errors}} {% endif%}
-        <button class="w-100 btn btn-lg btn-primary mt-2" type="submit">Add</button>
-      </form>
+  </div>
+  <div class="col-xl-3 on-this-page-nav-container">
+    <div class="content">
+      <div class="on-this-page-nav" id="on-this-page-nav">
+        <div class="title">On this page</div>
+        <a href="#add_client_modal">Add client</a>
+        <p class="text-justify">
+          At this stage only client name is required. After adding, you can
+          further add information about client by visiting their detail page.
+        </p>
+      </div>
     </div>
   </div>
 </div>
-{% else %}
-<div class="text-center m-auto mt-4">
-  <h1>{{error_msg}}</h1>
-</div>
-{% endif %}
 {% endblock content %}
-
-
