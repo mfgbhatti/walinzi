@@ -13,19 +13,19 @@
     <!-- Sidebar links and titles -->
     {% comment %} Customers {% endcomment %}
     {% if user.is_superuser %}
-    <h5 class="sidebar-title">Customers</h5>
+    <h5 class="sidebar-title">Admin</h5>
     <div class="sidebar-divider"></div>
     <a href="/customers/" class="sidebar-link {{ customers_active }}">List</a>
     <br />
     {% endif %}
-    <h5 class="sidebar-title">Clients</h5>
+    <h5 class="sidebar-title">Get started</h5>
     <div class="sidebar-divider"></div>
-    <a href="/clients/" class="sidebar-link {{ clients_active }}">Client list</a>
+    <a href="/staff/" class="sidebar-link {{ staff_active }}">Staff list</a>
     <a href="/sites/" class="sidebar-link {{ sites_active }}">Site list</a>
+    <a href="/clients/" class="sidebar-link {{ clients_active }}">Client list</a>
     <br />
     <h5 class="sidebar-title">Staff</h5>
     <div class="sidebar-divider"></div>
-    <a href="/staff/" class="sidebar-link {{ staff_active }}">List</a>
     <a href="#" class="sidebar-link">Spreadsheet</a>
     <a href="#" class="sidebar-link">Map</a>
     <a href="/logout/" class="sidebar-link">Logout</a>
