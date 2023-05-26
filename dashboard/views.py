@@ -26,4 +26,6 @@ def Dashboard(request):
         "user": user,
         "group": group,
     }
-    return render(request, "dashboard/index.html", context)
+    response = render(request, "dashboard/index.html", context)
+    response.set_cookie(key="halfmoon_preferredMode", value="dark-mode")
+    return response
