@@ -2,19 +2,62 @@
 {% load static %}
 {% block title %}{{customer.name|title}}{% endblock title %}
 {% block content %}
-<div class="row mt-4 mb-2">
-  <h1 class="text-capitalize">{{customer.name}}</h1>
-  <div><a href="/create_user/{{customer.id}}/">create user</a></div>
+<div class="row">
+  <div class="col-xl-12">
+    <div class="content">
+      <h1 class="content-title font-size-24">{{customer.name | title}}</h1>
+      <p>
+        To create users for {{customer.name }}, click
+        <a class="hyperlink" href="/create_user/{{customer.id}}/"
+          >create user.</a
+        >
+      </p>
+    </div>
+  </div>
+</div>
+<!-- Customer address start-->
+<div class="row">
+  <div class="col-xl-6">
+    <div class="content">
+      <div class="d-flex justify-content-between">
+        <h2 class="content-title">Address</h2>
+        <a href="#address_modal" class="btn" role="button">
+        <i class="fa fa-list" aria-hidden="true"></i>
+        </a>
+      </div>
+      <p> here will a paragraph
+      </p>
+    </div>
+    <div class="card p-0">
+      <div class="content">
+        {% if customer_address %}
+        <table class="table table-striped">
+          <tr>
+            <th>Street:</th>
+            <td>{{customer_address.street | title}}</td>
+          </tr>
+          <tr>
+            <th>City:</th>
+            <td>{{customer_address.city | title}}</td>
+          </tr>
+          <tr>
+            <th>Post Code:</th>
+            <td class="text-uppercase">{{customer_address.post_code}}</td>
+          </tr>
+        </table>
+        {% else %}
+        <p>Add address</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Customer address end-->
+{% include "customers/address.html" %} {% include "customers/info.html" %}
+<div class="row">
 </div>
 <div class="row">
-  {% include "customers/address.html" %}
-  {% include "customers/info.html" %}
+  {% include "customers/phone.html" %} {% include "customers/email.html" %}
 </div>
-<div class="row">
-  {% include "customers/phone.html" %}
-  {% include "customers/email.html" %}
-</div>
-<div class="row">
-  {% include "customers/notes.html" %}
-</div>
+<div class="row">{% include "customers/notes.html" %}</div>
 {% endblock content %}
