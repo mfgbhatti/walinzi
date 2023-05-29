@@ -46,7 +46,7 @@ LOCAL_APPS = [
     "dashboard.apps.DashboardConfig",
 ]
 
-THIRD_PARTY_APPS = ["bootstrap5"]
+THIRD_PARTY_APPS = []
 
 
 # Application definition
