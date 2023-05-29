@@ -9,14 +9,15 @@
 >
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <a href="#" class="close" role="button" aria-label="Close">
+      <a href="#" class="close" role="button" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </a>
       <form method="post">
         {% csrf_token %}
         <div class="form-group">
-          {% csrf_token %}
-          <label for="client-name" class="required">{{ form.name.label }}</label>
+          <label for="client-name" class="required"
+            >{{ form.name.label }}</label
+          >
           <input
             type="text"
             name="name"
@@ -27,10 +28,20 @@
             required
           />
         </div>
+        <div>Please add the full business name.</div>
         <div class="text-right mt-20">
           <!-- text-right = text-align: right, mt-20 = margin-top: 2rem (20px) -->
-          <a href="#" class="btn mr-5" role="button">Close</a>
-          <button class="btn btn-primary" role="button" type="submit" name="save_client">Save</button>
+          <button class="btn mr-5" data-dismiss="modal" type="button">
+            Close
+          </button>
+          <button
+            class="btn btn-primary"
+            data-dismiss="modal"
+            type="submit"
+            name="save_client"
+          >
+            Save
+          </button>
         </div>
       </form>
     </div>

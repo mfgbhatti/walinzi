@@ -39,6 +39,7 @@ body {
 
 .on-this-page-nav a:hover,
 .dark-mode .on-this-page-nav a:hover {
+    cursor: pointer;
     color: #1890ff;
     text-decoration: none;
 }
