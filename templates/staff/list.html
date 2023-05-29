@@ -6,57 +6,55 @@
 Staff
 {% endblock title %}
 
+{% block modal %}
+{% include 'staff/add.html' %}
+{% endblock modal %}
 {% block content %}
-  <div class="row mt-4 mb-2">
-    <h2>Staff List</h2>
-  </div>
-  <div class="row">
-    <div class="col-8">
-      <div class="table-responsive">
-        <table class="table table-striped table-sm">
+<div class="row">
+  <div class="col-xl-9">
+    <div class="content">
+      <h1 class="content-title">Staff list</h1>
+      <p>There will be a paragraph</p>
+    </div>
+    <div class="card p-0">
+      <div class="content">
+        <table class="table table-hover">
           <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
+              <th>#</th>
+              <th>Staff Name</th>
             </tr>
           </thead>
           <tbody>
-            {% for guard in guards %}
+            {% for staff in guards %}
             <tr>
-              <td>{{ forloop.counter }}</td>
+              <td>{{forloop.counter}}</td>
               <td>
-                <a href="./staff_detail/{{guard.id}}" class="link-primary text-capitalize">
-                  {{ guard.name }}
-                </a>
+                <a href="./staff_detail/{{staff.id}}" class="hyperlink">
+                  {{ staff.name | title }}</a
+                >
               </td>
             </tr>
             {% empty %}
             <tr>
-              <td colspan="2" class="text-capitalize">please add some staff</td>
+              <td colspan="2">No staff is available</td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
       </div>
     </div>
-    <div class="col-4 mt-4">
-      <form method="post">
-        {% csrf_token %}
-        <div class="form-floating mt-2 mb-2">
-          <input
-                type="text"
-                name="name"
-                class="form-control text-capitalize"
-                id="floatingInput"
-                placeholder="Name"
-                maxlength="150"
-                required
-              />
-          <label for="floatingInput">{{ form.name.label_tag }}</label>
+  </div>
+  <div class="col-xl-3 on-this-page-nav-container">
+    <div class="content">
+        <div class="on-this-page-nav" id="on-this-page-nav">
+            <div class="title">On this page</div>
+            <a href="#add_staff_modal">Add staff</a>
+            <p class="text-justify">
+              At this stage only staff name is required. After adding, you can
+              further add information about staff by visiting their detail page.
+            </p>
         </div>
-        {% if form.errors %} {{form.errors}} {% endif%}
-        <button class="w-100 btn btn-lg btn-primary mt-2" type="submit">Add</button>
-      </form>
     </div>
   </div>
 </div>
