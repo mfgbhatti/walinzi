@@ -83,9 +83,34 @@ class StaffReferenceInline(admin.TabularInline):
 class StaffHealthInline(admin.TabularInline):
     model = StaffHealth
     extra = 0
-class StaffLicenceInline(admin.TabularInline):
+
+
+class StaffLicenceInline(admin.StackedInline):
     model = StaffLicence
     extra = 0
+
+    fieldsets = (
+        (
+            None,
+            {
+                "fields": ("licence_no",),
+            },
+        ),
+        (
+            "Name",
+            {
+                "fields": (("first_name", "last_name"),),
+                "classes": ["wide", "extrapretty"],
+            },
+        ),
+        (
+            "License Details",
+            {
+                "fields": ("registered", "expiry_date", "role", "licence_sector"),
+                "classes": ("wide",),
+            },
+        ),
+    )
 
 
 class StaffVettingInline(admin.TabularInline):
@@ -111,5 +136,6 @@ class StaffAdmin(admin.ModelAdmin):
         StaffLicenceInline,
         StaffVettingInline,
     )
+
 
 admin.site.register(Staff, StaffAdmin)
