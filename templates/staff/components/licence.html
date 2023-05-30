@@ -1,9 +1,45 @@
 <div id="licence" class="tab-panel">
-  <a data-toggle="modal" data-target="add_staff_licence_modal" role="button">Add staff licence</a>
-  <table class="table table-inner-bordered">
+  {% if stafflicence == None%}
+  <a data-toggle="modal" data-target="add_staff_licence_modal" role="button"
+    >Add staff licence</a
+  >
+  {% endif %}
+  <table class="table table-outer-bordered">
     <tbody>
+      {% if stafflicence.status == "active" %}
+      <tr class="table-success">
+        <th scope="row">Status</th>
+        <td>{{stafflicence.status | title}}</td>
+      </tr>
+      {% else %}
+      <tr class="table-danger">
+        <th scope="row">Status</th>
+        <td>{{stafflicence.status | title}}</td>
+      </tr>
+      {% endif %}
       <tr>
-        <th>{{stafflicence.status}}</th>
+        <th scope="row">Licence number</th>
+        <td>{{stafflicence.licence_no}}</td>
+      </tr>
+      <tr>
+        <th scope="row">First name</th>
+        <td>{{stafflicence.first_name | title}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Last name</th>
+        <td>{{stafflicence.last_name | title}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Role</th>
+        <td>{{stafflicence.role | title}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Licence sector</th>
+        <td>{{stafflicence.licence_sector | title}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Expiry date</th>
+        <td>{{stafflicence.expiry_date | date:"d F Y"}}</td>
       </tr>
     </tbody>
   </table>

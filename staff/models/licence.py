@@ -12,7 +12,7 @@ class StaffLicence(models.Model):
     licence_sector = models.CharField(max_length=50, null=True, blank=True)
     status = models.CharField(max_length=80, null=True, blank=True)
     first_name = models.CharField(max_length=100, null=True, blank=True)
-    surname = models.CharField(max_length=100, null=True, blank=True)
+    last_name = models.CharField(max_length=100, null=True, blank=True)
 
     class Meta:
         db_table = "staff_licence"

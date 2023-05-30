@@ -25,7 +25,7 @@ class SiaSearchComponent:
             if panel:
                 names = soup.find_all("div", class_="ax_h5")
                 self.result["first_name"] = names[0].get_text(strip=True).lower()
-                self.result["surname"] = names[1].get_text(strip=True).lower()
+                self.result["last_name"] = names[1].get_text(strip=True).lower()
                 raw_data = soup.find_all("div", class_="ax_h4")
                 self.result["licence_no"] = raw_data[0].get_text(strip=True).lower()
                 self.result["role"] = raw_data[1].get_text(strip=True).lower()
