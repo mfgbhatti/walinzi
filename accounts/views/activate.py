@@ -1,7 +1,7 @@
 """
 activate user view
 """
-from django.shortcuts import render, get_object_or_404,redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import get_user_model
 
 from accounts.utils import is_activation_key_valid
@@ -12,7 +12,6 @@ Users = get_user_model()
 def ActivateUserView(request, pk, key):
     user = get_object_or_404(Users, pk=pk)
     expiration_time = is_activation_key_valid(key)
-    print(key)
 
     context = {}
     if request.user.is_authenticated:
@@ -30,17 +29,15 @@ def ActivateUserView(request, pk, key):
                     user.save()
                     return redirect("accounts:user_login")
                 else:
-                    error_msg = "Passwords do not match. Please try again."
-                    return render(request, 'accounts/activate.html', {'error_msg': error_msg})
+                    error_msg = "Please make sure your passwords match."
+                    error_msg_heading = "Password error"
+                    context.update({"error_msg_heading": error_msg_heading, "error_msg": error_msg})
+                    return render(request, "accounts/activate.html", context)
             else:
-                return render(request, "accounts/activate.html", context)
+                response = render(request, "accounts/activate.html", context)
+                response.set_cookie(key="halfmoon_preferredMode", value="dark-mode")
+                return response
         else:
-            return redirect("dashboard:index")
+            return render(request, "accounts/expired.html", context)
     else:
-        error_msg = "Passwords do not match. Please try again."
-        return render(request, "accounts/expired.html", {'error_msg': error_msg})
-    error_msg = "Passwords do not match. Please try again."
-    return render(request, "accounts/expired.html", {'error_msg': error_msg})
-
-
-
+        return render(request, "accounts/expired.html", context)
