@@ -44,6 +44,7 @@ LOCAL_APPS = [
     "sites.apps.SitesConfig",
     "staff.apps.StaffConfig",
     "dashboard.apps.DashboardConfig",
+    "shifts.apps.ShiftsConfig"
 ]
 
 THIRD_PARTY_APPS = []
