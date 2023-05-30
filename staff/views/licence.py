@@ -41,6 +41,8 @@ def StaffLicenceView(request, staff_id):
 
                 if date_value is not None:
                     result[key] = date_value.strftime("%Y-%m-%d")
+                else:
+                    result[key] = None
 
             licence_data = model_to_dict(licence)
             licence_data.update(result)
