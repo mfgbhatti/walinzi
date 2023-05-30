@@ -1,0 +1,93 @@
+<!-- Add client modal start-->
+<div
+  class="modal"
+  id="add_user_modal"
+  tabindex="-1"
+  role="dialog"
+  data-overlay-dismissal-disabled="true"
+  data-esc-dismissal-disabled="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <a
+        href="#"
+        class="close"
+        role="button"
+        data-dismiss="modal"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </a>
+      <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="user-email" class="required"
+            >{{ form.email.label }}</label
+          >
+          <input
+            type="email"
+            name="email"
+            class="form-control"
+            id="user-email"
+            placeholder="email@example.com"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="first_name" class="required">First Name</label>
+          <input
+            type="text"
+            name="first_name"
+            class="form-control text-capitalize"
+            id="first_name"
+            placeholder="First Name"
+            maxlength="80"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="last_name" class="required">Last Name</label>
+          <input
+            type="text"
+            name="last_name"
+            class="form-control mb-2 text-capitalize"
+            id="last_name"
+            placeholder="Last Name"
+            maxlength="80"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="groups" class="required">Select user group</label>
+          <select
+            name="groups"
+            class="form-control"
+            id="groups"
+            aria-label="Floating label select Group"
+            required
+          >
+            <option value="" selected="selected" disabled="disabled">Choose one</option>
+            {% for group in groups %}
+            <option value="{{group.id}}">{{group.name|title}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>Please add the full business name.</div>
+        <div class="text-right mt-20">
+          <!-- text-right = text-align: right, mt-20 = margin-top: 2rem (20px) -->
+          <button class="btn mr-5" data-dismiss="modal" type="button">
+            Close
+          </button>
+          <button
+            class="btn btn-primary"
+            data-dismiss="modal"
+            type="submit"
+            name="save_client"
+          >
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
