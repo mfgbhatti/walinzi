@@ -30,7 +30,7 @@ Staff
             <tr>
               <td>{{forloop.counter}}</td>
               <td>
-                <a href="./staff_detail/{{staff.id}}" class="hyperlink">
+                <a href="{% url 'staff:staff_detail' staff.id %}" class="hyperlink">
                   {{ staff.name | title }}</a
                 >
               </td>
