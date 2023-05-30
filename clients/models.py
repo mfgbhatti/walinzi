@@ -15,6 +15,7 @@ class Client(BaseModel):
         null=True,
         blank=True,
     )
+    rate = models.CharField(max_length=10, null=True, blank=True)
 
     class Meta:
         """Meta class."""
