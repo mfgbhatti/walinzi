@@ -38,6 +38,14 @@ def ActivateUserView(request, pk, key):
                 response.set_cookie(key="halfmoon_preferredMode", value="dark-mode")
                 return response
         else:
+            error_msg = (
+                "Please make sure your activation link is valid one, contact your business administrator for further information."
+            )
+            error_msg_heading = "Invalid link"
+            context.update({"error_msg_heading": error_msg_heading, "error_msg": error_msg})
             return render(request, "accounts/expired.html", context)
     else:
+        error_msg = "This activation link is expired. Please contact your business administrator for further information."
+        error_msg_heading = "Expired link"
+        context.update({"error_msg_heading": error_msg_heading, "error_msg": error_msg})
         return render(request, "accounts/expired.html", context)
