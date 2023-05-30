@@ -11,6 +11,7 @@ from staff.models import (
     StaffContract,
     StaffVetting,
     StaffHealth,
+    StaffLicence,
     StaffDetail,
     StaffBank,
     StaffPassort,
@@ -27,6 +28,7 @@ from staff.models import (
 
 from staff.forms import (
     StaffAddressForm,
+    StaffAppearanceForm,
     StaffBankForm,
     StaffContactForm,
     StaffContractForm,
@@ -34,11 +36,11 @@ from staff.forms import (
     StaffEducationForm,
     StaffEmailForm,
     StaffEmployerForm,
+    StaffHealthForm,
+    StaffLicenceForm,
     StaffPassortForm,
     StaffPhoneForm,
-    StaffAppearanceForm,
     StaffReferenceForm,
-    StaffHealthForm,
     StaffVettingForm,
 )
 
@@ -62,6 +64,7 @@ def StaffDetailsView(request, staff_id):
         StaffContract,
         StaffVetting,
         StaffHealth,
+        StaffLicence,
         StaffDetail,
         StaffBank,
         StaffPassort,
@@ -96,6 +99,7 @@ def StaffDetailsView(request, staff_id):
         "contract_form": (StaffContractForm, querysets.get("staffcontract")),
         "vetting_form": (StaffVettingForm, querysets.get("staffvetting")),
         "health_form": (StaffHealthForm, querysets.get("staffhealth")),
+        "licence_form": (StaffLicenceForm, querysets.get("stafflicence")),
         "detail_form": (StaffDetailForm, querysets.get("staffdetail")),
         "bank_form": (StaffBankForm, querysets.get("staffbank")),
         "passort_form": (StaffPassortForm, querysets.get("staffpassort")),

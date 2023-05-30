@@ -3,6 +3,7 @@ from django.contrib import admin
 from staff.models import (
     Staff,
     StaffAddress,
+    StaffAppearance,
     StaffBank,
     StaffContact,
     StaffContract,
@@ -10,11 +11,11 @@ from staff.models import (
     StaffEducation,
     StaffEmail,
     StaffEmployer,
+    StaffHealth,
+    StaffLicence,
     StaffPassort,
     StaffPhone,
-    StaffAppearance,
     StaffReference,
-    StaffHealth,
     StaffVetting,
 )
 
@@ -82,6 +83,9 @@ class StaffReferenceInline(admin.TabularInline):
 class StaffHealthInline(admin.TabularInline):
     model = StaffHealth
     extra = 0
+class StaffLicenceInline(admin.TabularInline):
+    model = StaffLicence
+    extra = 0
 
 
 class StaffVettingInline(admin.TabularInline):
@@ -104,6 +108,7 @@ class StaffAdmin(admin.ModelAdmin):
         StaffAppearanceInline,
         StaffReferenceInline,
         StaffHealthInline,
+        StaffLicenceInline,
         StaffVettingInline,
     )
 

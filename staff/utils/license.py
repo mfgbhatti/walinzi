@@ -37,7 +37,7 @@ class SiaSearchComponent:
                 self.result["registered"] = (
                     soup.find("span", class_="as-on-date").get_text(strip=True).split(" ", 2)[2].replace(")", "")
                 )  # (as on 19 December 2022) remove as on replace last )
-                print(self.result)
+                # print(self.result)
                 return self.result
             else:
                 self.result = None
@@ -45,13 +45,13 @@ class SiaSearchComponent:
             self.result["status_code"] = response.status_code
 
 
-# Create an instance of the component
-sia_search = SiaSearchComponent()
+# # Create an instance of the component
+# sia_search = SiaSearchComponent()
 
-#Set the necessary properties before calling submit()
-licence_number = "1012632966248470"  # Active
-#licence_number = "1037385693962636"  # Revoked
-#licence_number = "1012720577305946" # Expired needed
+# #Set the necessary properties before calling submit()
+# licence_number = "1012632966248470"  # Active
+# #licence_number = "1037385693962636"  # Revoked
+# #licence_number = "1012720577305946" # Expired needed
 
-#Call the submit() method to perform the request and process the response
-sia_search.submit(licence_number)
+# #Call the submit() method to perform the request and process the response
+# sia_search.submit(licence_number)

@@ -7,6 +7,7 @@ from .details import StaffDetail
 from .education import StaffEducation
 from .employer import StaffEmployer
 from .health import StaffHealth
+from .licence import StaffLicence
 from .other import StaffPhone, StaffEmail
 from .passport import StaffPassort
 from .reference import StaffReference

@@ -27,5 +27,5 @@ class Staff(BaseModel):
         verbose_name = "Staff"
         verbose_name_plural = "Staff"
 
-    # def __str__(self):
-    #     return self.name
+    def __str__(self):
+        return self.name
