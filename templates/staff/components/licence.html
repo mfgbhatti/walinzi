@@ -1,9 +1,9 @@
 <div id="licence" class="tab-panel">
-  {% if stafflicence == None%}
+  {% if stafflicence == None %}
   <a data-toggle="modal" data-target="add_staff_licence_modal" role="button"
     >Add staff licence</a
   >
-  {% endif %}
+  {% else %}
   <table class="table table-outer-bordered">
     <tbody>
       {% if stafflicence.status == "active" %}
@@ -38,9 +38,15 @@
         <td>{{stafflicence.licence_sector | title}}</td>
       </tr>
       <tr>
+        {% if stafflicence.expiry_date %}
         <th scope="row">Expiry date</th>
         <td>{{stafflicence.expiry_date | date:"d F Y"}}</td>
+        {% else %}
+        <th scope="row">Expiry date</th>
+        <td>Not applicable in this case.</td>
+        {% endif %}
       </tr>
     </tbody>
   </table>
+  {% endif %}
 </div>

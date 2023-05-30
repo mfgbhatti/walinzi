@@ -1,0 +1,112 @@
+<!-- Add staff address modal start-->
+<div
+  class="modal"
+  id="add_address_modal"
+  tabindex="-1"
+  role="dialog"
+  data-overlay-dismissal-disabled="true"
+  data-esc-dismissal-disabled="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <a
+        href="#"
+        class="close"
+        role="button"
+        data-dismiss="modal"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </a>
+      <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="street" class="required"
+            >{{ address_form.street.label }}</label
+          >
+          <input
+            type="text"
+            name="street"
+            class="form-control text-capitalize"
+            id="street"
+            placeholder="Street / Road"
+            maxlength="255"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="city" class="required"
+            >{{ address_form.city.label }}</label
+          >
+          <input
+            type="text"
+            name="city"
+            class="form-control text-capitalize"
+            id="city"
+            placeholder="City"
+            maxlength="30"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="post_code" class="required"
+            >{{ address_form.post_code.label }}</label
+          >
+          <input
+            type="text"
+            name="post_code"
+            class="form-control text-uppercase"
+            id="post_code"
+            placeholder="Post code"
+            maxlength="15"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="in_from" class="required"
+            >{{ address_form.in_from.label }}</label
+          >
+          <input
+            type="date"
+            name="in_from"
+            class="form-control"
+            id="in_from"
+            placeholder="In from"
+            maxlength="255"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="in_untill" class="required"
+            >{{ address_form.in_untill.label }}</label
+          >
+          <input
+            type="date"
+            name="in_untill"
+            class="form-control"
+            id="in_untill"
+            placeholder="In untill"
+            maxlength="255"
+            required
+          />
+        </div>
+        <div>Please add the full name including first and last names.</div>
+        <div class="text-right mt-20">
+          <!-- text-right = text-align: right, mt-20 = margin-top: 2rem (20px) -->
+          <button class="btn mr-5" data-dismiss="modal" type="button">
+            Close
+          </button>
+          <button
+            class="btn btn-primary"
+            data-dismiss="modal"
+            type="submit"
+            name="address_form"
+          >
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Add staff address modal end-->

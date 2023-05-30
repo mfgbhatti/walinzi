@@ -1,26 +1,34 @@
 <div id="address" class="tab-panel">
   {% if need_next is None %}
-  <div class="alert alert-danger mt-2 mb-2" role="alert">
-    Address must have cumulative living for 5 years.
+  <div class="alert alert-danger" role="alert">
+    <h4 class="alert-heading">Address</h4>
+    Staff must have cumulative living for 5 years.
   </div>
   {% endif %}
-  <h2>6A. Märzen</h2>
-  <p>
-    <strong>Overall Impression:</strong> An elegant, malty German amber lager
-    with a clean, rich, toasty and bready malt flavor, restrained bitterness,
-    and a dry finish that encourages another drink. The overall malt impression
-    is soft, elegant, and complex, with a rich aftertaste that is never cloying
-    or heavy.
-  </p>
-  <p>
-    <strong>History:</strong> As the name suggests, brewed as a stronger “March
-    beer” in March and lagered in cold caves over the summer. Modern versions
-    trace back to the lager developed by Spaten in 1841, contemporaneous to the
-    development of Vienna lager. However, the Märzen name is much older than
-    1841; the early ones were dark brown, and in Austria the name implied a
-    strength band (14 °P) rather than a style. The German amber lager version
-    (in the Viennese style of the time) was first served at Oktoberfest in 1872,
-    a tradition that lasted until 1990 when the golden Festbier was adopted as
-    the standard festival beer.
-  </p>
+  <a data-toggle="modal" data-target="add_address_modal" class="float-right">Add Address</a>
+  <table class="table table-outer-bordered">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Street</th>
+        <th>City</th>
+        <th>Post code</th>
+        <th>From</th>
+        <th>Untill</th>
+        <th>Edit</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for address in staffaddress %}
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{address.street | title}}</td>
+        <td>{{address.city | title}}</td>
+        <td>{{address.post_code | upper}}</td>
+        <td>{{address.in_from | date:"m F Y"}}</td>
+        <td>{{address.in_untill | date:"m F Y"}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
