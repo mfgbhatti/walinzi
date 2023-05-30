@@ -28,7 +28,7 @@ def ActivateUserView(request, pk, key):
                     user.activation_key = None
                     user.activation_link = None
                     user.save()
-                    return redirect("accounts:login")
+                    return redirect("accounts:user_login")
                 else:
                     error_msg = "Passwords do not match. Please try again."
                     return render(request, 'accounts/activate.html', {'error_msg': error_msg})
