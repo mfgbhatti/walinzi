@@ -4,4 +4,4 @@ from staff.models import StaffAddress
 class StaffAddressForm(ModelForm):
     class Meta:
         model = StaffAddress
-        fields = "__all__"
+        exclude = ("staff",)
