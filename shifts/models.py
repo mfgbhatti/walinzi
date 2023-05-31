@@ -18,7 +18,11 @@ class Shift(BaseModel):
         raise AttributeError("'Shift' object has no attribute 'name'")
 
     def duration(self):
-        return self.time_out - self.time_in
+        return self.time_out - self.time_in # not working
+
+    def __str__(self):
+        guard = ", ".join(str(seg) for seg in self.staff.all())
+        return f"{self.site} is coverd by {guard}."
 
 
 class ShiftSchedule(models.Model):
