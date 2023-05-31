@@ -11,6 +11,11 @@ class Shift(BaseModel):
     time_in = models.DateTimeField()
     time_out = models.DateTimeField()
     # Add other shift-specific fields here
+    name = None
+
+    @property
+    def name(self):
+        raise AttributeError("'Shift' object has no attribute 'name'")
 
     def duration(self):
         return self.time_out - self.time_in
