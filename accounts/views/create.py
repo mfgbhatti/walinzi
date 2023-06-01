@@ -16,7 +16,7 @@ Users = get_user_model()
 
 
 @login_required
-def CreateUserView(request, customer_id):
+def UserListView(request, customer_id):
     """create new user"""
     groups = Group.objects.all().order_by("name")
 

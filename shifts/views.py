@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from shifts.models import Shift
 from shifts.forms import ShiftForm
@@ -46,6 +47,8 @@ def ShiftListView(request):
                 for i in range(delta.days + 1):
                     date = started + timedelta(days=i)
                     create_shift(date, date)
+
+            messages.success(request, "New shift is created.")
 
     # for time input
     hours = range(24)
