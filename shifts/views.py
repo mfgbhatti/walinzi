@@ -1,4 +1,5 @@
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
+from django.utils import timezone
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
@@ -21,8 +22,8 @@ def ShiftListView(request):
         """create a shift"""
         shift = Shift.objects.create(
             site_id=site_id,
-            time_in=datetime.combine(start_date, time_in),
-            time_out=datetime.combine(end_date, time_out),
+            time_in=timezone.make_aware(datetime.combine(start_date, time_in)),
+            time_out=timezone.make_aware(datetime.combine(end_date, time_out)),
         )
         if staff_ids:
             shift.staff.set(staff_ids)
