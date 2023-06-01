@@ -6,10 +6,18 @@
 {% endblock modal %}
 {% block content %}
 <div class="row">
-  <div class="col-xl-9">
+  <div class="col">
     <div class="content">
       <h1 class="content-title">Shift list</h1>
       <p>There will be a paragraph</p>
+      <p class="d-flex justify-content-end">
+        <a
+          data-toggle="modal"
+          data-target="add_shift_modal"
+          class="btn btn-primary"
+          >Add shift</a
+        >
+      </p>
       <p>{{errors}}</p>
     </div>
     <div class="card p-0">
@@ -33,7 +41,7 @@
               <td>{{forloop.counter}}</td>
               <td>{{shift.site | title}}</td>
               <td>
-              {% comment %} for iteration through staff 'all' is necessory {% endcomment %}
+                {% comment %} for iteration through staff 'all' is necessory {% endcomment %}
                 {% for staff in shift.staff.all %}
                   {% if staff.length == 1 %}
                   {{staff.name | title}}
@@ -59,15 +67,6 @@
             {% endfor %}
           </tbody>
         </table>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-3 on-this-page-nav-container">
-    <div class="content">
-      <div class="on-this-page-nav" id="on-this-page-nav">
-        <div class="title">On this page</div>
-        <a data-toggle="modal" data-target="add_shift_modal">Add shift</a>
-        <p class="text-justify">Add some juicy explanation here.</p>
       </div>
     </div>
   </div>
