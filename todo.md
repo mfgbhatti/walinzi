@@ -2,7 +2,8 @@
 2.  use modals for editing
 3.  subcontractors
 4. shit timedate extraction for duration or date not working
-5. datetime format
+5. add logic for adding more than one staff
+*. datetime format
 H hours '24hrs'
 i minutes
 l day 'Friday'
