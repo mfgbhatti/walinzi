@@ -1,5 +1,4 @@
-from datetime import datetime, timedelta
-from django.utils import timezone
+from datetime import datetime, timedelta, timezone
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
@@ -18,6 +17,18 @@ def ShiftListView(request):
     guards = Staff.objects.filter(customer=request.user.customer)
     shift_form = ShiftForm(request.POST or None)
 
+    def create_shift(start_date, end_date):
+        """create a shift"""
+        shift = Shift.objects.create(
+            site_id=site_id,
+            time_in=datetime.combine(start_date, time_in),
+            time_out=datetime.combine(end_date, time_out),
+        )
+        if staff_ids:
+            shift.staff.set(staff_ids)
+
+        shift.save()
+
     if request.method == "POST":
         if shift_form.is_valid():
             site_id = request.POST["site"]
@@ -26,22 +37,15 @@ def ShiftListView(request):
             time_out = datetime.strptime(request.POST["time_out"], "%H:%M").time()
             started = datetime.strptime(request.POST["started"], "%Y-%m-%d").date()
             ended = datetime.strptime(request.POST["ended"], "%Y-%m-%d").date()
+
             delta = ended - started
+            if delta.days == 1:  # for one day
+                create_shift(started, ended)
+            else:
+                for i in range(delta.days + 1):
+                    date = started + timedelta(days=i)
+                    create_shift(date, date)
 
-            for i in range(delta.days + 1):
-                date = started + timedelta(days=i)
-
-                # Create Shift
-                shift = Shift.objects.create(
-                    site_id=site_id,
-                    time_in=timezone.datetime.combine(date, time_in),
-                    time_out=timezone.datetime.combine(date, time_out),
-                )
-
-                if staff_ids:
-                    shift.staff.set(staff_ids)
-
-                shift.save()
     # for time input
     hours = range(24)
     minutes = ["00", "15", "30", "45"]
