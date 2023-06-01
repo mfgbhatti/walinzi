@@ -21,12 +21,13 @@ class Site(BaseModel):
         blank=True,
     )
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="sites", null=True, blank=True)
-    change_rate = models.CharField(max_length=10, null=True, blank=True)
+    charge_rate = models.DecimalField(max_digits=10, null=True, blank=True, decimal_places=2)
 
     class Meta:
         """Meta class."""
 
         db_table = "sites"
+        ordering = ("name",)
 
         verbose_name = "Site"
         verbose_name_plural = "Sites"

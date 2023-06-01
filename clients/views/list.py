@@ -8,7 +8,6 @@ from django.contrib.auth import get_user_model
 # from django.contrib.auth.models import Group
 
 from clients.models import Client
-from customers.models import Customer
 from clients.forms import CreateClientForm
 
 Users = get_user_model()
@@ -23,7 +22,7 @@ def ClientList(request):
     user = Users.objects.get(email=request.user.email)
     form = CreateClientForm(request.POST or None)
 
-    clients = Client.objects.filter(customer=user.customer).order_by("name")
+    clients = Client.objects.filter(customer=user.customer)
 
     if request.method == "POST":
         if form.is_valid:

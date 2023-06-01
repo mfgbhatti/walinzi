@@ -15,12 +15,13 @@ class Client(BaseModel):
         null=True,
         blank=True,
     )
-    change_rate = models.CharField(max_length=10, null=True, blank=True)
+    charge_rate = models.DecimalField(max_digits=10, null=True, blank=True, decimal_places=2)
 
     class Meta:
         """Meta class."""
 
         db_table = "clients"
+        ordering = ("name",)
 
         verbose_name = "Client"
         verbose_name_plural = "Clients"

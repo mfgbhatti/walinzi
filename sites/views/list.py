@@ -24,8 +24,8 @@ def SiteList(request):
     user = Users.objects.get(email=request.user.email)
     form = CreateSiteForm(request.POST or None)
 
-    sites = Site.objects.filter(customer=user.customer).order_by("name")
-    clients = Client.objects.filter(customer=user.customer).order_by("name")
+    sites = Site.objects.filter(customer=user.customer)
+    clients = Client.objects.filter(customer=user.customer)
 
     if request.method == "POST":
         if form.is_valid:
