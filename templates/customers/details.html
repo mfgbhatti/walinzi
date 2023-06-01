@@ -32,7 +32,7 @@
       <!-- Customer address end-->
       <p>
         To create users for {{customer.name }}, click
-        <a class="hyperlink" href="/create_user/{{customer.id}}/"
+        <a class="hyperlink" href="{% url 'accounts:user_list' customer.id %}"
           >create user.</a
         >
       </p>
