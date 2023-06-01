@@ -17,7 +17,7 @@ class Staff(BaseModel):
     name = models.CharField(max_length=80, default="")
     is_active = models.BooleanField(default=True, blank=False, null=False)
     customer = models.ForeignKey(Customer, null=True, blank=True, on_delete=models.CASCADE, related_name="staff")
-
+    pay_rate = models.CharField(max_length=10, null=True, blank=True)
     class Meta:
         """Meta class."""
 
