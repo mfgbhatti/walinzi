@@ -15,7 +15,7 @@ def StaffListView(request):
     form = StaffCreateForm(request.POST or None)
 
     if request.method == "POST":
-        if form.is_valid:
+        if form.is_valid():
             staff = form.save(commit=False)
             staff.customer = user.customer
             staff.save()
