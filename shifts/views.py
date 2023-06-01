@@ -12,11 +12,12 @@ from staff.models import Staff
 
 @login_required
 def ShiftListView(request):
-    shifts = Shift.objects.all()
+    customer = request.user.customer
+    shifts = Shift.objects.filter(site__customer=customer)
     context = {}
 
-    sites = Site.objects.filter(customer=request.user.customer)
-    guards = Staff.objects.filter(customer=request.user.customer)
+    sites = Site.objects.filter(customer=customer)
+    guards = Staff.objects.filter(customer=customer)
     shift_form = ShiftForm(request.POST or None)
 
     def create_shift(start_date, end_date):
