@@ -55,6 +55,7 @@ def StaffDetailsView(request, staff_id):
     need_next = get_cumulative_duration(staff)
 
     shifts = Shift.get_shifts_for_staff(staff=staff)
+    total_hours = sum(shift.duration() for shift in shifts)
 
     """make sure the user requesting staff details is from same customer, where staff belongs to"""
     user = Users.objects.get(email=request.user.email)
@@ -139,6 +140,7 @@ def StaffDetailsView(request, staff_id):
             "staff_active": "active",
             "staff": staff,
             "shifts": shifts,
+            "total_hours": total_hours,
             "need_next": need_next
         }
     )
