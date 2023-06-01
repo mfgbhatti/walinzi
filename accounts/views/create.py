@@ -47,6 +47,6 @@ def UserListView(request, customer_id):
                 redirect("accounts:create_user", customer_id)
 
         context = {"users": users, "form": user_form, "groups": groups, "group": admin}
-        return render(request, "accounts/create.html", context)
+        return render(request, "accounts/list.html", context)
     else:
         return render(request, "403.html", {"error_msg": "403"})
