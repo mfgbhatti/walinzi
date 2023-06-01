@@ -8,29 +8,123 @@
   data-esc-dismissal-disabled="true"
 >
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <a href="#" class="close" role="button" data-dismiss="modal" aria-label="Close">
+    <div class="modal-content w-half">
+      <a
+        href="#"
+        class="close"
+        role="button"
+        data-dismiss="modal"
+        aria-label="Close"
+      >
         <span aria-hidden="true">&times;</span>
       </a>
       <form method="post">
         {% csrf_token %}
-        <div class="form-group">
-          <label for="shift-name" class="required">{{ form.name.label }}</label>
-          <input
-            type="text"
-            name="name"
-            class="form-control text-capitalize"
-            id="shift-name"
-            placeholder="Name"
-            maxlength="150"
-            required
-          />
+        <!-- First row -->
+        <div class="form-row row-eq-spacing-sm">
+          <div class="col-sm">
+            <!-- Select box -->
+              <label for="site" class="required">Select a site</label>
+              <select class="form-control" id="site" name="site">
+                <option value="" selected="selected" disabled="disabled">
+                  Site name
+                </option>
+                {% for site in sites %}
+                <option value="{{site.id}}">{{site.name|title}}</option>
+                {% endfor %}
+              </select>
+          </div>
+          <div class="col-sm">
+            <!-- Select box -->
+              <label for="staff" class="required">Select a staff</label>
+              <select class="form-control" id="staff" name="staff">
+                <option value="" selected="selected" disabled="disabled">
+                  Staff name
+                </option>
+                {% for staff in guards %}
+                <option value="{{staff.id}}">{{staff.name|title}}</option>
+                {% endfor %}
+              </select>
+          </div>
+        </div>
+        <!-- Second row container -->
+        <div>
+          <label for="time" class="required">Shift timing</label>
+          <div class="form-row row-eq-spacing-sm">
+            <div class="col-sm">
+              <!-- Time in-->
+              <select class="form-control" name="time_in" id="time" >
+                <option value="" selected="selected" disabled="disabled">
+                  Time in
+                </option>
+                {% for hour in hours %}
+                {% for minute in minutes %}
+                <option value="{{ hour|stringformat:"02d" }}:{{ minute }}">{{ hour|stringformat:"02d" }}:{{ minute }}</option>
+                {% endfor %}
+              {% endfor %}
+              </select>
+            </div>
+            <div class="col-sm">
+              <!-- Time out-->
+              <select class="form-control" name="time_out" id="time" >
+                <option value="" selected="selected" disabled="disabled">
+                  Time out
+                </option>
+                {% for hour in hours %}
+                {% for minute in minutes %}
+                <option value="{{ hour|stringformat:"02d" }}:{{ minute }}">{{ hour|stringformat:"02d" }}:{{ minute }}</option>
+                {% endfor %}
+              {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- Third row container -->
+        <div>
+          <label for="date_input" class="required"
+            >Shift date</label
+          >
+          <div class="form-row row-eq-spacing-sm">
+            <div class="col-sm">
+              <!-- Start date-->
+              <input
+                type="text"
+                name="started"
+                class="form-control"
+                id="date_input"
+                placeholder="Starting"
+                required
+                onfocus="(this.type='date')"
+              />
+            </div>
+            <div class="col-sm">
+              <!-- End date-->
+              <input
+                type="text"
+                name="ended"
+                class="form-control"
+                id="date_input"
+                placeholder="Ending"
+                required
+                onfocus="(this.type='date')"
+              />
+            </div>
+          </div>
         </div>
         <div>Please add the full name including first and last names.</div>
         <div class="text-right mt-20">
           <!-- text-right = text-align: right, mt-20 = margin-top: 2rem (20px) -->
-          <button class="btn mr-5" data-dismiss="modal" type="button">Close</button>
-          <button class="btn btn-primary" data-dismiss="modal" type="submit" name="shift_form">Save</button>
+          <button class="btn mr-5" data-dismiss="modal" type="button">
+            Close
+          </button>
+          <button
+            class="btn btn-primary"
+            data-dismiss="modal"
+            type="submit"
+            name="shift_form"
+          >
+            Save
+          </button>
         </div>
       </form>
     </div>

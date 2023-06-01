@@ -24,9 +24,12 @@ class Shift(BaseModel):
         guard = ", ".join(str(seg) for seg in self.staff.all())
         return f"{self.site} is coverd by {guard}."
 
+    class Meta:
+        ordering = ("time_in", "time_out")
 
-class ShiftSchedule(models.Model):
-    site = models.ForeignKey(Site, on_delete=models.CASCADE, null=True, blank=True)
-    started = models.DateField()
-    ended = models.DateField()
-    shifts = models.ManyToManyField(Shift)
+
+# class ShiftSchedule(models.Model):
+#     site = models.ForeignKey(Site, on_delete=models.CASCADE, null=True, blank=True)
+#     started = models.DateField()
+#     ended = models.DateField()
+#     shifts = models.ManyToManyField(Shift)

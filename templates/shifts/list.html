@@ -1,11 +1,6 @@
 {% extends 'base.html' %}
-
 {% load static %}
-
-{% block title %}
-Shifts
-{% endblock title %}
-
+{% block title %} Shifts {% endblock title %}
 {% block modal %}
 {% include 'shifts/add_modal.html' %}
 {% endblock modal %}
@@ -15,6 +10,7 @@ Shifts
     <div class="content">
       <h1 class="content-title">Shift list</h1>
       <p>There will be a paragraph</p>
+      <p>{{errors}}</p>
     </div>
     <div class="card p-0">
       <div class="content">
@@ -22,16 +18,37 @@ Shifts
           <thead>
             <tr>
               <th>#</th>
-              <th>Shift</th>
+              <th>Site name</th>
+              <th>Staff name</th>
+              <th>Date</th>
+              <th>Day</th>
+              <th>Time in</th>
+              <th>Time out</th>
             </tr>
           </thead>
           <tbody>
             {% for shift in shifts %}
             <tr>
               <td>{{forloop.counter}}</td>
+              <td>{{shift.site | title}}</td>
               <td>
-                shifts
+              {% comment %} for iteration through staff 'all' is necessory {% endcomment %}
+                {% for staff in shift.staff.all %}
+                  {% if staff.length == 1 %}
+                  {{staff.name | title}}
+                  {% else %}
+                    {% if forloop.last %}
+                    {{staff.name | title}}
+                    {% else %}
+                    {{staff.name | title}}&comma;&nbsp;
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
               </td>
+              <td>{{shift.time_in | date:"d/m/Y"}}</td>
+              <td>{{shift.time_in | date:"l"}}</td>
+              <td>{{shift.time_in | date:"H:i"}}</td>
+              <td>{{shift.time_out | date:"H:i"}}</td>
             </tr>
             {% empty %}
             <tr>
@@ -45,13 +62,11 @@ Shifts
   </div>
   <div class="col-xl-3 on-this-page-nav-container">
     <div class="content">
-        <div class="on-this-page-nav" id="on-this-page-nav">
-            <div class="title">On this page</div>
-            <a data-toggle="modal" data-target="add_shift_modal">Add shift</a>
-            <p class="text-justify">
-              Add some juicy explanation here.
-            </p>
-        </div>
+      <div class="on-this-page-nav" id="on-this-page-nav">
+        <div class="title">On this page</div>
+        <a data-toggle="modal" data-target="add_shift_modal">Add shift</a>
+        <p class="text-justify">Add some juicy explanation here.</p>
+      </div>
     </div>
   </div>
 </div>
