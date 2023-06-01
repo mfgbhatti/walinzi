@@ -1,98 +1,49 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <!-- Meta tags -->
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-      name="viewport"
-    />
-    <meta name="viewport" content="width=device-width" />
-
-    <!-- Favicon and title -->
-    {% comment %}
-    <link rel="icon" href="path/to/fav.png" />
-    {% endcomment %}
-    <title>Walinzi - Login</title>
-
-    <!-- Halfmoon CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/css/halfmoon-variables.min.css"
-      rel="stylesheet"
-    />
-    <!-- Google fonts: Poppins-->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Base css-->
-    <link href="{% static 'css/base.css' %}" rel="stylesheet" />
-  </head>
-  <body data-dm-shortcut-enabled="true" data-set-preferred-mode-onload="true">
-    <!-- Page wrapper start -->
-    <div class="page-wrapper">
-      <!-- Content wrapper start -->
-      <div class="content-wrapper">
-        <div class="d-flex justify-content-center align-items-center h-full">
-          <div class="w-400 m-auto">
-            {% if form.non_field_errors %}
-            <div class="alert alert-danger" role="alert">
-              <h4 class="alert-heading">Login error</h4>
-              {% for error in form.non_field_errors %}
-              <p>{{ error }}</p>
-              {% endfor %}
-            </div>
-            {% endif %}
-            <h5>Sign in to your account</h5>
-            <form method="post">
-              {% csrf_token %}
-              <div class="form-group">
-                <label for="username" class="required"
-                  >{{form.username.label}}</label
-                >
-                <input
-                  type="email"
-                  name="username"
-                  id="username"
-                  class="form-control"
-                  placeholder="{{form.username.label}}"
-                  required="required"
-                />
-              </div>
-              <div class="form-group">
-                <label for="password" class="required"
-                  >{{form.password.label}}</label
-                >
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  class="form-control"
-                  placeholder="{{form.password.label}}"
-                  required="required"
-                />
-              </div>
-              <input
-                class="btn btn-primary btn-block"
-                type="submit"
-                name="login_form"
-                value="Sign in"
-              />
-              <p class="text-muted">Walinzi© 2017–2023</p>
-            </form>
-          </div>
-        </div>
-      </div>
-      <!-- Content wrapper end -->
+{% extends 'accounts/base.html' %}
+{% block title %}Login{% endblock title %}
+{% block content %}
+<div class="d-flex justify-content-center align-items-center h-full">
+  <div class="w-400 m-auto">
+    {% if form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+      <h4 class="alert-heading">Login error</h4>
+      {% for error in form.non_field_errors %}
+      <p>{{ error }}</p>
+      {% endfor %}
     </div>
-    <!-- Page wrapper end -->
-
-    <!-- Halfmoon JS -->
-    <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
-  </body>
-</html>
+    {% endif %}
+    <h5>Sign in to your account</h5>
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="username" class="required">{{form.username.label}}</label>
+        <input
+          type="email"
+          name="username"
+          id="username"
+          class="form-control"
+          placeholder="{{form.username.label}}"
+          required="required"
+        />
+      </div>
+      <div class="form-group">
+        <label for="password" class="required">{{form.password.label}}</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          class="form-control"
+          placeholder="{{form.password.label}}"
+          required="required"
+        />
+      </div>
+      <input
+        class="btn btn-primary btn-block"
+        type="submit"
+        name="login_form"
+        value="Sign in"
+      />
+      <p class="text-muted">Walinzi© 2017–2023</p>
+    </form>
+  </div>
+</div>
+{% endblock content %}
