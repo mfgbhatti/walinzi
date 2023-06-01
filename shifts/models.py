@@ -18,7 +18,8 @@ class Shift(BaseModel):
         raise AttributeError("'Shift' object has no attribute 'name'")
 
     def duration(self):
-        return self.time_out - self.time_in # not working
+        result = self.time_out - self.time_in
+        return result.total_seconds() / 3600 # Convert duration to hours
 
     def __str__(self):
         guard = ", ".join(str(seg) for seg in self.staff.all())

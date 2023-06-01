@@ -22,6 +22,7 @@
               <th>Staff name</th>
               <th>Date</th>
               <th>Day</th>
+              <th>Hours</th>
               <th>Time in</th>
               <th>Time out</th>
             </tr>
@@ -47,6 +48,7 @@
               </td>
               <td>{{shift.time_in | date:"d/m/Y"}}</td>
               <td>{{shift.time_in | date:"l"}}</td>
+              <td>{{shift.duration}}</td>
               <td>{{shift.time_in | date:"H:i"}}</td>
               <td>{{shift.time_out | date:"H:i"}}</td>
             </tr>

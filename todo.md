@@ -1,3 +1,4 @@
+** check out django-tables2, django-filter, django-htmx and htmx
 1.  run check every 24 hour on sia licences
 2.  use modals for editing
 3.  subcontractors
