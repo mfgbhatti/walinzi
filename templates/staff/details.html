@@ -24,8 +24,8 @@
           />
           <label for="tab1">Address</label>
           <!-- Tab 2 -->
-          <input type="radio" name="tabset" id="tab2" aria-controls="details" />
-          <label for="tab2">Details</label>
+          <input type="radio" name="tabset" id="tab2" aria-controls="shifts" />
+          <label for="tab2">Shifts</label>
           <!-- Tab 3 -->
           <input type="radio" name="tabset" id="tab3" aria-controls="licence" />
           <label for="tab3">Licence</label>
@@ -34,7 +34,7 @@
             <!-- Address-->
             {% include 'staff/components/address.html' %}
             <!-- Details-->
-            {% include 'staff/components/details.html' %}
+            {% include 'staff/components/shifts.html' %}
             <!-- Licence-->
             {% include 'staff/components/licence.html' %}
           </div>

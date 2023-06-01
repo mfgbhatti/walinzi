@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
 from staff.utils import get_cumulative_duration
+from shifts.models import Shift
 from staff.models import (
     Staff,
     StaffContract,
@@ -52,6 +53,8 @@ def StaffDetailsView(request, staff_id):
     """staff detail"""
     staff = Staff.objects.get(pk=staff_id)
     need_next = get_cumulative_duration(staff)
+
+    shifts = Shift.get_shifts_for_staff(staff=staff)
 
     """make sure the user requesting staff details is from same customer, where staff belongs to"""
     user = Users.objects.get(email=request.user.email)
@@ -135,6 +138,7 @@ def StaffDetailsView(request, staff_id):
             "user.is_authenticated": request.user.is_authenticated,
             "staff_active": "active",
             "staff": staff,
+            "shifts": shifts,
             "need_next": need_next
         }
     )

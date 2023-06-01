@@ -17,9 +17,13 @@ class Shift(BaseModel):
     def name(self):
         raise AttributeError("'Shift' object has no attribute 'name'")
 
+    @classmethod
+    def get_shifts_for_staff(cls, staff):
+        return cls.objects.filter(staff=staff)
+
     def duration(self):
         result = self.time_out - self.time_in
-        return result.total_seconds() / 3600 # Convert duration to hours
+        return result.total_seconds() / 3600  # Convert duration to hours
 
     def __str__(self):
         guard = ", ".join(str(seg) for seg in self.staff.all())
