@@ -15,19 +15,19 @@
     {% if user.is_superuser %}
     <h5 class="sidebar-title">Admin</h5>
     <div class="sidebar-divider"></div>
-    <a href="/customers/" class="sidebar-link {{ customers_active }}">List</a>
+    <a href="{% url 'customers:customer_list' %}" class="sidebar-link {{ customers_active }}">List</a>
     <br />
     {% endif %}
     <h5 class="sidebar-title">Get started</h5>
     <div class="sidebar-divider"></div>
-    <a href="/staff/" class="sidebar-link {{ staff_active }}">Staff list</a>
-    <a href="/sites/" class="sidebar-link {{ sites_active }}">Site list</a>
-    <a href="/clients/" class="sidebar-link {{ clients_active }}">Client list</a>
+    <a href="{% url 'staff:staff_list' %}" class="sidebar-link {{ staff_active }}">Staff list</a>
+    <a href="{% url 'sites:site_list' %}" class="sidebar-link {{ sites_active }}">Site list</a>
+    <a href="{% url 'clients:client_list' %}" class="sidebar-link {{ clients_active }}">Client list</a>
+    <a href="{% url 'shifts:shift_list' %}" class="sidebar-link {{ shifts_active }}">Shift list</a>
     <br />
     <h5 class="sidebar-title">Staff</h5>
     <div class="sidebar-divider"></div>
     <a href="#" class="sidebar-link">Spreadsheet</a>
     <a href="#" class="sidebar-link">Map</a>
-    <a href="/logout/" class="sidebar-link">Logout</a>
   </div>
 </div>
