@@ -4,6 +4,7 @@ views for site
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from django.contrib import messages
 
 # from django.contrib.auth.models import Group
 
@@ -20,12 +21,12 @@ def SiteList(request):
     """list for sites"""
     # groups = Group.objects.all().order_by("name")
     # group = groups.filter(user=request.user, name="admin").first()
-
+    customer = request.user.customer
     user = Users.objects.get(email=request.user.email)
     form = CreateSiteForm(request.POST or None)
 
-    sites = Site.objects.filter(customer=user.customer)
-    clients = Client.objects.filter(customer=user.customer)
+    sites = Site.objects.filter(client__customer=customer)
+    clients = Client.objects.filter(customer=customer)
 
     if request.method == "POST":
         if form.is_valid:

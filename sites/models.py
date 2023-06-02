@@ -20,7 +20,6 @@ class Site(BaseModel):
         null=True,
         blank=True,
     )
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="sites", null=True, blank=True)
     charge_rate = models.DecimalField(max_digits=10, null=True, blank=True, decimal_places=2)
 
     class Meta:
