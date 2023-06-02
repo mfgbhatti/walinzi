@@ -1,7 +1,7 @@
 """
 views for site
 """
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.contrib import messages
@@ -23,11 +23,11 @@ def SiteList(request):
     # group = groups.filter(user=request.user, name="admin").first()
     customer = request.user.customer
     user = Users.objects.get(email=request.user.email)
-    form = CreateSiteForm(request.POST or None)
 
-    sites = Site.objects.filter(client__customer=customer)
     clients = Client.objects.filter(customer=customer)
+    sites = Site.objects.filter(client__in=clients)
 
+    form = CreateSiteForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid:
             site = form.save(commit=False)
@@ -35,7 +35,7 @@ def SiteList(request):
             client_id = request.POST.get("client")
             site.client = clients.get(id=client_id)
             site.save()
-            return redirect("sites:site_list")
+            messages.success(request, "New site is created")
 
     context = {
         "user.is_authenticated": request.user.is_authenticated,
