@@ -15,7 +15,7 @@
         "editor.tabSize": 4
     },
     "[typescript]": {
-        "editor.tabSize": 2,
+        "editor.tabSize": 2
     },
     "[json]": {
         "editor.tabSize": 2
@@ -27,6 +27,7 @@
             "strings": true
         },
         "editor.tabSize": 2,
+        "editor.defaultFormatter": "monosans.djlint"
     },
     "emmet.includeLanguages": {
         "django-html": "html"
