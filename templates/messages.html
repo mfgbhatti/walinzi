@@ -1,7 +1,7 @@
 {% if messages %}
-{% for message in messages %}
-    {% if message.tags == 'success'%}
-        <script>
+  {% for message in messages %}
+    {% if message.tags == 'success' %}
+      <script>
           halfmoon.initStickyAlert({
             content: "{{message}}",
             title: "Success",
@@ -9,18 +9,18 @@
             fillType: "filled-lm",
             timeShown: 10000
           });
-        </script>
-    {% elif message.tags == 'info'%}
-        <script>
+      </script>
+    {% elif message.tags == 'info' %}
+      <script>
           halfmoon.initStickyAlert({
             content: "{{message}}",
             title: "Info",
             alertType: "alert-secondary",
             fillType: "filled-dm"
           });
-        </script>
-    {% elif message.tags == 'warning'%}
-        <script>
+      </script>
+    {% elif message.tags == 'warning' %}
+      <script>
           <script>
             halfmoon.initStickyAlert({
               content: "{{message}}",
@@ -28,10 +28,10 @@
               alertType: "alert-secondary",
               fillType: "filled-dm"
             });
-          </script>
-        </script>
-    {% elif message.tags == 'error'%}
-        <script>
+</script>
+      </script>
+    {% elif message.tags == 'error' %}
+      <script>
           halfmoon.initStickyAlert({
             content: "{{message}}",
             title: "Error",
@@ -39,7 +39,7 @@
             fillType: "filled",
             timeShown: 10000
           });
-        </script>
+      </script>
     {% endif %}
-{% endfor %}
+  {% endfor %}
 {% endif %}

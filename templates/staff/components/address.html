@@ -1,11 +1,13 @@
 <div id="address" class="tab-panel">
   {% if need_next is None %}
-  <div class="alert alert-danger" role="alert">
-    <h4 class="alert-heading">Address</h4>
-    Staff must have cumulative living for 5 years.
-  </div>
+    <div class="alert alert-danger" role="alert">
+      <h4 class="alert-heading">Address</h4>
+      Staff must have cumulative living for 5 years.
+    </div>
   {% endif %}
-  <a data-toggle="modal" data-target="add_address_modal" class="float-right">Add Address</a>
+  <a data-toggle="modal"
+     data-target="add_address_modal"
+     class="float-right">Add Address</a>
   <table class="table table-outer-bordered">
     <thead>
       <tr>
@@ -20,14 +22,14 @@
     </thead>
     <tbody>
       {% for address in staffaddress %}
-      <tr>
-        <td>{{forloop.counter}}</td>
-        <td>{{address.street | title}}</td>
-        <td>{{address.city | title}}</td>
-        <td>{{address.post_code | upper}}</td>
-        <td>{{address.in_from | date:"m F Y"}}</td>
-        <td>{{address.in_untill | date:"m F Y"}}</td>
-      </tr>
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ address.street | title }}</td>
+          <td>{{ address.city | title }}</td>
+          <td>{{ address.post_code | upper }}</td>
+          <td>{{ address.in_from | date:"m F Y" }}</td>
+          <td>{{ address.in_untill | date:"m F Y" }}</td>
+        </tr>
       {% endfor %}
     </tbody>
   </table>

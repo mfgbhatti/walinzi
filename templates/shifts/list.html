@@ -1,74 +1,73 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
-{% block title %} Shifts {% endblock title %}
+{% block title %}
+  Shifts
+{% endblock title %}
 {% block modal %}
-{% include 'shifts/add_modal.html' %}
+  {% include "shifts/add_modal.html" %}
 {% endblock modal %}
 {% block content %}
-<div class="row">
-  <div class="col">
-    <div class="content">
-      <h1 class="content-title">Shift list</h1>
-      <p>There will be a paragraph</p>
-      <p class="d-flex justify-content-end">
-        <a
-          data-toggle="modal"
-          data-target="add_shift_modal"
-          class="btn btn-primary"
-          >Add shift</a
-        >
-      </p>
-      <p>{{errors}}</p>
-    </div>
-    <div class="card p-0">
+  <div class="row">
+    <div class="col">
       <div class="content">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Site name</th>
-              <th>Staff name</th>
-              <th>Date</th>
-              <th>Day</th>
-              <th>Hours</th>
-              <th>Time in</th>
-              <th>Time out</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for shift in shifts %}
-            <tr>
-              <td>{{forloop.counter}}</td>
-              <td>{{shift.site | title}}</td>
-              <td>
-                {% comment %} for iteration through staff 'all' is necessory {% endcomment %}
-                {% for staff in shift.staff.all %}
-                  {% if staff.length == 1 %}
-                  {{staff.name | title}}
-                  {% else %}
-                    {% if forloop.last %}
-                    {{staff.name | title}}
-                    {% else %}
-                    {{staff.name | title}}&comma;&nbsp;
-                    {% endif %}
-                  {% endif %}
-                {% endfor %}
-              </td>
-              <td>{{shift.time_in | date:"d/m/Y"}}</td>
-              <td>{{shift.time_in | date:"l"}}</td>
-              <td>{{shift.duration}}</td>
-              <td>{{shift.time_in | date:"H:i"}}</td>
-              <td>{{shift.time_out | date:"H:i"}}</td>
-            </tr>
-            {% empty %}
-            <tr>
-              <td colspan="2">No shift is available</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+        <h1 class="content-title">Shift list</h1>
+        <p>There will be a paragraph</p>
+        <p class="d-flex justify-content-end">
+          <a data-toggle="modal"
+             data-target="add_shift_modal"
+             class="btn btn-primary">Add shift</a>
+        </p>
+        <p>{{ errors }}</p>
+      </div>
+      <div class="card p-0">
+        <div class="content">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Site name</th>
+                <th>Staff name</th>
+                <th>Date</th>
+                <th>Day</th>
+                <th>Hours</th>
+                <th>Time in</th>
+                <th>Time out</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for shift in shifts %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ shift.site | title }}</td>
+                  <td>
+                    {% comment %} for iteration through staff 'all' is necessory {% endcomment %}
+                    {% for staff in shift.staff.all %}
+                      {% if staff.length == 1 %}
+                        {{ staff.name | title }}
+                      {% else %}
+                        {% if forloop.last %}
+                          {{ staff.name | title }}
+                        {% else %}
+                          {{ staff.name | title }},
+                        {% endif %}
+                      {% endif %}
+                    {% endfor %}
+                  </td>
+                  <td>{{ shift.time_in | date:"d/m/Y" }}</td>
+                  <td>{{ shift.time_in | date:"l" }}</td>
+                  <td>{{ shift.duration }}</td>
+                  <td>{{ shift.time_in | date:"H:i" }}</td>
+                  <td>{{ shift.time_out | date:"H:i" }}</td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="2">No shift is available</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
-</div>
 {% endblock content %}

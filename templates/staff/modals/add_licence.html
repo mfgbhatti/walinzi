@@ -1,36 +1,40 @@
 <!-- Add staff licence modal start-->
-<div
-  class="modal"
-  id="add_staff_licence_modal"
-  tabindex="-1"
-  role="dialog"
-  data-overlay-dismissal-disabled="true"
-  data-esc-dismissal-disabled="true"
->
+<div class="modal"
+     id="add_staff_licence_modal"
+     tabindex="-1"
+     role="dialog"
+     data-overlay-dismissal-disabled="true"
+     data-esc-dismissal-disabled="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <a href="#" class="close" role="button" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
+      <a href="#"
+         class="close"
+         role="button"
+         data-dismiss="modal"
+         aria-label="Close">
+        <span aria-hidden="true">×</span>
       </a>
-      <form method="post" action="{% url 'staff:staff_licence_details' staff.id %}">
+      <form method="post"
+            action="{% url 'staff:staff_licence_details' staff.id %}">
         {% csrf_token %}
         <div class="form-group">
           <label for="licence_no" class="required">{{ form.licence_no.label }}</label>
-          <input
-            type="number"
-            name="licence_no"
-            class="form-control"
-            id="licence_no"
-            placeholder="Name"
-            maxlength="16"
-            required
-          />
+          <input type="number"
+                 name="licence_no"
+                 class="form-control"
+                 id="licence_no"
+                 placeholder="Name"
+                 maxlength="16"
+                 required />
         </div>
         <div>Please add 16 digit licence number.</div>
         <div class="text-right mt-20">
           <!-- text-right = text-align: right, mt-20 = margin-top: 2rem (20px) -->
           <button class="btn mr-5" data-dismiss="modal" type="button">Close</button>
-          <button class="btn btn-primary" data-dismiss="modal" type="submit" name="licence_form">Save</button>
+          <button class="btn btn-primary"
+                  data-dismiss="modal"
+                  type="submit"
+                  name="licence_form">Save</button>
         </div>
       </form>
     </div>

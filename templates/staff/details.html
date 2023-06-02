@@ -1,46 +1,42 @@
-{% extends 'base.html' %}
-{% block title %}{{staff.name|title}}{% endblock title %}
+{% extends "base.html" %}
+{% block title %}
+  {{ staff.name|title }}
+{% endblock title %}
 {% block modal %}
-{% include 'staff/modals/add_licence.html' %}
-{% include 'staff/modals/add_address.html' %}
+{% include "staff/modals/add_address.html" %}
+{% include "staff/modals/add_licence.html" %}
 {% endblock modal %}
 {% block content %}
-<div class="row">
-  <div class="col-xl-12">
-    <div class="content">
-      <div class="content-title">{{staff.name | title}}</div>
-      <p>Staff may be a paragraph</p>
-    </div>
-    <div class="card p-0">
+  <div class="row">
+    <div class="col-xl-12">
       <div class="content">
-        <div class="tabset">
-          <!-- Tab 1 -->
-          <input
-            type="radio"
-            name="tabset"
-            id="tab1"
-            aria-controls="address"
-            checked
-          />
-          <label for="tab1">Address</label>
-          <!-- Tab 2 -->
-          <input type="radio" name="tabset" id="tab2" aria-controls="shifts" />
-          <label for="tab2">Shifts</label>
-          <!-- Tab 3 -->
-          <input type="radio" name="tabset" id="tab3" aria-controls="licence" />
-          <label for="tab3">Licence</label>
-          <!-- Tab panels-->
-          <div class="tab-panels">
-            <!-- Address-->
-            {% include 'staff/components/address.html' %}
-            <!-- Details-->
-            {% include 'staff/components/shifts.html' %}
-            <!-- Licence-->
-            {% include 'staff/components/licence.html' %}
+        <div class="content-title">{{ staff.name | title }}</div>
+        <p>Staff may be a paragraph</p>
+      </div>
+      <div class="card p-0">
+        <div class="content">
+          <div class="tabset">
+            <!-- Tab 1 -->
+            <input type="radio" name="tabset" id="tab1" aria-controls="address" checked />
+            <label for="tab1">Address</label>
+            <!-- Tab 2 -->
+            <input type="radio" name="tabset" id="tab2" aria-controls="shifts" />
+            <label for="tab2">Shifts</label>
+            <!-- Tab 3 -->
+            <input type="radio" name="tabset" id="tab3" aria-controls="licence" />
+            <label for="tab3">Licence</label>
+            <!-- Tab panels-->
+            <div class="tab-panels">
+              <!-- Address-->
+              {% include "staff/components/address.html" %}
+              <!-- Details-->
+              {% include "staff/components/shifts.html" %}
+              <!-- Licence-->
+              {% include "staff/components/licence.html" %}
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 {% endblock content %}

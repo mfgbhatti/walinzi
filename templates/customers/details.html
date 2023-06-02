@@ -1,42 +1,42 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}{{customer.name|title}}{% endblock title %}
+{% block title %}
+  {{ customer.name|title }}
+{% endblock title %}
 {% block modal %}
-{% include "customers/address.html" %}
+  {% include "customers/address.html" %}
 {% endblock modal %}
 {% block content %}
-<div class="row">
-  <div class="col-xl-12">
-    <div class="content">
-      <h1 class="content-title font-size-24">{{customer.name | title}}</h1>
-      <!-- Customer address start-->
-      <div class="d-flex">
-        {% if customer_address %}
-        <i class="fa fa-map-marker font-size-24" aria-hidden="true"></i>
-        <div class="ml-10">
-          <span>{{customer_address.street | title}},&nbsp;{{customer_address.city | title}}</span>
-          <br>
-          <span class="text-uppercase">
-            {{customer_address.post_code}}
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="content">
+        <h1 class="content-title font-size-24">{{ customer.name | title }}</h1>
+        <!-- Customer address start-->
+        <div class="d-flex">
+          {% if customer_address %}
+            <i class="fa fa-map-marker font-size-24" aria-hidden="true"></i>
+            <div class="ml-10">
+              <span>{{ customer_address.street | title }},&nbsp;{{ customer_address.city | title }}</span>
+              <br>
+              <span class="text-uppercase">
+                {{ customer_address.post_code }}
+                <a href="#address_modal" class="ml-10 hyperlink" role="button">
+                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </a>
+              </span>
+            </div>
+          {% else %}
             <a href="#address_modal" class="ml-10 hyperlink" role="button">
               <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
             </a>
-          </span>
+          {% endif %}
         </div>
-        {% else %}
-        <a href="#address_modal" class="ml-10 hyperlink" role="button">
-          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-        </a>
-        {% endif %}
+        <!-- Customer address end-->
+        <p>
+          To create users for {{ customer.name }}, click
+          <a class="hyperlink" href="{% url 'accounts:user_list' customer.id %}">create user.</a>
+        </p>
       </div>
-      <!-- Customer address end-->
-      <p>
-        To create users for {{customer.name }}, click
-        <a class="hyperlink" href="{% url 'accounts:user_list' customer.id %}"
-          >create user.</a
-        >
-      </p>
     </div>
   </div>
-</div>
 {% endblock content %}

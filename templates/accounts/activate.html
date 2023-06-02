@@ -1,51 +1,46 @@
-{% extends 'accounts/base.html' %}
-{% block title %}Activate account{% endblock title %}
+{% extends "accounts/base.html" %}
+{% block title %}
+  Activate account
+{% endblock title %}
 {% block content %}
-<div class="d-flex justify-content-center align-items-center h-full">
-  <div class="w-400 m-auto">
-    {% if error_msg %}
-    <div class="alert alert-danger" role="alert">
-      <h4 class="alert-heading">{{error_msg_heading}}</h4>
-      {{error_msg}}
+  <div class="d-flex justify-content-center align-items-center h-full">
+    <div class="w-400 m-auto">
+      {% if error_msg %}
+        <div class="alert alert-danger" role="alert">
+          <h4 class="alert-heading">{{ error_msg_heading }}</h4>
+          {{ error_msg }}
+        </div>
+      {% endif %}
+      <h5>Activate your account</h5>
+      <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="password1" class="required">Password</label>
+          <input type="password"
+                 name="password1"
+                 class="form-control"
+                 id="password1"
+                 placeholder="Password"
+                 maxlength="50"
+                 required />
+        </div>
+        <div class="form-group">
+          <label for="password2" class="required">Confirm Password</label>
+          <input type="password"
+                 name="password2"
+                 class="form-control"
+                 id="password2"
+                 placeholder="Confirm Password"
+                 maxlength="50"
+                 required />
+        </div>
+        <p>Please create a new strong password.</p>
+        <input class="btn btn-primary btn-block"
+               type="submit"
+               name="activate_user"
+               value="Save" />
+        <p class="text-muted">Walinzi© 2017–2023</p>
+      </form>
     </div>
-    {% endif %}
-    <h5>Activate your account</h5>
-    <form method="post">
-      {% csrf_token %}
-      <div class="form-group">
-        <label for="password1" class="required">Password</label>
-        <input
-          type="password"
-          name="password1"
-          class="form-control"
-          id="password1"
-          placeholder="Password"
-          maxlength="50"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="password2" class="required">Confirm Password</label>
-        <input
-          type="password"
-          name="password2"
-          class="form-control"
-          id="password2"
-          placeholder="Confirm Password"
-          maxlength="50"
-          required
-        />
-      </div>
-      <p>Please create a new strong password.</p>
-
-      <input
-        class="btn btn-primary btn-block"
-        type="submit"
-        name="activate_user"
-        value="Save"
-      />
-      <p class="text-muted">Walinzi© 2017–2023</p>
-    </form>
   </div>
-</div>
 {% endblock content %}

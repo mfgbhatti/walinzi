@@ -1,67 +1,62 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
-
-{% block title %}Sites{% endblock title %}
+{% block title %}
+  Sites
+{% endblock title %}
 {% block modal %}
-{% include 'sites/add.html' %}
+  {% include "sites/add.html" %}
 {% endblock modal %}
 {% block content %}
-<div class="row">
-  <div class="col-xl-9">
-    <div class="content">
-      <h1 class="content-title">Site list</h1>
-      <p>There will be a paragraph</p>
-    </div>
-    <div class="card p-0">
+  <div class="row">
+    <div class="col-xl-9">
       <div class="content">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Site Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for site in sites %}
-            <tr>
-              <td>{{forloop.counter}}</td>
-              <td>
-                <a href="./site_detail/{{site.id}}" class="hyperlink">
-                  {{ site.name | title }}</a
-                >
-              </td>
-            </tr>
-            {% empty %}
-            <tr>
-              <td colspan="2">
-                {% if clients %}
-                No site is available
-                {% else %}
-                Please add clients first to proceed. <a href="/clients/">Add new client</a>
-                {% endif %}
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+        <h1 class="content-title">Site list</h1>
+        <p>There will be a paragraph</p>
+      </div>
+      <div class="card p-0">
+        <div class="content">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Site Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for site in sites %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>
+                    <a href="./site_detail/{{ site.id }}" class="hyperlink">{{ site.name | title }}</a>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="2">
+                    {% if clients %}
+                      No site is available
+                    {% else %}
+                      Please add clients first to proceed. <a href="{% url 'clients:client_list' %}">Add new client</a>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 on-this-page-nav-container">
+      <div class="content">
+        <div class="on-this-page-nav" id="on-this-page-nav">
+          <div class="title">On this page</div>
+          {% if clients %}<a data-toggle="modal" data-target="add_site_modal">Add site</a>{% endif %}
+          <p class="text-justify">
+            At this stage only site name is required. After adding, you can
+            further add information about site by visiting their detail page.
+          </p>
+        </div>
       </div>
     </div>
   </div>
-  <div class="col-xl-3 on-this-page-nav-container">
-    <div class="content">
-        <div class="on-this-page-nav" id="on-this-page-nav">
-            <div class="title">On this page</div>
-            {% if clients %}
-            <a data-toggle="modal" data-target="add_site_modal">Add site</a>
-            {% endif %}
-            <p class="text-justify">
-              At this stage only site name is required. After adding, you can
-              further add information about site by visiting their detail page.
-            </p>
-        </div>
-    </div>
-  </div>
-</div>
 {% endblock content %}
-
-

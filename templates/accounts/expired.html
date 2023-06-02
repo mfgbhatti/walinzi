@@ -1,14 +1,18 @@
-{% extends 'accounts/base.html' %}
-{% block title %}Expired link{% endblock title %}
+{% extends "accounts/base.html" %}
+{% block title %}
+  Expired link
+{% endblock title %}
 {% block content %}
-<div class="d-flex justify-content-center align-items-center h-full">
-  <div class="w-400 m-auto text-center">
-    <div class="alert alert-danger" role="alert">
-      <h4 class="alert-heading">{{error_msg_heading}}</h4>
-      {{error_msg}}
+  <div class="d-flex justify-content-center align-items-center h-full">
+    <div class="w-400 m-auto text-center">
+      <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">{{ error_msg_heading }}</h4>
+        {{ error_msg }}
+      </div>
+      <p>
+        Go back to <a href="{% url 'accounts:user_login' %}">login</a> page.
+      </p>
+      <p class="text-muted">Walinzi© 2017–2023</p>
     </div>
-    <p>Go back to <a href="{% url 'accounts:user_login' %}">login</a> page.</p>
-    <p class="text-muted">Walinzi© 2017–2023</p>
   </div>
-</div>
 {% endblock content %}

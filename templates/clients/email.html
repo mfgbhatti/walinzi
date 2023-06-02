@@ -1,83 +1,57 @@
 {% load static %}
-
 <div class="col-6 mt-4 mb-4">
   <div class="d-flex justify-content-between">
     <h3>Client Emails</h3>
     <!-- email offcanvas-->
-    <button
-      class="btn basic"
-      type="button"
-      data-bs-toggle="offcanvas"
-      data-bs-target="#email_offcanvas"
-      aria-controls="email_offcanvas"
-    >
-      <img src="{% static 'icons/edit.svg' %}" alt="Edit">
+    <button class="btn basic"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#email_offcanvas"
+            aria-controls="email_offcanvas">
     </button>
   </div>
-
-  <div
-    class="offcanvas offcanvas-end"
-    tabindex="-1"
-    id="email_offcanvas"
-    aria-labelledby="email_offcanvas_label"
-  >
+  <div class="offcanvas offcanvas-end"
+       tabindex="-1"
+       id="email_offcanvas"
+       aria-labelledby="email_offcanvas_label">
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="email_offcanvas_label">
-        Add Emails
-      </h5>
-      <button
-        type="button"
-        class="btn-close text-reset"
-        data-bs-dismiss="offcanvas"
-        aria-label="Close"
-      ></button>
+      <h5 class="offcanvas-title" id="email_offcanvas_label">Add Emails</h5>
+      <button type="button"
+              class="btn-close text-reset"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"></button>
     </div>
     <div class="offcanvas-body small">
       <form method="post">
         {% csrf_token %}
         <div class="form-floating mb-2">
-          <input
-            type="text"
-            name="title"
-            class="form-control text-capitalize"
-            id="floatingInput"
-            placeholder="Title"
-            maxlength="15"
-            required
-          />
+          <input type="text"
+                 name="title"
+                 class="form-control text-capitalize"
+                 id="floatingInput"
+                 placeholder="Title"
+                 maxlength="15"
+                 required />
           <label for="floatingInput">{{ email_form.title.label_tag }}</label>
         </div>
         <div class="form-floating mb-2">
-          <input
-            type="email"
-            name="email"
-            class="form-control"
-            id="floatingInput"
-            placeholder="abc@example.com"
-            maxlength="50"
-            required
-          />
+          <input type="email"
+                 name="email"
+                 class="form-control"
+                 id="floatingInput"
+                 placeholder="abc@example.com"
+                 maxlength="50"
+                 required />
           <label for="floatingInput">{{ email_form.email.label_tag }}</label>
         </div>
-        <input
-          type="hidden"
-          name="client"
-          value="{{ client.id }}"
-          id="client"
-        />
+        <input type="hidden" name="client" value="{{ client.id }}" id="client" />
         <div>
-          <button
-            type="submit"
-            class="btn btn-primary btn-lg w-100"
-            name="email_form"
-          >
-            Save
-          </button>
+          <button type="submit" class="btn btn-primary btn-lg w-100" name="email_form">Save</button>
         </div>
       </form>
     </div>
   </div>
-  <table class="table table-striped table-sm" style="width: 100%">
+  <table class="table table-striped table-sm">
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -87,15 +61,15 @@
     </thead>
     <tbody>
       {% for email in email_data %}
-      <tr>
-        <td>{{forloop.counter}}</td>
-        <td class="text-capitalize">{{email.title}}</td>
-        <td>{{email.email}}</td>
-      </tr>
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ email.title | title }}</td>
+          <td>{{ email.email }}</td>
+        </tr>
       {% empty %}
-      <tr>
-        <td colspan="3">No emails</td>
-      </tr>
+        <tr>
+          <td colspan="3">No emails</td>
+        </tr>
       {% endfor %}
     </tbody>
   </table>

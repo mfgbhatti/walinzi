@@ -1,56 +1,57 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
-{% block title %}Customers{% endblock title %}
+{% block title %}
+  Customers
+{% endblock title %}
 {% block modal %}
-{% include 'customers/add.html' %}
+  {% include "customers/add.html" %}
 {% endblock modal %}
 {% block content %}
-<div class="row">
-  <div class="col-xl-9">
-    <div class="content">
-      <h1 class="content-title">Customer list</h1>
-      <p>There will be a paragraph</p>
-    </div>
-    <div class="card p-0">
+  <div class="row">
+    <div class="col-xl-9">
       <div class="content">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Customer Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for customer in customers %}
-            <tr>
-              <td>{{forloop.counter}}</td>
-              <td>
-                <a href="{% url 'customers:customer_details' customer.id %}" class="hyperlink">
-                  {{ customer.name | title }}</a
-                >
-              </td>
-            </tr>
-            {% empty %}
-            <tr>
-              <td colspan="2">No customer is available</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+        <h1 class="content-title">Customer list</h1>
+        <p>There will be a paragraph</p>
+      </div>
+      <div class="card p-0">
+        <div class="content">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Customer Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for customer in customers %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>
+                    <a href="{% url 'customers:customer_details' customer.id %}"
+                       class="hyperlink">{{ customer.name | title }}</a>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="2">No customer is available</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 on-this-page-nav-container">
+      <div class="content">
+        <div class="on-this-page-nav" id="on-this-page-nav">
+          <div class="title">On this page</div>
+          <a data-toggle="modal" data-target="add_customer_modal">Add customer</a>
+          <p class="text-justify">
+            At this stage only customer name is required. After adding, you can
+            further add information about customer by visiting their detail page.
+          </p>
+        </div>
       </div>
     </div>
   </div>
-  <div class="col-xl-3 on-this-page-nav-container">
-    <div class="content">
-        <div class="on-this-page-nav" id="on-this-page-nav">
-            <div class="title">On this page</div>
-            <a data-toggle="modal" data-target="add_customer_modal">Add customer</a>
-            <p class="text-justify">
-              At this stage only customer name is required. After adding, you can
-              further add information about customer by visiting their detail page.
-            </p>
-        </div>
-    </div>
-  </div>
-</div>
 {% endblock content %}

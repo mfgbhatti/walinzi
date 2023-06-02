@@ -1,61 +1,56 @@
-{% extends 'base.html' %}
-
+{% extends "base.html" %}
 {% load static %}
-
 {% block title %}
-Staff
+  Staff
 {% endblock title %}
-
 {% block modal %}
-{% include 'staff/add.html' %}
+  {% include "staff/add.html" %}
 {% endblock modal %}
 {% block content %}
-<div class="row">
-  <div class="col-xl-9">
-    <div class="content">
-      <h1 class="content-title">Staff list</h1>
-      <p>There will be a paragraph</p>
-    </div>
-    <div class="card p-0">
+  <div class="row">
+    <div class="col-xl-9">
       <div class="content">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Staff Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for staff in guards %}
-            <tr>
-              <td>{{forloop.counter}}</td>
-              <td>
-                <a href="{% url 'staff:staff_detail' staff.id %}" class="hyperlink">
-                  {{ staff.name | title }}</a
-                >
-              </td>
-            </tr>
-            {% empty %}
-            <tr>
-              <td colspan="2">No staff is available</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+        <h1 class="content-title">Staff list</h1>
+        <p>There will be a paragraph</p>
+      </div>
+      <div class="card p-0">
+        <div class="content">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Staff Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for staff in guards %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>
+                    <a href="{% url 'staff:staff_detail' staff.id %}" class="hyperlink">{{ staff.name | title }}</a>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="2">No staff is available</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 on-this-page-nav-container">
+      <div class="content">
+        <div class="on-this-page-nav" id="on-this-page-nav">
+          <div class="title">On this page</div>
+          <a data-toggle="modal" data-target="add_staff_modal">Add staff</a>
+          <p class="text-justify">
+            At this stage only staff name is required. After adding, you can
+            further add information about staff by visiting their detail page.
+          </p>
+        </div>
       </div>
     </div>
   </div>
-  <div class="col-xl-3 on-this-page-nav-container">
-    <div class="content">
-        <div class="on-this-page-nav" id="on-this-page-nav">
-            <div class="title">On this page</div>
-            <a data-toggle="modal" data-target="add_staff_modal">Add staff</a>
-            <p class="text-justify">
-              At this stage only staff name is required. After adding, you can
-              further add information about staff by visiting their detail page.
-            </p>
-        </div>
-    </div>
-  </div>
-</div>
 {% endblock content %}

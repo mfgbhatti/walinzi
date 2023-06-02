@@ -1,76 +1,58 @@
 <!-- Address modal start-->
-<div
-  class="modal"
-  id="address_modal"
-  tabindex="-1"
-  role="dialog"
-  data-overlay-dismissal-disabled="true"
-  data-esc-dismissal-disabled="true"
->
+<div class="modal"
+     id="address_modal"
+     tabindex="-1"
+     role="dialog"
+     data-overlay-dismissal-disabled="true"
+     data-esc-dismissal-disabled="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <a href="#" class="close" role="button" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
+        <span aria-hidden="true">×</span>
       </a>
       <form method="post">
         {% csrf_token %}
         <div class="form-group">
           <label for="floatingInput" class="required">{{ address_form.street.label_tag }}</label>
-          <input
-            type="text"
-            name="street"
-            class="form-control text-capitalize"
-            id="floatingInput"
-            {% if customer_address.street %}
-            value="{{customer_address.street}}"
-            {% endif %}
-            placeholder="Street"
-            maxlength="150"
-            required
-          />
+          <input type="text"
+                 name="street"
+                 class="form-control text-capitalize"
+                 id="floatingInput"
+                 {% if customer_address.street %}value="{{ customer_address.street }}"{% endif %}
+                 placeholder="Street"
+                 maxlength="150"
+                 required />
         </div>
         <div class="form-group">
           <label for="floatingInput" class="required">{{ address_form.city.label_tag }}</label>
-          <input
-            type="text"
-            name="city"
-            class="form-control text-capitalize"
-            id="floatingInput"
-            {% if customer_address.city %}
-            value="{{customer_address.city}}"
-            {% endif %}
-            placeholder="City"
-            maxlength="150"
-            required
-          />
+          <input type="text"
+                 name="city"
+                 class="form-control text-capitalize"
+                 id="floatingInput"
+                 {% if customer_address.city %}value="{{ customer_address.city }}"{% endif %}
+                 placeholder="City"
+                 maxlength="150"
+                 required />
         </div>
         <div class="form-floating mb-2">
-          <label for="floatingInput" class="required"
-            >{{ address_form.post_code.label_tag }}</label
-          >
-          <input
-            type="text"
-            name="post_code"
-            class="form-control text-uppercase"
-            id="floatingInput"
-            {% if customer_address.post_code %}
-            value="{{customer_address.post_code}}"
-            {% endif %}
-            placeholder="Post Code"
-            maxlength="15"
-            required
-          />
+          <label for="floatingInput" class="required">{{ address_form.post_code.label_tag }}</label>
+          <input type="text"
+                 name="post_code"
+                 class="form-control text-uppercase"
+                 id="floatingInput"
+                 {% if customer_address.post_code %}value="{{ customer_address.post_code }}"{% endif %}
+                 placeholder="Post Code"
+                 maxlength="15"
+                 required />
         </div>
-        <input
-          type="hidden"
-          name="customer"
-          value="{{ customer.id }}"
-          id="customer"
-        />
+        <input type="hidden" name="customer" value="{{ customer.id }}" id="customer" />
         <div class="text-right mt-20">
           <!-- text-right = text-align: right, mt-20 = margin-top: 2rem (20px) -->
           <a href="#" class="btn mr-5" role="button">Close</a>
-          <button class="btn btn-primary" role="button" type="submit" name="address_form">Save</button>
+          <button class="btn btn-primary"
+                  role="button"
+                  type="submit"
+                  name="address_form">Save</button>
         </div>
       </form>
     </div>

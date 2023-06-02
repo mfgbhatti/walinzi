@@ -1,18 +1,16 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
-{% block title %}{{site.name|title}}{% endblock title %}
+{% block title %}
+  {{ site.name|title }}
+{% endblock title %}
 {% block content %}
-<div class="row mt-4 mb-2">
-  <h1 class="text-capitalize">{{site.name}}</h1>
-</div>
-<div class="row">
-  {% include "sites/address.html" %}
-</div>
-<div class="row">
-  {% include "sites/phone.html" %}
-  {% include "sites/email.html" %}
-</div>
-<div class="row">
-  {% include "sites/notes.html" %}
-</div>
+  <div class="row mt-4 mb-2">
+    <h1 class="text-capitalize">{{ site.name }}</h1>
+  </div>
+  <div class="row">{% include "sites/address.html" %}</div>
+  <div class="row">
+    {% include "sites/phone.html" %}
+    {% include "sites/email.html" %}
+  </div>
+  <div class="row">{% include "sites/notes.html" %}</div>
 {% endblock content %}
