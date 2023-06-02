@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from django.utils import timezone
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
@@ -32,6 +32,15 @@ def ShiftListView(request):
 
         shift.save()
 
+    def date_loop(n):
+        shift_counter = 0
+        for i in range(delta.days + 1):  # 0,1,2,3 # to include last date + 1 used
+            initial_date = started + timedelta(days=i)  # this will start date at i=0
+            last_date = initial_date + timedelta(days=n)
+            create_shift(initial_date, last_date)  # needs to add +1 for next day
+            shift_counter += 1
+        messages.success(request, f"{shift_counter} New shifts is created.")
+
     if request.method == "POST":
         if shift_form.is_valid():
             site_id = request.POST["site"]
@@ -41,15 +50,17 @@ def ShiftListView(request):
             started = datetime.strptime(request.POST["started"], "%Y-%m-%d").date()
             ended = datetime.strptime(request.POST["ended"], "%Y-%m-%d").date()
 
-            delta = ended - started
-            if delta.days == 1:  # for one day
-                create_shift(started, ended)
-            else:
-                for i in range(delta.days + 1):
-                    date = started + timedelta(days=i)
-                    create_shift(date, date)
+            finish = datetime.combine(date.today(), time_out)
+            start = datetime.combine(date.today(), time_in)
 
-            messages.success(request, "New shift is created.")
+            delta = ended - started  # 0,1,2 # from 2nd june to 4th june
+            if delta.days == 0:  # for one day
+                create_shift(started, ended)
+                messages.success(request, "New shift is created.")
+            if finish < start:
+                date_loop(n=1)
+            else:
+                date_loop(n=0)
 
     # for time input
     hours = range(24)
