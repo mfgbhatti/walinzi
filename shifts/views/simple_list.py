@@ -42,6 +42,7 @@ def ShiftListView(request):
         messages.success(request, f"{shift_counter} New shifts is created.")
 
     if request.method == "POST":
+        print(request.POST)
         if shift_form.is_valid():
             site_id = request.POST["site"]
             staff_ids = request.POST.getlist("staff")
