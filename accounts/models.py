@@ -46,10 +46,6 @@ class BaseUser(AbstractUser, PermissionsMixin):
     username = models.CharField(max_length=80, default="", blank=True, null=True)
     first_name = models.CharField(max_length=80, default="", blank=True, null=True)
     last_name = models.CharField(max_length=80, default="", blank=True, null=True)
-    avatar = models.CharField(max_length=210, default="", blank=True, null=True)
-    title = models.CharField(max_length=80, default="", blank=True)
-    phone = models.CharField(max_length=11, default="", blank=True)
-    about = models.TextField(default="", blank=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     activation_key = models.CharField(max_length=255, blank=True, null=True)
@@ -83,3 +79,30 @@ class BaseUser(AbstractUser, PermissionsMixin):
     def is_staff(self):
         """Is the user a member of staff?"""
         return self.is_admin
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(
+        BaseUser,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+    title = models.CharField(max_length=80, default="", blank=True)
+    phone = models.CharField(max_length=11, default="", blank=True)
+    about = models.TextField(default="", blank=True)
+    avatar = models.ImageField(upload_to="avatars", blank=True, null=True)
+
+    class Meta:
+        """Meta class."""
+
+        db_table = "user_profile"
+
+        verbose_name = "User Profile"
+        verbose_name_plural = "User Profiles"
+
+    def __str__(self) -> str:
+        return f"{self.user.first_name} Profile"
+
+    @property
+    def phone(self):
+        return self.phone
