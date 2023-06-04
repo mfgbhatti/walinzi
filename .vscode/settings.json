@@ -31,5 +31,9 @@
     },
     "emmet.includeLanguages": {
         "django-html": "html"
+    },
+    "[javascript]": {
+        "editor.tabSize": 2,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     }
 }
