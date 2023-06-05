@@ -14,7 +14,7 @@
          aria-label="Close">
         <span aria-hidden="true">×</span>
       </a>
-      <form method="post">
+      <form method="post" id="shift_form">
         {% csrf_token %}
         <!-- First row -->
         <div class="form-row row-eq-spacing-sm">
@@ -95,6 +95,7 @@
           <button class="btn mr-5" data-dismiss="modal" type="button">Close</button>
           <button class="btn btn-primary"
                   data-dismiss="modal"
+                  id="modal_submit"
                   type="submit"
                   name="shift_form">Save</button>
         </div>

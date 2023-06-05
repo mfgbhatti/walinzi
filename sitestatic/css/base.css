@@ -1,3 +1,27 @@
+/*
+  Global scope
+*/
+:root {
+    /* Change primary color from blue to orange */
+
+    --primary-color: var(--orange-color);
+    /* Before: var(--blue-color) */
+    --primary-color-light: var(--orange-color-light);
+    /* Before: var(--blue-color-light) */
+    --primary-color-very-light: var(--orange-color-very-light);
+    /* Before: var(--blue-color-very-light) */
+    --primary-color-dark: var(--orange-color-dark);
+    /* Before: var(--blue-color-dark) */
+    --primary-color-very-dark: var(--orange-color-very-dark);
+    /* Before: var(--blue-color-very-dark) */
+    --primary-box-shadow-color: var(--orange-box-shadow-color);
+    /* Before: var(--blue-box-shadow-color) */
+    --primary-box-shadow-color-darker: var(--orange-box-shadow-color-darker);
+    /* Before: var(--blue-box-shadow-color-darker) */
+    --text-color-on-primary-color-bg: var(--text-color-on-orange-color-bg);
+    /* Before: var(--text-color-on-blue-color-bg) */
+}
+
 body {
     font-family: 'Poppins', sans-serif;
 }
@@ -40,7 +64,7 @@ body {
 .on-this-page-nav a:hover,
 .dark-mode .on-this-page-nav a:hover {
     cursor: pointer;
-    color: #1890ff;
+    color: var(--primary-color);
     text-decoration: none;
 }
 

@@ -1,0 +1,164 @@
+<script type="text/javascript">
+  var editor; // use a global for the submit and return data rendering in the examples
+  let table_id = $("#{{table_id}}");
+  let modal_id = $("#{{modal_id}}");
+  let pre_url = "{% url '";
+  let post_url = "' %}";
+  let url_str = "{{url_str}}";
+  //let url = "{% url 'shifts:shift_list' %}";// this is just /shifts/
+  let url = "http://localhost:8000/shifts/";
+  let data;
+  // using jQuery
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      var cookies = document.cookie.split(";");
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = jQuery.trim(cookies[i]);
+        // Does this cookie string begin with the name we want?
+        if (cookie.substring(0, name.length + 1) === name + "=") {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+  let csrftoken = getCookie("csrftoken");
+  // block submission by the modal
+  $( "form" ).on( "submit", function( event ) {
+    event.preventDefault();
+    data = $("#shift_form").serializeArray();
+    editor.submit();
+  } );
+
+  (function () {
+    var Editor = $.fn.dataTable.Editor;
+    Editor.display.halfmoon = $.extend(true, {}, Editor.models.display, {
+      // Create the HTML mark-up needed the display controller
+      init: function (editor) {
+        return Editor.display.halfmoon;
+      },
+
+      // Show the form
+      open: function (editor, form, callback) {
+        // Close any rows which are already open
+        Editor.display.halfmoon.close(editor);
+
+        if (editor.mode() === "create") {
+          modal_id.addClass("show");
+        }
+        if (callback) {
+          callback();
+        }
+      },
+
+      // Hide the form
+      close: function (editor, callback) {
+        modal_id.removeClass("show");
+        if (callback) {
+          callback();
+        }
+      },
+    });
+  })();
+  $(document).ready(function () {
+    editor = new $.fn.dataTable.Editor({
+      ajax: {
+        url: url,
+        data: function (d) {
+          data.forEach(function (e) {
+            d[e.name] = e.value;
+          })
+        },
+        type: "POST",
+        headers: {
+          "X-CSRFToken": csrftoken,
+        },
+        mode: "same-origin",
+      },
+      table: "#shift_list",
+      display: "halfmoon",
+      idSrc: "id",
+      fields: [
+        {
+          label: "Site name",
+          name: "site",
+        },
+        {
+          label: "Staff name",
+          name: "staff",
+        },
+        {
+          label: "Starting date",
+          name: "started",
+        },
+        {
+          label: "Ending date",
+          name: "ended",
+        },
+        {
+          label: "Starting time",
+          name: "time_in",
+        },
+        {
+          label: "Ending time",
+          name: "time_out",
+        },
+      ],
+    });
+
+    // datatable
+    var table = table_id.DataTable({
+      dom: "Bflrtip",
+      select: true,
+      buttons: [
+        {
+          extend: "create",
+          text: "Add",
+          className: "btn",
+          editor: editor,
+        },
+        {
+          extend: "edit",
+          className: "btn",
+          editor: editor,
+        },
+        {
+          extend: "remove",
+          className: "btn",
+          editor: editor,
+        },
+        {
+          extend: "collection",
+          text: "Export",
+          className: "btn",
+          buttons: [
+            {
+              extend: "copyHtml5",
+              text: '<i class="fa fa-files-o"></i> Copy',
+              titleAttr: "Copy",
+            },
+            {
+              extend: "excelHtml5",
+              text: '<i class="fa fa-file-excel-o"></i> Excel',
+              titleAttr: "Excel",
+            },
+            {
+              extend: "csvHtml5",
+              text: '<i class="fa fa-file-text-o"></i> CSV',
+              titleAttr: "CSV",
+            },
+            {
+              extend: "pdfHtml5",
+              text: '<i class="fa fa-file-pdf-o"></i> PDF',
+              titleAttr: "PDF",
+            },
+          ],
+        },
+      ],
+    });
+    //table.buttons().container().appendTo( $('#content-title') ); //append to html
+    //main function ends
+  });
+</script>

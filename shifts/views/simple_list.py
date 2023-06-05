@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, date
 from django.utils import timezone
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
@@ -42,7 +42,6 @@ def ShiftListView(request):
         messages.success(request, f"{shift_counter} New shifts is created.")
 
     if request.method == "POST":
-        print(request.POST)
         if shift_form.is_valid():
             site_id = request.POST["site"]
             staff_ids = request.POST.getlist("staff")
@@ -63,6 +62,7 @@ def ShiftListView(request):
             else:
                 date_loop(n=0)
 
+            return redirect("shifts:get_shifts")
     # for time input
     hours = range(24)
     minutes = ["00", "15", "30", "45"]
