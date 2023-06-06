@@ -27,7 +27,7 @@
                 <tr>
                   <td>{{ forloop.counter }}</td>
                   <td>
-                    <a href="./site_detail/{{ site.id }}" class="hyperlink">{{ site.name | title }}</a>
+                    <a href="{% url 'sites:site_details' site.id %}" class="hyperlink">{{ site.name | title }}</a>
                   </td>
                 </tr>
               {% empty %}

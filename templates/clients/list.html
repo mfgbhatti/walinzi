@@ -27,7 +27,7 @@
                 <tr>
                   <td>{{ forloop.counter }}</td>
                   <td>
-                    <a href="./client_detail/{{ client.id }}" class="hyperlink">{{ client.name | title }}</a>
+                    <a href="{% url 'clients:client_details' client.id %}" class="hyperlink">{{ client.name | title }}</a>
                   </td>
                 </tr>
               {% empty %}

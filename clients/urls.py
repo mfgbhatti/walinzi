@@ -8,8 +8,8 @@ from clients.views import ClientList, ClientDetailsView
 app_name = "clients"
 
 urlpatterns = [
-    path("clients/", ClientList, name="client_list"),
-    path("clients/client_detail/<uuid:client_id>", ClientDetailsView, name="client_details")
+    path("clients/", ClientList, name="index"),
+    path("get_client/<uuid:client_id>", ClientDetailsView, name="client_details")
 ]
 
 
