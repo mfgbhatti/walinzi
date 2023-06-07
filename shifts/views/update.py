@@ -1,23 +1,22 @@
 from datetime import datetime, timedelta, date
 from django.utils import timezone
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from shifts.models import Shift
 from shifts.forms import ShiftForm
 from sites.models import Site
-from staff.models import Staff
 
 
 @login_required
-def ShiftListView(request):
+def ShiftCreateUpdateView(request):
     user_customer = request.user.customer.id
     sites = Site.objects.filter(client__customer=user_customer)
-    shifts = Shift.objects.filter(site__in=sites)
-    context = {}
+    # shifts = Shift.objects.filter(site__in=sites)
+    # context = {}
 
-    guards = Staff.objects.filter(customer=user_customer)
+    # guards = Staff.objects.filter(customer=user_customer)
     shift_form = ShiftForm(request.POST or None)
 
     def create_shift(start_date, end_date):
@@ -62,21 +61,21 @@ def ShiftListView(request):
             else:
                 date_loop(n=0)
 
-            return redirect("shifts:get_shifts")
-    # for time input
-    hours = range(24)
-    minutes = ["00", "15", "30", "45"]
-    context.update(
-        {
-            "shifts_active": "active",
-            "shifts": shifts,
-            "sites": sites,
-            "guards": guards,
-            "shift_form": shift_form,
-            "hours": hours,
-            "minutes": minutes,
-            "errors": shift_form.errors,
-        }
-    )
-    response = render(request, "shifts/list.html", context)
-    return response
+            return redirect("shifts:index")
+    # # for time input
+    # hours = range(24)
+    # minutes = ["00", "15", "30", "45"]
+    # context.update(
+    #     {
+    #         "shifts_active": "active",
+    #         "shifts": shifts,
+    #         "sites": sites,
+    #         "guards": guards,
+    #         "shift_form": shift_form,
+    #         "hours": hours,
+    #         "minutes": minutes,
+    #         "errors": shift_form.errors,
+    #     }
+    # )
+    # response = render(request, "shifts/list.html", context)
+    # return response

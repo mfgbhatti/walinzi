@@ -1,37 +1,13 @@
 <script type="text/javascript">
-  var editor; // use a global for the submit and return data rendering in the examples
-  let table_id = $("#{{table_id}}");
-  let modal_id = $("#{{modal_id}}");
-  let pre_url = "{% url '";
-  let post_url = "' %}";
-  let url_str = "{{url_str}}";
-  //let url = "{% url 'shifts:shift_list' %}";// this is just /shifts/
-  let url = "http://localhost:8000/shifts/";
+  let table_id  = "{{var_dict.table_id}}"
+  let modal_id  = "{{var_dict.modal_id}}";
+  let get_url   = "{{var_dict.get_url | safe }}";
+  let post_url  = "{{var_dict.post_url | safe }}";
+  let form_id   = "{{var_dict.form_id}}";
   let data;
-  // using jQuery
-  function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== "") {
-      var cookies = document.cookie.split(";");
-      for (var i = 0; i < cookies.length; i++) {
-        var cookie = jQuery.trim(cookies[i]);
-        // Does this cookie string begin with the name we want?
-        if (cookie.substring(0, name.length + 1) === name + "=") {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
-        }
-      }
-    }
-    return cookieValue;
-  }
-  let csrftoken = getCookie("csrftoken");
-  // block submission by the modal
-  $( "form" ).on( "submit", function( event ) {
-    event.preventDefault();
-    data = $("#shift_form").serializeArray();
-    editor.submit();
-  } );
+  var editor; // use a global for the submit and return data rendering in the examples
 
+  // display controller
   (function () {
     var Editor = $.fn.dataTable.Editor;
     Editor.display.halfmoon = $.extend(true, {}, Editor.models.display, {
@@ -46,7 +22,7 @@
         Editor.display.halfmoon.close(editor);
 
         if (editor.mode() === "create") {
-          modal_id.addClass("show");
+          $("#" + modal_id ).addClass("show");
         }
         if (callback) {
           callback();
@@ -55,17 +31,45 @@
 
       // Hide the form
       close: function (editor, callback) {
-        modal_id.removeClass("show");
+        $("#" + modal_id ).removeClass("show");
         if (callback) {
           callback();
         }
       },
     });
   })();
+
   $(document).ready(function () {
+    // using jQuery
+    function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+        var cookies = document.cookie.split(";");
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = jQuery.trim(cookies[i]);
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) === name + "=") {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+    //get csrftocken
+    let csrftoken = getCookie("csrftoken");
+
+      // block submission by the modal
+    $( "#" + form_id ).on( "submit", function( event ) {
+      event.preventDefault();
+      data = $(this).serializeArray();
+      editor.submit();
+    });
+
+    // editor
     editor = new $.fn.dataTable.Editor({
       ajax: {
-        url: url,
+        url: post_url,
         data: function (d) {
           data.forEach(function (e) {
             d[e.name] = e.value;
@@ -77,7 +81,7 @@
         },
         mode: "same-origin",
       },
-      table: "#shift_list",
+      table: table_id,
       display: "halfmoon",
       idSrc: "id",
       fields: [
@@ -109,8 +113,26 @@
     });
 
     // datatable
-    var table = table_id.DataTable({
+    var table = $("#" + table_id ).DataTable({
       dom: "Bflrtip",
+      /*
+      search: true, //  not working
+      processing: true, //  not working
+      serverSide: true, //  not working
+      */
+      ajax: {
+        url: get_url,
+        dataSrc: 'data',
+      },
+      columns: [
+        {data: "site"},
+        {data: "staff[0].name"}, // only one staff name working
+        {data: "date"},
+        {data: "day"},
+        {data: "duration"},
+        {data: "time_in"},
+        {data: "time_out"},
+      ],
       select: true,
       buttons: [
         {
