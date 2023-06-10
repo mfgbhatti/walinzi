@@ -1,0 +1,18 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+    <li class="breadcrumb-item {{ dashboard_active }}" aria-current="page">
+      <a href="{% url 'dashboard:index' %}">
+        <i class="fa fa-home me-2" aria-hidden="true"></i>
+      </a>
+    </li>
+    {% for breadcrumb in breadcrumbs %}
+      {% if breadcrumb.url %}
+        <li class="breadcrumb-item active" aria-current="page">
+          <a href="{{ breadcrumb.url }}">{{ breadcrumb.title | title }}</a>
+        </li>
+      {% else %}
+        <li class="breadcrumb-item active" aria-current="page">{{ breadcrumb.title | title }}</li>
+      {% endif %}
+    {% endfor %}
+  </ol>
+</nav>
