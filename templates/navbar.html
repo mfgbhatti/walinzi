@@ -21,7 +21,7 @@
      aria-label="Main navigation"
      data-bs-theme="dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Walinzi</a>
+    <a class="navbar-brand" href="{% url 'dashboard:index' %}">Walinzi</a>
     <button class="navbar-toggler p-0 border-0"
             type="button"
             id="navbarSideCollapse"
@@ -60,12 +60,12 @@
               </li>
               <li>
                 <a class="dropdown-item {{ sites_active }}" href="{% url 'sites:index' %}">
-                  <i class="fa fa-map-o" aria-hidden="true"></i>
+                  <i class="fa fa-map-o me-2" aria-hidden="true"></i>
                 Site</a>
               </li>
               <li>
                 <a class="dropdown-item {{ staff_active }}" href="{% url 'staff:index' %}">
-                  <i class="fa fa-user" aria-hidden="true"></i>
+                  <i class="fa fa-user me-2" aria-hidden="true"></i>
                 Staff</a>
               </li>
             </ul>
