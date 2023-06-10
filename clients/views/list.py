@@ -30,13 +30,19 @@ def ClientList(request):
             client.customer = user.customer
             client.save()
             return redirect("clients:client_list")
-
+    breadcrumbs = [
+        {
+            "title": "clients",
+            "url": "",
+        }
+    ]
     context = {
         "user.is_authenticated": request.user.is_authenticated,
         "clients": clients,
         "form": form,
         "is_authed": "True",
-        "clients_active": "active",
+        "control_active": "active",
+        "breadcrumbs": breadcrumbs
     }
 
     return render(request, "clients/list.html", context)

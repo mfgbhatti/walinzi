@@ -111,6 +111,17 @@ def ClientDetailsView(request, client_id):
                     form.save()
                     return redirect("clients:client_details", client_id)
 
+        breadcrumbs = [
+        {
+            "title": "clients",
+            "url": "/clients/",
+        },
+        {
+            "title": "details",
+            "url": "",
+        }
+    ]
+
     context.update(
         {
             "user.is_authenticated": request.user.is_authenticated,
@@ -129,6 +140,7 @@ def ClientDetailsView(request, client_id):
             # "phone_form": phone_form,
             # "email_form": email_form,
             # "note_form": note_form,
+            "breadcrumbs": breadcrumbs
         }
     )
     # print(context)
