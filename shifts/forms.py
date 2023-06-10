@@ -7,3 +7,4 @@ class ShiftForm(ModelForm):
     class Meta:
         model = Shift
         exclude = ("name", "time_in", "time_out")
+

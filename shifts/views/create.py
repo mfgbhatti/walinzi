@@ -1,0 +1,22 @@
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+
+from shifts.models import Shift
+from shifts.forms import ShiftForm
+from shifts.utils import CreateShift
+
+
+@login_required
+def ShiftCreateView(request):
+    # user_customer = request.user.customer.id
+    # sites = Site.objects.filter(client__customer=user_customer)
+    # shifts = Shift.objects.filter(site__in=sites)
+
+    shift_form = ShiftForm(request.POST or None)
+
+    if request.method == "POST":
+        if shift_form.is_valid():
+            CreateShift(request=request, model=Shift)
+
+        return HttpResponse(status=200)
+    return HttpResponse(status=500)

@@ -1,8 +1,7 @@
-from datetime import datetime, timedelta, date
+from django.http import HttpResponse
+from datetime import datetime
 from django.utils import timezone
-from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 
 from shifts.models import Shift
 from shifts.forms import ShiftForm
@@ -10,72 +9,31 @@ from sites.models import Site
 
 
 @login_required
-def ShiftCreateUpdateView(request):
-    user_customer = request.user.customer.id
-    sites = Site.objects.filter(client__customer=user_customer)
-    # shifts = Shift.objects.filter(site__in=sites)
-    # context = {}
+def ShiftUpdateView(request, shift_id):
 
-    # guards = Staff.objects.filter(customer=user_customer)
-    shift_form = ShiftForm(request.POST or None)
+    shift = Shift.objects.get(pk=shift_id)
 
-    def create_shift(start_date, end_date):
-        """create a shift"""
-        shift = Shift.objects.create(
-            site_id=site_id,
-            time_in=timezone.make_aware(datetime.combine(start_date, time_in)),
-            time_out=timezone.make_aware(datetime.combine(end_date, time_out)),
-        )
-        if staff_ids:
-            shift.staff.set(staff_ids)
-
-        shift.save()
-
-    def date_loop(n):
-        shift_counter = 0
-        for i in range(delta.days + 1):  # 0,1,2,3 # to include last date + 1 used
-            initial_date = started + timedelta(days=i)  # this will start date at i=0
-            last_date = initial_date + timedelta(days=n)
-            create_shift(initial_date, last_date)  # needs to add +1 for next day
-            shift_counter += 1
-        messages.success(request, f"{shift_counter} New shifts is created.")
+    shift_form = ShiftForm(request.POST or None, instance=shift)
 
     if request.method == "POST":
         if shift_form.is_valid():
-            site_id = request.POST["site"]
+            site = Site.objects.get(pk=request.POST["site"])
             staff_ids = request.POST.getlist("staff")
             time_in = datetime.strptime(request.POST["time_in"], "%H:%M").time()
             time_out = datetime.strptime(request.POST["time_out"], "%H:%M").time()
-            started = datetime.strptime(request.POST["started"], "%Y-%m-%d").date()
-            ended = datetime.strptime(request.POST["ended"], "%Y-%m-%d").date()
+            started = datetime.strptime(request.POST["start_date"], "%Y-%m-%d").date()
+            ended = datetime.strptime(request.POST["end_date"], "%Y-%m-%d").date()
 
-            finish = datetime.combine(date.today(), time_out)
-            start = datetime.combine(date.today(), time_in)
 
-            delta = ended - started  # 0,1,2 # from 2nd june to 4th june
-            if delta.days == 0:  # for one day
-                create_shift(started, ended)
-                messages.success(request, "New shift is created.")
-            if finish < start:
-                date_loop(n=1)
-            else:
-                date_loop(n=0)
+            if staff_ids:
+                shift.staff.set(staff_ids)
+            shift.site = site
+            shift.time_in = timezone.make_aware(datetime.combine(started, time_in))
+            shift.time_out = timezone.make_aware(datetime.combine(ended, time_out))
 
-            return redirect("shifts:index")
-    # # for time input
-    # hours = range(24)
-    # minutes = ["00", "15", "30", "45"]
-    # context.update(
-    #     {
-    #         "shifts_active": "active",
-    #         "shifts": shifts,
-    #         "sites": sites,
-    #         "guards": guards,
-    #         "shift_form": shift_form,
-    #         "hours": hours,
-    #         "minutes": minutes,
-    #         "errors": shift_form.errors,
-    #     }
-    # )
-    # response = render(request, "shifts/list.html", context)
-    # return response
+            shift.save()
+            return HttpResponse(status=200)
+        return HttpResponse(status=302)
+    return HttpResponse(status=500)
+
+

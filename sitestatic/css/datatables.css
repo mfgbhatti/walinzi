@@ -2686,15 +2686,19 @@ div.dtsp-topRow.dtsp-bordered:hover input.dtsp-paneInputButton {
 }
 
 table.dataTable>tbody>tr>.selected {
-    background-color: rgba(13, 110, 253, 0.9);
+    background-color: var(--primary-color);
     color: white
 }
 
-table.dataTable>tbody>tr>td.select-checkbox,table.dataTable>tbody>tr>th.select-checkbox {
+table.dataTable>tbody>tr>td.select-checkbox,
+table.dataTable>tbody>tr>th.select-checkbox {
     position: relative
 }
 
-table.dataTable>tbody>tr>td.select-checkbox:before,table.dataTable>tbody>tr>td.select-checkbox:after,table.dataTable>tbody>tr>th.select-checkbox:before,table.dataTable>tbody>tr>th.select-checkbox:after {
+table.dataTable>tbody>tr>td.select-checkbox:before,
+table.dataTable>tbody>tr>td.select-checkbox:after,
+table.dataTable>tbody>tr>th.select-checkbox:before,
+table.dataTable>tbody>tr>th.select-checkbox:after {
     display: block;
     position: absolute;
     top: 1.2em;
@@ -2704,28 +2708,36 @@ table.dataTable>tbody>tr>td.select-checkbox:before,table.dataTable>tbody>tr>td.s
     box-sizing: border-box
 }
 
-table.dataTable>tbody>tr>td.select-checkbox:before,table.dataTable>tbody>tr>th.select-checkbox:before {
+table.dataTable>tbody>tr>td.select-checkbox:before,
+table.dataTable>tbody>tr>th.select-checkbox:before {
     content: " ";
     margin-top: -6px;
     margin-left: -6px;
-    border: 1px solid black;
+    border: 1px solid var(--lm-base-text-color);
     border-radius: 3px
 }
 
-table.dataTable>tbody>tr.selected>td.select-checkbox:before,table.dataTable>tbody>tr.selected>th.select-checkbox:before {
+.dark-mode table.dataTable>tbody>tr>td.select-checkbox:before,
+.dark-mode table.dataTable>tbody>tr>th.select-checkbox:before {
+    border: 1px solid var(--dm-base-text-color);
+}
+table.dataTable>tbody>tr.selected>td.select-checkbox:before,
+table.dataTable>tbody>tr.selected>th.select-checkbox:before {
     border: 1px solid white
 }
 
-table.dataTable>tbody>tr.selected>td.select-checkbox:after,table.dataTable>tbody>tr.selected>th.select-checkbox:after {
+table.dataTable>tbody>tr.selected>td.select-checkbox:after,
+table.dataTable>tbody>tr.selected>th.select-checkbox:after {
     content: "✓";
     font-size: 20px;
     margin-top: -19px;
     margin-left: -6px;
     text-align: center;
-    text-shadow: 1px 1px #b0bed9,-1px -1px #b0bed9,1px -1px #b0bed9,-1px 1px #b0bed9
+    /* text-shadow: 1px 1px #b0bed9,-1px -1px #b0bed9,1px -1px #b0bed9,-1px 1px #b0bed9 */
 }
 
-table.dataTable.compact>tbody>tr>td.select-checkbox:before,table.dataTable.compact>tbody>tr>th.select-checkbox:before {
+table.dataTable.compact>tbody>tr>td.select-checkbox:before,
+table.dataTable.compact>tbody>tr>th.select-checkbox:before {
     margin-top: -12px
 }
 

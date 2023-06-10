@@ -14,13 +14,6 @@ def ShiftListView(request):
     user_customer = request.user.customer.id
     sites = Site.objects.filter(client__customer=user_customer)
     guards = Staff.objects.filter(customer=user_customer)
-    # variabl dictionery for template
-    var_dict = {}
-    var_dict["get_url"] = reverse("shifts:get_shifts")
-    var_dict["post_url"] = reverse("shifts:create_shift")
-    var_dict["table_id"] = "shifts"
-    var_dict["modal_id"] = "add_shift_modal"
-    var_dict["form_id"] = "shift_form"
 
     # for time input
     hours = range(24)
@@ -34,8 +27,7 @@ def ShiftListView(request):
             "hours": hours,
             "minutes": minutes,
             # global include varibales
-            "var_dict": var_dict,
         }
     )
-    response = render(request, "shifts/datatable_list.html", context)
+    response = render(request, "shifts/list.html", context)
     return response

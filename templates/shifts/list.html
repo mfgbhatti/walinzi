@@ -3,71 +3,319 @@
 {% block title %}
   Shifts
 {% endblock title %}
+{% block extrastyle %}
+  {% comment %} <link href="https://cdn.datatables.net/v/dt/jq-3.6.0/jszip-2.5.0/dt-1.13.4/af-2.5.3/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/cr-1.6.2/date-1.4.1/fc-4.2.2/fh-3.3.2/kt-2.9.0/r-2.4.1/rg-1.3.1/rr-1.3.3/sc-2.1.1/sb-1.4.2/sp-2.1.2/sl-1.6.2/datatables.min.css" rel="stylesheet" /> {% endcomment %}
+  <link href="{% static 'css/datatables.css' %}" rel="stylesheet">
+  <link href="{% static 'vendors/Editor-2.1.3/css/editor.dataTables.min.css' %}"
+        rel="stylesheet">
+{% endblock extrastyle %}
 {% block modal %}
   {% include "shifts/add_modal.html" %}
+  {% include "shifts/update_modal.html" %}
 {% endblock modal %}
 {% block content %}
+  {% csrf_token %}
   <div class="row">
     <div class="col">
       <div class="content">
         <h1 class="content-title">Shift list</h1>
         <p>There will be a paragraph</p>
-        <p class="d-flex justify-content-end">
-          <a data-toggle="modal"
-             data-target="add_shift_modal"
-             class="btn btn-primary">Add shift</a>
-        </p>
-        <p>{{ errors }}</p>
       </div>
       <div class="card p-0">
         <div class="content">
-          <table class="table table-hover">
+          <table id="shifts" class="table table-hover">
             <thead>
               <tr>
-                <th>#</th>
+                <th></th>
+                <th>ID</th>
+                <th>End date</th>
+                <th>Site id</th>
+                <th>Staff id</th>
                 <th>Site name</th>
-                {% comment %} <th>Staff name</th>
+                <th>Staff name</th>
                 <th>Date</th>
                 <th>Day</th>
                 <th>Hours</th>
                 <th>Time in</th>
-                <th>Time out</th> {% endcomment %}
+                <th>Time out</th>
               </tr>
             </thead>
-            <tbody>
-              {% for shift in shifts %}
-                <tr>
-                  <td>{{ forloop.counter }}</td>
-                  <td>{{ shift.site | title }}</td>
-                  <td>
-                    {% comment %} for iteration through staff 'all' is necessory {% endcomment %}
-                    {% for staff in shift.staff.all %}
-                      {% if staff.length == 1 %}
-                        {{ staff.name | title }}
-                      {% else %}
-                        {% if forloop.last %}
-                          {{ staff.name | title }}
-                        {% else %}
-                          {{ staff.name | title }},
-                        {% endif %}
-                      {% endif %}
-                    {% endfor %}
-                  </td>
-                  <td>{{ shift.time_in | date:"d/m/Y" }}</td>
-                  <td>{{ shift.time_in | date:"l" }}</td>
-                  <td>{{ shift.duration }}</td>
-                  <td>{{ shift.time_in | date:"H:i" }}</td>
-                  <td>{{ shift.time_out | date:"H:i" }}</td>
-                </tr>
-              {% empty %}
-                <tr>
-                  <td colspan="2">No shift is available</td>
-                </tr>
-              {% endfor %}
-            </tbody>
           </table>
         </div>
       </div>
     </div>
   </div>
 {% endblock content %}
+{% block scripts %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+  <script src="https://cdn.datatables.net/v/dt/jq-3.6.0/jszip-2.5.0/dt-1.13.4/af-2.5.3/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/cr-1.6.2/date-1.4.1/fc-4.2.2/fh-3.3.2/kt-2.9.0/r-2.4.1/rg-1.3.1/rr-1.3.3/sc-2.1.1/sb-1.4.2/sp-2.1.2/sl-1.6.2/datatables.min.js"></script>
+  <script src="{% static 'vendors/Editor-2.1.3/js/dataTables.editor.min.js' %}"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      var editor; // use a global for the submit and return data rendering in the examples
+      let data; // for form submission, get all data
+      let url = "/update_shift/"
+      // get csrf_token
+      function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+          var cookies = document.cookie.split(";");
+          for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+      // display controller
+      (function () {
+        var Editor = $.fn.dataTable.Editor;
+        Editor.display.halfmoon = $.extend(true, {}, Editor.models.display, {
+          // Create the HTML mark-up needed the display controller
+          init: function (editor) {
+            return Editor.display.halfmoon;
+          },
+
+          // Show the form
+          open: function (editor, form, callback) {
+            // Close any rows which are already open
+            Editor.display.halfmoon.close(editor);
+            // create(), edit(), and remove()
+            switch (editor.mode()) {
+              // create
+              case "create":
+                editor.field("start_date").disable();  // disable start_date
+                editor.field("end_date").disable();    // disable end_date
+                $("#add_shift_modal" ).addClass("show");
+                // block submission by the modal
+                $( "#create_shift_form" ).on( "submit", function( event ) {
+                  event.preventDefault();
+                  data = $(this).serializeArray();
+                  editor.submit();
+                });
+                break;
+              // edit
+              case "edit":
+                editor.field("started").disable();  // disable stared
+                editor.field("ended").disable();    // disable ended
+                var selectedData = table.rows( { selected: true } ).data()[0];
+                $("#shift_id").val(selectedData.id);
+                $('#update_shift_form select[name="site"]').val(selectedData.site_id);
+                $('#update_shift_form select[name="staff"]').val(selectedData.staff[0].id);
+                $('#update_shift_form select[name="time_in"]').val(selectedData.time_in);
+                $('#update_shift_form select[name="time_out"]').val(selectedData.time_out);
+                // convert date to iso-string and slice only date part
+                $('#update_shift_form input[name="start_date"]').val(new Date(selectedData.start_date).toISOString().slice(0, 10));
+                $('#update_shift_form input[name="end_date"]').val(new Date(selectedData.end_date).toISOString().slice(0, 10));
+
+                $("#update_shift_modal" ).addClass("show");
+                // block submission by the modal
+                $( "#update_shift_form" ).on( "submit", function( event ) {
+                  event.preventDefault();
+                  data = $(this).serializeArray();
+                  editor.submit();
+                });
+                break;
+              default:
+                  console.log(editor.mode)
+                  //table.ajax.url("{% url 'shifts:create_shift' %}").load();
+
+
+            }
+
+            if (callback) {
+              callback();
+            }
+          },
+
+          // Hide the form
+          close: function (editor, callback) {
+            switch (editor.mode()) {
+              case "create":
+                $("#add_shift_modal" ).removeClass("show");
+                break;
+              case "edit":
+                $("#update_shift_modal" ).removeClass("show");
+                break;
+              default:
+                console.log(editor.mode)
+            }
+            if (callback) {
+              callback();
+            }
+          },
+        });
+      })();
+
+      // Datatable editor
+      editor = new $.fn.dataTable.Editor({
+        ajax: {
+          create: {
+            url: "{% url 'shifts:create_shift' %}",
+            type: "POST",
+          },
+          edit: {
+            url: url+"{id}/",
+            type: "POST",
+            data: function (d) {
+              data.forEach(function (e) {
+                d[e.name] = e.value;
+              })
+            },
+            headers: {
+              "X-CSRFToken": getCookie("csrftoken"),
+            },
+            mode: "same-origin",
+          },
+          remove: {
+            url: "",
+            type: "DELETE",
+          },
+          data: function (d) {
+            data.forEach(function (e) {
+              d[e.name] = e.value;
+            })
+          },
+          headers: {
+            "X-CSRFToken": getCookie("csrftoken"),
+          },
+          mode: "same-origin",
+        },
+        table: "#shifts",
+        display: "halfmoon",
+        idSrc: "id",
+        fields: [
+          {
+            label: "Site name",
+            name: "site",
+          },
+          {
+            label: "Staff name",
+            name: "staff",
+          },
+          {
+            label: "Starting date",
+            name: "started",
+          },
+          {
+            label: "Ending date",
+            name: "ended",
+          },
+          {
+            label: "Starting date",
+            name: "start_date",
+          },
+          {
+            label: "Ending date",
+            name: "end_date",
+          },
+          {
+            label: "Starting time",
+            name: "time_in",
+          },
+          {
+            label: "Ending time",
+            name: "time_out",
+          },
+        ],
+      });
+      // datatable
+      var table = $('#shifts').DataTable({
+        dom: "Bflrtip",
+        responsive: true,
+        lengthMenu: [25, 50, 75, 100],
+        fixedHeader: {      //not working
+          header: true,
+          headerOffset: $('#navbar').outerHeight() + 10
+        },
+        select: true,
+        /*
+        search: true, //  not working
+        processing: true, //  not working
+        serverSide: true, //  not working
+        */
+        ajax: {
+          url: "{% url 'shifts:get_shifts' %}",
+          dataSrc: 'data',
+        },
+        rowId: "id",
+        columns: [
+        {
+          data: null,
+          defaultContent: "",
+          className: "select-checkbox",
+          orderable: false,
+          searchable: false,
+        },
+        {data: "id", visible: false, searchable: false, orderable: false},
+        {data: "end_date", visible: false, searchable: false, orderable: false, render: DataTable.render.datetime( 'DD/MM/YYYY' ),},
+        {data: "site_id", visible: false, searchable: false, orderable: false},
+        {data: "staff[0].id", visible: false, searchable: false, orderable: false},
+        {data: "site", className: "text-capitalize"},
+        {
+          data: "staff[0].name",
+          //render: renderStaffNames, //searching is not working change data to staff
+          className: "text-capitalize"
+        }, // only one staff name working
+        {data: "start_date", render: DataTable.render.datetime( 'DD/MM/YYYY' ),},
+        {data: "day", orderable: false},
+        {data: "duration", orderable: false},
+        {data: "time_in", orderable: false},
+        {data: "time_out", orderable: false},
+      ],
+      //table.buttons
+      buttons: [
+        {
+          extend: "create",
+          text: "Add",
+          className: "btn",
+          editor: editor,
+        },
+        {
+          extend: "edit",
+          className: "btn",
+          editor: editor,
+        },
+        {
+          extend: "remove",
+          className: "btn",
+          editor: editor,
+        },
+        {
+          extend: "collection",
+          text: "Export",
+          className: "btn",
+          buttons: [
+            {
+              extend: "copyHtml5",
+              text: '<i class="fa fa-files-o"></i> Copy',
+              titleAttr: "Copy",
+            },
+            {
+              extend: "excelHtml5",
+              text: '<i class="fa fa-file-excel-o"></i> Excel',
+              titleAttr: "Excel",
+            },
+            {
+              extend: "csvHtml5",
+              text: '<i class="fa fa-file-text-o"></i> CSV',
+              titleAttr: "CSV",
+            },
+            {
+              extend: "pdfHtml5",
+              text: '<i class="fa fa-file-pdf-o"></i> PDF',
+              titleAttr: "PDF",
+            },
+          ],
+        },
+      ],
+      }); // datatable
+    }); // Jquery
+  </script>
+{% endblock scripts %}

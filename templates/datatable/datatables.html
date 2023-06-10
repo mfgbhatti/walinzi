@@ -112,9 +112,33 @@
       ],
     });
 
+    editor.on("create")
+
     // datatable
+    // Custom rendering function for the 'staff' column
+    function renderStaffNames(data, type, row) {
+      if (type === "display") {
+        // Extract the staff names from the data array
+        var staffNames = data.map(function(staff) {
+          return staff.name;
+        });
+
+        // Join the staff names with commas
+        return staffNames.join(", ");
+      }
+
+      // Return the original data for other types or sorting
+      return data;
+    }
+
     var table = $("#" + table_id ).DataTable({
       dom: "Bflrtip",
+      responsive: true,
+      lengthMenu: [25, 50, 75, 100],
+      fixedHeader: {      //not working
+        header: true,
+        headerOffset: $('#navbar').outerHeight() + 10
+      },
       /*
       search: true, //  not working
       processing: true, //  not working
@@ -125,8 +149,19 @@
         dataSrc: 'data',
       },
       columns: [
-        {data: "site"},
-        {data: "staff[0].name"}, // only one staff name working
+        {
+          data: null,
+          defaultContent: "",
+          className: "select-checkbox",
+          orderable: false,
+          searchable: false,
+        },
+        {data: "site", className: "text-capitalize"},
+        {
+          data: "staff[0].name",
+          //render: renderStaffNames, //searching is not working change data to staff
+          className: "text-capitalize"
+        }, // only one staff name working
         {data: "date"},
         {data: "day"},
         {data: "duration"},

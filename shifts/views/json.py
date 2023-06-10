@@ -38,20 +38,16 @@ def ShiftJsonView(request):
     data = []
     for shift in shifts:
         shift_dict = model_to_dict(shift)
-        site_name = shift.site.name
-        shift_dict["site"] = site_name
-        date = shift.time_in.strftime("%d/%m/%Y")
-        shift_dict["date"] = date
-        day = shift.time_in.strftime("%A")
-        shift_dict["day"] = day
-        duration = shift.duration()
-        time_in = shift.time_in.strftime("%H:%M")
-        shift_dict["time_in"] = time_in
-        time_out = shift.time_out.strftime("%H:%M")
-        shift_dict["time_out"] = time_out
-        shift_dict["duration"] = duration
-        staff_list = list(shift.staff.values())
-        shift_dict["staff"] = staff_list
+        shift_dict["id"] = shift.id
+        shift_dict["site"] = shift.site.name
+        shift_dict["site_id"] = shift.site.id
+        shift_dict["duration"] = shift.duration()
+        shift_dict["start_date"] = shift.time_in
+        shift_dict["end_date"] = shift.time_out
+        shift_dict["day"] = shift.time_in.strftime("%A")
+        shift_dict["time_in"] = shift.time_in.strftime("%H:%M")
+        shift_dict["time_out"] = shift.time_out.strftime("%H:%M")
+        shift_dict["staff"] = list(shift.staff.values("name", "id"))
 
         data.append(shift_dict)
     # data = [model_to_dict(shift) for shift in object_list]

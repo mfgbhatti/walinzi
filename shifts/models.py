@@ -23,11 +23,13 @@ class Shift(BaseModel):
 
     def duration(self):
         result = self.time_out - self.time_in
-        return result.total_seconds() / 3600  # Convert duration to hours
+        hours = result.total_seconds() / 3600  # Convert duration to hours
+        # return "%.2f" % hours # Format to 2 decimal places
+        return "{:.2f}".format(hours, 2)
 
     def __str__(self):
         guard = ", ".join(str(seg) for seg in self.staff.all())
-        return f"{self.site} is coverd by {guard}."
+        return f"{self.time_in.strftime('%d/%m/%Y')} {self.site} is coverd by {guard}."
 
     class Meta:
         ordering = ("time_in", "time_out")
