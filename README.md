@@ -11,11 +11,11 @@ change .env.local to .env
 7.  donot use django built in url method for template when
     passing dynamic id. instead use `var post_url = "/link/"`. then in `editor.ajax()`
     use
-
+```javascript
     ajax: {
         url: post_url + "{id}/"
     },
-
+```
     this {id} will be handled by datatables and populate on selecting row
     when `idSrc` and `rowId` are defined.
 8.  rest example for editor is also interesting
