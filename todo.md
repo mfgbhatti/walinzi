@@ -1,13 +1,10 @@
-** check out django-tables2, django-filter, django-htmx and htmx
-1.  run check every 24 hour on sia licences
-2.  use modals for editing
+** check out
+    django-tables2, using datatables with editor                -- done
+    django-filter,
+    django-htmx and htmx
+1.  run check every 24 hour on sia licences and clearsessions
+2.  use modals for editing                                      -- done
 3.  subcontractors
-4. shit timedate extraction for duration or date not working
-5. add logic for adding more than one staff
-*. datetime format
-H hours '24hrs'
-i minutes
-l day 'Friday'
-d day '00'
-m month '00'
-Y year '0000'
+4. shit timedate extraction for duration or date not working    -- done
+5. add logic for adding more than one staff                     -- done
+*. datetime format (09/09/1985)                                 -- done
