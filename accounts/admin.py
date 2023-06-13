@@ -2,6 +2,7 @@
 
 from django import forms
 from django.contrib import admin
+from django.contrib.sessions.models import Session
 
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
@@ -122,9 +123,14 @@ class UserAdmin(BaseUserAdmin):
     ordering = ("email",)
     filter_horizontal = ()
 
+class SessionAdmin(admin.ModelAdmin):
+    def _session_data(self, obj):
+        return obj.get_decoded()
+    list_display = ['session_key', '_session_data', 'expire_date']
 
 # Now register the new UserAdmin...
 admin.site.register(User, UserAdmin)
+admin.site.register(Session, SessionAdmin)
 # admin.site.register(UserProfile)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
