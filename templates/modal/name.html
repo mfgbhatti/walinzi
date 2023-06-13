@@ -1,0 +1,42 @@
+<!-- Add name modal start-->
+<div class="modal"
+     id="name_modal"
+     tabindex="-1"
+     role="dialog"
+     data-overlay-dismissal-disabled="true"
+     data-esc-dismissal-disabled="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <a href="#"
+         class="close"
+         role="button"
+         data-dismiss="modal"
+         aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </a>
+      <form method="post" id="save_name">
+        <div class="form-group">
+          <label for="name" class="required">Name</label>
+          <input type="text"
+                 name="name"
+                 class="form-control text-capitalize"
+                 id="name"
+                 placeholder="Name"
+                 maxlength="150"
+                 required />
+        </div>
+        <div>
+          At this stage only name is required. You can add further details by visiting their detail page.
+        </div>
+        <input type="hidden" name="id" id="name_id">
+        <div class="text-right mt-20">
+          <button class="btn mr-5" data-dismiss="modal" type="button">Close</button>
+          <button class="btn btn-primary"
+                  data-dismiss="modal"
+                  type="submit">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Add name modal end-->
