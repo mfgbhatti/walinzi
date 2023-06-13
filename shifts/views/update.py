@@ -1,6 +1,5 @@
 from django.http import HttpResponse
-from datetime import datetime
-from django.utils import timezone
+from datetime import datetime, timedelta, date
 from django.contrib.auth.decorators import login_required
 
 from shifts.models import Shift
@@ -22,14 +21,19 @@ def ShiftUpdateView(request, shift_id):
             time_in = datetime.strptime(request.POST["time_in"], "%H:%M").time()
             time_out = datetime.strptime(request.POST["time_out"], "%H:%M").time()
             started = datetime.strptime(request.POST["started"], "%Y-%m-%d").date()
-            ended = datetime.strptime(request.POST["ended"], "%Y-%m-%d").date()
-
+            finish = datetime.combine(date.today(), time_out)
+            start = datetime.combine(date.today(), time_in)
+            time_diff = finish - start
+            if time_diff > timedelta(hours=24):
+                ended = started + timedelta(days=1)
+            else:
+                ended = started
 
             if staff_ids:
                 shift.staff.set(staff_ids)
             shift.site = site
-            shift.time_in = timezone.make_aware(datetime.combine(started, time_in))
-            shift.time_out = timezone.make_aware(datetime.combine(ended, time_out))
+            shift.time_in = datetime.combine(started, time_in)
+            shift.time_out = datetime.combine(ended, time_out)
 
             shift.save()
             return HttpResponse(status=200)

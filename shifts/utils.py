@@ -1,4 +1,3 @@
-from django.utils import timezone
 from datetime import datetime, timedelta, date
 
 
@@ -7,8 +6,8 @@ def CreateShift(request, model):
         """create a shift"""
         shift = model.objects.create(
             site_id=site_id,
-            time_in=timezone.make_aware(datetime.combine(start_date, time_in)),
-            time_out=timezone.make_aware(datetime.combine(end_date, time_out)),
+            time_in=datetime.combine(start_date, time_in),
+            time_out=datetime.combine(end_date, time_out),
         )
         if staff_ids:
             shift.staff.set(staff_ids)

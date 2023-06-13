@@ -10,6 +10,7 @@ class Shift(BaseModel):
     staff = models.ManyToManyField(Staff)
     time_in = models.DateTimeField()
     time_out = models.DateTimeField()
+    is_active = models.BooleanField(default=True)
     # Add other shift-specific fields here
     name = None
 

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load tz %}
 {% block title %}
   Shifts
 {% endblock title %}
@@ -13,6 +14,7 @@
 {% endblock extrastyle %}
 {% block modal %}
   {% include "shifts/add_modal.html" %}
+  {% include "modal/confirm.html" %}
 {% endblock modal %}
 {% block content %}
   {% csrf_token %}
@@ -57,23 +59,9 @@
     $(document).ready(function () {
       var editor; // use a global for the submit and return data rendering in the examples
       let data; // for form submission, get all data
-      let url = "/update_shift/"
-      // get csrf_token
-      function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie !== "") {
-          var cookies = document.cookie.split(";");
-          for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === name + "=") {
-              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-              break;
-            }
-          }
-        }
-        return cookieValue;
-      }
+      let update_url = "/update_shift/";
+      let delete_url = "/delete_shift/";
+
       // display controller
       (function () {
         var Editor = $.fn.dataTable.Editor;
@@ -105,17 +93,27 @@
                 $("#shift_id").val(selectedData.id);
                 $('#add_shift_modal select[name="site"]').val(selectedData.site_id);
                 $('#add_shift_modal select[name="staff"]').val(selectedData.staff[0].id);
-                $('#add_shift_modal select[name="time_in"]').val(selectedData.time_in);
-                $('#add_shift_modal select[name="time_out"]').val(selectedData.time_out);
+                $('#add_shift_modal select[name="time_in"]').val(moment(selectedData.started).format("HH:mm"));
+                $('#add_shift_modal select[name="time_out"]').val(moment(selectedData.ended).format("HH:mm"));
                 // convert date to iso-string and slice only date part
                 $('#add_shift_modal input[name="started"]').val(new Date(selectedData.started).toISOString().slice(0, 10));
-                $('#add_shift_modal input[name="ended"]').val(new Date(selectedData.ended).toISOString().slice(0, 10));
+                //$('#add_shift_modal input[name="ended"]').val(new Date(selectedData.ended).toISOString().slice(0, 10));
+                var ended = $('#add_shift_modal input[name="ended"]');
+                ended.attr("required", false);
+                ended.addClass("d-none");
 
                 $("#add_shift_modal" ).addClass("show");
                 // block submission by the modal
                 $( "#shift_form" ).on( "submit", function( event ) {
                   event.preventDefault();
                   data = $(this).serializeArray();
+                  editor.submit();
+                });
+                break;
+              case 'remove':
+                $("#confirm_modal" ).addClass("show");
+                $( "#confirm" ).on( "submit", function( event ) {
+                  event.preventDefault();
                   editor.submit();
                 });
                 break;
@@ -133,15 +131,10 @@
 
           // Hide the form
           close: function (editor, callback) {
-            switch (editor.mode()) {
-              case "create":
-                $("#add_shift_modal" ).removeClass("show");
-                break;
-              case "edit":
-                $("#update_shift_modal" ).removeClass("show");
-                break;
-              default:
-                console.log(editor.mode)
+            if (editor.mode === "remove") {
+              $("#confirm_modal" ).removeClass("show");
+            } else {
+              $("#add_shift_modal" ).removeClass("show");
             }
             if (callback) {
               callback();
@@ -167,7 +160,7 @@
             mode: "same-origin",
           },
           edit: {
-            url: url+"{id}/",
+            url: update_url + "{id}/",
             type: "POST",
             data: function (d) {
               data.forEach(function (e) {
@@ -180,18 +173,13 @@
             mode: "same-origin",
           },
           remove: {
-            url: "",
-            type: "DELETE",
+            url: delete_url + "{id}/",
+            type: "POST",
+            headers: {
+              "X-CSRFToken": getCookie("csrftoken"),
+            },
+            mode: "same-origin",
           },
-          data: function (d) {
-            data.forEach(function (e) {
-              d[e.name] = e.value;
-            })
-          },
-          headers: {
-            "X-CSRFToken": getCookie("csrftoken"),
-          },
-          mode: "same-origin",
         },
         table: "#shifts",
         display: "halfmoon",
@@ -223,6 +211,7 @@
           },
         ],
       });
+
       // datatable
       var table = $('#shifts').DataTable({
         dom: "Bflrtip",
@@ -243,29 +232,57 @@
           dataSrc: 'data',
         },
         rowId: "id",
+        columnDefs: [
+          {
+            targets: [0,1,2,3,4],
+            orderable: false,
+            searchable: false
+          },
+          {
+            targets: [1,2,3,4],
+            visible: false
+          },
+          {
+            targets: [5,6], // site and staff name
+            className: "text-capitalize"
+          },
+          {
+            targets: [3,7], // started and ended
+            render: DataTable.render.datetime('DD/MM/YYYY')
+          },
+          {
+            targets: 8,
+            render: DataTable.render.datetime('dddd')
+          },
+          {
+            targets: [8,9,10,11],
+            orderable: false
+          },
+          {
+            targets: [10,11],
+            render: DataTable.render.datetime('HH:mm')
+          }
+        ],
         columns: [
-        {
+        { //0
           data: null,
           defaultContent: "",
           className: "select-checkbox",
-          orderable: false,
-          searchable: false,
         },
-        {data: "id", visible: false, searchable: false, orderable: false},
-        {data: "ended", visible: false, searchable: false, orderable: false, render: DataTable.render.datetime( 'DD/MM/YYYY' ),},
-        {data: "site_id", visible: false, searchable: false, orderable: false},
-        {data: "staff[0].id", visible: false, searchable: false, orderable: false},
-        {data: "site", className: "text-capitalize"},
+        {data: "id"}, //1
+        {data: "ended"}, //2
+        {data: "site_id"}, //3
+        {data: "staff[0].id"}, //4
+        {data: "site"}, //5
         {
-          data: "staff[0].name",
+          data: "staff[0].name", //6
           //render: renderStaffNames, //searching is not working change data to staff
-          className: "text-capitalize"
         }, // only one staff name working
-        {data: "started", render: DataTable.render.datetime( 'DD/MM/YYYY' ),},
-        {data: "day", orderable: false},
-        {data: "duration", orderable: false},
-        {data: "time_in", orderable: false},
-        {data: "time_out", orderable: false},
+        {data: "started"}, //7
+        {data: "started"}, //8 // day
+        {data: "duration"}, //9
+        {data: "started"}, //10
+        {data: "ended"}, //11
       ],
       //table.buttons
       buttons: [
@@ -282,8 +299,12 @@
         },
         {
           extend: "remove",
-          className: "btn",
           editor: editor,
+          formMessage: function ( e, dt ) {
+              var rows = dt.rows( e.modifier() ).data().pluck('id');
+              return 'Are you sure you want to delete this shift for the '+
+                  'following record(s)? <ul><li>'+rows.join('</li><li>')+'</li></ul>';
+          }
         },
         {
           extend: "collection",
