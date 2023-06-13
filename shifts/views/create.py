@@ -15,6 +15,7 @@ def ShiftCreateView(request):
     shift_form = ShiftForm(request.POST or None)
 
     if request.method == "POST":
+        print(request.POST)
         if shift_form.is_valid():
             CreateShift(request=request, model=Shift)
 
