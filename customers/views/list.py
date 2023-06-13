@@ -14,6 +14,7 @@ def CustomerList(request):
     """list for customers"""
     context = {
         "user.is_authenticated": request.user.is_authenticated,
+        "title" : "Customers",
     }
     if request.user.is_superuser:
         form = CreateCustomerForm(request.POST or None)

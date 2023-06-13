@@ -1,57 +1,289 @@
 {% extends "base.html" %}
 {% load static %}
+{% load tz %}
 {% block title %}
-  Customers
+  {{ title | title }}
 {% endblock title %}
+{% block extrastyle %}
+  <!-- Adition styles-->
+  {% comment %} <link href="https://cdn.datatables.net/v/dt/jq-3.6.0/jszip-2.5.0/dt-1.13.4/af-2.5.3/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/cr-1.6.2/date-1.4.1/fc-4.2.2/fh-3.3.2/kt-2.9.0/r-2.4.1/rg-1.3.1/rr-1.3.3/sc-2.1.1/sb-1.4.2/sp-2.1.2/sl-1.6.2/datatables.min.css" rel="stylesheet" /> {% endcomment %}
+  <link rel="stylesheet"
+        href="{% static 'vendors/DataTables/datatables.css' %}">
+  <link rel="stylesheet"
+        href="{% static 'vendors/Editor-2.0.5/css/editor.dataTables.min.css' %}">
+{% endblock extrastyle %}
 {% block modal %}
-  {% include "customers/add.html" %}
+  {% include "modal/name.html" %}
+  {% include "modal/confirm.html" %}
 {% endblock modal %}
 {% block content %}
+  {% csrf_token %}
   <div class="row">
-    <div class="col-xl-9">
+    <div class="col">
       <div class="content">
-        <h1 class="content-title">Customer list</h1>
+        <h1 class="content-title">{{ title | title }} list</h1>
         <p>There will be a paragraph</p>
       </div>
       <div class="card p-0">
         <div class="content">
-          <table class="table table-hover">
+          <table id="table" class="table table-hover">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Customer Name</th>
+                <th></th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Active</th>
               </tr>
             </thead>
-            <tbody>
-              {% for customer in customers %}
-                <tr>
-                  <td>{{ forloop.counter }}</td>
-                  <td>
-                    <a href="{% url 'customers:customer_details' customer.id %}"
-                       class="hyperlink">{{ customer.name | title }}</a>
-                  </td>
-                </tr>
-              {% empty %}
-                <tr>
-                  <td colspan="2">No customer is available</td>
-                </tr>
-              {% endfor %}
-            </tbody>
           </table>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-3 on-this-page-nav-container">
-      <div class="content">
-        <div class="on-this-page-nav" id="on-this-page-nav">
-          <div class="title">On this page</div>
-          <a data-toggle="modal" data-target="add_customer_modal">Add customer</a>
-          <p class="text-justify">
-            At this stage only customer name is required. After adding, you can
-            further add information about customer by visiting their detail page.
-          </p>
         </div>
       </div>
     </div>
   </div>
 {% endblock content %}
+{% block scripts %}
+  <script src="{% static 'vendors/momentjs/moment.min.js' %}"></script>
+  <script src="{% static 'vendors/DataTables/pdfmake-0.2.7/pdfmake.min.js' %}"></script>
+  <script src="{% static 'vendors/DataTables/pdfmake-0.2.7/vfs_fonts.js' %}"></script>
+  <script src="{% static 'vendors/DataTables/datatables.min.js' %}"></script>
+  <script src="{% static 'vendors/Editor-2.0.5/js/dataTables.editor.js' %}"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      var editor; // use a global for the submit and return data rendering in the examples
+      let data; // for form submission, get all data
+      let update_url = "/update_customer/";
+      let delete_url = "/delete_customer/";
+
+      // display controller
+      (function () {
+        var Editor = $.fn.dataTable.Editor;
+        Editor.display.halfmoon = $.extend(true, {}, Editor.models.display, {
+          // Create the HTML mark-up needed the display controller
+          init: function (editor) {
+            return Editor.display.halfmoon;
+          },
+
+          // Show the form
+          open: function (editor, form, callback) {
+            // Close any rows which are already open
+            Editor.display.halfmoon.close(editor);
+            // create(), edit(), and remove()
+            switch (editor.mode()) {
+              // create
+              case "create":
+                //$("#name_id").val('');
+                //$('#name_modal input[name="name"]').val('');
+                $("#name_modal" ).addClass("show");
+                // block submission by the modal
+                $( "#save_name" ).on( "submit", function( event ) {
+                  event.preventDefault();
+                  data = $(this).serializeArray();
+                  editor.submit();
+                });
+                break;
+              // edit
+              case "edit":
+                var selectedData = table.rows( { selected: true } ).data()[0];
+                $("#name_id").val(selectedData.id);
+                $('#name_modal input[name="name"]').val(selectedData.name);
+
+                $("#name_modal" ).addClass("show");
+                // block submission by the modal
+                $( "#save_name" ).on( "submit", function( event ) {
+                  event.preventDefault();
+                  data = $(this).serializeArray();
+                  editor.submit();
+                });
+                break;
+              case 'remove':
+                $("#confirm_modal" ).addClass("show");
+                $( "#confirm" ).on( "submit", function( event ) {
+                  event.preventDefault();
+                  editor.submit();
+                });
+                break;
+              default:
+                  console.log(editor.mode)
+                  //table.ajax.url("{% url 'shifts:create_shift' %}").load();
+
+
+            }
+
+            if (callback) {
+              callback();
+            }
+          },
+
+          // Hide the form
+          close: function (editor, callback) {
+            if (editor.mode === "remove") {
+              $("#confirm_modal" ).removeClass("show");
+            } else {
+              $("#name_modal" ).removeClass("show");
+            }
+            if (callback) {
+              callback();
+            }
+          },
+        });
+      })();
+
+      // Datatable editor
+      editor = new $.fn.dataTable.Editor({
+        ajax: {
+          create: {
+            url: "{% url 'customers:create_customer' %}",
+            type: "POST",
+            data: function (d) {
+              data.forEach(function (e) {
+                d[e.name] = e.value;
+              })
+            },
+            headers: {
+              //"X-CSRFToken": '{% csrf_token %}',
+              "X-CSRFToken": getCookie("csrftoken"),
+            },
+            mode: "same-origin",
+          },
+          edit: {
+            url: update_url + "{id}/",
+            type: "POST",
+            data: function (d) {
+              data.forEach(function (e) {
+                d[e.name] = e.value;
+              })
+            },
+            headers: {
+              "X-CSRFToken": getCookie("csrftoken"),
+            },
+            mode: "same-origin",
+          },
+          remove: {
+            url: delete_url + "{id}/",
+            type: "POST",
+            headers: {
+              "X-CSRFToken": getCookie("csrftoken"),
+            },
+            mode: "same-origin",
+          },
+        },
+        table: "#table",
+        display: "halfmoon",
+        idSrc: "id",
+        fields: [
+          {
+            label: "Customer name",
+            name: "name",
+          },
+        ],
+      });
+
+      // datatable
+      var table = $('#table').DataTable({
+        dom: "Bflrtip",
+        responsive: true,
+        lengthMenu: [25, 50, 75, 100],
+        fixedHeader: {      //not working
+          header: true,
+          headerOffset: $('#navbar').outerHeight() + 10
+        },
+        select: true,
+        /*
+        search: true, //  not working
+        processing: true, //  not working
+        serverSide: true, //  not working
+        */
+        ajax: {
+          url: "{% url 'customers:get_customers' %}",
+          dataSrc: 'data',
+        },
+        rowId: "id",
+        columnDefs: [
+          {
+            targets: [0,1],
+            orderable: false,
+            searchable: false
+          },
+          {
+            targets: 1,
+            visible: false
+          },
+          {
+            targets: 2, //  name
+            className: "text-capitalize"
+
+          },
+        ],
+        columns: [
+        { //0
+          data: null,
+          defaultContent: "",
+          className: "select-checkbox",
+        },
+        {data: "id"}, //1
+        {
+          data: "name",
+          render: function ( data, type, row ) {
+            return '<a href="/get_customer/'+row.id+'/">'+data+'</a>';
+          },
+        }, //2
+        {
+          data: "is_active",
+          render: function ( data, type, row ) {
+            return data ? "Yes" : "No";
+          },
+        }, //3
+      ],
+      //table.buttons
+      buttons: [
+        {
+          extend: "create",
+          text: "Add",
+          className: "btn",
+          editor: editor,
+        },
+        {
+          extend: "edit",
+          className: "btn",
+          editor: editor,
+        },
+        {
+          extend: "remove",
+          text: "Disable",
+          className: "btn",
+          editor: editor,
+        },
+        {
+          extend: "collection",
+          text: "Export",
+          className: "btn",
+          buttons: [
+            {
+              extend: "copyHtml5",
+              text: '<i class="fa fa-files-o"></i> Copy',
+              titleAttr: "Copy",
+            },
+            {
+              extend: "excelHtml5",
+              text: '<i class="fa fa-file-excel-o"></i> Excel',
+              titleAttr: "Excel",
+            },
+            {
+              extend: "csvHtml5",
+              text: '<i class="fa fa-file-text-o"></i> CSV',
+              titleAttr: "CSV",
+            },
+            {
+              extend: "pdfHtml5",
+              text: '<i class="fa fa-file-pdf-o"></i> PDF',
+              titleAttr: "PDF",
+            },
+          ],
+        },
+      ],
+      }); // datatable
+      // reload table
+      table.ajax.reload();
+    }); // Jquery
+  </script>
+{% endblock scripts %}

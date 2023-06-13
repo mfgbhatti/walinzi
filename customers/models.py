@@ -1,5 +1,4 @@
 """models for customers"""
-import uuid
 from django.db import models
 
 from common.models import BaseModel, BaseAddress, BaseDetail
