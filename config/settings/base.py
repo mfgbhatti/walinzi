@@ -31,7 +31,9 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/login/"
 
 # Session
-SESSION_COOKIE_AGE = env("SESSION_COOKIE_AGE", default=60 * 30)
+SESSION_COOKIE_AGE = env("SESSION_COOKIE_AGE", default=60 * 5) # 5 minutes
+SESSION_SAVE_EVERY_REQUEST = env("SESSION_SAVE_EVERY_REQUEST", default=True)
+SESSION_EXPIRE_AT_BROWSER_CLOSE = env("SESSION_EXPIRE_AT_BROWSER_CLOSE", default=True)
 
 # Authentication
 AUTH_USER_MODEL = "accounts.BaseUser"
@@ -127,12 +129,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 LANGUAGE_CODE = "en-us"
-
-TIME_ZONE = env("TIME_ZONE", default="Europe/London")
+# time zone is further complicating things
+# these two are disabled
+# TIME_ZONE = env("TIME_ZONE", default="Europe/London")
+# USE_TZ = True
 
 USE_I18N = True
 
-USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
