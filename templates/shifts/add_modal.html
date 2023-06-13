@@ -15,7 +15,7 @@
         <span aria-hidden="true">×</span>
       </a>
       <h5 class="modal-title">Add new shift</h5>
-      <form method="post" id="create_shift_form">
+      <form method="post" id="shift_form">
         <!-- First row -->
         <div class="form-row row-eq-spacing-sm">
           <div class="col-sm">
@@ -69,27 +69,28 @@
           <div class="form-row row-eq-spacing-sm">
             <div class="col-sm">
               <!-- Start date-->
-              <input type="text"
+              <input type="date"
                      name="started"
                      class="form-control"
                      id="date_input"
                      placeholder="Starting"
-                     required
-                     onfocus="(this.type='date')" />
+                     required />
+                     <!--onfocus="(this.type='date')" />-->
             </div>
             <div class="col-sm">
               <!-- End date-->
-              <input type="text"
+              <input type="date"
                      name="ended"
                      class="form-control"
                      id="date_input"
                      placeholder="Ending"
-                     required
-                     onfocus="(this.type='date')" />
+                     required />
+                     <!--onfocus="(this.type='date')" />-->
             </div>
           </div>
         </div>
         <div>Please add the full name including first and last names.</div>
+        <input type="hidden" id="shift_id">
         <div class="text-right mt-20">
           <!-- text-right = text-align: right, mt-20 = margin-top: 2rem (20px) -->
           <button class="btn mr-5" data-dismiss="modal" type="button">Close</button>

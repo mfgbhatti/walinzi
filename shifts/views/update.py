@@ -21,8 +21,8 @@ def ShiftUpdateView(request, shift_id):
             staff_ids = request.POST.getlist("staff")
             time_in = datetime.strptime(request.POST["time_in"], "%H:%M").time()
             time_out = datetime.strptime(request.POST["time_out"], "%H:%M").time()
-            started = datetime.strptime(request.POST["start_date"], "%Y-%m-%d").date()
-            ended = datetime.strptime(request.POST["end_date"], "%Y-%m-%d").date()
+            started = datetime.strptime(request.POST["started"], "%Y-%m-%d").date()
+            ended = datetime.strptime(request.POST["ended"], "%Y-%m-%d").date()
 
 
             if staff_ids:

@@ -42,8 +42,8 @@ def ShiftJsonView(request):
         shift_dict["site"] = shift.site.name
         shift_dict["site_id"] = shift.site.id
         shift_dict["duration"] = shift.duration()
-        shift_dict["start_date"] = shift.time_in
-        shift_dict["end_date"] = shift.time_out
+        shift_dict["started"] = shift.time_in
+        shift_dict["ended"] = shift.time_out
         shift_dict["day"] = shift.time_in.strftime("%A")
         shift_dict["time_in"] = shift.time_in.strftime("%H:%M")
         shift_dict["time_out"] = shift.time_out.strftime("%H:%M")
