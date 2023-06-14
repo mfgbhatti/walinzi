@@ -9,7 +9,6 @@ from sites.models import Site
 
 @login_required
 def ShiftUpdateView(request, shift_id):
-
     shift = Shift.objects.get(pk=shift_id)
 
     shift_form = ShiftForm(request.POST or None, instance=shift)
@@ -23,8 +22,7 @@ def ShiftUpdateView(request, shift_id):
             started = datetime.strptime(request.POST["started"], "%Y-%m-%d").date()
             finish = datetime.combine(date.today(), time_out)
             start = datetime.combine(date.today(), time_in)
-            time_diff = finish - start
-            if time_diff > timedelta(hours=24):
+            if finish < start:
                 ended = started + timedelta(days=1)
             else:
                 ended = started
@@ -34,10 +32,9 @@ def ShiftUpdateView(request, shift_id):
             shift.site = site
             shift.time_in = datetime.combine(started, time_in)
             shift.time_out = datetime.combine(ended, time_out)
+            shift.is_active = True
 
             shift.save()
-            return HttpResponse(status=200)
-        return HttpResponse(status=302)
-    return HttpResponse(status=500)
-
-
+            return HttpResponse(status=302)
+        return HttpResponse(status=500)
+    return HttpResponse(status=403)
