@@ -13,5 +13,5 @@ def ShiftDeleteView(request, shift_id):
         shift = Shift.objects.get(pk=shift_id)
         shift.is_active = False
         shift.save()
-        return HttpResponse(status=200)
+        return HttpResponse(status=302)
     return HttpResponse(status=500)
