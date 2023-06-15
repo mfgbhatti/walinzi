@@ -1,16 +1,17 @@
 {% extends "base.html" %}
 {% load static %}
-{% load tz %}
 {% block title %}
-  Shifts
+  {{ title | title }}
 {% endblock title %}
 {% block extrastyle %}
   <!-- Adition styles-->
-  {% comment %} <link href="https://cdn.datatables.net/v/dt/jq-3.6.0/jszip-2.5.0/dt-1.13.4/af-2.5.3/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/cr-1.6.2/date-1.4.1/fc-4.2.2/fh-3.3.2/kt-2.9.0/r-2.4.1/rg-1.3.1/rr-1.3.3/sc-2.1.1/sb-1.4.2/sp-2.1.2/sl-1.6.2/datatables.min.css" rel="stylesheet" /> {% endcomment %}
+  {% comment %}
+<link href="https://cdn.datatables.net/v/dt/jq-3.6.0/jszip-2.5.0/dt-1.13.4/af-2.5.3/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/cr-1.6.2/date-1.4.1/fc-4.2.2/fh-3.3.2/kt-2.9.0/r-2.4.1/rg-1.3.1/rr-1.3.3/sc-2.1.1/sb-1.4.2/sp-2.1.2/sl-1.6.2/datatables.min.css" rel="stylesheet" />
+  {% endcomment %}
   <link rel="stylesheet"
-        href="{% static 'vendors/DataTables/datatables.css' %}">
+        href="{% static 'vendors/DataTables/datatables.css' %}" />
   <link rel="stylesheet"
-        href="{% static 'vendors/Editor-2.0.5/css/editor.dataTables.min.css' %}">
+        href="{% static 'vendors/Editor-2.0.5/css/editor.dataTables.min.css' %}" />
 {% endblock extrastyle %}
 {% block modal %}
   {% include "shifts/add_modal.html" %}
@@ -21,7 +22,7 @@
   <div class="row">
     <div class="col">
       <div class="content">
-        <h1 class="content-title">Shift list</h1>
+        <h1 class="content-title">{{ title | title }} list</h1>
         <p>There will be a paragraph</p>
       </div>
       <div class="card p-0">
@@ -33,14 +34,13 @@
                 <th>ID</th>
                 <th>End date</th>
                 <th>Site id</th>
-                <th>Staff id</th>
                 <th>Site name</th>
-                <th>Staff name</th>
                 <th>Date</th>
                 <th>Day</th>
                 <th>Hours</th>
                 <th>Time in</th>
                 <th>Time out</th>
+                <th>Active</th>
               </tr>
             </thead>
           </table>
@@ -56,233 +56,289 @@
   <script src="{% static 'vendors/DataTables/datatables.min.js' %}"></script>
   <script src="{% static 'vendors/Editor-2.0.5/js/dataTables.editor.js' %}"></script>
   <script type="text/javascript">
-    $(document).ready(function () {
-      var editor; // use a global for the submit and return data rendering in the examples
-      let data; // for form submission, get all data
-      let update_url = "/update_shift/";
-      let delete_url = "/delete_shift/";
+  $(document).ready(function () {
+    var editor; // use a global for the submit and return data rendering in the examples
+    let data; // for form submission, get all data
+    let update_url = "/update_shift/";
+    let delete_url = "/delete_shift/";
 
-      // display controller
-      (function () {
-        var Editor = $.fn.dataTable.Editor;
-        Editor.display.halfmoon = $.extend(true, {}, Editor.models.display, {
-          // Create the HTML mark-up needed the display controller
-          init: function (editor) {
-            return Editor.display.halfmoon;
-          },
+    // calculate duration
+    $(document.body).on('change', '.time_in, .time_out', function () {
+      var timeIn = $('#add_shift_modal select[name="time_in"]').val();
+      var timeOut = $('#add_shift_modal select[name="time_out"]').val();
+      var duration = $('#duration');
 
-          // Show the form
-          open: function (editor, form, callback) {
-            // Close any rows which are already open
-            Editor.display.halfmoon.close(editor);
-            // create(), edit(), and remove()
-            switch (editor.mode()) {
-              // create
-              case "create":
-                $("#add_shift_modal" ).addClass("show");
-                // block submission by the modal
-                $( "#shift_form" ).on( "submit", function( event ) {
-                  event.preventDefault();
-                  data = $(this).serializeArray();
-                  editor.submit();
-                });
-                break;
-              // edit
-              case "edit":
-                var selectedData = table.rows( { selected: true } ).data()[0];
-                $("#shift_id").val(selectedData.id);
-                $('#add_shift_modal select[name="site"]').val(selectedData.site_id);
-                $('#add_shift_modal select[name="staff"]').val(selectedData.staff[0].id);
-                $('#add_shift_modal select[name="time_in"]').val(moment(selectedData.started).format("HH:mm"));
-                $('#add_shift_modal select[name="time_out"]').val(moment(selectedData.ended).format("HH:mm"));
-                // convert date to iso-string and slice only date part
-                $('#add_shift_modal input[name="started"]').val(new Date(selectedData.started).toISOString().slice(0, 10));
-                //$('#add_shift_modal input[name="ended"]').val(new Date(selectedData.ended).toISOString().slice(0, 10));
-                var ended = $('#add_shift_modal input[name="ended"]');
-                ended.attr("required", false);
-                ended.addClass("d-none");
+      if (timeIn && timeOut) {
+        var hours = (parseInt(timeOut.split(':')[0], 10) - parseInt(timeIn.split(':')[0], 10)) +
+          (parseInt(timeOut.split(':')[1], 10) - parseInt(timeIn.split(':')[1], 10)) / 60;
 
-                $("#add_shift_modal" ).addClass("show");
-                // block submission by the modal
-                $( "#shift_form" ).on( "submit", function( event ) {
-                  event.preventDefault();
-                  data = $(this).serializeArray();
-                  editor.submit();
-                });
-                break;
-              case 'remove':
-                $("#confirm_modal" ).addClass("show");
-                $( "#confirm" ).on( "submit", function( event ) {
-                  event.preventDefault();
-                  editor.submit();
-                });
-                break;
-              default:
-                  console.log(editor.mode)
-                  //table.ajax.url("{% url 'shifts:create_shift' %}").load();
+        if (hours < 0) {
+          hours += 24;
+        }
 
+        duration.html(hours + " hours");
+      }
+    });
 
-            }
+    // add shift modal
+    $(document.body).on('submit', '#shift_form', function (event) {
+      event.preventDefault();
+      data = $(this).serializeArray();
+      editor.submit();
+      // reload
+      //$("#shifts").DataTable().ajax.reload();
 
-            if (callback) {
-              callback();
-            }
-          },
+    });
 
-          // Hide the form
-          close: function (editor, callback) {
-            if (editor.mode === "remove") {
-              $("#confirm_modal" ).removeClass("show");
-            } else {
-              $("#add_shift_modal" ).removeClass("show");
-            }
-            if (callback) {
-              callback();
-            }
-          },
-        });
-      })();
-
-      // Datatable editor
-      editor = new $.fn.dataTable.Editor({
-        ajax: {
-          create: {
-            url: "{% url 'shifts:create_shift' %}",
-            type: "POST",
-            data: function (d) {
-              data.forEach(function (e) {
-                d[e.name] = e.value;
-              })
-            },
-            headers: {
-              "X-CSRFToken": getCookie("csrftoken"),
-            },
-            mode: "same-origin",
-          },
-          edit: {
-            url: update_url + "{id}/",
-            type: "POST",
-            data: function (d) {
-              data.forEach(function (e) {
-                d[e.name] = e.value;
-              })
-            },
-            headers: {
-              "X-CSRFToken": getCookie("csrftoken"),
-            },
-            mode: "same-origin",
-          },
-          remove: {
-            url: delete_url + "{id}/",
-            type: "POST",
-            headers: {
-              "X-CSRFToken": getCookie("csrftoken"),
-            },
-            mode: "same-origin",
-          },
+    // display controller
+    (function () {
+      var Editor = $.fn.dataTable.Editor;
+      Editor.display.halfmoon = $.extend(true, {}, Editor.models.display, {
+        // Create the HTML mark-up needed the display controller
+        init: function (editor) {
+          return Editor.display.halfmoon;
         },
-        table: "#shifts",
-        display: "halfmoon",
-        idSrc: "id",
-        fields: [
-          {
-            label: "Site name",
-            name: "site",
-          },
-          {
-            label: "Staff name",
-            name: "staff",
-          },
-          {
-            label: "Starting date",
-            name: "started",
-          },
-          {
-            label: "Ending date",
-            name: "ended",
-          },
-          {
-            label: "Starting time",
-            name: "time_in",
-          },
-          {
-            label: "Ending time",
-            name: "time_out",
-          },
-        ],
+
+        // Show the form
+        open: function (editor, form, callback) {
+          // Close any rows which are already open
+          Editor.display.halfmoon.close(editor);
+          // create(), edit(), and remove()
+          switch (editor.mode()) {
+            // create
+            case "create":
+              // variables
+              var ended = $('#add_shift_modal input[name="ended"]');
+              var duration = $('#duration');
+
+              // reset form
+              $('#shift_form')[0].reset();
+              // reset ended
+              $('#add_shift_modal input[name="ended"]').parent().addClass("row-eq-spacing");
+              $('#add_shift_modal input[name="ended"]').parent().removeClass("d-none");
+              // check attributes
+              if (ended.prop('required', false)) {
+                ended.prop('required', true);
+
+              // reset duration
+              duration.html('0 hour');
+      }
+              $("#add_shift_modal").addClass("show");
+              break;
+            // edit
+            case "edit":
+              // reset form
+              $('#shift_form')[0].reset();
+              // variables
+              var selectedData = table.rows({ selected: true }).data()[0];
+              var timeIn = $('#add_shift_modal select[name="time_in"]');
+              var timeOut = $('#add_shift_modal select[name="time_out"]');
+              var started = $('#add_shift_modal input[name="started"]');
+              var ended = $('#add_shift_modal input[name="ended"]');
+              var site = $('#add_shift_modal select[name="site"]');
+              var siteId = $("#shift_id");
+              // assign values
+              siteId.val(selectedData.id);
+              site.val(
+                selectedData.site_id
+              );
+              timeIn.val(
+                moment(selectedData.started).format("HH:mm")
+              );
+              timeOut.val(
+                moment(selectedData.ended).format("HH:mm")
+              );
+              // convert date to iso-string and slice only date part
+              started.val(
+                new Date(selectedData.started).toISOString().slice(0, 10)
+              );
+
+              //remove ended
+              ended.parent().addClass("d-none");
+              ended.parent().removeClass("row-eq-spacing");
+              // check attributes
+              if (ended.prop('required', true)) {
+                ended.prop('required', false);
+              }
+              // trigger change
+              timeIn.trigger("change");
+              timeOut.trigger("change");
+
+              $("#add_shift_modal").addClass("show");
+              // block submission by the modal
+              break;
+            case "remove":
+              $("#confirm_modal").addClass("show");
+              $("#confirm").on("submit", function (event) {
+                event.preventDefault();
+                editor.submit();
+                console.log('working');
+              });
+              break;
+            default:
+              console.log(editor.mode);
+            //table.ajax.url("{% url 'shifts:create_shift' %}").load();
+          }
+
+          if (callback) {
+            callback();
+          }
+        },
+
+        // Hide the form
+        close: function (editor, callback) {
+          if (editor.mode === "remove") {
+            $("#confirm_modal").removeClass("show");
+          } else {
+            $("#add_shift_modal").removeClass("show");
+          }
+          if (callback) {
+            callback();
+          }
+        },
       });
+    })();
 
-      // datatable
-      var table = $('#shifts').DataTable({
-        dom: "Bflrtip",
-        responsive: true,
-        lengthMenu: [25, 50, 75, 100],
-        fixedHeader: {      //not working
-          header: true,
-          headerOffset: $('#navbar').outerHeight() + 10
+    // Datatable editor
+    editor = new $.fn.dataTable.Editor({
+      ajax: {
+        create: {
+          url: "{% url 'shifts:create_shift' %}",
+          type: "POST",
+          data: function (d) {
+            data.forEach(function (e) {
+              d[e.name] = e.value;
+            });
+          },
+          headers: {
+            "X-CSRFToken": getCookie("csrftoken"),
+          },
+          mode: "same-origin",
         },
-        select: true,
-        /*
+        edit: {
+          url: update_url + "{id}/",
+          type: "POST",
+          data: function (d) {
+            data.forEach(function (e) {
+              d[e.name] = e.value;
+            });
+          },
+          headers: {
+            "X-CSRFToken": getCookie("csrftoken"),
+          },
+          mode: "same-origin",
+        },
+        remove: {
+          url: delete_url + "{id}/",
+          type: "POST",
+          headers: {
+            "X-CSRFToken": getCookie("csrftoken"),
+          },
+          mode: "same-origin",
+        },
+      },
+      table: "#shifts",
+      display: "halfmoon",
+      idSrc: "id",
+      fields: [
+        {
+          label: "Site name",
+          name: "site",
+        },
+        {
+          label: "Starting date",
+          name: "started",
+        },
+        {
+          label: "Ending date",
+          name: "ended",
+        },
+        {
+          label: "Starting time",
+          name: "time_in",
+        },
+        {
+          label: "Ending time",
+          name: "time_out",
+        },
+      ],
+    });
+
+    // datatable
+    var table = $("#shifts").DataTable({
+      dom: "Bflrtip",
+      responsive: true,
+      lengthMenu: [25, 50, 75, 100],
+      fixedHeader: {
+        //not working
+        header: true,
+        headerOffset: $("#navbar").outerHeight() + 10,
+      },
+      select: true,
+      /*
         search: true, //  not working
         processing: true, //  not working
         serverSide: true, //  not working
         */
-        ajax: {
-          url: "{% url 'shifts:get_shifts' %}",
-          dataSrc: 'data',
+      ajax: {
+        url: "{% url 'shifts:get_shifts' %}",
+        dataSrc: "data",
+      },
+      rowId: "id",
+      columnDefs: [
+        {
+          targets: [0, 1, 2, 3],
+          orderable: false,
+          searchable: false,
         },
-        rowId: "id",
-        columnDefs: [
-          {
-            targets: [0,1,2,3,4],
-            orderable: false,
-            searchable: false
-          },
-          {
-            targets: [1,2,3,4],
-            visible: false
-          },
-          {
-            targets: [5,6], // site and staff name
-            className: "text-capitalize"
-          },
-          {
-            targets: [3,7], // started and ended
-            render: DataTable.render.datetime('DD/MM/YYYY')
-          },
-          {
-            targets: 8,
-            render: DataTable.render.datetime('dddd')
-          },
-          {
-            targets: [8,9,10,11],
-            orderable: false
-          },
-          {
-            targets: [10,11],
-            render: DataTable.render.datetime('HH:mm')
-          }
-        ],
-        columns: [
-        { //0
+        {
+          targets: [1, 2, 3],
+          visible: false,
+        },
+        {
+          targets: 4, // site name
+          className: "text-capitalize",
+        },
+        {
+          targets: [3, 5], // started and ended
+          render: DataTable.render.datetime("DD/MM/YYYY"),
+        },
+        {
+          targets: 6,
+          render: DataTable.render.datetime("dddd"),
+        },
+        {
+          targets: [6, 7, 8, 9],
+          orderable: false,
+        },
+        {
+          targets: [8, 9],
+          render: DataTable.render.datetime("HH:mm"),
+        },
+      ],
+      columns: [
+        {
+          //0
           data: null,
           defaultContent: "",
           className: "select-checkbox",
         },
-        {data: "id"}, //1
-        {data: "ended"}, //2
-        {data: "site_id"}, //3
-        {data: "staff[0].id"}, //4
-        {data: "site"}, //5
+        { data: "id" }, //1
+        { data: "ended" }, //2
+        { data: "site_id" }, //3
+        { data: "site" }, //4
+        { data: "started" }, //5 // date
+        { data: "started" }, //6 // day
+        { data: "duration" }, //7
+        { data: "started" }, //8 // time_in
+        { data: "ended" }, //9 // time_out
         {
-          data: "staff[0].name", //6
-          //render: renderStaffNames, //searching is not working change data to staff
-        }, // only one staff name working
-        {data: "started"}, //7
-        {data: "started"}, //8 // day
-        {data: "duration"}, //9
-        {data: "started"}, //10
-        {data: "ended"}, //11
+          // 10
+          data: "is_active",
+          render: function (data, type, row) {
+            return data ? "Yes" : "No";
+        }
+      },
       ],
       //table.buttons
       buttons: [
@@ -299,12 +355,9 @@
         },
         {
           extend: "remove",
+          text: "Disable",
+          className: "btn",
           editor: editor,
-          formMessage: function ( e, dt ) {
-              var rows = dt.rows( e.modifier() ).data().pluck('id');
-              return 'Are you sure you want to delete this shift for the '+
-                  'following record(s)? <ul><li>'+rows.join('</li><li>')+'</li></ul>';
-          }
         },
         {
           extend: "collection",
@@ -334,9 +387,8 @@
           ],
         },
       ],
-      }); // datatable
-      // reload table
-      table.ajax.reload();
-    }); // Jquery
+    }); // datatable
+
+  }); // Jquery
   </script>
 {% endblock scripts %}
