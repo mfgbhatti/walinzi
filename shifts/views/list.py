@@ -13,7 +13,7 @@ def ShiftListView(request):
 
     user_customer = request.user.customer.id
     sites = Site.objects.filter(client__customer=user_customer)
-    guards = Staff.objects.filter(customer=user_customer)
+    # guards = Staff.objects.filter(customer=user_customer) # dont need it shift list using timesheet for staff
 
     # for time input
     hours = range(24)
@@ -22,8 +22,9 @@ def ShiftListView(request):
         {
             "shifts_active": "active",
             # "shifts": shifts,
+            "title": "Shift",
             "sites": sites,
-            "guards": guards,
+            # "guards": guards,
             "hours": hours,
             "minutes": minutes,
             # global include varibales
