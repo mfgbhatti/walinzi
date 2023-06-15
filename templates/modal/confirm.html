@@ -17,10 +17,17 @@
       <h5 class="modal-title">Confirmation</h5>
       <p>Please note that next step will remove this record permanantly</p>
       <p>Are you sure you want to proceed?</p>
-      <div class="text-right mt-20">
-        <a href="#" class="btn mr-5" data-dismiss="modal" role="button">Cancel</a>
-        <a href="#" class="btn btn-primary" role="button" id="confirm">I understand, yes</a>
-      </div>
+      <form method="post" id="confirm">
+        <div class="text-right mt-20">
+          <button class="btn mr-5" data-dismiss="modal" type="button">Close</button>
+          <button class="btn btn-primary"
+                  data-dismiss="modal"
+                  id="modal_submit"
+                  type="submit"
+                  name="confirm">
+          I understand, yes</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
