@@ -15,7 +15,7 @@ from sites.models import Site
 def ShiftJsonView(request):
     user_customer = request.user.customer.id
     sites = Site.objects.filter(client__customer=user_customer)
-    shifts = Shift.objects.filter(site__in=sites, is_active=True)
+    shifts = Shift.objects.filter(site__in=sites)
     ## https://stackoverflow.com/questions/76339382/how-to-join-on-django-using-orm
     # recordsTotal = 0
     # draw = int(request.GET["draw"])
@@ -45,10 +45,11 @@ def ShiftJsonView(request):
         shift_dict["duration"] = shift.duration()
         shift_dict["started"] = shift.time_in
         shift_dict["ended"] = shift.time_out
+        shift_dict["is_active"] = shift.is_active
         # shift_dict["day"] = shift.time_in.strftime("%A")
         # shift_dict["time_in"] = shift.time_in.strftime("%H:%M")
         # shift_dict["time_out"] = shift.time_out.strftime("%H:%M")
-        shift_dict["staff"] = list(shift.staff.values("name", "id"))
+        # shift_dict["staff"] = list(shift.staff.values("name", "id"))
 
         data.append(shift_dict)
     # data = [model_to_dict(shift) for shift in object_list]
