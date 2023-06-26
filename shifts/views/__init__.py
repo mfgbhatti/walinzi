@@ -4,3 +4,4 @@ from .json import ShiftJsonView
 from .update import ShiftUpdateView
 from .create import ShiftCreateView
 from .disable import ShiftDeleteView
+from .timesheet import ShiftTimesheetView

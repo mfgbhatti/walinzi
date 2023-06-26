@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 
 from shifts.models import Shift
@@ -18,6 +18,6 @@ def ShiftCreateView(request):
         # print(request.POST)
         if shift_form.is_valid():
             CreateShift(request=request, model=Shift)
-
-        return HttpResponse(status=302)
-    return HttpResponse(status=500)
+            return JsonResponse({"success": True}, status=201)
+        return JsonResponse({"success": False}, status=400)
+    return JsonResponse({"success": False}, status=500)

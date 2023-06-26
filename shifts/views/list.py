@@ -18,6 +18,8 @@ def ShiftListView(request):
     # for time input
     hours = range(24)
     minutes = ["00", "15", "30", "45"]
+    # days list in first capital three letters
+    days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     context.update(
         {
             "shifts_active": "active",
@@ -27,6 +29,7 @@ def ShiftListView(request):
             # "guards": guards,
             "hours": hours,
             "minutes": minutes,
+            "days": days,
             # global include varibales
         }
     )

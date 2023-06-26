@@ -1,9 +1,9 @@
 <script type="text/javascript">
-  let table_id  = "{{var_dict.table_id}}"
-  let modal_id  = "{{var_dict.modal_id}}";
-  let get_url   = "{{var_dict.get_url | safe }}";
-  let post_url  = "{{var_dict.post_url | safe }}";
-  let form_id   = "{{var_dict.form_id}}";
+  let table_id  = "{{ var_dict.table_id }}"
+  let modal_id  = "{{ var_dict.modal_id }}";
+  let get_url   = "{{ var_dict.get_url | safe }}";
+  let post_url  = "{{ var_dict.post_url | safe }}";
+  let form_id   = "{{ var_dict.form_id }}";
   let data;
   var editor; // use a global for the submit and return data rendering in the examples
 
@@ -111,8 +111,6 @@
         },
       ],
     });
-
-    editor.on("create")
 
     // datatable
     // Custom rendering function for the 'staff' column

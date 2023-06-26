@@ -56,339 +56,420 @@
   <script src="{% static 'vendors/DataTables/datatables.min.js' %}"></script>
   <script src="{% static 'vendors/Editor-2.0.5/js/dataTables.editor.js' %}"></script>
   <script type="text/javascript">
-  $(document).ready(function () {
-    var editor; // use a global for the submit and return data rendering in the examples
-    let data; // for form submission, get all data
-    let update_url = "/update_shift/";
-    let delete_url = "/delete_shift/";
+    $(document).ready(function () {
+      var editor; // use a global for the submit and return data rendering in the examples
+      let data; // for form submission, get all data
+      let update_url = '/update_shift/';
+      let delete_url = '/delete_shift/';
 
-    // calculate duration
-    $(document.body).on('change', '.time_in, .time_out', function () {
-      var timeIn = $('#add_shift_modal select[name="time_in"]').val();
-      var timeOut = $('#add_shift_modal select[name="time_out"]').val();
-      var duration = $('#duration');
-
-      if (timeIn && timeOut) {
-        var hours = (parseInt(timeOut.split(':')[0], 10) - parseInt(timeIn.split(':')[0], 10)) +
-          (parseInt(timeOut.split(':')[1], 10) - parseInt(timeIn.split(':')[1], 10)) / 60;
-
-        if (hours < 0) {
-          hours += 24;
+      //handle response
+      function responseHandler (jqXHR, textStatus, errorThrown, alertType) {
+        var alert = '';
+        var content = '';
+        var title = ''
+        if (alertType === 'danger') {
+          alert = 'alert-danger';
+          content = 'There is an error with message "' + errorThrown + '" with status ' + jqXHR.status + '.';
+          title = 'Error';
+          // log it
+          console.group();
+          console.log('Status: ' + jqXHR.status);
+          console.log('Error: ' + errorThrown);
+          console.warn('Please recheck you submission form.')
+          console.groupEnd();
+        } else {
+          alert = 'alert-success';
+          content = 'The shift has been saved successfully.';
+          title = 'Success';
         }
-
-        duration.html(hours + " hours");
+        halfmoon.initStickyAlert({
+          content: content,
+          title: title,
+          alertType: alert,
+          fillType: 'filled'
+        });
       }
-    });
 
-    // add shift modal
-    $(document.body).on('submit', '#shift_form', function (event) {
-      event.preventDefault();
-      data = $(this).serializeArray();
-      editor.submit();
-      // reload
-      //$("#shifts").DataTable().ajax.reload();
+      // calculate duration
+      $(document.body).on('change', 'select.time_in, select.time_out', function () {
+        var timeIn = $('#add_shift_modal select[name="time_in"]').val();
+        var timeOut = $('#add_shift_modal select[name="time_out"]').val();
+        var duration = $('#duration');
 
-    });
+        if (timeIn && timeOut) {
+          var hours = (parseInt(timeOut.split(':')[0], 10) - parseInt(timeIn.split(':')[0], 10)) +
+            (parseInt(timeOut.split(':')[1], 10) - parseInt(timeIn.split(':')[1], 10)) / 60;
 
-    // display controller
-    (function () {
-      var Editor = $.fn.dataTable.Editor;
-      Editor.display.halfmoon = $.extend(true, {}, Editor.models.display, {
-        // Create the HTML mark-up needed the display controller
-        init: function (editor) {
-          return Editor.display.halfmoon;
-        },
-
-        // Show the form
-        open: function (editor, form, callback) {
-          // Close any rows which are already open
-          Editor.display.halfmoon.close(editor);
-          // create(), edit(), and remove()
-          switch (editor.mode()) {
-            // create
-            case "create":
-              // variables
-              var ended = $('#add_shift_modal input[name="ended"]');
-              var duration = $('#duration');
-
-              // reset form
-              $('#shift_form')[0].reset();
-              // reset ended
-              $('#add_shift_modal input[name="ended"]').parent().addClass("row-eq-spacing");
-              $('#add_shift_modal input[name="ended"]').parent().removeClass("d-none");
-              // check attributes
-              if (ended.prop('required', false)) {
-                ended.prop('required', true);
-
-              // reset duration
-              duration.html('0 hour');
-      }
-              $("#add_shift_modal").addClass("show");
-              break;
-            // edit
-            case "edit":
-              // reset form
-              $('#shift_form')[0].reset();
-              // variables
-              var selectedData = table.rows({ selected: true }).data()[0];
-              var timeIn = $('#add_shift_modal select[name="time_in"]');
-              var timeOut = $('#add_shift_modal select[name="time_out"]');
-              var started = $('#add_shift_modal input[name="started"]');
-              var ended = $('#add_shift_modal input[name="ended"]');
-              var site = $('#add_shift_modal select[name="site"]');
-              var siteId = $("#shift_id");
-              // assign values
-              siteId.val(selectedData.id);
-              site.val(
-                selectedData.site_id
-              );
-              timeIn.val(
-                moment(selectedData.started).format("HH:mm")
-              );
-              timeOut.val(
-                moment(selectedData.ended).format("HH:mm")
-              );
-              // convert date to iso-string and slice only date part
-              started.val(
-                new Date(selectedData.started).toISOString().slice(0, 10)
-              );
-
-              //remove ended
-              ended.parent().addClass("d-none");
-              ended.parent().removeClass("row-eq-spacing");
-              // check attributes
-              if (ended.prop('required', true)) {
-                ended.prop('required', false);
-              }
-              // trigger change
-              timeIn.trigger("change");
-              timeOut.trigger("change");
-
-              $("#add_shift_modal").addClass("show");
-              // block submission by the modal
-              break;
-            case "remove":
-              $("#confirm_modal").addClass("show");
-              $("#confirm").on("submit", function (event) {
-                event.preventDefault();
-                editor.submit();
-                console.log('working');
-              });
-              break;
-            default:
-              console.log(editor.mode);
-            //table.ajax.url("{% url 'shifts:create_shift' %}").load();
+          if (hours < 0) {
+            hours += 24;
           }
 
-          if (callback) {
-            callback();
-          }
-        },
-
-        // Hide the form
-        close: function (editor, callback) {
-          if (editor.mode === "remove") {
-            $("#confirm_modal").removeClass("show");
-          } else {
-            $("#add_shift_modal").removeClass("show");
-          }
-          if (callback) {
-            callback();
-          }
-        },
+          duration.html(hours + ' hours');
+        }
       });
-    })();
 
-    // Datatable editor
-    editor = new $.fn.dataTable.Editor({
-      ajax: {
-        create: {
-          url: "{% url 'shifts:create_shift' %}",
-          type: "POST",
-          data: function (d) {
-            data.forEach(function (e) {
-              d[e.name] = e.value;
-            });
-          },
-          headers: {
-            "X-CSRFToken": getCookie("csrftoken"),
-          },
-          mode: "same-origin",
-        },
-        edit: {
-          url: update_url + "{id}/",
-          type: "POST",
-          data: function (d) {
-            data.forEach(function (e) {
-              d[e.name] = e.value;
-            });
-          },
-          headers: {
-            "X-CSRFToken": getCookie("csrftoken"),
-          },
-          mode: "same-origin",
-        },
-        remove: {
-          url: delete_url + "{id}/",
-          type: "POST",
-          headers: {
-            "X-CSRFToken": getCookie("csrftoken"),
-          },
-          mode: "same-origin",
-        },
-      },
-      table: "#shifts",
-      display: "halfmoon",
-      idSrc: "id",
-      fields: [
-        {
-          label: "Site name",
-          name: "site",
-        },
-        {
-          label: "Starting date",
-          name: "started",
-        },
-        {
-          label: "Ending date",
-          name: "ended",
-        },
-        {
-          label: "Starting time",
-          name: "time_in",
-        },
-        {
-          label: "Ending time",
-          name: "time_out",
-        },
-      ],
-    });
+      // check if started changed
+      $(document.body).on('change', '.started, .ended', function () {
+        var started = $('#shift_form input[name="started"]');
+        var ended = $('#shift_form input[name="ended"]');
 
-    // datatable
-    var table = $("#shifts").DataTable({
-      dom: "Bflrtip",
-      responsive: true,
-      lengthMenu: [25, 50, 75, 100],
-      fixedHeader: {
-        //not working
-        header: true,
-        headerOffset: $("#navbar").outerHeight() + 10,
-      },
-      select: true,
-      /*
-        search: true, //  not working
-        processing: true, //  not working
-        serverSide: true, //  not working
-        */
-      ajax: {
-        url: "{% url 'shifts:get_shifts' %}",
-        dataSrc: "data",
-      },
-      rowId: "id",
-      columnDefs: [
-        {
-          targets: [0, 1, 2, 3],
-          orderable: false,
-          searchable: false,
-        },
-        {
-          targets: [1, 2, 3],
-          visible: false,
-        },
-        {
-          targets: 4, // site name
-          className: "text-capitalize",
-        },
-        {
-          targets: [3, 5], // started and ended
-          render: DataTable.render.datetime("DD/MM/YYYY"),
-        },
-        {
-          targets: 6,
-          render: DataTable.render.datetime("dddd"),
-        },
-        {
-          targets: [6, 7, 8, 9],
-          orderable: false,
-        },
-        {
-          targets: [8, 9],
-          render: DataTable.render.datetime("HH:mm"),
-        },
-      ],
-      columns: [
-        {
-          //0
-          data: null,
-          defaultContent: "",
-          className: "select-checkbox",
-        },
-        { data: "id" }, //1
-        { data: "ended" }, //2
-        { data: "site_id" }, //3
-        { data: "site" }, //4
-        { data: "started" }, //5 // date
-        { data: "started" }, //6 // day
-        { data: "duration" }, //7
-        { data: "started" }, //8 // time_in
-        { data: "ended" }, //9 // time_out
-        {
-          // 10
-          data: "is_active",
-          render: function (data, type, row) {
-            return data ? "Yes" : "No";
+        if (started.val()) {
+          ended.attr('min', started.val());
+          currentDate = started.val();
+          var dayOfWeek = moment(currentDate).format('ddd').toLowerCase();
+          $('#'+dayOfWeek).parent().addClass('bg-primary');
+
         }
-      },
-      ],
-      //table.buttons
-      buttons: [
-        {
-          extend: "create",
-          text: "Add",
-          className: "btn",
-          editor: editor,
-        },
-        {
-          extend: "edit",
-          className: "btn",
-          editor: editor,
-        },
-        {
-          extend: "remove",
-          text: "Disable",
-          className: "btn",
-          editor: editor,
-        },
-        {
-          extend: "collection",
-          text: "Export",
-          className: "btn",
-          buttons: [
-            {
-              extend: "copyHtml5",
-              text: '<i class="fa fa-files-o"></i> Copy',
-              titleAttr: "Copy",
-            },
-            {
-              extend: "excelHtml5",
-              text: '<i class="fa fa-file-excel-o"></i> Excel',
-              titleAttr: "Excel",
-            },
-            {
-              extend: "csvHtml5",
-              text: '<i class="fa fa-file-text-o"></i> CSV',
-              titleAttr: "CSV",
-            },
-            {
-              extend: "pdfHtml5",
-              text: '<i class="fa fa-file-pdf-o"></i> PDF',
-              titleAttr: "PDF",
-            },
-          ],
-        },
-      ],
-    }); // datatable
 
-  }); // Jquery
+        if (ended.val()) {
+          started.attr('max', ended.val());
+          var currentDate = moment(started.val(), 'YYYY-MM-DD').add(1, 'days');
+          var endDate = moment(ended.val(), 'YYYY-MM-DD');
+          while (currentDate <= endDate) {
+            var dayOfWeek = moment(currentDate).format('ddd').toLowerCase();
+            $('#'+dayOfWeek).parent().addClass('bg-primary');
+            currentDate = moment(currentDate).add(1, 'days');
+          }
+        }
+
+      });
+
+      // add shift modal
+      $(document.body).on('submit', '#shift_form', function (event) {
+        event.preventDefault();
+        data = $(this).serializeArray();
+        editor.submit();
+        // reload
+        //$('#shifts').DataTable().ajax.reload();
+
+      });
+
+      // display controller
+      (function () {
+        var Editor = $.fn.dataTable.Editor;
+        Editor.display.halfmoon = $.extend(true, {}, Editor.models.display, {
+          // Create the HTML mark-up needed the display controller
+          init: function (editor) {
+            return Editor.display.halfmoon;
+          },
+
+          // Show the form
+          open: function (editor, form, callback) {
+            // Close any rows which are already open
+            Editor.display.halfmoon.close(editor);
+            // create(), edit(), and remove()
+            switch (editor.mode()) {
+              // create
+              case 'create':
+                // variables
+                var ended = $('#shift_form input[name="ended"]');
+                var duration = $('#duration');
+
+                // reset form
+                $('#shift_form')[0].reset();
+                $('div[id="days"]').removeClass('bg-primary');
+                $('#days').parent().removeClass().addClass('form-row days d-flex justify-content-between');
+                // reset ended
+                ended.parent().removeClass().addClass('col');
+                // check attributes
+                if (ended.prop('required', false)) {
+                  ended.prop('required', true);
+
+                  // reset duration
+                  duration.html('0 hour');
+                }
+                $('#add_shift_modal').addClass('show');
+                break;
+              // edit
+              case 'edit':
+                // variables
+                var selectedData = table.rows({ selected: true }).data()[0];
+                var timeIn = $('#shift_form select[name="time_in"]');
+                var timeOut = $('#shift_form select[name="time_out"]');
+                var started = $('#shift_form input[name="started"]');
+                var ended = $('#shift_form input[name="ended"]');
+                var site = $('#shift_form select[name="site"]');
+                var siteId = $('#shift_id');
+
+                // reset form
+                $('#shift_form')[0].reset();
+                $('#days').parent().removeClass().addClass('d-none');
+                //remove ended
+                ended.parent().removeClass().addClass('d-none');
+
+                // check attributes
+                if (ended.prop('required', true)) {
+                  ended.prop('required', false);
+                }
+
+                // assign values
+                siteId.val(selectedData.id);
+                site.val(
+                  selectedData.site_id
+                );
+                timeIn.val(
+                  moment(selectedData.started).format('HH:mm')
+                );
+                timeOut.val(
+                  moment(selectedData.ended).format('HH:mm')
+                );
+                // convert date to iso-string and slice only date part
+                started.val(
+                  new Date(selectedData.started).toISOString().slice(0, 10)
+                );
+
+                // trigger change
+                timeIn.trigger('change');
+                timeOut.trigger('change');
+
+                $('#add_shift_modal').addClass('show');
+                // block submission by the modal
+                break;
+              case 'remove':
+                $('#confirm_modal').addClass('show');
+                $('#confirm').on('submit', function (event) {
+                  event.preventDefault();
+                  editor.submit();
+                  console.log('working');
+                });
+                break;
+              default:
+                console.log(editor.mode);
+              //table.ajax.url('{% url 'shifts:create_shift' %}').load();
+            }
+
+            if (callback) {
+              callback();
+            }
+          },
+
+          // Hide the form
+          close: function (editor, callback) {
+            switch (editor.mode()) {
+              case 'create':
+                $('#add_shift_modal').removeClass('show');
+                $('#shift_form')[0].reset();
+                break;
+              case 'edit':
+                $('#add_shift_modal').removeClass('show');
+                $('#shift_form')[0].reset();
+
+                break;
+              case 'remove':
+                $('#confirm_modal').removeClass('show');
+                break;
+
+            }
+            if (callback) {
+              callback();
+            }
+          },
+        });
+      })();
+
+      // Datatable editor
+      editor = new $.fn.dataTable.Editor({
+        ajax: {
+          create: {
+            url: '{% url "shifts:create_shift" %}',
+            type: 'POST',
+            data: function (d) {
+              data.forEach(function (e) {
+                d[e.name] = e.value;
+              });
+            },
+            error: function (jqXHR, textStatus, errorThrown){
+              responseHandler(jqXHR, textStatus, errorThrown, 'danger');
+            },
+            success: function (jqXHR, textStatus, errorThrown) {
+              responseHandler(jqXHR, textStatus, errorThrown, 'success');
+            },
+            headers: {
+              'X-CSRFToken': getCookie('csrftoken'),
+            },
+            mode: 'same-origin',
+          },
+          edit: {
+            url: update_url + '{id}/',
+            type: 'POST',
+            data: function (d) {
+              data.forEach(function (e) {
+                d[e.name] = e.value;
+              });
+            },
+            headers: {
+              'X-CSRFToken': getCookie('csrftoken'),
+            },
+            mode: 'same-origin',
+            error: function (jqXHR, textStatus, errorThrown){
+              responseHandler(jqXHR, textStatus, errorThrown, 'danger');
+            },
+            success: function (jqXHR, textStatus, errorThrown) {
+              responseHandler(jqXHR, textStatus, errorThrown, 'success');
+            },
+          },
+          remove: {
+            url: delete_url + '{id}/',
+            type: 'POST',
+            headers: {
+              'X-CSRFToken': getCookie('csrftoken'),
+            },
+            mode: 'same-origin',
+          },
+        },
+        table: '#shifts',
+        display: 'halfmoon',
+        idSrc: 'id',
+        fields: [
+          {
+            label: 'Site name',
+            name: 'site',
+          },
+          {
+            label: 'Starting date',
+            name: 'started',
+          },
+          {
+            label: 'Ending date',
+            name: 'ended',
+          },
+          {
+            label: 'Starting time',
+            name: 'time_in',
+          },
+          {
+            label: 'Ending time',
+            name: 'time_out',
+          },
+        ],
+      });
+
+      // datatable
+      var table = $('#shifts').DataTable({
+        dom: 'Bflrtip',
+        responsive: true,
+        lengthMenu: [25, 50, 75, 100],
+        fixedHeader: {
+          //not working
+          header: true,
+          headerOffset: $('#navbar').outerHeight() + 10,
+        },
+        select: true,
+        /*
+          search: true, //  not working
+          processing: true, //  not working
+          serverSide: true, //  not working
+          */
+        ajax: {
+          url: '{% url "shifts:get_shifts" %}',
+          dataSrc: 'data',
+        },
+        rowId: 'id',
+        columnDefs: [
+          {
+            targets: [0, 1, 2, 3],
+            orderable: false,
+            searchable: false,
+          },
+          {
+            targets: [1, 2, 3],
+            visible: false,
+          },
+          {
+            targets: 4, // site name
+            className: 'text-capitalize',
+          },
+          {
+            targets: [3, 5], // started and ended
+            render: DataTable.render.datetime('DD/MM/YYYY'),
+          },
+          {
+            targets: 6,
+            render: DataTable.render.datetime('dddd'),
+          },
+          {
+            targets: [6, 7, 8, 9],
+            orderable: false,
+          },
+          {
+            targets: [8, 9],
+            render: DataTable.render.datetime('HH:mm'),
+          },
+        ],
+        columns: [
+          {
+            //0
+            data: null,
+            defaultContent: '',
+            className: 'select-checkbox',
+          },
+          { data: 'id' }, //1
+          { data: 'ended' }, //2
+          { data: 'site_id' }, //3
+          { data: 'site' }, //4
+          { data: 'started' }, //5 // date
+          { data: 'started' }, //6 // day
+          { data: 'duration' }, //7
+          { data: 'started' }, //8 // time_in
+          { data: 'ended' }, //9 // time_out
+          {
+            // 10
+            data: 'is_active',
+            render: function (data, type, row) {
+              return data ? 'Yes' : 'No';
+          }
+        },
+        ],
+        //table.buttons
+        buttons: [
+          {
+            extend: 'create',
+            text: 'Add',
+            className: 'btn',
+            editor: editor,
+          },
+          {
+            extend: 'edit',
+            className: 'btn',
+            editor: editor,
+          },
+          {
+            extend: 'remove',
+            text: 'Disable',
+            className: 'btn',
+            editor: editor,
+          },
+          {
+            extend: 'collection',
+            text: 'Export',
+            className: 'btn',
+            buttons: [
+              {
+                extend: 'copyHtml5',
+                text: '<i class="fa fa-files-o"></i> Copy',
+                titleAttr: 'Copy',
+              },
+              {
+                extend: 'excelHtml5',
+                text: '<i class="fa fa-file-excel-o"></i> Excel',
+                titleAttr: 'Excel',
+              },
+              {
+                extend: 'csvHtml5',
+                text: '<i class="fa fa-file-text-o"></i> CSV',
+                titleAttr: 'CSV',
+              },
+              {
+                extend: 'pdfHtml5',
+                text: '<i class="fa fa-file-pdf-o"></i> PDF',
+                titleAttr: 'PDF',
+              },
+            ],
+          },
+        ],
+      }); // datatable
+    //table.buttons().container().appendTo( $('#content-title') ); //append to html
+    }); // Jquery
+
   </script>
 {% endblock scripts %}

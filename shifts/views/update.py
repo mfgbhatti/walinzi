@@ -1,9 +1,9 @@
-from django.http import HttpResponse
+from django.http import JsonResponse
 from datetime import datetime, timedelta, date
 from django.contrib.auth.decorators import login_required
 
 from shifts.models import Shift
-from shifts.forms import ShiftForm
+from shifts.forms import ShiftUpdateForm
 from sites.models import Site
 
 
@@ -11,12 +11,12 @@ from sites.models import Site
 def ShiftUpdateView(request, shift_id):
     shift = Shift.objects.get(pk=shift_id)
 
-    shift_form = ShiftForm(request.POST or None, instance=shift)
+    shift_form = ShiftUpdateForm(request.POST, instance=shift)
 
     if request.method == "POST":
         if shift_form.is_valid():
             site = Site.objects.get(pk=request.POST["site"])
-            staff_ids = request.POST.getlist("staff")
+            # staff_ids = request.POST.getlist("staff")
             time_in = datetime.strptime(request.POST["time_in"], "%H:%M").time()
             time_out = datetime.strptime(request.POST["time_out"], "%H:%M").time()
             started = datetime.strptime(request.POST["started"], "%Y-%m-%d").date()
@@ -27,14 +27,14 @@ def ShiftUpdateView(request, shift_id):
             else:
                 ended = started
 
-            if staff_ids:
-                shift.staff.set(staff_ids)
+            # if staff_ids:
+            #     shift.staff.set(staff_ids)
             shift.site = site
             shift.time_in = datetime.combine(started, time_in)
             shift.time_out = datetime.combine(ended, time_out)
             shift.is_active = True
 
             shift.save()
-            return HttpResponse(status=302)
-        return HttpResponse(status=500)
-    return HttpResponse(status=403)
+            return JsonResponse({"success": True}, status=201)
+        return JsonResponse({"success": False}, status=400)
+    return JsonResponse({"success": False}, status=500)
