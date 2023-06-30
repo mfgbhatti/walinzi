@@ -21,4 +21,4 @@ class ShiftUpdateForm(Form):
 
     class Meta:
         model = Shift
-        exclude = ("name", "is_active")
+        fields = ("site", "time_in", "time_out", "started")
