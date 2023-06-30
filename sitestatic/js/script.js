@@ -29,3 +29,36 @@ function getCookie(name) {
   }
   return cookieValue;
 }
+
+//handle response
+function responseHandler(jqXHR, textStatus, errorThrown, alertType) {
+  var alert = "";
+  var content = "";
+  var title = "";
+  if (alertType === "danger") {
+    alert = "alert-danger";
+    content =
+      'There is an error with message "' +
+      errorThrown +
+      '" with status ' +
+      jqXHR.status +
+      ".";
+    title = "Error";
+    // log it
+    console.group();
+    console.log("Status: " + jqXHR.status);
+    console.log("Error: " + errorThrown);
+    console.warn("Please recheck you submission form.");
+    console.groupEnd();
+  } else {
+    alert = "alert-success";
+    content = "This action has been saved successfully.";
+    title = "Success";
+  }
+  halfmoon.initStickyAlert({
+    content: content,
+    title: title,
+    alertType: alert,
+    fillType: "filled",
+  });
+}
