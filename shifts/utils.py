@@ -9,7 +9,7 @@ def CreateShift(request, model):
             site_id=site_id,
             time_in=datetime.combine(initial_date, time_in),
             time_out=datetime.combine(last_date, time_out),
-    )
+        )
 
     # variables
     site_id = request.POST.get("site")
@@ -26,18 +26,23 @@ def CreateShift(request, model):
 
     delta = ended - started
 
-    if delta.days <= 0: # if started and ended are same
-        end_date = started + timedelta(days=1)
-        create(started, end_date)
+    hours = (int(time_out_str.split(":")[0], 10) - int(time_in_str.split(":")[0], 10)) + (
+        int(time_out_str.split(":")[1], 10) - int(time_in_str.split(":")[1], 10)
+    ) / 60
+
+    if delta.days <= 0:  # if started and ended are same # one shift
+        if hours < 0:  # if hours are negative i.e. timeout= '01:!5' and time_in= '23:00'
+            end_date = started + timedelta(days=1)  # add 1 day to end date
+            create(started, end_date)
+        else:
+            end_date = started  # otherwise consider same day
+            create(started, ended)
+
     else:
-        for i in range(delta.days + 1): # 1 + 1, i=0, i=1
+        for i in range(delta.days + 1):  # 1 + 1, i=0, i=1
             start_date = started + timedelta(days=i)
             end_date = start_date + timedelta(days=i + 1)
             create(start_date, end_date)
-
-
-
-
 
     # def create(start_date, end_date):
     #     """create a shift"""
