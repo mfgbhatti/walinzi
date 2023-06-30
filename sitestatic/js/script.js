@@ -1,3 +1,7 @@
+/**
+ * function to copy to clipboard
+ * @param {*} evt event object
+ */
 function copyURI(evt) {
   evt.preventDefault();
   navigator.clipboard.writeText(evt.target.getAttribute("href")).then(
@@ -12,13 +16,17 @@ function copyURI(evt) {
   );
 }
 
-// get csrf_token
+/**
+ * Getting cookie value
+ * @param {string} name cookie name
+ * @returns cookieValue
+ */
 function getCookie(name) {
   var cookieValue = null;
   if (document.cookie && document.cookie !== "") {
     var cookies = document.cookie.split(";");
     for (var i = 0; i < cookies.length; i++) {
-      // delete white space
+      //delete white space
       var cookie = cookies[i].trim();
       // Does this cookie string begin with the name we want?
       if (cookie.substring(0, name.length + 1) === name + "=") {
@@ -30,7 +38,13 @@ function getCookie(name) {
   return cookieValue;
 }
 
-//handle response
+/**
+ * Handle response
+ * @param {*} jqXHR xhr object
+ * @param {*} textStatus response status
+ * @param {*} errorThrown response error
+ * @param {*} alertType halfmoon alert type
+ */
 function responseHandler(jqXHR, textStatus, errorThrown, alertType) {
   var alert = "";
   var content = "";
