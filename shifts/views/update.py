@@ -11,7 +11,7 @@ from sites.models import Site
 def ShiftUpdateView(request, shift_id):
     shift = Shift.objects.get(pk=shift_id)
 
-    shift_form = ShiftUpdateForm(request.POST, instance=shift)
+    shift_form = ShiftUpdateForm(request.POST)
 
     if request.method == "POST":
         if shift_form.is_valid():
