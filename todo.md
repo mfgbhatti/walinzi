@@ -9,7 +9,7 @@
 + add logic for adding more than one staff                     -- done
 
 ## not related to project but as helpers
-** check out
-    django-tables2, using datatables with editor                -- done
-    django-filter,
-    django-htmx and htmx
+* check out
+    - django-tables2, using datatables with editor                -- done
+    - django-filter,
+    - django-htmx and htmx
