@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 
@@ -9,11 +10,41 @@ from django.forms.models import model_to_dict
 
 
 from shifts.models import Shift
+from staff.models import Staff
 from sites.models import Site
 
 
 @login_required
-def ShiftTimesheetView(request):
+def ShiftTimesheetListView(request):
+    context = {}
+
+    user_customer = request.user.customer.id
+    # sites = Site.objects.filter(client__customer=user_customer)
+    guards = Staff.objects.filter(customer=user_customer) # dont need it shift list using timesheet for staff
+
+    # for time input
+    hours = range(24)
+    minutes = ["00", "15", "30", "45"]
+    # days list in first capital three letters
+    # days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    context.update(
+        {
+            "title": "timesheet",
+            "timesheet_active": "active",
+            # "shifts": shifts,
+            # "sites": sites,
+            "guards": guards,
+            "hours": hours,
+            "minutes": minutes,
+            # "days": days,
+            # global include varibales
+        }
+    )
+    response = render(request, "shifts/timesheet.html", context)
+    return response
+
+@login_required
+def ShiftTimesheetJsonView(request):
     user_customer = request.user.customer.id
     sites = Site.objects.filter(client__customer=user_customer)
     # get shifts where time_in is today

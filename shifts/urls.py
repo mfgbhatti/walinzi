@@ -6,7 +6,8 @@ from shifts.views import (
     ShiftUpdateView,
     ShiftCreateView,
     ShiftDeleteView,
-    ShiftTimesheetView,
+    ShiftTimesheetListView,
+    ShiftTimesheetJsonView
 )
 
 
@@ -18,6 +19,7 @@ urlpatterns = [
     path("get_shift/<uuid:shift_id>/", ShiftListView, name="get_shift"),
     path("create_shift/", ShiftCreateView, name="create_shift"),
     path("update_shift/<uuid:shift_id>/", ShiftUpdateView, name="update_shift"),
-    path("get_timesheet/", ShiftTimesheetView, name="get_timesheet"),
+    path("timesheet/", ShiftTimesheetListView, name="timesheet"),
+    path("get_timesheet/", ShiftTimesheetJsonView, name="get_timesheet"),
     path("delete_shift/<uuid:shift_id>/", ShiftDeleteView, name="delete_shift"),
 ]
