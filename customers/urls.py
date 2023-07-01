@@ -8,7 +8,7 @@ from customers.views import CustomerList, CustomerDetailsView, CustomerCreateVie
 app_name = "customers"
 
 urlpatterns = [
-    path("customers/", CustomerList, name="index"),
+    path("customers/", CustomerList, name="customer_list"),
     path("get_customers/", CustomerJsonView, name="get_customers"),
     path("create_customer/", CustomerCreateView, name="create_customer"),
     path("update_customer/<uuid:customer_id>/", CustomerUpdateView, name="update_customer"),

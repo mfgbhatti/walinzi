@@ -8,6 +8,6 @@ from sites.views import SiteList, SiteDetailsView
 app_name = "sites"
 
 urlpatterns = [
-    path("sites/", SiteList, name="index"),
+    path("sites/", SiteList, name="site_list"),
     path("get_site/<uuid:site_id>", SiteDetailsView, name="site_details"),
 ]
