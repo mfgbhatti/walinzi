@@ -29,7 +29,7 @@ def ClientList(request):
             client = form.save(commit=False)
             client.customer = user.customer
             client.save()
-            return redirect("clients:client_list")
+            return redirect("clients:index")
 
     context = {
         "user.is_authenticated": request.user.is_authenticated,
