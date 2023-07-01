@@ -13,7 +13,7 @@ from shifts.views import (
 app_name = "shifts"
 
 urlpatterns = [
-    path("shifts/", ShiftListView, name="index"),
+    path("shifts/", ShiftListView, name="shift_list"),
     path("get_shifts/", ShiftJsonView, name="get_shifts"),
     path("get_shift/<uuid:shift_id>/", ShiftListView, name="get_shift"),
     path("create_shift/", ShiftCreateView, name="create_shift"),
