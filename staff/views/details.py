@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
 from staff.utils import get_cumulative_duration
-from shifts.models import Shift
+from shifts.models import Timesheet
 from staff.models import (
     Staff,
     StaffContract,
@@ -54,7 +54,7 @@ def StaffDetailsView(request, staff_id):
     staff = Staff.objects.get(pk=staff_id)
     need_next = get_cumulative_duration(staff)
 
-    shifts = Shift.get_shifts_for_staff(staff=staff)
+    shifts = Timesheet.get_shifts_for_staff(staff=staff)
     total_hours = sum(shift.duration() for shift in shifts)
 
     """make sure the user requesting staff details is from same customer, where staff belongs to"""
@@ -137,11 +137,12 @@ def StaffDetailsView(request, staff_id):
     context.update(
         {
             "user.is_authenticated": request.user.is_authenticated,
+            "staff_licence": True,  # need this one to separate from staff_details and check sia components
             "staff_active": "active",
             "staff": staff,
             "shifts": shifts,
             "total_hours": total_hours,
-            "need_next": need_next
+            "need_next": need_next,
         }
     )
     # print(context)

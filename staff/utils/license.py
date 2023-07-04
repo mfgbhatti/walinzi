@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 class SiaSearchComponent:
     def __init__(self):
         self.result = dict()
+        self.result["error"] = False
 
     def submit(self, licence_no):
         headers = {
@@ -12,7 +13,7 @@ class SiaSearchComponent:
             "Access-Control-Allow-Origin": "*",
             "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
         }
-        data = "LicenseNo=" + licence_no
+        data = "LicenseNo=" + licence_no  # sending just stringed data LicenseNo=0000000000000000
         response = requests.post(
             "https://services.sia.homeoffice.gov.uk/PublicRegister/SearchPublicRegisterByLicence",
             data=data,
@@ -21,8 +22,14 @@ class SiaSearchComponent:
         if response.status_code == 200:
             html_data = response.text
             soup = BeautifulSoup(html_data, "html.parser")
-            panel= soup.find(class_="panel-body")
+            # if successful
+            panel = soup.find(class_="panel-body")
+            # if unsuccessful
+            not_found = soup.find(class_="Overlay")
             if panel:
+                # save result.error to None
+                self.result["error"] = False
+
                 names = soup.find_all("div", class_="ax_h5")
                 self.result["first_name"] = names[0].get_text(strip=True).lower()
                 self.result["last_name"] = names[1].get_text(strip=True).lower()
@@ -30,7 +37,9 @@ class SiaSearchComponent:
                 self.result["licence_no"] = raw_data[0].get_text(strip=True).lower()
                 self.result["role"] = raw_data[1].get_text(strip=True).lower()
                 self.result["licence_sector"] = raw_data[2].get_text(strip=True).lower()
-                self.result["expiry_date"] = raw_data[3].get_text(strip=True).lower() # Not applicable if status: Revoked
+                self.result["expiry_date"] = (
+                    raw_data[3].get_text(strip=True).lower()
+                )  # Not applicable if status: Revoked
                 self.result["status"] = (
                     soup.find("span", class_="italic_13").get_text(strip=True).split(" ", 1)[0].lower()
                 )  # Active - remove -
@@ -39,10 +48,13 @@ class SiaSearchComponent:
                 )  # (as on 19 December 2022) remove as on replace last )
                 # print(self.result)
                 return self.result
+            elif not_found:
+                self.result["error"] = True
+                return self.result
             else:
                 self.result = None
         else:
-            self.result["status_code"] = response.status_code
+            self.result = None
 
 
 # # Create an instance of the component

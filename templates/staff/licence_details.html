@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}
+  Licence Details
+{% endblock title %}
+{% block content %}
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="card p-0">
+        <div class="content d-flex justify-content-center">
+          <form method="post" class="w-400 mw-full">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="licence_no" class="required">Licence number</label>
+              <input type="number"
+                     name="licence_no"
+                     class="form-control"
+                     id="licence_no"
+                     placeholder="Licence number"
+                     maxlength="16"
+                     required />
+            </div>
+            <div>
+              <button class="btn btn-primary btn-block"
+                      data-dismiss="modal"
+                      type="submit"
+                      name="licence_form">check</button>
+            </div>
+          </form>
+        </div>
+        <div class="content">{% include "staff/components/licence.html" %}</div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
