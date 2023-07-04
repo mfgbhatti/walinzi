@@ -61,6 +61,10 @@ class Timesheet(models.Model):
     def __str__(self):
         return f"{self.time_in.strftime('%d/%m/%Y')} for {self.staff}."
 
+    @classmethod
+    def get_shifts_for_staff(cls, staff):
+        return cls.objects.filter(staff=staff)
+
     class Meta:
         ordering = ("time_in", "time_out")
         db_table = "timesheets"
