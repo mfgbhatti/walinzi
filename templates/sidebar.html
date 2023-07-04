@@ -21,20 +21,22 @@
     {% else %}
     <h5 class="sidebar-title">Getting start</h5>
     <div class="sidebar-divider"></div>
-    <a href="{% url 'staff:staff_list' %}"
-       class="sidebar-link {{ staff_active }}">Staff list</a>
     <a href="{% url 'sites:site_list' %}"
-       class="sidebar-link {{ sites_active }}">Site list</a>
+    class="sidebar-link {{ sites_active }}">Site list</a>
     <a href="{% url 'clients:client_list' %}"
-       class="sidebar-link {{ clients_active }}">Client list</a>
+    class="sidebar-link {{ clients_active }}">Client list</a>
     <h5 class="sidebar-title">Manage shifts</h5>
     <div class="sidebar-divider"></div>
     <a href="{% url 'shifts:shift_list' %}"
-       class="sidebar-link {{ shifts_active }}">Shift list</a>
+    class="sidebar-link {{ shifts_active }}">Shift list</a>
     <br />
     {% endif %}
     <h5 class="sidebar-title">Staff</h5>
     <div class="sidebar-divider"></div>
+    <a href="{% url 'staff:staff_list' %}"
+       class="sidebar-link {{ staff_active }}">Staff list</a>
+    <a href="{% url 'staff:sia_licence_details' %}"
+       class="sidebar-link {{ licence_active }}">Check licence</a>
     <a href="#" class="sidebar-link">Spreadsheet</a>
     <a href="#" class="sidebar-link">Map</a>
   </div>
