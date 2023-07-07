@@ -86,6 +86,7 @@ class UserProfile(models.Model):
         BaseUser,
         on_delete=models.CASCADE,
         primary_key=True,
+        related_name="profile"
     )
     title = models.CharField(max_length=80, default="", blank=True)
     phone = models.CharField(max_length=11, default="", blank=True)
@@ -103,6 +104,3 @@ class UserProfile(models.Model):
     def __str__(self) -> str:
         return f"{self.user.first_name} Profile"
 
-    @property
-    def phone(self):
-        return self.phone
