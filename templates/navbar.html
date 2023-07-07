@@ -34,13 +34,27 @@
         <a class="nav-link mr-10"
            data-toggle="dropdown"
            id="nav-link-dropdown-toggle">
+          {% if user.profile.avatar %}
+            <img src="/media/{{ user.profile.avatar }}"
+                 class="img-fluid rounded-circle"
+                 alt="Avatar" width="28px" height="28px">
+          {% else %}
           <i class="fa fa-user-circle font-size-24" aria-hidden="true"></i>
-          <!-- ml-5= margin-left: 0.5rem (5px) -->
+          {% endif %}
         </a>
         <div class="dropdown-menu dropdown-menu-right"
              aria-labelledby="nav-link-dropdown-toggle">
-          <a href="#" class="dropdown-item">API builder</a>
-          <a href="#" class="dropdown-item">Functions</a>
+          {% if user.groups.all.0.name == "admin" %}
+            <a href="{% url 'accounts:user_list' user.customer.id %}"
+               class="dropdown-item">
+              <i class="fa fa-users" aria-hidden="true"></i>
+              Users
+            </a>
+          {% endif %}
+          <a href="{% url 'accounts:user_profile' %}" class="dropdown-item">
+            <i class="fa fa-user-o" aria-hidden="true"></i>
+            Profile
+          </a>
           <a href="#" class="dropdown-item">
             Analytics
             <strong class="badge badge-success float-right">New</strong>

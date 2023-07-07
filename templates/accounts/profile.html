@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+  Profile
+{% endblock title %}
+{% block content %}
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="content">
+        <div class="content-title">{{ user.first_name | title }} {{ user.last_name | title }}</div>
+        <p>User's profile and other deatils</p>
+      </div>
+      <div class="card p-0">
+        <div class="content">
+          <div class="tabset">
+            <!-- Tab 1 -->
+            <input type="radio" name="tabset" id="tab1" aria-controls="info" checked />
+            <label for="tab1">Info</label>
+            <!-- Tab 2 -->
+            <input type="radio" name="tabset" id="tab2" aria-controls="details" />
+            <label for="tab2">Details</label>
+            <!-- Tab 3 -->
+            <input type="radio" name="tabset" id="tab3" aria-controls="password" />
+            <label for="tab3">Password</label>
+            <!-- Tab panels-->
+            <div class="tab-panels">
+              <!-- Info -->
+              {% include "accounts/profile/info.html" %}
+              <!-- Details -->
+              {% include "accounts/profile/details.html" %}
+              <!-- Password -->
+              {% include "accounts/profile/password.html" %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+{% block scripts %}
+  <script type="text/javascript">
+    /**
+    * Populates profile
+    */
+    let title = document.getElementById("title");
+    let avatar = document.getElementById("avatar");
+    let phone = document.getElementById("phone");
+    let about = document.getElementById("about");
+    let avatarPresent = document.getElementById("avatar_present");
+    let titleArray = ["mr", "mrs", "miss", "other"];
+    titleArray.forEach(function (item) {
+      option = document.createElement("option");
+      option.textContent = item;
+      option.value = item;
+      title.appendChild(option);
+    });
+    {% if user.profile.title %}
+      title.value = "{{ user.profile.title }}";
+    {% endif %}
+
+    {% if user.profile.avatar %}
+      avatar.setAttribute("data-default-value", "Selected avatar: <a href='/media/{{ user.profile.avatar }}' class='hyperlink' target='_blank' rel='noopener'>/media/{{ user.profile.avatar }}</a>");
+      {% comment %} avatarPresent.innerHTML = "<img src='/media/{{ user.profile.avatar }}' width='40px' height='40px' alt='{{ user.profile.avatar }}' />" {% endcomment %}
+    {% endif %}
+
+    {% if user.profile.phone %}
+      phone.value = "{{ user.profile.phone }}";
+    {% endif %}
+
+    {% if user.profile.about %}
+      about.value = "{{ user.profile.about }}";
+    {% endif %}
+  </script>
+{% endblock scripts %}
