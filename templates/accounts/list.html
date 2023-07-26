@@ -61,3 +61,24 @@
     </div>
   </div>
 {% endblock content %}
+{% block scripts %}
+<script type="text/javascript">
+  /**
+ * function to copy to clipboard
+ * @param {*} evt event object
+ */
+function copyURI(evt) {
+  evt.preventDefault();
+  navigator.clipboard.writeText(evt.target.getAttribute("href")).then(
+    () => {
+      evt.target.innerHTML = "Copied";
+      /* clipboard successfully set */
+    },
+    () => {
+      evt.target.innerHTML = "Failed";
+      /* clipboard write failed */
+    }
+  );
+}
+</script>
+{% endblock scripts %}
