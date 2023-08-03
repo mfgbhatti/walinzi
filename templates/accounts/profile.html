@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load tz %}
 {% block title %}
   Profile
 {% endblock title %}
@@ -8,7 +9,20 @@
     <div class="col-xl-12">
       <div class="content">
         <div class="content-title">{{ user.first_name | title }} {{ user.last_name | title }}</div>
-        <p>User's profile and other deatils</p>
+        <p>
+          <span>
+            <i class="fa fa-birthday-cake mr-5"></i>
+            Joined: {{ user.date_joined |timezone:"Europe/London" | date:"d F, Y" }}
+          </span>
+          <span class="ml-10">
+            <i class="fa fa-clock-o mr-5"></i>
+            Last visit: {{ user.last_login |timezone:"Europe/London" | date:"h:i a l, d F." }}
+          </span>
+          <span class="ml-10">
+            <i class="fa fa-envelope-o mr-5"></i>
+            Email: {{ user.email }}
+          </span>
+        </p>
       </div>
       <div class="card p-0">
         <div class="content">
@@ -40,35 +54,104 @@
 {% block scripts %}
   <script type="text/javascript">
     /**
-    * Populates profile
-    */
-    let title = document.getElementById("title");
-    let avatar = document.getElementById("avatar");
-    let phone = document.getElementById("phone");
-    let about = document.getElementById("about");
-    let avatarPresent = document.getElementById("avatar_present");
-    let titleArray = ["mr", "mrs", "miss", "other"];
-    titleArray.forEach(function (item) {
-      option = document.createElement("option");
-      option.textContent = item;
-      option.value = item;
-      title.appendChild(option);
-    });
+     * Populates profile
+     */
+     let resizedFile = "",
+    extension = "",
+    maxWIdth = maxHeight= 256,
+    title = document.getElementById("title"),
+    profile = document.getElementById("profile"),
+    avatarInput = document.getElementById("avatarInput");
+
     {% if user.profile.title %}
       title.value = "{{ user.profile.title }}";
     {% endif %}
 
-    {% if user.profile.avatar %}
-      avatar.setAttribute("data-default-value", "Selected avatar: <a href='/media/{{ user.profile.avatar }}' class='hyperlink' target='_blank' rel='noopener'>/media/{{ user.profile.avatar }}</a>");
-      {% comment %} avatarPresent.innerHTML = "<img src='/media/{{ user.profile.avatar }}' width='40px' height='40px' alt='{{ user.profile.avatar }}' />" {% endcomment %}
-    {% endif %}
+    /**
+     * resize image
+     */
+    avatarInput.addEventListener("change", function (e) {
+      const file = e.target.files[0];
+      if (file) {
+        const regexAll = /[^\\]*\.(\w+)$/;
+        extension = file.name.match(regexAll)[1];
+        //const imageFile = new File([file], fileName, { type: file.type });
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          // avatarPreview.src = e.target.result;
+          // avatarDataURL.value = e.target.result
+          const img = document.createElement("img");
+          img.onload = function (event) {
+            // Dynamically create a canvas element
+            const canvas = document.createElement("canvas");
 
-    {% if user.profile.phone %}
-      phone.value = "{{ user.profile.phone }}";
-    {% endif %}
+            // var canvas = document.getElementById("canvas");
+            const ctx = canvas.getContext("2d");
+            // Controlling image scaling behavior
+            ctx.mozImageSmoothingEnabled = false;
+            ctx.webkitImageSmoothingEnabled = false;
+            ctx.msImageSmoothingEnabled = false;
+            ctx.imageSmoothingEnabled = false;
+            let width = img.width;
+            let height = img.height;
 
-    {% if user.profile.about %}
-      about.value = "{{ user.profile.about }}";
-    {% endif %}
+            if (width > height) {
+              if (width > maxWIdth) {
+                height *= maxWIdth / width;
+                width = maxWIdth;
+              }
+            } else {
+              if (height > maxHeight) {
+                width *= maxHeight/ height;
+                height = maxHeight;
+              }
+            }
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(img, 0, 0, width, height);
+            // Convert canvas image to new blob
+            canvas.toBlob(function (blob) {
+              resizedFile = new File([blob], file.name, { type: file.type });
+            }, file.type);
+          };
+          img.src = URL.createObjectURL(file);
+          //img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+    // on form submission
+    profile.addEventListener("submit", function (e) {
+      // Prevent form submission
+      e.preventDefault();
+      const form = new FormData(profile);
+      if (resizedFile != "") {
+        const fileName = "{{ user.id }}" + "." + extension;
+        form.append("avatar", resizedFile, fileName);
+      }
+      sendData(form);
+    });
+
+    /**
+     * send data through xmlhttprequest
+     * @param {data} data form values
+     */
+    function sendData(data) {
+      const xhr = new XMLHttpRequest();
+      // Define what happens on successful data submission
+      xhr.addEventListener("load", (event) => {
+        //console.log(event.target.responseText);
+      });
+
+      // Define what happens in case of error
+      xhr.addEventListener("error", (event) => {
+        console.log("Oops! Something went wrong.");
+      });
+      xhr.open("POST", "{% url 'accounts:user_profile' %}");
+      xhr.setRequestHeader("X-CSRFToken", halfmoon.readCookie("csrftoken"));
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      for (const [key, value] of data) {console.log(key + ":" + value);}
+      xhr.send(data);
+      }
   </script>
 {% endblock scripts %}

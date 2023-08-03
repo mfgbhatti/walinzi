@@ -1,93 +1,98 @@
 <div id="info" class="tab-panel">
   <h5>Info</h5>
   <form method="post" id="profile">
-    {% csrf_token %}
-    <div class="form-row">
+    <div class="row">
+      <div class="col-9">
+        <div class="form-row row-eq-spacing-md">
+          <div class="col-3">
+            <label for="title">Title</label>
+            <select class="form-control text-capitalize" name="title" id="title">
+              <option value="title" selected="selected" disabled="disabled">Title</option>
+              {% for title in titles %}
+                <option value="{{ title }}">
+                  {{ title | title }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div>
+          <label for="name" class="required">Name</label>
+          <div class="form-row row-eq-spacing-md">
+            <div class="col">
+              <input type="text"
+                     name="first_name"
+                     class="form-control text-capitalize"
+                     id="name"
+                     placeholder="First name"
+                     maxlength="150"
+                     value="{{ user.first_name }}"
+                     required />
+            </div>
+            <div class="col">
+              <input type="text"
+                     name="last_name"
+                     class="form-control text-capitalize"
+                     id="name"
+                     placeholder="Last name"
+                     maxlength="150"
+                     value="{{ user.last_name }}"
+                     required />
+            </div>
+          </div>
+        </div>
+        <div class="form-row row-eq-spacing-md">
+          <div class="col">
+            <label for="username">Username</label>
+            <input type="text"
+                   name="usernamr"
+                   class="form-control"
+                   placeholder="Username"
+                   maxlength="150"
+                   value="{{ user.username }}"
+                   disabled="disabled" />
+          </div>
+          <div class="col">
+            <label for="phone">Phone number</label>
+            <input type="number"
+                   class="form-control"
+                   name="phone"
+                   value="{{ user.profile.phone }}"
+                   placeholder="Phone number" />
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="about">About</label>
+          <textarea class="form-control" placeholder="About" name="about">{{ user.profile.about }}</textarea>
+        </div>
+      </div>
       <div class="col-3">
-        <select class="form-control text-capitalize" name="title" id="title">
-          <option value="title" selected="selected" disabled="disabled">Title</option>
-        </select>
-      </div>
-    </div>
-    <div>
-      <label for="name" class="required">Name</label>
-      <div class="form-row row-eq-spacing-md">
-        <div class="col">
-          <input type="text"
-                 name="first_name"
-                 class="form-control text-capitalize"
-                 id="name"
-                 placeholder="First name"
-                 maxlength="150"
-                 value="{{ user.first_name }}"
-                 required />
+        <div class="content">
+          <h2 class="content-title">Avatar</h2>
+          <div class="align-self-center">
+            {% comment %} djlint:off H006 {% endcomment %}
+            <img class="img-fluid rounded"
+                 src="/media/{{ user.profile.avatar }}"
+                 alt="avatar" />
+          </div>
+          <div class="custom-file mt-20">
+            <input type="file"
+                   id="avatarInput"
+                   accept="image/png, image/jpeg, image/jpg" />
+            <label for="avatarInput">
+              {% if user.profile.avatar %}
+                Change
+              {% else %}
+                Avatar
+              {% endif %}
+            </label>
+          </div>
         </div>
-        <div class="col">
-          <input type="text"
-                 name="last_name"
-                 class="form-control text-capitalize"
-                 id="name"
-                 placeholder="Last name"
-                 maxlength="150"
-                 value="{{ user.last_name }}"
-                 required />
-        </div>
+        {% comment %} <img class="d-none" id="avatarPreview" src="#" alt="hidden_avatar">
+        <input id="avatarDataURL" type="hidden" name="demi_avatar"> {% endcomment %}
       </div>
-    </div>
-    <div class="form-row row-eq-spacing-md">
-      <div class="col">
-        <label for="email">Email</label>
-        <input type="text"
-               name="email"
-               class="form-control"
-               id="email"
-               placeholder="Email"
-               maxlength="150"
-               value="{{ user.email }}"
-               disabled="disabled" />
-      </div>
-      <div class="col">
-        <label for="username">Username</label>
-        <input type="text"
-               name="usernamr"
-               class="form-control"
-               id="username"
-               placeholder="Username"
-               maxlength="150"
-               value="{{ user.username }}"
-               disabled="disabled" />
-      </div>
-      <div class="col">
-        <label for="customer_name">Customer name</label>
-        <input type="text"
-               name="customer_name"
-               class="form-control text-capitalize"
-               id="customer_name"
-               placeholder="Customer name"
-               maxlength="150"
-               value="{{ user.customer.name }}"
-               disabled="disabled" />
-      </div>
-    </div>
-    <div class="form-row row-eq-spacing-md">
-      <div class="col">
-        <div class="custom-file">
-          <input type="file" name="avatar" id="avatar" accept=".jpg,.png,.gif">
-          <label for="avatar">Avatar</label>
-        </div>
-      </div>
-      {% comment %} <div id="avatar_present"></div> {% endcomment %}
-      <div class="col">
-        <label for="phone">Phone number</label>
-        <input type="number" class="form-control" name="phone" id="phone" placeholder="Phone number">
-      </div>
-    </div>
-    <div class="form-row">
-      <label for="about">About</label>
-      <textarea class="form-control" placeholder="About" name="about" id="about"></textarea>
     </div>
     <div class="text-right mt-20">
-      <button class="btn mr-5" data-dismiss="modal" type="button">Close</button>
       <button class="btn btn-primary"
               data-dismiss="modal"
               type="submit"
