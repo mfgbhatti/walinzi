@@ -1,9 +1,11 @@
 """User models."""
 import uuid
-from django.contrib.auth.models import AbstractUser
-from django.contrib.auth.base_user import BaseUserManager as BUM
-from django.contrib.auth.models import PermissionsMixin
 from django.db import models
+from django.dispatch import receiver
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import PermissionsMixin
+from django.db.models.signals import pre_save, post_delete
+from django.contrib.auth.base_user import BaseUserManager as BUM
 
 from customers.models import Customer
 
@@ -82,12 +84,7 @@ class BaseUser(AbstractUser, PermissionsMixin):
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(
-        BaseUser,
-        on_delete=models.CASCADE,
-        primary_key=True,
-        related_name="profile"
-    )
+    user = models.OneToOneField(BaseUser, on_delete=models.CASCADE, primary_key=True, related_name="profile")
     title = models.CharField(max_length=80, default="", blank=True)
     phone = models.CharField(max_length=11, default="", blank=True)
     about = models.TextField(default="", blank=True)
@@ -104,3 +101,28 @@ class UserProfile(models.Model):
     def __str__(self) -> str:
         return f"{self.user.first_name} Profile"
 
+
+@receiver(pre_save, sender=UserProfile)
+def pre_save_image(sender, instance, *args, **kwargs):
+    """ instance old image file will delete from os """
+    if instance.user:
+        """if instance exist"""
+        old_img = sender.objects.get(user=instance.user).avatar
+        try:
+            new_img = instance.avatar
+        except:
+            new_img = None
+        if new_img != old_img:
+            # import os
+            # if os.path.exists(old_img.path):
+            #     os.remove(old_img.path)
+            old_img.delete(save=False)
+
+
+@receiver(post_delete, sender=UserProfile)
+def post_save_image(sender, instance, *args, **kwargs):
+    """Clean old avatar when user is deleted"""
+    try:
+        instance.avatar.delete(save=False)
+    except:
+        pass
