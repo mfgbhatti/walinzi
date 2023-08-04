@@ -147,10 +147,10 @@
       xhr.addEventListener("error", (event) => {
         console.log("Oops! Something went wrong.");
       });
-      xhr.open("POST", "{% url 'accounts:user_profile' %}");
+      xhr.open("POST", "{% url 'accounts:update_profile' %}");
       xhr.setRequestHeader("X-CSRFToken", halfmoon.readCookie("csrftoken"));
-      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      for (const [key, value] of data) {console.log(key + ":" + value);}
+      //xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      //for (const [key, value] of data) {console.log(key + ":" + value);}
       xhr.send(data);
       }
   </script>
