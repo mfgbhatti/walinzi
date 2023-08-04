@@ -6,7 +6,7 @@ from django.urls import path
 
 # from django.contrib.auth import views as auth_views
 
-from accounts.views import UserListView, ActivateUserView, UserLoginView, UserLogoutView, ProfileView
+from accounts.views import UserListView, ActivateUserView, UserLoginView, UserLogoutView, ProfileView, UpdateProfileView
 
 
 # from accounts.views import Authencate
@@ -22,4 +22,5 @@ urlpatterns = [
     path("logout/", UserLogoutView.as_view(), name="user_logout"),
     path("users_list/<uuid:customer_id>/", UserListView, name="user_list"),
     path("activate/<uuid:pk>/<key>/", ActivateUserView, name="activate_user"),
+    path("update_profile/", UpdateProfileView, name="update_profile"),
 ]
