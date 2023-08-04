@@ -11,8 +11,6 @@ User = get_user_model()
 def ProfileView(request):
     user = User.objects.get(email=request.user.email)
 
-    if request.method == "POST":
-        print(request.POST)
     titles = ("mr", "mrs", "miss", "other")
     context = {
         "user": user,
