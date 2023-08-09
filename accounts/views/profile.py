@@ -8,7 +8,7 @@ User = get_user_model()
 
 
 @login_required
-def ProfileView(request):
+def profile_view(request):
     user = User.objects.get(email=request.user.email)
 
     titles = ("mr", "mrs", "miss", "other")

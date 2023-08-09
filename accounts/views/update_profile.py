@@ -9,7 +9,7 @@ Users = get_user_model()
 
 
 @login_required
-def UpdateProfileView(request):
+def update_profile_view(request):
     """Update a user profile"""
     user = Users.objects.get(pk=request.user.id)
     profile = UserProfile.objects.get_or_create(user=user)

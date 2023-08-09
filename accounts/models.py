@@ -3,12 +3,12 @@ import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import PermissionsMixin
-from django.contrib.auth.base_user import BaseUserManager as BUM
+from django.contrib.auth.base_user import BaseUserManager
 
 from customers.models import Customer
 
 
-class BaseUserManager(BUM):
+class MyUserManager(BaseUserManager):
     """Base user manager."""
 
     def create_user(self, email, password=None, **extra_fields):
@@ -22,7 +22,7 @@ class BaseUserManager(BUM):
         user.save(self._db)
         return user
 
-    def create_superuser(self, email, password=None, **extra_fields):
+    def create_superuser(self, email, password=None):
         """Create and save a SuperUser with the given email and password."""
         user = self.create_user(email=email, password=password, is_admin=True)
 
@@ -59,7 +59,7 @@ class BaseUser(AbstractUser, PermissionsMixin):
         verbose_name = "User"
         verbose_name_plural = "Users"
 
-    objects = BaseUserManager()
+    objects = MyUserManager()
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
