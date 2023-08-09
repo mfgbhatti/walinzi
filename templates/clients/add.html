@@ -5,38 +5,39 @@
      role="dialog"
      data-overlay-dismissal-disabled="true"
      data-esc-dismissal-disabled="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <a href="#"
-         class="close"
-         role="button"
-         data-dismiss="modal"
-         aria-label="Close">
-        <span aria-hidden="true">×</span>
-      </a>
-      <form method="post">
-        {% csrf_token %}
-        <div class="form-group">
-          <label for="client-name" class="required">{{ form.name.label }}</label>
-          <input type="text"
-                 name="name"
-                 class="form-control text-capitalize"
-                 id="client-name"
-                 placeholder="Name"
-                 maxlength="150"
-                 required />
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <a href="#"
+               class="close"
+               role="button"
+               data-dismiss="modal"
+               aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </a>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="client-name" class="required">{{ form.name.label }}</label>
+                    <input type="text"
+                           name="name"
+                           class="form-control text-capitalize"
+                           id="client-name"
+                           placeholder="Name"
+                           maxlength="150"
+                           required/>
+                </div>
+                <div>Please add the full business name.</div>
+                <div class="text-right mt-20">
+                    <!-- text-right = text-align: right, mt-20 = margin-top: 2rem (20px) -->
+                    <button class="btn mr-5" data-dismiss="modal" type="button">Close</button>
+                    <button class="btn btn-primary"
+                            data-dismiss="modal"
+                            type="submit"
+                            name="save_client">Save
+                    </button>
+                </div>
+            </form>
         </div>
-        <div>Please add the full business name.</div>
-        <div class="text-right mt-20">
-          <!-- text-right = text-align: right, mt-20 = margin-top: 2rem (20px) -->
-          <button class="btn mr-5" data-dismiss="modal" type="button">Close</button>
-          <button class="btn btn-primary"
-                  data-dismiss="modal"
-                  type="submit"
-                  name="save_client">Save</button>
-        </div>
-      </form>
     </div>
-  </div>
 </div>
 <!-- Add client modal end-->
