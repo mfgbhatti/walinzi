@@ -1,5 +1,5 @@
 """
-Django settings for production environment.
+Django's settings for production environment.
 """
 
 from config.env import env
