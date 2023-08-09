@@ -58,12 +58,15 @@
      */
      let resizedFile = "",
     extension = "",
-    maxWIdth = maxHeight= 256,
+    maxWidth = maxHeight= 256,
     title = document.getElementById("title"),
     profile = document.getElementById("profile"),
+    submit = document.getElementById("save"),
+    formEdited = false,
     avatarInput = document.getElementById("avatarInput");
 
     {% if user.profile.title %}
+      formEdited = false;
       title.value = "{{ user.profile.title }}";
     {% endif %}
 
@@ -96,9 +99,9 @@
             let height = img.height;
 
             if (width > height) {
-              if (width > maxWIdth) {
-                height *= maxWIdth / width;
-                width = maxWIdth;
+              if (width > maxWidth) {
+                height *= maxWidth / width;
+                width = maxWidth;
               }
             } else {
               if (height > maxHeight) {
@@ -120,12 +123,30 @@
         reader.readAsDataURL(file);
       }
     });
+
+    /**
+     * finding if form is changed
+     */
+    function handleFormChange(){
+      if (formEdited){
+      submit.removeAttribute("disabled");
+      }
+    }
+    profile.addEventListener("change", function(e){
+      formEdited= true;
+      handleFormChange();
+    });
+    profile.addEventListener("focusin", function(e){
+      formEdited= true;
+      handleFormChange();
+    });
+
     // on form submission
     profile.addEventListener("submit", function (e) {
       // Prevent form submission
       e.preventDefault();
       const form = new FormData(profile);
-      if (resizedFile != "") {
+      if (resizedFile !== "") {
         const fileName = "{{ user.id }}" + "." + extension;
         form.append("avatar", resizedFile, fileName);
       }
@@ -134,7 +155,7 @@
 
     /**
      * send data through xmlhttprequest
-     * @param {data} data form values
+     * @param {FormData} data form values
      */
     function sendData(data) {
       const xhr = new XMLHttpRequest();

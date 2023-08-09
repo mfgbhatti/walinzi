@@ -1,8 +1,8 @@
 <div id="info" class="tab-panel">
-  <h5>Info</h5>
   <form method="post" id="profile">
     <div class="row">
       <div class="col-9">
+        <h4>Info</h4>
         <div class="form-row row-eq-spacing-md">
           <div class="col-3">
             <label for="title">Title</label>
@@ -63,8 +63,8 @@
         </div>
       </div>
       <div class="col-3">
-        <div class="content d-flex flex-column">
-          <h2 class="content-title align-self-center">Avatar</h2>
+        <div class="d-flex flex-column">
+          <h4 class="align-self-center">Avatar</h4>
           <div class="align-self-center">
             {% comment %} djlint:off H006 {% endcomment %}
             {% if user.profile.avatar %}
@@ -96,7 +96,9 @@
       <button class="btn btn-primary"
               data-dismiss="modal"
               type="submit"
-              name="user_info">Save</button>
+              name="user_info"
+              id="save"
+              disabled>Save</button>
     </div>
   </form>
 </div>

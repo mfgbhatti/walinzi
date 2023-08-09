@@ -1,82 +1,82 @@
 <div class="sidebar" id="sidebar">
-  <div class="sidebar-menu">
-    <!-- Sidebar content with the search box -->
-    <div class="sidebar-content">
-      <input type="text"
-             class="form-control search"
-             placeholder="Press shift + F to focus"
-             id="filter-menu" />
-      {% comment %} <div class="mt-10 font-size-12">
+    <div class="sidebar-menu">
+        <!-- Sidebar content with the search box -->
+        <div class="sidebar-content">
+            <input type="text"
+                   class="form-control search"
+                   placeholder="Press shift + F to focus"
+                   id="filter-menu"/>
+            {% comment %} <div class="mt-10 font-size-12">
         Press <kbd>shift</kbd> + <kbd>F</kbd> to focus
       </div> {% endcomment %}
+        </div>
     </div>
-  </div>
-  <div class="sidebar-menu list">
-    <!-- Sidebar links and titles -->
-    {% if user.is_superuser %}
-      <h5 class="sidebar-title">Admin</h5>
-      <div class="sidebar-divider"></div>
-      <a href="{% url 'customers:customer_list' %}"
-         id="sidebar-customer"
-         class="sidebar-link {{ customers_active }}">Customer list</a>
-      <br />
-    {% else %}
-      <h5 class="sidebar-title">
-        Getting start
-        <span class="hidden-search-terms name">Site list | Client list</span>
-      </h5>
-      <div class="sidebar-divider">
-        <span class="hidden-search-terms name">Site list | Client list</span>
-      </div>
-      <a href="{% url 'sites:site_list' %}"
-         id="sidebar-site"
-         class="sidebar-link {{ sites_active }}">
-        <span class="name">Site list</span>
-      </a>
-      <a href="{% url 'clients:client_list' %}"
-         id="sidebar-client"
-         class="sidebar-link {{ clients_active }}"><span class="name">Client list</span></a>
-      <br />
-      <h5 class="sidebar-title">
-        Manage shifts
-        <span class="hidden-search-terms name">Shift list</span>
-      </h5>
-      <div class="sidebar-divider">
-        <span class="hidden-search-terms name">Shift list</span>
-      </div>
-      <a href="{% url 'shifts:shift_list' %}"
-         id="sidebar-shift"
-         class="sidebar-link {{ shifts_active }}"><span class="name">Shift list</span></a>
-      <br />
-      <h5 class="sidebar-title">
-        Staff
-        <span class="hidden-search-terms name">Staff list | Check licence</span>
-      </h5>
-      <div class="sidebar-divider">
-        <span class="hidden-search-terms name">Staff list | Check licence</span>
-      </div>
-      <a href="{% url 'staff:staff_list' %}"
-         id="sidebar-staff"
-         class="sidebar-link {{ staff_active }}"><span class="name">Staff list</span></a>
-      <a href="{% url 'staff:sia_licence_check' %}"
-         id="sidebar-sia"
-         class="sidebar-link {{ licence_active }}"><span class="name">Check licence</span></a>
-      <a href="#" class="sidebar-link">Spreadsheet</a>
-      <a href="#" class="sidebar-link">Map</a>
-      <br />
-    {% endif %}
-    <h5 class="sidebar-title">
-      Shortcuts
-      <span class="hidden-search-terms name">Sidebar | Dark Mode</span>
-    </h5>
-    <div class="sidebar-divider">
-      <span class="hidden-search-terms name">Sidebar | Dark Mode</span>
+    <div class="sidebar-menu list">
+        <!-- Sidebar links and titles -->
+        {% if user.is_superuser %}
+            <h5 class="sidebar-title">Admin</h5>
+            <div class="sidebar-divider"></div>
+            <a href="{% url 'customers:customer_list' %}"
+               id="sidebar-customer"
+               class="sidebar-link {{ customers_active }}">Customer list</a>
+            <br/>
+        {% else %}
+            <h5 class="sidebar-title">
+                Getting start
+                <span class="hidden-search-terms name">Site list | Client list</span>
+            </h5>
+            <div class="sidebar-divider">
+                <span class="hidden-search-terms name">Site list | Client list</span>
+            </div>
+            <a href="{% url 'sites:site_list' %}"
+               id="sidebar-site"
+               class="sidebar-link {{ sites_active }}">
+                <span class="name">Site list</span>
+            </a>
+            <a href="{% url 'clients:client_list' %}"
+               id="sidebar-client"
+               class="sidebar-link {{ clients_active }}"><span class="name">Client list</span></a>
+            <br/>
+            <h5 class="sidebar-title">
+                Manage shifts
+                <span class="hidden-search-terms name">Shift list</span>
+            </h5>
+            <div class="sidebar-divider">
+                <span class="hidden-search-terms name">Shift list</span>
+            </div>
+            <a href="{% url 'shifts:shift_list' %}"
+               id="sidebar-shift"
+               class="sidebar-link {{ shifts_active }}"><span class="name">Shift list</span></a>
+            <br/>
+            <h5 class="sidebar-title">
+                Staff
+                <span class="hidden-search-terms name">Staff list | Check licence</span>
+            </h5>
+            <div class="sidebar-divider">
+                <span class="hidden-search-terms name">Staff list | Check licence</span>
+            </div>
+            <a href="{% url 'staff:staff_list' %}"
+               id="sidebar-staff"
+               class="sidebar-link {{ staff_active }}"><span class="name">Staff list</span></a>
+            <a href="{% url 'staff:sia_licence_check' %}"
+               id="sidebar-sia"
+               class="sidebar-link {{ licence_active }}"><span class="name">Check licence</span></a>
+            <a href="#" class="sidebar-link">Spreadsheet</a>
+            <a href="#" class="sidebar-link">Map</a>
+            <br/>
+        {% endif %}
+        <h5 class="sidebar-title">
+            Shortcuts
+            <span class="hidden-search-terms name">Sidebar | Dark Mode</span>
+        </h5>
+        <div class="sidebar-divider">
+            <span class="hidden-search-terms name">Sidebar | Dark Mode</span>
+        </div>
+        <div class="sidebar-link font-size-12">
+            <span class="name">Toggle sidebar <kbd>shift</kbd> + <kbd>S</kbd></span>
+        </div>
+        <div class="sidebar-link font-size-12">
+            <span class="name">Toggle dark mode <kbd>shift</kbd> + <kbd>D</kbd></span>
+        </div>
     </div>
-    <div class="sidebar-link font-size-12">
-      <span class="name">Toggle sidebar <kbd>shift</kbd> + <kbd>S</kbd></span>
-    </div>
-    <div class="sidebar-link font-size-12">
-      <span class="name">Toggle dark mode <kbd>shift</kbd> + <kbd>D</kbd></span>
-    </div>
-  </div>
 </div>
