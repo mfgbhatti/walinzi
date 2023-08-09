@@ -154,7 +154,7 @@
     });
 
     /**
-     * send data through xmlhttprequest
+     * send data through XMLHttpRequest()
      * @param {FormData} data form values
      */
     function sendData(data) {
@@ -170,7 +170,6 @@
       });
       xhr.open("POST", "{% url 'accounts:update_profile' %}");
       xhr.setRequestHeader("X-CSRFToken", halfmoon.readCookie("csrftoken"));
-      //xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       //for (const [key, value] of data) {console.log(key + ":" + value);}
       xhr.send(data);
       }
