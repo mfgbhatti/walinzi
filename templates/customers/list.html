@@ -141,7 +141,7 @@
             },
             headers: {
               //"X-CSRFToken": '{% csrf_token %}',
-              "X-CSRFToken": getCookie("csrftoken"),
+              "X-CSRFToken": halfmoon.readCookie("csrftoken"),
             },
             mode: "same-origin",
           },
@@ -154,7 +154,7 @@
               })
             },
             headers: {
-              "X-CSRFToken": getCookie("csrftoken"),
+              "X-CSRFToken": halfmoon.readCookie("csrftoken"),
             },
             mode: "same-origin",
           },
@@ -162,7 +162,7 @@
             url: delete_url + "{id}/",
             type: "POST",
             headers: {
-              "X-CSRFToken": getCookie("csrftoken"),
+              "X-CSRFToken": halfmoon.readCookie("csrftoken"),
             },
             mode: "same-origin",
           },
