@@ -12,9 +12,10 @@ from clients.forms import CreateClientForm
 
 Users = get_user_model()
 
+
 # @permission_required
 @login_required
-def ClientList(request):
+def client_list_view(request):
     """list for clients"""
     # groups = Group.objects.all().order_by("name")
     # group = groups.filter(user=request.user, name="admin").first()

@@ -54,7 +54,10 @@ class ClientAddress(BaseAddress):
 
     def get_full_address(self):
         """Get full address."""
-        return f"{self.street}, {self.post_code}, {self.city}."
+        street = self.street.title()
+        post_code = self.post_code.upper()
+        city = self.city.title()
+        return f"{street}, {post_code}, {city}."
 
 
 class ClientDetail(BaseDetail):

@@ -16,8 +16,9 @@ from clients.forms import (
 
 Users = get_user_model()
 
+
 @login_required
-def ClientDetailsView(request, client_id):
+def client_details_view(request, client_id):
     """client detail"""
     client = Client.objects.get(pk=client_id)
     # below code do not work with empty table No ClientAddress matches the given query.
@@ -27,15 +28,16 @@ def ClientDetailsView(request, client_id):
     user = Users.objects.get(email=request.user.email)
     if user.customer != client.customer:
         return redirect("clients:client_list")
+    client_address = None
+    client_detail = None
 
     try:
         client_address = ClientAddress.objects.get(client=client_id)
-    except ClientAddress.DoesNotExist:
-        client_address = None
-    try:
         client_detail = ClientDetail.objects.get(client=client_id)
+    except ClientAddress.DoesNotExist:
+        pass
     except ClientDetail.DoesNotExist:
-        client_detail = None
+        pass
 
     # try:
     #     phone_data = ClientPhone.objects.filter(client=client_id)

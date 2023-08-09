@@ -4,6 +4,7 @@ from django import forms
 
 from clients.models import ClientDetail
 
+
 class ClientDetailForm(forms.ModelForm):
     """client details"""
 
