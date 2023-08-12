@@ -15,20 +15,21 @@ from customers.forms import (
 
 
 @login_required
-def CustomerDetailsView(request, customer_id):
+def customer_details_view(request, customer_id):
     """customer detail"""
     customer = Customer.objects.get(pk=customer_id)
     # below code do not work with empty table No CustomerAddress matches the given query.
     # customer_address = get_object_or_404(CustomerAddress, customer=customer_id)
+    customer_address = None
+    customer_detail = None
 
     try:
         customer_address = CustomerAddress.objects.get(customer=customer_id)
-    except CustomerAddress.DoesNotExist:
-        customer_address = None
-    try:
         customer_detail = CustomerDetail.objects.get(customer=customer_id)
+    except CustomerAddress.DoesNotExist:
+        pass
     except CustomerDetail.DoesNotExist:
-        customer_detail = None
+        pass
 
     # try:
     #     phone_data = CustomerPhone.objects.filter(customer=customer_id)

@@ -10,7 +10,7 @@ from customers.models import Customer
 
 # @permission_required
 @login_required
-def CustomerJsonView(request):
+def customer_json_view(request):
     if request.user.is_superuser:
         """list for customers"""
         customers = Customer.objects.all().order_by("name")

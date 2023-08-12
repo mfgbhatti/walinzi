@@ -10,7 +10,7 @@ from customers.forms import CreateCustomerForm
 
 # @permission_required
 @login_required
-def CustomerUpdateView(request, customer_id=None):
+def customer_update_view(request, customer_id=None):
     customer = Customer.objects.get(id=customer_id)
     if request.user.is_superuser:
         form = CreateCustomerForm(request.POST or None, instance=customer)

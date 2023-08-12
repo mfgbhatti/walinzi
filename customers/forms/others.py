@@ -7,21 +7,21 @@ from customers.models import CustomerPhone, CustomerEmail, CustomerNotes
 
 
 class CustomerPhoneForm(forms.ModelForm):
-    """Customer phobes"""
+    """Customer phones"""
 
     class Meta:
         model = CustomerPhone
         fields = "__all__"
 
 class CustomerEmailForm(forms.ModelForm):
-    """Customer phobes"""
+    """Customer emails"""
 
     class Meta:
         model = CustomerEmail
         fields = "__all__"
 
 class CustomerNoteForm(forms.ModelForm):
-    """Customer phobes"""
+    """Customer notes"""
 
     class Meta:
         model = CustomerNotes

@@ -42,7 +42,8 @@ class CustomerDetailInline(admin.TabularInline):
 class CustomerAdmin(admin.ModelAdmin):
     """Customer admin class."""
 
-    inlines = [CustomerAddressInline, CustomerDetailInline, CustomerNotesInline, CustomerPhoneInline, CustomerEmailInline]
+    inlines = [CustomerAddressInline, CustomerDetailInline, CustomerNotesInline, CustomerPhoneInline,
+               CustomerEmailInline]
     list_display = (
         "name",
         "get_address",

@@ -10,7 +10,7 @@ from customers.forms import CreateCustomerForm
 
 # @permission_required
 @login_required
-def CustomerCreateView(request):
+def customer_create_view(request):
     if request.user.is_superuser:
         form = CreateCustomerForm(request.POST or None)
         if request.method == "POST":

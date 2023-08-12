@@ -10,7 +10,7 @@ from customers.forms import CreateCustomerForm
 
 # @permission_required
 @login_required
-def CustomerList(request):
+def customer_list_view(request):
     """list for customers"""
     context = {
         "user.is_authenticated": request.user.is_authenticated,
