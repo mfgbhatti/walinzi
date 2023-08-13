@@ -18,11 +18,13 @@ def save_user(sender, instance, *args, **kwargs):
 
 @receiver(pre_save, sender=UserProfile)
 def pre_save_image(sender, instance, *args, **kwargs):
-    """ instance old image file will delete from os """
-    if instance.user:
-        """if instance exist"""
+    """
+    instance old image file will be deleted
+    if instance exist
+    """
+    if instance.user_id:
         try:
-            old_img = sender.objects.get(user=instance.user).avatar
+            old_img = sender.objects.get(user=instance.user_id).avatar
             new_img = instance.avatar
         except:
             new_img = None
