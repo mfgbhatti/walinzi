@@ -36,3 +36,28 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 });
+
+/**
+ * Function to handle form changes
+ * @param {HTMLFormElement} form - The form element to track changes for
+ */
+function checkFormChange(form) {
+    let formEdited = false,
+        submit = form.querySelector('button[type = "submit"]');
+
+    function handleFormChange() {
+        if (formEdited) {
+            submit.removeAttribute("disabled");
+        }
+    }
+
+    form.addEventListener("change", function () {
+        formEdited = true;
+        handleFormChange();
+    });
+
+    form.addEventListener("focusin", function () {
+        formEdited = true;
+        handleFormChange();
+    });
+}
