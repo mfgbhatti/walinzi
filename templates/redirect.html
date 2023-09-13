@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+{% load tz %}
+{% block title %}
+    Rediect
+{% endblock title %}
+{% block content %}
+
+{% endblock content %}
+{% block scripts %}
+    <script type="text/javascript">
+        // Your application has indicated there's an error
+        window.setTimeout(function () {
+
+            // Move to a new location or you can do something else
+            window.location.href = "{{ redirect_url }}";
+
+        }, {{ redirect_wait|default:"0"|safe }});
+    </script>
+{% endblock scripts %}
