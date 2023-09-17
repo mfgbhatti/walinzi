@@ -49,9 +49,9 @@ CSRF_TRUSTED_ORIGINS = [
 # SESSION_EXPIRE_AT_BROWSER_CLOSE = env("SESSION_EXPIRE_AT_BROWSER_CLOSE", default=True)
 
 # Authentication
-# AUTH_USER_MODEL = "accounts.BaseUser"
+AUTH_USER_MODEL = "user.MyBaseUser"
 
-LOCAL_APPS = []
+LOCAL_APPS = ["backend.client", "backend.user"]
 
 THIRD_PARTY_APPS = [
     # Django REST framework
