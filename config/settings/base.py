@@ -25,32 +25,42 @@ SECRET_KEY = "00000000000000000000000000000000000000000000000000000000"
 DEBUG = True
 ALLOWED_HOSTS = []
 
-# Login & Logout URLs
-LOGIN_URL = "/login/"
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/login/"
-
-# Session
-SESSION_COOKIE_AGE = env("SESSION_COOKIE_AGE", default=60 * 5) # 5 minutes
-SESSION_SAVE_EVERY_REQUEST = env("SESSION_SAVE_EVERY_REQUEST", default=True)
-SESSION_EXPIRE_AT_BROWSER_CLOSE = env("SESSION_EXPIRE_AT_BROWSER_CLOSE", default=True)
-
-# Authentication
-AUTH_USER_MODEL = "accounts.BaseUser"
-
-LOCAL_APPS = [
-    "common.apps.CommonConfig",
-    "accounts.apps.AccountsConfig",
-    "customers.apps.CustomersConfig",
-    "clients.apps.ClientsConfig",
-    "sites.apps.SitesConfig",
-    "staff.apps.StaffConfig",
-    "dashboard.apps.DashboardConfig",
-    "shifts.apps.ShiftsConfig"
+# settings for csrf cockies
+CSRF_USE_SESSIONS = False
+CSRF_COOKIE_HTTPONLY = False  # this is the default, and should be kept this way
+CSRF_COOKIE_NAME = "XSRF-TOKEN"  # this for angular default cockies name
+CSRF_HEADER_NAME = "HTTP_X_XSRF_TOKEN"
+CSRF_COOKIE_AGE = 43200
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",
+    "http://localhost:4200",
+    "http://127.0.0.1:4200",
 ]
 
-THIRD_PARTY_APPS = []
 
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8000",
+    "http://localhost:4200",
+    "http://127.0.0.1:4200",
+]
+# Session
+# SESSION_COOKIE_AGE = env("SESSION_COOKIE_AGE", default=60 * 5)  # 5 minutes
+# SESSION_SAVE_EVERY_REQUEST = env("SESSION_SAVE_EVERY_REQUEST", default=True)
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = env("SESSION_EXPIRE_AT_BROWSER_CLOSE", default=True)
+
+# Authentication
+# AUTH_USER_MODEL = "accounts.BaseUser"
+
+LOCAL_APPS = []
+
+THIRD_PARTY_APPS = [
+    # Django REST framework
+    "rest_framework",
+    # cors heeaders
+    "corsheaders",
+    # for token
+    "rest_framework_simplejwt",
+]
 
 # Application definition
 
@@ -73,6 +83,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # CORS
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -80,7 +93,7 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "DIRS": [],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -93,6 +106,14 @@ TEMPLATES = [
     },
 ]
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -104,7 +125,6 @@ DATABASES = {
         "NAME": env("DATABASE_NAME", default="database.db"),
     },
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -124,7 +144,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -136,20 +155,18 @@ LANGUAGE_CODE = "en-us"
 
 USE_I18N = True
 
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "/static/"
-
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "sitestatic")]  # project/core/static_files
-
-STATIC_ROOT = os.path.join(BASE_DIR, "assets")  # project/assets
-
-# Media files
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")  # project/media
+#
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, "sitestatic")]  # project/core/static_files
+#
+# STATIC_ROOT = os.path.join(BASE_DIR, "assets")  # project/assets
+#
+# # Media files
+# MEDIA_URL = "/media/"
+# MEDIA_ROOT = os.path.join(BASE_DIR, "media")  # project/media
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
