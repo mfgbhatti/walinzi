@@ -1,0 +1,28 @@
+<div class="container">
+  <form [formGroup]="form" class="row py-5">
+    <mat-form-field>
+      <mat-label class="form-label">First Name</mat-label>
+      <input matInput required formControlName="first_name" placeholder="John" type="text" class="text-capitalize" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Last Name</mat-label>
+      <input matInput required formControlName="last_name" placeholder="Doe" type="text" class="text-capitalize" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Mobile</mat-label>
+      <input matInput required formControlName="phone" placeholder="0333 222 3332" type="tel" pattern="[0-9]*" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput required formControlName="email" placeholder="email@example.com" type="email" style="text-transform: lowercase;" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"/>
+    </mat-form-field>
+    <div class="d-flex justify-content-end">
+      <button type="button" mat-raised-button (click)="submit()" color="primary" class="btn submit col-3" [disabled]="!this.form.valid">
+        Submit
+      </button>
+      <button type="button" mat-raised-button (click)="close()" color="accent" class="btn submit col-3 ms-4">
+        Close
+      </button>
+    </div>
+  </form>
+</div>

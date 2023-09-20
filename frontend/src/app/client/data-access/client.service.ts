@@ -134,4 +134,47 @@ export class ClientService {
     );
   }
 
+  update(id: string, client: Client): Observable<Client[] | null> {
+    return this.clients$.pipe(
+      take(1),
+      switchMap((clients) =>
+        this._httpClient
+         .put<Client>(this.baseUrl + 'update/' + id + '/', client, this.httpOptions)
+         .pipe(
+            map((updatedClient) => {
+              // const result = clients.map((item) =>
+              //   item.id === updatedClient.id? updatedClient : item
+              // );
+              // this._clients.next(result);
+              // return result;
+              const index = clients!.findIndex((item) => item.id === id);
+              clients![index] = updatedClient;
+              this._clients.next(clients);
+              return clients;
+            })
+          )
+      )
+    );
+  }
+
+  delete(id: string): Observable<Client[] | null> {
+    return this.clients$.pipe(
+      take(1),
+      switchMap((clients) =>
+        this._httpClient
+         .delete<Client>(this.baseUrl + 'delete/' + id + '/', this.httpOptions)
+         .pipe(
+            map((deletedClient) => {
+              // const result = clients.filter((item) => item.id!== id);
+              // this._clients.next(result);
+              // return result;
+              const index = clients!.findIndex((item) => item.id === id);
+              clients!.splice(index, 1);
+              this._clients.next(clients);
+              return clients;
+            })
+          )
+      )
+    );
+  }
 }
