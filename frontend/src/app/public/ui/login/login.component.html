@@ -1,0 +1,42 @@
+<div class="container-fluid h-100">
+  <div class="d-flex justify-content-center align-items-center h-100">
+    <div class="col-3 py-5">
+      <form [formGroup]="form" class="row">
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            required
+            formControlName="email"
+            placeholder="email@example.com"
+            type="email"
+            style="text-transform: lowercase"
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label class="form-label">Password</mat-label>
+          <input
+            matInput
+            required
+            formControlName="password"
+            placeholder="Password"
+            type="password"
+          />
+        </mat-form-field>
+        <div class="d-flex justify-content-center">
+          <button
+            type="button"
+            mat-raised-button
+            (click)="submit()"
+            color="primary"
+            class="btn submit col-3"
+            [disabled]="!this.form.valid"
+          >
+            Login
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
