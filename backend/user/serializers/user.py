@@ -1,4 +1,3 @@
-from django.urls import reverse
 from rest_framework import serializers
 from backend.user.models import MyBaseUser as User
 from backend.user.utils import generate_activation_key, is_activation_key_valid
@@ -24,23 +23,17 @@ class UserSerializer(serializers.ModelSerializer):
 
         activation_key = generate_activation_key()
         user.activation_key = activation_key
-        user.activation_link = reverse(
-            "user:activate_user", kwargs={"pk": user.id, "key": activation_key}
+        user.activation_link = (
+            f"/user/activate/{user.id}/{activation_key}"
         )
         user.client = client_id
         user.save()
         return user
 
 
-class UserActivationSerializer(serializers.ModelSerializer):
+class SetUserPasswordSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(required=True)
+
     class Meta:
         model = User
-        fields = (
-            "first_name",
-            "last_name",
-            "email",
-            "phone",
-            "client",
-            "activation_key",
-            "activation_link",
-        )
+        fields = ("password",)
