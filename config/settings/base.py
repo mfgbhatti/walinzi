@@ -20,7 +20,11 @@ env.read_env(os.path.join(BASE_DIR, ".env"))
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "00000000000000000000000000000000000000000000000000000000"
+# SECRET_KEY = "S+32wgzpE2PKi6LBF8i0QM7JkLUbtioEJS7IxAqyeuMlAOhgR648TZ35BVRI1RTAX8PkOKkj5NN3eczO"
+SECRET_KEY = env(
+    "SECRET_KEY",
+    default="S+32wgzpE2PKi6LBF8i0QM7JkLUbtioEJS7IxAqyeuMlAOhgR648TZ35BVRI1RTAX8PkOKkj5NN3eczO",
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,6 +43,13 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": False,
+    "SIGNING_KEY": SECRET_KEY,
+    "AUTH_COOKIE": "access_token",  # Cookie name. Enables cookies if value is set.
+    "AUTH_COOKIE_DOMAIN": None,  # A string like "example.com", or None for standard domain cookie.
+    "AUTH_COOKIE_SECURE": False,  # Whether the auth cookies should be secure (https:// only).
+    "AUTH_COOKIE_HTTP_ONLY": True,  # Http only cookie flag.It's not fetch by javascript.
+    "AUTH_COOKIE_PATH": "/",  # The path of the auth cookie.
+    "AUTH_COOKIE_SAMESITE": "Lax",  # Whether to set the flag restricting cookie leaks on cross-site requests.
 }
 
 CORS_ALLOWED_ORIGINS = [
@@ -70,6 +81,7 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     # for token
     "rest_framework_simplejwt",
+    "rest_framework_simplejwt.token_blacklist",
 ]
 
 # Application definition
