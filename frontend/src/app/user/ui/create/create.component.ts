@@ -32,7 +32,7 @@ export class CreateUserComponent {
       last_name: [this.data.last_name, [Validators.required, Validators.minLength(5)]],
       phone: [this.data.phone, [Validators.required]],
       email: [this.data.email, [Validators.required, Validators.email]],
-
+      client: [this.data.client]
     })
   }
 

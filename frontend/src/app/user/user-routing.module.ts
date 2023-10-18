@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
 import { ClientUserComponent } from "./feature/user.component";
+import { ActivateUserComponent } from "./ui/activate/activate.component";
 
 const routes: Routes = [
   {
@@ -9,6 +10,11 @@ const routes: Routes = [
     component: ClientUserComponent,
     title: 'Walinzi - Users',
 
+  },
+  {
+    path: 'activate/:user_id/:activation_key',
+    component: ActivateUserComponent,
+    title: 'Walinzi - User Activation',
   },
 ]
 

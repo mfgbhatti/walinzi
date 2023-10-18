@@ -31,12 +31,16 @@ export class UserService {
     User[] | null
   >(null);
 
-  private _httpClient = inject(HttpClient)
+  private _httpClient = inject(HttpClient);
 
   /**
    * Constructor
    */
   constructor() { }
+
+  set user(value: User) {
+    this._user.next(value);
+  }
 
   /**
    * Getter for User
@@ -64,6 +68,25 @@ export class UserService {
           this._users.next(users);
         })
       );
+  }
+
+  activate(id: string, key: string): Observable<{ success: boolean }> {
+    return this._httpClient
+      .get<{ "success": boolean }>(
+        this.baseUrl + 'activate/?user_id=' + id + '&activation_key=' + key,
+        this.httpOptions
+      );
+  }
+
+  setUserPassword(password: string, user_id: string, activation_key: string): Observable<{ success: boolean }> {
+    let data = {
+      "password": password,
+      "user_id": user_id,
+      "activation_key": activation_key
+    }
+    return this._httpClient.post<{ success: boolean }>(
+      this.baseUrl + 'set_password/', data, this.httpOptions
+    );
   }
 
   /**
@@ -139,8 +162,12 @@ export class UserService {
       take(1),
       switchMap((users) =>
         this._httpClient
-         .put<User>(this.baseUrl + 'update/' + id + '/', user, this.httpOptions)
-         .pipe(
+          .put<User>(
+            this.baseUrl + 'update/' + id + '/',
+            user,
+            this.httpOptions
+          )
+          .pipe(
             map((updatedUser) => {
               // const result = users.map((item) =>
               //   item.id === updatedUser.id? updatedUser : item
@@ -162,8 +189,8 @@ export class UserService {
       take(1),
       switchMap((users) =>
         this._httpClient
-         .delete<User>(this.baseUrl + 'delete/' + id + '/', this.httpOptions)
-         .pipe(
+          .delete<User>(this.baseUrl + 'delete/' + id + '/', this.httpOptions)
+          .pipe(
             map((deletedUser) => {
               // const result = users.filter((item) => item.id!== id);
               // this._users.next(result);

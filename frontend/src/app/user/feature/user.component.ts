@@ -17,12 +17,13 @@ import { Destroy } from '@shared/utils/destroy';
 })
 
 export class ClientUserComponent implements OnInit {
+  client_id!: string;
   dataSource!: MatTableDataSource<any>;
   displayedColumns: string[] = [
     'name',
     'phone',
     'email',
-    'activate',
+    'status',
     'action'
   ];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -36,7 +37,8 @@ export class ClientUserComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this._userService.getAll(history.state["id"])
+    this.client_id = history.state["id"]
+    this._userService.getAll(this.client_id)
       .pipe(takeUntil(this._destroy))
       .subscribe((users) => {
         // console.log(users);
@@ -48,7 +50,7 @@ export class ClientUserComponent implements OnInit {
   }
   add() {
     const dialogRef = this.dialog.open(CreateUserComponent, {
-      data: {},
+      data: { "client": this.client_id},
       width: '40%',
       disableClose: true,
     });

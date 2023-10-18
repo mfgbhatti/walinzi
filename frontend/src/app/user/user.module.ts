@@ -18,11 +18,13 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { ClientUserComponent } from "./feature/user.component";
 import { ClientUserRoutingModule } from "./user-routing.module";
 import { CreateUserComponent } from "./ui/create/create.component";
+import { ActivateUserComponent } from "./ui/activate/activate.component";
 
 @NgModule({
   declarations: [
     ClientUserComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    ActivateUserComponent,
   ],
   imports: [
     CommonModule,
