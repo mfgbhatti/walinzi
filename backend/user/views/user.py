@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 
 from backend.user.models import MyBaseUser as User
 from backend.user.serializers import UserSerializer
@@ -7,6 +8,7 @@ from backend.user.serializers import UserSerializer
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         """TODO: Implement superuser and server side user client assessment"""

@@ -9,7 +9,6 @@ class UserSerializer(serializers.ModelSerializer):
         exclude = ("password",)
 
     def create(self, validated_data):
-        """TODO: Implement superuser and server side user client assessment"""
         user = None
         request = self.context.get("request")
         if request and hasattr(request, "user"):
@@ -23,9 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
 
         activation_key = generate_activation_key()
         user.activation_key = activation_key
-        user.activation_link = (
-            f"/user/activate/{user.id}/{activation_key}"
-        )
+        user.activation_link = f"/user/activate/{user.id}/{activation_key}"
         user.client = client_id
         user.save()
         return user

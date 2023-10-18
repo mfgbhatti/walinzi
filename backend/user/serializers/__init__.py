@@ -1,2 +1,2 @@
-from .auth import LoginSerializer, UserProfileSerializer
 from .user import UserSerializer, SetUserPasswordSerializer
+from .authenticate import CookieTokenRefreshSerializer, LoginSerializer
