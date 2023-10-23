@@ -17,8 +17,8 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path("sign_in/", CookieTokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("sign-in/", CookieTokenObtainPairView.as_view(), name="token_obtain_pair"),
     # path("verify/", TokenVerifyView.as_view(), name="token_verify"),
     path("refresh/", CookieTokenRefreshView.as_view(), name="auth_token_refresh"),
-    path("sign_out/", LogoutView.as_view(), name="auth_logout"),
+    path("sign-out/", LogoutView.as_view(), name="auth_logout"),
 ]
