@@ -172,8 +172,8 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = "en-us"
 # time zone is further complicating things
 # these two are disabled
-# TIME_ZONE = env("TIME_ZONE", default="Europe/London")
-# USE_TZ = True
+TIME_ZONE = env("TIME_ZONE", default="Europe/London")
+USE_TZ = True
 
 USE_I18N = True
 
