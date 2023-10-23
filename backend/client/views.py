@@ -8,4 +8,4 @@ from backend.client.serializers import ClientSerializer
 class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
-    authentication_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
