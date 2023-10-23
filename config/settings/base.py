@@ -72,7 +72,12 @@ CSRF_TRUSTED_ORIGINS = [
 # Authentication
 AUTH_USER_MODEL = "user.MyBaseUser"
 
-LOCAL_APPS = ["backend.client", "backend.user"]
+LOCAL_APPS = [
+    # Local user apps
+    "backend.client",
+    "backend.user",
+    "backend.customer",
+]
 
 THIRD_PARTY_APPS = [
     # Django REST framework
