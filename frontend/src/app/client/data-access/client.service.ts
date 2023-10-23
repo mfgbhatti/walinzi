@@ -12,10 +12,12 @@ import {
 } from 'rxjs';
 
 import { Client } from '@shared/interfaces/client.types';
+import { Enviroment } from 'src/enviroments';
+
 
 @Injectable({ providedIn: 'root' })
 export class ClientService {
-  baseUrl = '/api/client/';
+  baseUrl = Enviroment.urls.client;
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json; charset=UTF-8',

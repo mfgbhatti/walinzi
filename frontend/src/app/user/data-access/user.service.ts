@@ -12,17 +12,13 @@ import {
 } from 'rxjs';
 
 import { User } from '@shared/interfaces/user.types';
+import { Enviroment } from 'src/enviroments';
+
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  baseUrl = '/api/user/';
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Access-Control-Allow-Origin': '*',
-    }),
-    responseType: 'json' as const,
-  };
+  baseUrl = Enviroment.urls.user;
+  httpOptions = Enviroment.urls.httpOptions;
 
   // Private
   private _user: BehaviorSubject<User | null> =
