@@ -22,4 +22,5 @@ urlpatterns = [
     path("client/", include("backend.client.urls")),
     path("user/", include("backend.user.urls")),
     path("customer/", include("backend.customer.urls")),
+    path("location/", include("backend.location.urls")),
 ]
