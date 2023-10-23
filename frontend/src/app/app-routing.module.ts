@@ -14,7 +14,7 @@ const routes: Routes = [
   // After the user signs in, the sign-in page will redirect the user to the 'signed-in-redirect'
   // path. Below is another redirection for that path to redirect the user to the desired
   // location. This is a small convenience to keep all main routes together here on this file.
-  { path: 'signed-in-redirect', pathMatch: 'full', redirectTo: 'dashboards/project' },
+  { path: 'signed-in-redirect', pathMatch: 'full', redirectTo: 'setting/profile' },
 
   // SuperAdmin
   {
@@ -31,6 +31,10 @@ const routes: Routes = [
         loadChildren: () => import('./user/user.module').then(m => m.ClientUserModule),
 
       },
+      {
+        path: 'setting',
+        loadChildren: () => import('./setting/setting.module').then(m => m.SettingModule),
+      }
     ]
   },
   {
