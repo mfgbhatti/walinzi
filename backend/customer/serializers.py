@@ -13,11 +13,11 @@ class CustomerSerializer(serializers.ModelSerializer):
         request = self.context.get("request")
         if request and hasattr(request, "user"):
             user = request.user
-            client_id = user.client_id
+            client = user.client
         else:
-            client_id = None
+            client = None
 
         customer = Customer.objects.create(**validated_data)
-        customer.client = client_id
+        customer.client = client
         customer.save()
         return customer
