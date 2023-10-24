@@ -7,3 +7,5 @@ class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
         fields = "__all__"
+
+    """Assuming that customer is  passed in the request"""

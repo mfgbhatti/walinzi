@@ -5,6 +5,7 @@ from backend.location.views import LocationViewSet
 
 urlpatterns = [
     path("all/", LocationViewSet.as_view({"get": "list"})),
+    path("by-customer/<pk>/", LocationViewSet.as_view({"get": "by_customer"})),
     path("get/<pk>/", LocationViewSet.as_view({"get": "retrieve"})),
     path("create/", LocationViewSet.as_view({"post": "create"})),
     path("search/<pk>/", LocationViewSet.as_view({"get": "retrieve"})),

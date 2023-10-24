@@ -9,11 +9,7 @@ from backend.user.utils import generate_activation_key, is_activation_key_valid
 
 
 @api_view(["GET", "POST"])
-@permission_classes(
-    [
-        AllowAny,
-    ]
-)
+@permission_classes([AllowAny,])
 def user_activation_view(request):
     """
     No authentication
@@ -94,8 +90,12 @@ def regenerate_key(request):
                         f"/user/activate/{user_id}/{new_key}"
                     )
                     user_to_be_changed.save()
-                    return Response(status=status.HTTP_202_ACCEPTED, data={"user": serializer.data})
-                return Response(status=status.HTTP_200_OK, data={"user": serializer.data})
+                    return Response(
+                        status=status.HTTP_202_ACCEPTED, data={"user": serializer.data}
+                    )
+                return Response(
+                    status=status.HTTP_200_OK, data={"user": serializer.data}
+                )
         except User.DoesNotExist as error:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
     return Response(status=status.HTTP_400_BAD_REQUEST)
