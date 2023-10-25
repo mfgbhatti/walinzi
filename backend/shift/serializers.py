@@ -6,15 +6,17 @@ from backend.shift.models import Shift, Timesheet
 class TimesheetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Timesheet
-        fields = "__all__"
+        fields = ("id", "staff", "shift", "shift_date", "duration", "notes")
 
 
 class ShiftSerializer(serializers.ModelSerializer):
-    timesheet = TimesheetSerializer()
+    # need many=True when ForeignKey is used
+    timesheet = TimesheetSerializer(many=True)
 
     class Meta:
         model = Shift
         fields = (
+            "id",
             "location",
             "time_in",
             "time_out",
@@ -25,7 +27,13 @@ class ShiftSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         timesheet_data = validated_data.pop("timesheet")
-        shift = Shift.objects.create(**validated_data)
-        timesheet = Timesheet.objects.create(shift=shift, **timesheet_data)
+        new_shift = Shift.objects.create(**validated_data)
+        timesheet = Timesheet.objects.create(shift=new_shift, **timesheet_data)
+        timesheet.duration = new_shift.duration()
+        timesheet.date = new_shift.time_in.date()
+        timesheet.save()
 
-        return shift
+        return new_shift
+
+    def get_timesheet(self):
+        return TimesheetSerializer().data
