@@ -1,9 +1,9 @@
-from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
 
 from backend.customer.models import Customer
 
 
-class CustomerSerializer(serializers.ModelSerializer):
+class CustomerSerializer(ModelSerializer):
     class Meta:
         model = Customer
         fields = "__all__"
@@ -12,8 +12,7 @@ class CustomerSerializer(serializers.ModelSerializer):
         user = None
         request = self.context.get("request")
         if request and hasattr(request, "user"):
-            user = request.user
-            client = user.client
+            client = request.user.client
         else:
             client = None
 

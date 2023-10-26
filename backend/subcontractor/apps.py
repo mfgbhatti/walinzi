@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class SubcontratorConfig(AppConfig):
+class SubcontractorConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "subcontrator"
+    name = "backend.subcontractor"

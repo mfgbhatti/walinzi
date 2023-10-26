@@ -79,7 +79,8 @@ LOCAL_APPS = [
     "backend.customer",
     "backend.location",
     "backend.staff",
-    "backend.shift"
+    "backend.shift",
+    "backend.subcontractor",
 ]
 
 THIRD_PARTY_APPS = [

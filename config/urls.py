@@ -25,4 +25,5 @@ urlpatterns = [
     path("location/", include("backend.location.urls")),
     path("staff/", include("backend.staff.urls")),
     path("shift/", include("backend.shift.urls")),
+    path("subcontractor/", include("backend.subcontractor.urls")),
 ]
