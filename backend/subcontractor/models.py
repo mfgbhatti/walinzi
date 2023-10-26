@@ -26,6 +26,9 @@ class Subcontractor(models.Model):
     reference = models.CharField(max_length=200, blank=False, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    pay_rate = models.DecimalField(
+        max_digits=10, null=True, blank=True, decimal_places=2
+    )
 
     def __str__(self):
         return str(self.name)

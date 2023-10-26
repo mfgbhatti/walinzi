@@ -4,6 +4,7 @@ model for staff
 from django.db import models
 
 from backend.client.models import Client
+from backend.subcontractor.models import Subcontractor
 
 
 # Create your models here.
@@ -14,6 +15,13 @@ class Staff(models.Model):
 
     client = models.ForeignKey(
         Client,
+        on_delete=models.CASCADE,
+        related_name="staff",
+        null=True,
+        blank=True,
+    )
+    subcontractor = models.ForeignKey(
+        Subcontractor,
         on_delete=models.CASCADE,
         related_name="staff",
         null=True,
