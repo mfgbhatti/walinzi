@@ -5,6 +5,7 @@ from backend.staff.models import Staff
 
 
 class Shift(models.Model):
+    id = models.AutoField(primary_key=True)
     location = models.ForeignKey(
         Location, on_delete=models.CASCADE, related_name="shifts", null=True, blank=True
     )
@@ -55,6 +56,7 @@ class Timesheet(models.Model):
     Do not use ForeignKey if you want to assign single staff, to single shift
     """
 
+    id = models.AutoField(primary_key=True)
     staff = models.ForeignKey(
         Staff, on_delete=models.CASCADE, related_name="timesheet", null=True, blank=True
     )
