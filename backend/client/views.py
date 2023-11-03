@@ -9,3 +9,10 @@ class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        """ only if user is superuser """
+        user = self.request.user
+        if user.is_superadmin:
+            return Client.objects.all()
+        return Client.objects.none()
