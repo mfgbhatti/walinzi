@@ -11,7 +11,7 @@ class ClientViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        """ only if user is superuser """
+        """ only itimesheet log and shiftf user is superuser """
         user = self.request.user
         if user.is_superuser:
             return Client.objects.all()
