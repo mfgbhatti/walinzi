@@ -13,6 +13,6 @@ class ClientViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """ only if user is superuser """
         user = self.request.user
-        if user.is_superadmin:
+        if user.is_superuser:
             return Client.objects.all()
         return Client.objects.none()
