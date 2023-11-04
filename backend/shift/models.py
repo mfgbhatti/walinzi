@@ -2,6 +2,7 @@ from django.db import models
 
 from backend.location.models import Location
 from backend.staff.models import Staff
+from backend.user.models import MyBaseUser as User
 
 
 class Shift(models.Model):
@@ -90,6 +91,36 @@ class Timesheet(models.Model):
         #     "shift",
         #     "shift_date",
         # )  # Ensure one entry per staff, shift, and date
+
+
+class ShiftLog(models.Model):
+    """
+    Main this will address user changing shifts
+    """
+
+    id = models.AutoField(primary_key=True)
+    action = models.CharField(max_length=20, null=True, blank=True)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="shift_log", blank=True, null=True
+    )
+    staff = models.ForeignKey(
+        Staff, on_delete=models.CASCADE, related_name="shift_log", null=True, blank=True
+    )
+    shift = models.ForeignKey(
+        Shift, on_delete=models.CASCADE, related_name="shift_log", null=True, blank=True
+    )
+    shift_date = models.DateField(blank=True, null=True)  # Date of the timesheet entry
+    duration = models.FloatField(
+        blank=True, null=True
+    )  # Duration of the timesheet entry
+    notes = models.TextField(blank=True)  # Any additional notes or comments
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "shift_log"
+
+        verbose_name = "Shift Log"
+        verbose_name_plural = "Shift Logs"
 
 
 # class ShiftSchedule(models.Model):
