@@ -11,16 +11,14 @@ export const AuthGuard: CanActivateFn | CanActivateChildFn = (route, state) => {
   // Check the authentication status
   return inject(AuthService).check().pipe(
     switchMap((authenticated) => {
-      console.log(authenticated)
+      // console.log('AuthGuard', authenticated);
       // If the user is not authenticated...
       if (!authenticated) {
         // Redirect to the sign-in page with a redirectUrl param
         const redirectURL = state.url === '/sign-out' ? '' : `redirectURL=${state.url}`;
         const urlTree = router.parseUrl(`sign-in?${redirectURL}`);
-        console.log(authenticated)
         return of(urlTree);
       }
-      console.log(authenticated)
       // Allow the access
       return of(true);
     }),

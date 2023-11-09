@@ -5,6 +5,7 @@ import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 import { UserService } from 'src/app/user/data-access/user.service';
 import { Enviroment } from 'src/enviroments';
 import { AuthUtils } from '../util/auth.util';
+import { User } from '@shared/interfaces/user.types';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -17,7 +18,7 @@ export class AuthService {
   constructor(
     private _httpClient: HttpClient,
     private _userService: UserService
-  ) { }
+  ) {}
 
   // -----------------------------------------------------------------------------------------------------
   // @ Accessors
@@ -32,6 +33,14 @@ export class AuthService {
 
   get accessToken(): string {
     return localStorage.getItem('accessToken') ?? '';
+  }
+
+  set loginUser(user: User) {
+    localStorage.setItem('loginUser', JSON.stringify(user));
+  }
+
+  get loginUser(): User {
+    return JSON.parse(localStorage.getItem('loginUser') ?? '');
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -53,6 +62,7 @@ export class AuthService {
       switchMap((response: any) => {
         // Store the access token in the local storage
         this.accessToken = response.access;
+        this.loginUser = response.user;
 
         // Set the authenticated flag to true
         this._authenticated = true;
@@ -78,6 +88,7 @@ export class AuthService {
       switchMap((response: any) => {
         if (response.success) {
           localStorage.removeItem('accessToken');
+          localStorage.removeItem('loginUser');
         }
 
         this._authenticated = false;
@@ -91,26 +102,23 @@ export class AuthService {
    * Sign in using the access token
    */
   refreshToken(): Observable<boolean> {
-    if (AuthUtils.isTokenExpired(this.accessToken)) {
-      // Sign in using the token
-      return this._httpClient.post(this.baseUrl + 'refresh/', {}).pipe(
-        catchError(() =>
-          // Return false
-          of(false)
-        ),
-        switchMap((response: any) => {
-          if (response.access) {
-            this.accessToken = response.access;
-          }
-          // Set the authenticated flag to true
-          this._authenticated = true;
+    // Sign in using the token
+    return this._httpClient.post(this.baseUrl + 'refresh/', {}).pipe(
+      catchError(() =>
+        // Return false
+        of(false)
+      ),
+      switchMap((response: any) => {
+        if (response.access) {
+          this.accessToken = response.access;
+        }
+        // Set the authenticated flag to true
+        this._authenticated = true;
 
-          // Return true
-          return of(true);
-        })
-      );
-    }
-    return of(false)
+        // Return true
+        return of(true);
+      })
+    );
   }
 
   /**
@@ -125,6 +133,11 @@ export class AuthService {
     // Check the access token availability
     if (!this.accessToken) {
       return of(false);
+    }
+
+    // Check the access token expire date
+    if (!AuthUtils.isTokenExpired(this.accessToken)) {
+      return of(true);
     }
 
     // If the access token exists, and it didn't expire, sign in using it
