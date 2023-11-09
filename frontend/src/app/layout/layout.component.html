@@ -7,7 +7,18 @@
   />
   <span class="px-2">Walinzi</span>
   <span class="spacer"></span>
-  <a routerLink="client">
-    <button mat-flat-button color="primary" onclick="">Client</button>
-  </a>
+  <!-- <a routerLink="client">
+    <button mat-flat-button color="primary" onclick="" *ngIf="_user?.is_superuser">Client</button>
+  </a> -->
+  <button mat-flat-button color="primary" [matMenuTriggerFor]="menu">Manage</button>
+  <mat-menu #menu="matMenu" yPosition="below">
+    <button mat-menu-item [routerLink]="['/customer']">
+      Customer
+    </button>
+    <button mat-menu-item [routerLink]="['/location']">Location</button>
+    <button mat-menu-item [routerLink]="['/subcontractor']">Subcontractor</button>
+    <button mat-menu-item [routerLink]="['/sign-out']">
+      Sign-out
+    </button>
+  </mat-menu>
 </mat-toolbar>

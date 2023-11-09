@@ -1,33 +1,37 @@
-import { Component, inject, ChangeDetectorRef, OnInit } from '@angular/core';
-import { CommonModule, NgIf } from '@angular/common';
-import { takeUntil, map } from 'rxjs';
+import { Component, inject, OnInit } from '@angular/core';
+import { takeUntil } from 'rxjs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { AuthService } from 'src/app/auth/data-access/auth.services';
 import { Destroy } from '@shared/utils/destroy';
+import { AuthUtils } from '../auth/util/auth.util';
 
 @Component({
   standalone: true,
   selector: 'layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
-  imports: [NgIf, CommonModule, MatToolbarModule, MatButtonModule],
+  imports: [MatToolbarModule, MatButtonModule, CommonModule, RouterModule, MatMenuModule],
   providers: [Destroy, AuthService],
 })
 export class LayoutComponent implements OnInit {
   private _authService = inject(AuthService);
   private _destroy = inject(Destroy);
-  private _changeDetectRef = inject(ChangeDetectorRef);
-  isLogedIn!: boolean;
+  // change it to false
+  isLogedIn: boolean = false;
+  _accessToken: string | null = null;
 
   ngOnInit(): void {
-    this.showToolbar();
-
+    this._accessToken = this._authService.accessToken;
+    this.isLogedIn = !AuthUtils.isTokenExpired(this._accessToken);
   }
 
-  showToolbar() {
-    this._authService.check().pipe(takeUntil(this._destroy), map((b) => this.isLogedIn = b)).subscribe();
-    this._changeDetectRef.detectChanges();
+  signOut() {
+    this._authService.signOut().pipe(takeUntil(this._destroy)).subscribe();
+    this.isLogedIn = false;
   }
 }
