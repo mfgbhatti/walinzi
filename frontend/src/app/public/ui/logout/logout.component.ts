@@ -24,7 +24,7 @@ export class LogoutComponent implements OnInit {
 
   ngOnInit(): void {
     // Sign out
-    this._authService.signOut();
+    this._authService.signOut().pipe(takeUntil(this._destroy)).subscribe();
 
     // Redirect after the countdown
     timer(1000, 1000)
