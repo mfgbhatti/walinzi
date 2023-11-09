@@ -5,6 +5,9 @@ export const Enviroment = {
   urls: {
     auth: "/api/user/",
     client: "/api/client/",
+    customer: "/api/customer/",
+    location: "/api/location/",
+    subcontractor: "/api/subcontractor/",
     user: "/api/user/",
     httpOptions: {
       headers: new HttpHeaders({
