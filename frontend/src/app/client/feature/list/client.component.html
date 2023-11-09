@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="_user?.is_superuser; else unauthorized">
   <div class="row py-5">
     <div class="d-flex justify-content-between">
       <h2>Add new customer</h2>
@@ -96,3 +96,13 @@
     ></mat-paginator>
   </div>
 </div>
+
+<ng-template #unauthorized>
+  <div class="container-fluid">
+    <div class="row py-5">
+      <div class="d-flex justify-content-center">
+        <h2>500 Internal error!</h2>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -9,6 +9,8 @@ import { ClientService } from 'src/app/client/data-access/client.service';
 import { Client } from '@shared/interfaces/client.types';
 import { CreateClientComponent } from 'src/app/client/ui/create/create.component';
 import { Destroy } from '@shared/utils/destroy';
+import { UserService } from 'src/app/user/data-access/user.service';
+import { User } from '@shared/interfaces/user.types';
 
 @Component({
   selector: 'app-client',
@@ -30,9 +32,11 @@ export class ClientComponent implements OnInit {
   ];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  _user!: User | null
 
   resultsLength = 0;
   private _clientService = inject(ClientService);
+  private _userService = inject(UserService);
   private readonly dialog = inject(MatDialog);
   private readonly _destroy = inject(Destroy);
 
@@ -48,7 +52,8 @@ export class ClientComponent implements OnInit {
         this.dataSource.sort = this.sort
         this.resultsLength = clients.length
       });
-  }
+    this._userService.user$.pipe(takeUntil(this._destroy)).subscribe(user => this._user = user)
+}
   add() {
     const dialogRef = this.dialog.open(CreateClientComponent, {
       data: {},
