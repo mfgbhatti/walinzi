@@ -1,3 +1,65 @@
-<div class="container">
-  working
+<div class="container" *ngIf="user">
+  <h2 class="mb-4">User Details</h2>
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>ID:</label>
+            <div>{{ user.id }}</div>
+          </div>
+          <div class="form-group">
+            <label>Title:</label>
+            <div>{{ user.title }}</div>
+          </div>
+          <div class="form-group">
+            <label>First Name:</label>
+            <div>{{ user.first_name }}</div>
+          </div>
+          <div class="form-group">
+            <label>Last Name:</label>
+            <div>{{ user.last_name }}</div>
+          </div>
+          <div class="form-group">
+            <label>Username:</label>
+            <div>{{ user.username }}</div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Email:</label>
+            <div>{{ user.email }}</div>
+          </div>
+          <div class="form-group">
+            <label>Phone:</label>
+            <div>{{ user.phone }}</div>
+          </div>
+          <div class="form-group">
+            <label>Last Login:</label>
+            <div>{{ user.last_login }}</div>
+          </div>
+          <div class="form-group">
+            <label>Date Joined:</label>
+            <div>{{ user.date_joined }}</div>
+          </div>
+          <div class="form-group">
+            <label>Client:</label>
+            <div>{{ user.client }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="form-group">
+        <label>Activation Key:</label>
+        <div>{{ user.activation_key }}</div>
+      </div>
+      <div class="form-group">
+        <label>Activation Link:</label>
+        <div><a href="{{ user.activation_link }}" target="_blank">{{ user.activation_link }}</a></div>
+      </div>
+    </div>
+  </div>
 </div>

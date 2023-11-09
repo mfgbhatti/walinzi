@@ -1,8 +1,7 @@
 import { Component, OnInit, inject } from "@angular/core";
-import { Observable } from "rxjs";
 
 import { User } from "@shared/interfaces/user.types";
-import { UserService } from "src/app/user/data-access/user.service";
+import { AuthService } from "src/app/auth/data-access/auth.services";
 
 @Component({
   selector: 'user-profile',
@@ -11,10 +10,10 @@ import { UserService } from "src/app/user/data-access/user.service";
 })
 
 export class UserProfileComponent  implements OnInit{
-  user$!: Observable<User | null>
-  private _userService = inject(UserService)
+  user!: User;
+  _authService = inject(AuthService);
 
   ngOnInit(): void {
-    this.user$ = this._userService.user$
+    this.user = this._authService.loginUser
   }
 }
