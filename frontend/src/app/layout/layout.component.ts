@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { takeUntil } from 'rxjs';
+import { Observable, takeUntil } from 'rxjs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
@@ -15,23 +15,21 @@ import { AuthUtils } from '../auth/util/auth.util';
   selector: 'layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
-  imports: [MatToolbarModule, MatButtonModule, CommonModule, RouterModule, MatMenuModule],
+  imports: [
+    MatToolbarModule,
+    MatButtonModule,
+    CommonModule,
+    RouterModule,
+    MatMenuModule,
+  ],
   providers: [Destroy, AuthService],
 })
 export class LayoutComponent implements OnInit {
   private _authService = inject(AuthService);
   private _destroy = inject(Destroy);
   // change it to false
-  isLogedIn: boolean = false;
-  _accessToken: string | null = null;
-
+  isLogedIn$!: Observable<boolean>;
   ngOnInit(): void {
-    this._accessToken = this._authService.accessToken;
-    this.isLogedIn = !AuthUtils.isTokenExpired(this._accessToken);
-  }
-
-  signOut() {
-    this._authService.signOut().pipe(takeUntil(this._destroy)).subscribe();
-    this.isLogedIn = false;
+    this.isLogedIn$ = this._authService.check();
   }
 }

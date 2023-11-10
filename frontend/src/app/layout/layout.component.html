@@ -1,4 +1,5 @@
-<mat-toolbar color="primary" *ngIf="isLogedIn">
+@if (isLogedIn$ | async) {
+<mat-toolbar color="primary">
   <img
     src="assets/android-chrome-512x512.png"
     alt="Walinzi"
@@ -10,15 +11,22 @@
   <!-- <a routerLink="client">
     <button mat-flat-button color="primary" onclick="" *ngIf="_user?.is_superuser">Client</button>
   </a> -->
-  <button mat-flat-button color="primary" [matMenuTriggerFor]="menu">Manage</button>
+  <button mat-flat-button color="primary" [matMenuTriggerFor]="menu">
+    Manage
+  </button>
   <mat-menu #menu="matMenu" yPosition="below">
-    <button mat-menu-item [routerLink]="['/customer']">
-      Customer
-    </button>
+    <button mat-menu-item [routerLink]="['/customer']">Customer</button>
     <button mat-menu-item [routerLink]="['/location']">Location</button>
-    <button mat-menu-item [routerLink]="['/subcontractor']">Subcontractor</button>
-    <button mat-menu-item [routerLink]="['/sign-out']">
-      Sign-out
+    <button mat-menu-item [routerLink]="['/subcontractor']">
+      Subcontractor
     </button>
+    <button mat-menu-item [routerLink]="['/sign-out']">Sign-out</button>
+  </mat-menu>
+  <button mat-flat-button color="primary" [matMenuTriggerFor]="settingMenu">
+    Setting
+  </button>
+  <mat-menu #settingMenu="matMenu" yPosition="below">
+    <button mat-menu-item [routerLink]="['/setting/profile']">Profile</button>
   </mat-menu>
 </mat-toolbar>
+}
