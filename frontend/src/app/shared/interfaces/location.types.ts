@@ -2,6 +2,6 @@ import { Client } from './client.types';
 
 export interface Location extends Client {
   charge_rate: number;
-  customer: string;
+  customer: number;
   customer_name: string;
 }
