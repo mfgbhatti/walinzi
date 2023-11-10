@@ -33,7 +33,7 @@ class LogoutView(APIView):
             token = RefreshToken(refresh_token)
             token.blacklist()
             response = Response(
-                status=status.HTTP_205_RESET_CONTENT, data={"success": True}
+                status=status.HTTP_200_OK, data={"success": True}
             )
             response.delete_cookie(key="refresh_token")
             return response
