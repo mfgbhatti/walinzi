@@ -19,7 +19,7 @@ export const authInterceptor = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> => {
-  const authService = inject(AuthService);
+  const _authService = inject(AuthService);
 
   // Clone the request object
   let newReq = req.clone();
@@ -33,13 +33,13 @@ export const authInterceptor = (
   // catch and delete the access token from the local storage while logging
   // the user out from the app.
   if (
-    authService.accessToken &&
-    !AuthUtils.isTokenExpired(authService.accessToken)
+    _authService.accessToken &&
+    !AuthUtils.isTokenExpired(_authService.accessToken)
   ) {
     newReq = req.clone({
       headers: req.headers.set(
         'Authorization',
-        'Bearer ' + authService.accessToken
+        'Bearer ' + _authService.accessToken
       ),
     });
   }
@@ -49,11 +49,17 @@ export const authInterceptor = (
     catchError((error) => {
       // Catch "401 Unauthorized" responses
       if (error instanceof HttpErrorResponse && error.status === 401) {
-        // Sign out
-        authService.signOut();
+        // At this stage, the token has expired, refresh cookie is expired
+        // and user is no more authenticated. We cannot use authService to sign out
+        // because user need to be authenticated to call signOut.
+        // Instead we will clear local storage and redirect to sign-in page
+        _authService.clearLocalStorage();
 
-        // // Reload the app
-        // location.reload();
+        // // Sign out
+        // authService.signOut();
+
+        // Reload the app
+        location.reload();
       }
 
       return throwError(() => 'There is error intercepting http request.');
