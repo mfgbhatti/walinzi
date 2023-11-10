@@ -1,5 +1,6 @@
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 
 import { UserService } from 'src/app/user/data-access/user.service';
@@ -12,13 +13,14 @@ export class AuthService {
   baseUrl = Enviroment.urls.auth;
   private _authenticated: boolean = false;
 
+  private _httpClient = inject(HttpClient);
+  private _userService = inject(UserService);
+  private _router = inject(Router);
+
   /**
    * Constructor
    */
-  constructor(
-    private _httpClient: HttpClient,
-    private _userService: UserService
-  ) {}
+  constructor() {}
 
   // -----------------------------------------------------------------------------------------------------
   // @ Accessors
@@ -87,8 +89,8 @@ export class AuthService {
       ),
       switchMap((response: any) => {
         if (response.success) {
-          localStorage.removeItem('accessToken');
-          localStorage.removeItem('loginUser');
+          this.clearLocalStorage();
+          this._router.navigate(['sign-in']);
         }
 
         this._authenticated = false;
@@ -142,5 +144,10 @@ export class AuthService {
 
     // If the access token exists, and it didn't expire, sign in using it
     return this.refreshToken();
+  }
+
+  clearLocalStorage() {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('loginUser');
   }
 }
