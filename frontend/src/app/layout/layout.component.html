@@ -1,4 +1,8 @@
-@if (isLogedIn$ | async) {
+@if (_authService.check() | async) {
+<!--
+    This direct insertion of service is because
+    anything else is not working do not touch it
+  -->
 <mat-toolbar color="primary">
   <img
     src="assets/android-chrome-512x512.png"
@@ -15,21 +19,19 @@
     Manage
   </button>
   <mat-menu #menu="matMenu" yPosition="below">
-    <button mat-menu-item [routerLink]="['/customer']">Customer</button>
-    <button mat-menu-item [routerLink]="['/location']">Location</button>
+    <button mat-menu-item [routerLink]="['/customer']"><mat-icon>supervisor_account</mat-icon> Customer</button>
+    <button mat-menu-item [routerLink]="['/location']">	<mat-icon> location_on</mat-icon> Location</button>
     <button mat-menu-item [routerLink]="['/subcontractor']">
-      Subcontractor
+      <mat-icon>supervised_user_circle</mat-icon> Subcontractor
     </button>
-    <button mat-menu-item [routerLink]="['/staff']">
-      Staff
-    </button>
-    <button mat-menu-item [routerLink]="['/sign-out']">Sign-out</button>
+    <button mat-menu-item [routerLink]="['/staff']"><mat-icon>assignment_ind</mat-icon> Staff</button>
   </mat-menu>
-  <button mat-flat-button color="primary" [matMenuTriggerFor]="settingMenu">
-    Setting
+  <button mat-icon-button [matMenuTriggerFor]="settingMenu">
+    <mat-icon>more_vert</mat-icon>
   </button>
   <mat-menu #settingMenu="matMenu" yPosition="below">
-    <button mat-menu-item [routerLink]="['/setting/profile']">Profile</button>
+    <button mat-menu-item [routerLink]="['/setting/profile']"><mat-icon>account_box</mat-icon> Profile</button>
+    <button mat-menu-item [routerLink]="['/sign-out']"><mat-icon>exit_to_app</mat-icon> Sign-out</button>
   </mat-menu>
 </mat-toolbar>
 }
