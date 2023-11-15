@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 // Material
@@ -22,7 +21,6 @@ import { CreateShiftComponent } from './ui/create/create.component';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FullCalendarModule,
     ShiftRoutingModule,
     MatTableModule,
     MatPaginatorModule,

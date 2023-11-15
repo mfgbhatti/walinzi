@@ -1,6 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
-import dayGridPlugin from '@fullcalendar/daygrid';
 import { MatDialog } from '@angular/material/dialog';
 import { catchError, filter, of, switchMap, takeUntil } from 'rxjs';
 
@@ -19,16 +17,6 @@ export class ShiftComponent {
   private readonly dialog = inject(MatDialog);
   private readonly _destroy = inject(Destroy);
 
-  calendarOptions: CalendarOptions = {
-    initialView: 'dayGridMonth',
-    plugins: [dayGridPlugin],
-    headerToolbar: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-    },
-
-  };
 
   add() {
     const dialogRef = this.dialog.open(CreateShiftComponent, {
