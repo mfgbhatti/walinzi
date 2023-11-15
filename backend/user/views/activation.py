@@ -33,7 +33,8 @@ def user_activation_view(request):
                         user.activation_link = None
                         user.save()
                         return Response(
-                            data={"success": True}, status=status.HTTP_201_CREATED
+                            # angular httpclient may be limited to 200 response
+                            data={"success": True}, status=status.HTTP_200_OK
                         )
                     else:
                         return Response(
