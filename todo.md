@@ -3,10 +3,12 @@
 - [ ] add logic for adding more than one staff
 - [ ] checkout activate user logic in front end
 - [ ] use modals for editing
+- [ ] toolbar is no working as expected
+- [ ] how to check if data exist in angular service memory and not send get request?
 - [x] there is log for shifts edited by user
 - [x] subcontractors
-- [x] ~~shit timedate extraction for duration or date not working~~
-- [x] datetime format (09/09/1985)
+- [x] shit timedate extraction for duration or date ~~not~~ working
+- [x] ~~datetime format (09/09/1985)~~
 
 ### not related to project but as helpers
 * check out
