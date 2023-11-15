@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from './auth/gaurds/auth.guard';
-import { NoAuthGuard } from './auth/gaurds/noAuth.guard';
 
 const routes: Routes = [
 
@@ -35,6 +34,10 @@ const routes: Routes = [
         loadChildren: () => import('./guard/guard.module').then(module => module.GuardModule)
       },
       {
+        path: 'shift',
+        loadChildren: () => import('./shift/shift.module').then(module => module.ShiftModule)
+      },
+      {
         path: 'location',
         loadChildren: () => import('./location/location.module').then(module => module.LocationModule)
       },
@@ -54,6 +57,7 @@ const routes: Routes = [
     ]
   },
   {
+    // No auth guard here, it is implemented in the module
     path: '',
     children: [
       { path: '', loadChildren: () => import('./public/public.module').then(m => m.PublicModule) }
