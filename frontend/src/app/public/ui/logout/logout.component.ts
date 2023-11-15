@@ -12,7 +12,7 @@ import { AuthService } from 'src/app/auth/data-access/auth.services';
   providers: [Destroy],
 })
 export class LogoutComponent implements OnInit {
-  countdown: number = 5;
+  countdown: number = 1;
   countdownMapping: any = {
     '=1': '# second',
     other: '# seconds',
