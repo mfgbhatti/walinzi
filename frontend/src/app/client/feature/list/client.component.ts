@@ -9,8 +9,8 @@ import { ClientService } from 'src/app/client/data-access/client.service';
 import { Client } from '@shared/interfaces/client.types';
 import { CreateClientComponent } from 'src/app/client/ui/create/create.component';
 import { Destroy } from '@shared/utils/destroy';
-import { UserService } from 'src/app/user/data-access/user.service';
 import { User } from '@shared/interfaces/user.types';
+import { AuthService } from 'src/app/auth/data-access/auth.services';
 
 @Component({
   selector: 'app-client',
@@ -28,32 +28,34 @@ export class ClientComponent implements OnInit {
     'address',
     'post_code',
     'city',
-    'action'
+    'action',
   ];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  _user!: User | null
+  _user!: User;
 
   resultsLength = 0;
   private _clientService = inject(ClientService);
-  private _userService = inject(UserService);
+  private _authService = inject(AuthService);
   private readonly dialog = inject(MatDialog);
   private readonly _destroy = inject(Destroy);
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
-    this._clientService.getAll()
+    this._clientService
+      .getAll()
       .pipe(takeUntil(this._destroy))
       .subscribe((clients) => {
         // console.log(clients);
-        this.dataSource = new MatTableDataSource(clients)
-        this.dataSource.paginator = this.paginator
-        this.dataSource.sort = this.sort
-        this.resultsLength = clients.length
+        this.dataSource = new MatTableDataSource(clients);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.resultsLength = clients.length;
       });
-    this._userService.user$.pipe(takeUntil(this._destroy)).subscribe(user => this._user = user)
-}
+    // this._userService.user$.pipe(takeUntil(this._destroy)).subscribe(user => this._user = user)
+    this._user = this._authService.loginUser;
+  }
   add() {
     const dialogRef = this.dialog.open(CreateClientComponent, {
       data: {},
@@ -72,10 +74,10 @@ export class ClientComponent implements OnInit {
         switchMap((client) => this._clientService.create(client)),
         takeUntil(this._destroy)
       )
-      .subscribe(clients => {
+      .subscribe((clients) => {
         if (clients) {
-          this.dataSource = new MatTableDataSource(clients)
-          this.resultsLength = clients.length
+          this.dataSource = new MatTableDataSource(clients);
+          this.resultsLength = clients.length;
         }
       });
   }
@@ -94,24 +96,27 @@ export class ClientComponent implements OnInit {
           console.log('There is an error:', err);
           return of(null);
         }),
-        switchMap((updatedClient) => this._clientService.update(updatedClient.id, updatedClient)),
+        switchMap((updatedClient) =>
+          this._clientService.update(updatedClient.id, updatedClient)
+        ),
         takeUntil(this._destroy)
       )
-      .subscribe(clients => {
+      .subscribe((clients) => {
         if (clients) {
-          this.dataSource = new MatTableDataSource(clients)
-          this.resultsLength = clients.length
+          this.dataSource = new MatTableDataSource(clients);
+          this.resultsLength = clients.length;
         }
       });
   }
 
   delete(id: string) {
-    this._clientService.delete(id)
+    this._clientService
+      .delete(id)
       .pipe(takeUntil(this._destroy))
-      .subscribe(clients => {
+      .subscribe((clients) => {
         if (clients) {
-          this.dataSource = new MatTableDataSource(clients)
-          this.resultsLength = clients.length
+          this.dataSource = new MatTableDataSource(clients);
+          this.resultsLength = clients.length;
         }
       });
   }
@@ -120,5 +125,4 @@ export class ClientComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-
 }
