@@ -14,9 +14,9 @@ import {
 import { Customer } from '@shared/interfaces/customer.types';
 import { Enviroment } from 'src/enviroments';
 
-
 @Injectable({ providedIn: 'root' })
 export class CustomerService {
+  private _latestData!: boolean;
   baseUrl = Enviroment.urls.customer;
   httpOptions = {
     headers: new HttpHeaders({
@@ -29,16 +29,16 @@ export class CustomerService {
   // Private
   private _customer: BehaviorSubject<Customer | null> =
     new BehaviorSubject<Customer | null>(null);
-  private _customers: BehaviorSubject<Customer[] | null> = new BehaviorSubject<
-    Customer[] | null
-  >(null);
+  private _customers: BehaviorSubject<Customer[]> = new BehaviorSubject<
+    Customer[]
+  >([]);
 
-  private _httpClient = inject(HttpClient)
+  private _httpClient = inject(HttpClient);
 
   /**
    * Constructor
    */
-  constructor() { }
+  constructor() {}
 
   /**
    * Getter for Customer
@@ -50,7 +50,10 @@ export class CustomerService {
   /**
    * Getter for Customers
    */
-  get customers$(): Observable<Customer[] | null> {
+  get customers$(): Observable<Customer[]> {
+    if (!this._latestData) {
+      return this.getAll();
+    }
     return this._customers.asObservable();
   }
 
@@ -62,8 +65,12 @@ export class CustomerService {
       .get<Customer[]>(this.baseUrl + 'all/', this.httpOptions)
       .pipe(
         tap((response) => {
-          const customers = response.sort((a, b) => a.name.localeCompare(b.name));
+          const customers = response.sort((a, b) =>
+            a.name.localeCompare(b.name)
+          );
           this._customers.next(customers);
+          // we received latest data
+          this._latestData = true;
         })
       );
   }
@@ -141,8 +148,12 @@ export class CustomerService {
       take(1),
       switchMap((customers) =>
         this._httpClient
-         .put<Customer>(this.baseUrl + 'update/' + id + '/', customer, this.httpOptions)
-         .pipe(
+          .put<Customer>(
+            this.baseUrl + 'update/' + id + '/',
+            customer,
+            this.httpOptions
+          )
+          .pipe(
             map((updatedCustomer) => {
               // const result = customers.map((item) =>
               //   item.id === updatedCustomer.id? updatedCustomer : item
@@ -164,8 +175,11 @@ export class CustomerService {
       take(1),
       switchMap((customers) =>
         this._httpClient
-         .delete<Customer>(this.baseUrl + 'delete/' + id + '/', this.httpOptions)
-         .pipe(
+          .delete<Customer>(
+            this.baseUrl + 'delete/' + id + '/',
+            this.httpOptions
+          )
+          .pipe(
             map((deletedCustomer) => {
               // const result = customers.filter((item) => item.id!== id);
               // this._customers.next(result);

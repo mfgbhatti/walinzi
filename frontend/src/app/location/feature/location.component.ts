@@ -46,7 +46,7 @@ export class LocationComponent implements OnInit {
 
   ngOnInit(): void {
     this._locationService
-      .getAll()
+      .locations$
       .pipe(takeUntil(this._destroy))
       .subscribe((locations) => {
         // console.log(locations);

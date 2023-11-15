@@ -14,25 +14,23 @@ import {
 import { User } from '@shared/interfaces/user.types';
 import { Enviroment } from 'src/enviroments';
 
-
 @Injectable({ providedIn: 'root' })
 export class UserService {
+  private _latestData!: boolean;
   baseUrl = Enviroment.urls.user;
   httpOptions = Enviroment.urls.httpOptions;
 
   // Private
   private _user: BehaviorSubject<User | null> =
     new BehaviorSubject<User | null>(null);
-  private _users: BehaviorSubject<User[] | null> = new BehaviorSubject<
-    User[] | null
-  >(null);
+  private _users: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
 
   private _httpClient = inject(HttpClient);
 
   /**
    * Constructor
    */
-  constructor() { }
+  constructor() {}
 
   set user(value: User) {
     this._user.next(value);
@@ -48,7 +46,10 @@ export class UserService {
   /**
    * Getter for Users
    */
-  get users$(): Observable<User[] | null> {
+  get users$(): Observable<User[]> {
+    // if (!this._latestData) {
+    //   // return this.getAll();
+    // }
     return this._users.asObservable();
   }
 
@@ -62,26 +63,33 @@ export class UserService {
         tap((response) => {
           const users = response.sort((a, b) => a.id.localeCompare(b.id));
           this._users.next(users);
+          // we received latest data
+          this._latestData = true;
         })
       );
   }
 
   activate(id: string, key: string): Observable<{ success: boolean }> {
-    return this._httpClient
-      .get<{ "success": boolean }>(
-        this.baseUrl + 'activate/?user_id=' + id + '&activation_key=' + key,
-        this.httpOptions
-      );
+    return this._httpClient.get<{ success: boolean }>(
+      this.baseUrl + 'activate/?user_id=' + id + '&activation_key=' + key,
+      this.httpOptions
+    );
   }
 
-  setUserPassword(password: string, user_id: string, activation_key: string): Observable<{ success: boolean }> {
+  setUserPassword(
+    password: string,
+    user_id: string,
+    activation_key: string
+  ): Observable<{ success: boolean }> {
     let data = {
-      "password": password,
-      "user_id": user_id,
-      "activation_key": activation_key
-    }
+      password: password,
+      user_id: user_id,
+      activation_key: activation_key,
+    };
     return this._httpClient.post<{ success: boolean }>(
-      this.baseUrl + 'set_password/', data, this.httpOptions
+      this.baseUrl + 'set_password/',
+      data,
+      this.httpOptions
     );
   }
 

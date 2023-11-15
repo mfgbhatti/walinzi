@@ -14,9 +14,9 @@ import {
 import { Location } from '@shared/interfaces/location.types';
 import { Enviroment } from 'src/enviroments';
 
-
 @Injectable({ providedIn: 'root' })
 export class LocationService {
+  private _latestData!: boolean;
   baseUrl = Enviroment.urls.location;
   httpOptions = {
     headers: new HttpHeaders({
@@ -29,16 +29,16 @@ export class LocationService {
   // Private
   private _location: BehaviorSubject<Location | null> =
     new BehaviorSubject<Location | null>(null);
-  private _locations: BehaviorSubject<Location[] | null> = new BehaviorSubject<
-    Location[] | null
-  >(null);
+  private _locations: BehaviorSubject<Location[]> = new BehaviorSubject<
+    Location[]
+  >([]);
 
-  private _httpClient = inject(HttpClient)
+  private _httpClient = inject(HttpClient);
 
   /**
    * Constructor
    */
-  constructor() { }
+  constructor() {}
 
   /**
    * Getter for Location
@@ -50,7 +50,10 @@ export class LocationService {
   /**
    * Getter for Locations
    */
-  get locations$(): Observable<Location[] | null> {
+  get locations$(): Observable<Location[]> {
+    if (!this._latestData) {
+      return this.getAll();
+    }
     return this._locations.asObservable();
   }
 
@@ -62,8 +65,12 @@ export class LocationService {
       .get<Location[]>(this.baseUrl + 'all/', this.httpOptions)
       .pipe(
         tap((response) => {
-          const locations = response.sort((a, b) => a.name.localeCompare(b.name));
+          const locations = response.sort((a, b) =>
+            a.name.localeCompare(b.name)
+          );
           this._locations.next(locations);
+          // we received latest data
+          this._latestData = true;
         })
       );
   }
@@ -141,8 +148,12 @@ export class LocationService {
       take(1),
       switchMap((locations) =>
         this._httpClient
-         .put<Location>(this.baseUrl + 'update/' + id + '/', location, this.httpOptions)
-         .pipe(
+          .put<Location>(
+            this.baseUrl + 'update/' + id + '/',
+            location,
+            this.httpOptions
+          )
+          .pipe(
             map((updatedLocation) => {
               // const result = locations.map((item) =>
               //   item.id === updatedLocation.id? updatedLocation : item
@@ -164,8 +175,11 @@ export class LocationService {
       take(1),
       switchMap((locations) =>
         this._httpClient
-         .delete<Location>(this.baseUrl + 'delete/' + id + '/', this.httpOptions)
-         .pipe(
+          .delete<Location>(
+            this.baseUrl + 'delete/' + id + '/',
+            this.httpOptions
+          )
+          .pipe(
             map((deletedLocation) => {
               // const result = locations.filter((item) => item.id!== id);
               // this._locations.next(result);

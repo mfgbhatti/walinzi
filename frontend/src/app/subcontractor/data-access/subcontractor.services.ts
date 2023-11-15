@@ -14,9 +14,9 @@ import {
 import { Subcontractor } from '@shared/interfaces/subcontractor.types';
 import { Enviroment } from 'src/enviroments';
 
-
 @Injectable({ providedIn: 'root' })
 export class SubcontractorService {
+  private _latestData!: boolean;
   baseUrl = Enviroment.urls.subcontractor;
   httpOptions = {
     headers: new HttpHeaders({
@@ -29,16 +29,15 @@ export class SubcontractorService {
   // Private
   private _subcontractor: BehaviorSubject<Subcontractor | null> =
     new BehaviorSubject<Subcontractor | null>(null);
-  private _subcontractors: BehaviorSubject<Subcontractor[] | null> = new BehaviorSubject<
-    Subcontractor[] | null
-  >(null);
+  private _subcontractors: BehaviorSubject<Subcontractor[]> =
+    new BehaviorSubject<Subcontractor[]>([]);
 
-  private _httpClient = inject(HttpClient)
+  private _httpClient = inject(HttpClient);
 
   /**
    * Constructor
    */
-  constructor() { }
+  constructor() {}
 
   /**
    * Getter for Subcontractor
@@ -50,7 +49,10 @@ export class SubcontractorService {
   /**
    * Getter for Subcontractors
    */
-  get subcontractors$(): Observable<Subcontractor[] | null> {
+  get subcontractors$(): Observable<Subcontractor[]> {
+    if (!this._latestData) {
+      return this.getAll();
+    }
     return this._subcontractors.asObservable();
   }
 
@@ -62,8 +64,12 @@ export class SubcontractorService {
       .get<Subcontractor[]>(this.baseUrl + 'all/', this.httpOptions)
       .pipe(
         tap((response) => {
-          const subcontractors = response.sort((a, b) => a.name.localeCompare(b.name));
+          const subcontractors = response.sort((a, b) =>
+            a.name.localeCompare(b.name)
+          );
           this._subcontractors.next(subcontractors);
+          // we received latest data
+          this._latestData = true;
         })
       );
   }
@@ -93,7 +99,8 @@ export class SubcontractorService {
       take(1),
       map((subcontractors) => {
         // Find the Subcontractor
-        const subcontractor = subcontractors?.find((item) => item.id === id) || null;
+        const subcontractor =
+          subcontractors?.find((item) => item.id === id) || null;
 
         // Update the Subcontractor
         this._subcontractor.next(subcontractor);
@@ -121,7 +128,11 @@ export class SubcontractorService {
       take(1),
       switchMap((subcontractors) =>
         this._httpClient
-          .post<Subcontractor>(this.baseUrl + 'create/', subcontractor, this.httpOptions)
+          .post<Subcontractor>(
+            this.baseUrl + 'create/',
+            subcontractor,
+            this.httpOptions
+          )
           .pipe(
             map((newSubcontractor) => {
               // const result = [{ ...newSubcontractor, ...subcontractors }];
@@ -136,13 +147,20 @@ export class SubcontractorService {
     );
   }
 
-  update(id: string, subcontractor: Subcontractor): Observable<Subcontractor[] | null> {
+  update(
+    id: string,
+    subcontractor: Subcontractor
+  ): Observable<Subcontractor[] | null> {
     return this.subcontractors$.pipe(
       take(1),
       switchMap((subcontractors) =>
         this._httpClient
-         .put<Subcontractor>(this.baseUrl + 'update/' + id + '/', subcontractor, this.httpOptions)
-         .pipe(
+          .put<Subcontractor>(
+            this.baseUrl + 'update/' + id + '/',
+            subcontractor,
+            this.httpOptions
+          )
+          .pipe(
             map((updatedSubcontractor) => {
               // const result = subcontractors.map((item) =>
               //   item.id === updatedSubcontractor.id? updatedSubcontractor : item
@@ -164,8 +182,11 @@ export class SubcontractorService {
       take(1),
       switchMap((subcontractors) =>
         this._httpClient
-         .delete<Subcontractor>(this.baseUrl + 'delete/' + id + '/', this.httpOptions)
-         .pipe(
+          .delete<Subcontractor>(
+            this.baseUrl + 'delete/' + id + '/',
+            this.httpOptions
+          )
+          .pipe(
             map((deletedSubcontractor) => {
               // const result = subcontractors.filter((item) => item.id!== id);
               // this._subcontractors.next(result);

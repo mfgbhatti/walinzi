@@ -14,9 +14,9 @@ import {
 import { Enviroment } from 'src/enviroments';
 import { Guard } from '@shared/interfaces/guard.types';
 
-
 @Injectable({ providedIn: 'root' })
 export class GuardService {
+  private _latestData!: boolean;
   baseUrl = Enviroment.urls.guard;
   httpOptions = {
     headers: new HttpHeaders({
@@ -29,16 +29,14 @@ export class GuardService {
   // Private
   private _guard: BehaviorSubject<Guard | null> =
     new BehaviorSubject<Guard | null>(null);
-  private _guards: BehaviorSubject<Guard[] | null> = new BehaviorSubject<
-    Guard[] | null
-  >(null);
+  private _guards: BehaviorSubject<Guard[]> = new BehaviorSubject<Guard[]>([]);
 
-  private _httpClient = inject(HttpClient)
+  private _httpClient = inject(HttpClient);
 
   /**
    * Constructor
    */
-  constructor() { }
+  constructor() {}
 
   /**
    * Getter for Guard
@@ -50,7 +48,10 @@ export class GuardService {
   /**
    * Getter for Guards
    */
-  get guards$(): Observable<Guard[] | null> {
+  get guards$(): Observable<Guard[]> {
+    if (!this._latestData) {
+      return this.getAll();
+    }
     return this._guards.asObservable();
   }
 
@@ -64,6 +65,8 @@ export class GuardService {
         tap((response) => {
           const guards = response.sort((a, b) => a.name.localeCompare(b.name));
           this._guards.next(guards);
+          // we received latest data
+          this._latestData = true;
         })
       );
   }
@@ -141,8 +144,12 @@ export class GuardService {
       take(1),
       switchMap((guards) =>
         this._httpClient
-         .put<Guard>(this.baseUrl + 'update/' + id + '/', guard, this.httpOptions)
-         .pipe(
+          .put<Guard>(
+            this.baseUrl + 'update/' + id + '/',
+            guard,
+            this.httpOptions
+          )
+          .pipe(
             map((updatedGuard) => {
               // const result = guards.map((item) =>
               //   item.id === updatedGuard.id? updatedGuard : item
@@ -164,8 +171,8 @@ export class GuardService {
       take(1),
       switchMap((guards) =>
         this._httpClient
-         .delete<Guard>(this.baseUrl + 'delete/' + id + '/', this.httpOptions)
-         .pipe(
+          .delete<Guard>(this.baseUrl + 'delete/' + id + '/', this.httpOptions)
+          .pipe(
             map((deletedGuard) => {
               // const result = guards.filter((item) => item.id!== id);
               // this._guards.next(result);

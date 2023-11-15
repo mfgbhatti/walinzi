@@ -35,7 +35,7 @@ export class GuardComponent implements OnInit {
 
   ngOnInit(): void {
     this._guardService
-      .getAll()
+      .guards$
       .pipe(takeUntil(this._destroy))
       .subscribe((guards) => {
         // console.log(guards);

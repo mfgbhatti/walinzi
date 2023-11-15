@@ -45,7 +45,7 @@ export class CustomerComponent implements OnInit {
 
   ngOnInit(): void {
     this._customerService
-      .getAll()
+      .customers$
       .pipe(takeUntil(this._destroy))
       .subscribe((customers) => {
         // console.log(customers);

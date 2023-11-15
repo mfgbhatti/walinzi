@@ -45,7 +45,7 @@ export class SubcontractorComponent implements OnInit {
 
   ngOnInit(): void {
     this._subcontractorService
-      .getAll()
+      .subcontractors$
       .pipe(takeUntil(this._destroy))
       .subscribe((subcontractors) => {
         // console.log(subcontractors);
