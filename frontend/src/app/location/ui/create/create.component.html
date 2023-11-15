@@ -13,7 +13,7 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Customer</mat-label>
-      <mat-select formControlName="customer">
+      <mat-select formControlName="customer_id">
         @for (customer of customers$ | async; track customer) {
         <mat-option [value]="customer.id">{{ customer.name }}</mat-option>
         }
@@ -23,7 +23,6 @@
       <mat-form-field class="col">
         <mat-label>Land line</mat-label>
         <input
-          required
           formControlName="land_line"
           placeholder="0333 222 3332"
           type="tel"
@@ -47,7 +46,6 @@
         <mat-label>Email</mat-label>
         <input
           matInput
-          required
           formControlName="email"
           placeholder="email@example.com"
           type="email"
@@ -121,7 +119,7 @@
     </mat-radio-group>
     <div class="d-flex justify-content-end">
       <button
-        type="button"
+        type="submit"
         mat-raised-button
         (click)="submit()"
         color="primary"

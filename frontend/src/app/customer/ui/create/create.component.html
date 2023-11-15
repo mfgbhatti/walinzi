@@ -105,13 +105,11 @@
       aria-labelledby="radio-group-label"
       class="col-4 d-flex justify-content-between"
     >
-      <mat-radio-button
-        class="radio-button"
-        *ngFor="let x of status_list"
-        [value]="x.status"
-      >
-        {{ x.label }}
+      @for (item of status_list; track item){
+      <mat-radio-button class="radio-button" [value]="item.status">
+        {{ item.label }}
       </mat-radio-button>
+      }
     </mat-radio-group>
     <div class="d-flex justify-content-end">
       <button
