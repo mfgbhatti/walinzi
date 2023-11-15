@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Shift } from '@shared/interfaces/shift.types';
 
 @Component({
-  selector: 'app-create',
+  selector: 'create-shift',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss']
 })

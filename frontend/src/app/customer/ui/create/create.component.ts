@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Customer } from '@shared/interfaces/customer.types';
 
 @Component({
-  selector: 'app-create',
+  selector: 'create-customer',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss']
 })

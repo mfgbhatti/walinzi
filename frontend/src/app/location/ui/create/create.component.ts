@@ -8,7 +8,7 @@ import { Location } from '@shared/interfaces/location.types';
 import { CustomerService } from 'src/app/customer/data-access/customer.services';
 
 @Component({
-  selector: 'app-create',
+  selector: 'create-location',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss']
 })

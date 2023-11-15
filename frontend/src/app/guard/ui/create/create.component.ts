@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Guard } from '@shared/interfaces/guard.types';
 
 @Component({
-  selector: 'app-create',
+  selector: 'create-guard',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss']
 })
