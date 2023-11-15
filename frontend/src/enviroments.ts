@@ -9,6 +9,7 @@ export const Enviroment = {
     location: "/api/location/",
     subcontractor: "/api/subcontractor/",
     guard: "/api/staff/",
+    shift: "/api/shift/",
     user: "/api/user/",
     httpOptions: {
       headers: new HttpHeaders({
