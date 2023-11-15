@@ -46,15 +46,16 @@ const routes: Routes = [
         loadChildren: () => import('./subcontractor/subcontractor.module').then(module => module.SubcontractorModule)
       },
       {
-        path: 'user',
-        loadChildren: () => import('./user/user.module').then(m => m.ClientUserModule),
-
-      },
-      {
         path: 'setting',
         loadChildren: () => import('./setting/setting.module').then(m => m.SettingModule),
       }
     ]
+  },
+  {
+    // No auth guard here, it is implemented in the module
+    path: 'user',
+    loadChildren: () => import('./user/user.module').then(m => m.ClientUserModule),
+
   },
   {
     // No auth guard here, it is implemented in the module
