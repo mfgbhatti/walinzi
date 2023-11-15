@@ -1,9 +1,11 @@
-- [ ] run check every 24 hour on sia licences and clearsessions
-- [ ] subcontractors
+- [ ] run check every 24 hour on sia licences and clear sessions
 - [ ] create logic if customer `is_active=False` dont login user
 - [ ] add logic for adding more than one staff
-- [x] use modals for editing
-- [x] shit timedate extraction for duration or date not working
+- [ ] checkout activate user logic in front end
+- [ ] use modals for editing
+- [x] there is log for shifts edited by user
+- [x] subcontractors
+- [x] ~~shit timedate extraction for duration or date not working~~
 - [x] datetime format (09/09/1985)
 
 ### not related to project but as helpers
