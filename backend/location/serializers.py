@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer, CharField
+from rest_framework.serializers import ModelSerializer, CharField, EmailField
 
 from backend.customer.models import Customer
 from backend.location.models import Location
@@ -10,6 +10,11 @@ class LocationSerializer(ModelSerializer):
     customer_name = CharField(
         source="customer.name", required=False, allow_blank=True, allow_null=True
     )
+    customer_id = CharField(
+        source="customer.id"
+    )
+    land_line = CharField(required=False, allow_blank=True, allow_null=True)
+    email = EmailField(required=False, allow_blank=True, allow_null=True)
 
     class Meta:
         model = Location
@@ -27,7 +32,7 @@ class LocationSerializer(ModelSerializer):
             "created_at",
             "updated_at",
             "charge_rate",
-            "customer",
+            "customer_id",
             "customer_name",
         )
 
@@ -38,8 +43,8 @@ class LocationSerializer(ModelSerializer):
             client = request.user.client
         else:
             client = None
-        customer_data = validated_data.pop("customer")
-        customer_name = validated_data.pop("customer_name")
+        customer_data = validated_data.pop("customer_id")
+        # customer_name = validated_data.pop("customer_name")
         if customer_data is not None:
             customer = Customer.objects.get(id=customer_data)
             if customer is not None and customer.client == client:
