@@ -13,7 +13,7 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Customer</mat-label>
-      <mat-select formControlName="customer_id">
+      <mat-select formControlName="customer">
         @for (customer of customers$ | async; track customer) {
         <mat-option [value]="customer.id">{{ customer.name }}</mat-option>
         }

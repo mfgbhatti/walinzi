@@ -39,7 +39,7 @@ export class CreateLocationComponent {
   setForm() {
     this.form = this.formbuilder.group({
       name: [this.data.name, [Validators.required, Validators.minLength(5)]],
-      customer_id: [this.data.customer, [Validators.required]],
+      customer: [this.data.customer, [Validators.required]],
       address: [this.data.address, Validators.required],
       post_code: [this.data.post_code, [Validators.required]],
       city: [this.data.city, [Validators.required]],

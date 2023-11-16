@@ -29,8 +29,8 @@ export class CreateSubcontractorComponent {
   setForm() {
     this.form = this.formbuilder.group({
       name: [this.data.name, [Validators.required, Validators.minLength(5)]],
-      land_line: [this.data.land_line, [Validators.required, Validators.pattern('[- +()0-9]+')]],
-      mobile: [this.data.mobile],
+      land_line: [this.data.land_line],
+      mobile: [this.data.mobile, [Validators.required, Validators.pattern('[- +()0-9]+')]],
       address: [this.data.address, [Validators.required]],
       city: [this.data.city, [Validators.required]],
       post_code: [this.data.post_code, [Validators.required]],
