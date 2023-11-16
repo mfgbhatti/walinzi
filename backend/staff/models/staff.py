@@ -29,7 +29,9 @@ class Staff(models.Model):
     )
 
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=80, default="")
+    first_name = models.CharField(max_length=30, default="")
+    last_name = models.CharField(max_length=30, default="")
+    display_name = models.CharField(max_length=30, null=True, blank=True, default="")
     is_active = models.BooleanField(default=True, blank=False, null=False)
     pay_rate = models.DecimalField(
         max_digits=10, null=True, blank=True, decimal_places=2
@@ -39,7 +41,7 @@ class Staff(models.Model):
         """Meta class."""
 
         db_table = "staff"
-        ordering = ("name",)
+        ordering = ("first_name",)
 
         verbose_name = "Staff"
         verbose_name_plural = "Staff"
