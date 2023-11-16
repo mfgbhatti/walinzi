@@ -10,9 +10,6 @@ class LocationSerializer(ModelSerializer):
     customer_name = CharField(
         source="customer.name", required=False, allow_blank=True, allow_null=True
     )
-    customer_id = CharField(
-        source="customer.id"
-    )
     land_line = CharField(required=False, allow_blank=True, allow_null=True)
     email = EmailField(required=False, allow_blank=True, allow_null=True)
 
@@ -32,7 +29,7 @@ class LocationSerializer(ModelSerializer):
             "created_at",
             "updated_at",
             "charge_rate",
-            "customer_id",
+            "customer",
             "customer_name",
         )
 
@@ -43,27 +40,30 @@ class LocationSerializer(ModelSerializer):
             client = request.user.client
         else:
             client = None
-        customer_data = validated_data.pop("customer_id")
-        # customer_name = validated_data.pop("customer_name")
-        if customer_data is not None:
-            customer = Customer.objects.get(id=customer_data)
-            if customer is not None and customer.client == client:
-                new_location = Location.objects.create(
-                    customer=customer, **validated_data
-                )
-                return new_location
-            
+        customer = validated_data.pop("customer")
+        customer_name = validated_data.pop("customer_name")
+        if customer is not None:
+            customer = Customer.objects.get(id=customer.id)
+            new_location = Location.objects.create(**validated_data)
+            if customer.client == client:
+                new_location.customer = customer
+            return new_location
+
         return None
 
-    # def update(self, instance, validated_data):
-    #     user = None
-    #     request = self.context.get("request")
-    #     if request and hasattr(request, "user"):
-    #         client = request.user.client
-    #     else:
-    #         client = None
-    #     customer_data = validated_data.pop("customer")
-    #     customer_name = validated_data.pop("customer_name")
+    def update(self, instance, validated_data):
+
+        print(validated_data)
+        user = None
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            client = request.user.client
+        else:
+            client = None
+        customer_data = validated_data.pop("customer")
+        customer_name = validated_data.pop("customer_name")
+
+        return instance
     #
     #     instance.name = validated_data.get("name", instance.name)
     #     instance.email = validated_data.get("email", instance.email)
