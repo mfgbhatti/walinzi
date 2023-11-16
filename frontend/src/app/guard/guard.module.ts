@@ -11,6 +11,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+
 import { GuardComponent } from './feature/guard.component';
 import { CreateGuardComponent } from './ui/create/create.component';
 import { GuardRoutingModule } from './guard-routing.module';
@@ -36,7 +38,8 @@ import { GuardRoutingModule } from './guard-routing.module';
     MatRadioModule,
     MatDialogModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatSelectModule
   ]
 })
 export class GuardModule { }

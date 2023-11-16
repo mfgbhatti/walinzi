@@ -63,7 +63,7 @@ export class GuardService {
       .get<Guard[]>(this.baseUrl + 'all/', this.httpOptions)
       .pipe(
         tap((response) => {
-          const guards = response.sort((a, b) => a.name.localeCompare(b.name));
+          const guards = response.sort((a, b) => a.first_name.localeCompare(b.first_name));
           this._guards.next(guards);
           // we received latest data
           this._latestData = true;

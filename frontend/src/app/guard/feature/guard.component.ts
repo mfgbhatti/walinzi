@@ -20,7 +20,7 @@ import { CreateGuardComponent } from '../ui/create/create.component';
 })
 export class GuardComponent implements OnInit {
   dataSource!: MatTableDataSource<any>;
-  displayedColumns: string[] = ['name', 'pay_rate', 'subcontractor'];
+  displayedColumns: string[] = ['first_name', 'last_name', 'display_name', 'pay_rate', 'subcontractor_name', 'action'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   _user!: User | null;
