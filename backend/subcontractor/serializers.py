@@ -4,7 +4,7 @@ from backend.subcontractor.models import Subcontractor
 
 
 class SubcontractorSerializer(ModelSerializer):
-    mobile = CharField(required=False, allow_null=True, allow_blank=True)
+    land_line = CharField(required=False, allow_null=True, allow_blank=True)
     reference = CharField(required=False, allow_blank=True, allow_null=True)
     class Meta:
         model = Subcontractor
