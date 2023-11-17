@@ -10,8 +10,8 @@ class Shift(models.Model):
     location = models.ForeignKey(
         Location, on_delete=models.CASCADE, related_name="shifts", null=True, blank=True
     )
-    time_in = models.DateTimeField()
-    time_out = models.DateTimeField()
+    time_in = models.DateTimeField(null=True, blank=True)
+    time_out = models.DateTimeField(null=True, blank=True)
     # break_duration = datetime.timedelta(hours=1)  # Adjust the break duration as needed
     break_duration = models.DurationField(
         blank=True, null=True
@@ -41,7 +41,10 @@ class Shift(models.Model):
         return "{:.2f}".format(hours)
 
     def __str__(self):
-        return f"{self.time_in.strftime('%d/%m/%Y')} for {self.location}."
+        return f"{self.time_in.strftime('%d/%m/%Y')} at {self.location}."
+
+    def client_name(self):
+        return self.location.customer.client.name
 
     class Meta:
         ordering = ("time_in", "time_out")
@@ -121,7 +124,6 @@ class ShiftLog(models.Model):
 
         verbose_name = "Shift Log"
         verbose_name_plural = "Shift Logs"
-
 
 # class ShiftSchedule(models.Model):
 #     site = models.ForeignKey(Site, on_delete=models.CASCADE, null=True, blank=True)
