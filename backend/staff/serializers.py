@@ -1,12 +1,13 @@
-from rest_framework.serializers import ModelSerializer, CharField
+from rest_framework.serializers import ModelSerializer, SerializerMethodField, ValidationError
 
 from backend.shift.models import Shift, Timesheet
-from backend.subcontractor.models import Subcontractor
+# from backend.subcontractor.models import Subcontractor
 from backend.staff.models import Staff
 
 
 class StaffSerializer(ModelSerializer):
-    subcontractor_name = CharField(source="subcontractor.name",required=False, allow_null=True, allow_blank=True)
+    # subcontractor_name = CharField(source="subcontractor.name", required=False, allow_null=True, allow_blank=True)
+    subcontractor_name = SerializerMethodField()
 
     class Meta:
         model = Staff
@@ -23,25 +24,52 @@ class StaffSerializer(ModelSerializer):
 
     """Assuming that customer is  passed in the request"""
 
-    def create(self, validated_data):
-        print(validated_data)
-        user = None
-        request = self.context.get("request")
-        if request and hasattr(request, "user"):
-            client = request.user.client
+    def get_subcontractor_name(self, obj):
+        if obj.subcontractor:
+            return obj.subcontractor.name
         else:
-            client = None
-        subcontractor = validated_data.pop("subcontractor")
-        if client is not None:
-            new_staff = Staff.objects.create(client=client, **validated_data)
-            if subcontractor is not None:
-                # need id to get data from
-                _subcontractor = Subcontractor.objects.get(id=subcontractor.id)
-                new_staff.subcontractor = _subcontractor
-            return new_staff
-        return None
+            return None
 
-#     needs update function
+    def validate(self, data):
+        # Add custom validation logic here
+        user_client = self.context["request"].user.client
+        subcontractor_client = data["subcontractor"].client
+
+        if user_client != subcontractor_client:
+            raise ValidationError("Service temporarily unavailable, try again later.")
+        return data
+
+    # def create(self, validated_data):
+    #     user = None
+    #     request = self.context.get("request")
+    #     if request and hasattr(request, "user"):
+    #         client = request.user.client
+    #     else:
+    #         client = None
+    #     subcontractor_data = validated_data.pop("subcontractor")
+    #     subcontractor = Subcontractor.objects.get(pk=subcontractor_data.id)
+    #     if client is not None and subcontractor.client == client:
+    #         new_staff = Staff.objects.create(client=client, subcontractor=subcontractor, **validated_data)
+    #         return new_staff
+    #     return None
+    #
+    # #     needs update function
+    # def update(self, instance, validated_data):
+    #     user = None
+    #     request = self.context.get("request")
+    #     if request and hasattr(request, "user"):
+    #         client = request.user.client
+    #     else:
+    #         client = None
+    #     # subcontractor_data = validated_data.pop("subcontractor")
+    #     instance.first_name = validated_data.get("first_name", instance.first_name)
+    #     instance.last_name = validated_data.get("last_name", instance.last_name)
+    #     instance.display_name = validated_data.get("display_name", instance.display_name)
+    #     instance.is_active = validated_data.get("is_active", instance.is_active)
+    #     instance.pay_rate = validated_data.get("pay_rate", instance.pay_rate)
+    #     instance.subcontractor = validated_data.get("subcontractor", instance.subcontractor)
+    #     instance.save()
+    #     return instance
 
 
 class StaffShiftSerializer(ModelSerializer):

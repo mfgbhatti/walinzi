@@ -1,15 +1,17 @@
-from rest_framework.serializers import ModelSerializer, CharField, EmailField
+from rest_framework.serializers import (ModelSerializer, EmailField, SerializerMethodField, CharField,
+                                        ValidationError, )
 
-from backend.customer.models import Customer
+# from backend.customer.models import Customer
 from backend.location.models import Location
 
 
 class LocationSerializer(ModelSerializer):
     mobile = CharField(required=False, allow_null=True, allow_blank=True)
     reference = CharField(required=False, allow_blank=True, allow_null=True)
-    customer_name = CharField(
-        source="customer.name", required=False, allow_blank=True, allow_null=True
-    )
+    # customer_name = CharField(
+    #     source="customer.name", required=False, allow_blank=True, allow_null=True
+    # )
+    customer_name = SerializerMethodField()
     land_line = CharField(required=False, allow_blank=True, allow_null=True)
     email = EmailField(required=False, allow_blank=True, allow_null=True)
 
@@ -33,38 +35,50 @@ class LocationSerializer(ModelSerializer):
             "customer_name",
         )
 
-    def create(self, validated_data):
-        user = None
-        request = self.context.get("request")
-        if request and hasattr(request, "user"):
-            client = request.user.client
+    def get_customer_name(self, obj):
+        if obj.customer:
+            return obj.customer.name
         else:
-            client = None
-        customer = validated_data.pop("customer")
-        customer_name = validated_data.pop("customer_name")
-        if customer is not None:
-            customer = Customer.objects.get(id=customer.id)
-            new_location = Location.objects.create(**validated_data)
-            if customer.client == client:
-                new_location.customer = customer
-            return new_location
+            return None
 
-        return None
+    def validate(self, data):
+        # Add custom validation logic here
+        user_client = self.context["request"].user.client
+        customer_client = data["customer"].client
 
-    def update(self, instance, validated_data):
+        if user_client != customer_client:
+            raise ValidationError("Service temporarily unavailable, try again later.")
+        return data
 
-        print(validated_data)
-        user = None
-        request = self.context.get("request")
-        if request and hasattr(request, "user"):
-            client = request.user.client
-        else:
-            client = None
-        customer_data = validated_data.pop("customer")
-        customer_name = validated_data.pop("customer_name")
-
-        return instance
+    # def create(self, validated_data):
+    #     user = None
+    #     request = self.context.get("request")
+    #     if request and hasattr(request, "user"):
+    #         client = request.user.client
+    #     else:
+    #         client = None
+    #     customer = validated_data.pop("customer")
+    #     # customer_name = validated_data.pop("customer_name")
+    #     if customer is not None:
+    #         customer = Customer.objects.get(id=customer.id)
+    #         new_location = Location.objects.create(**validated_data)
+    #         if customer.client == client:
+    #             new_location.customer = customer
+    #         return new_location
     #
+    #     return None
+    #
+    # def update(self, instance, validated_data):
+    #
+    #     print(validated_data)
+    #     user = None
+    #     request = self.context.get("request")
+    #     if request and hasattr(request, "user"):
+    #         client = request.user.client
+    #     else:
+    #         client = None
+    #     customer_data = validated_data.pop("customer")
+    #     # customer_name = validated_data.pop("customer_name")
     #     instance.name = validated_data.get("name", instance.name)
     #     instance.email = validated_data.get("email", instance.email)
     #     instance.mobile = validated_data.get("mobile", instance.mobile)
