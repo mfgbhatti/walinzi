@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ShiftComponent } from './feature/shift.component';
+import { ShiftListComponent } from './feature/list/list.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: ShiftComponent,
+    path: 'list',
+    component: ShiftListComponent,
     title: 'Walinzi - Shifts',
   },
 ];

@@ -12,12 +12,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ShiftComponent } from './feature/shift.component';
+import { ShiftListComponent } from './feature/list/list.component';
 import { ShiftRoutingModule } from './shift-routing.module';
 import { CreateShiftComponent } from './ui/create/create.component';
 
 @NgModule({
-  declarations: [ShiftComponent, CreateShiftComponent],
+  declarations: [ShiftListComponent, CreateShiftComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

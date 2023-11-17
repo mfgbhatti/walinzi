@@ -28,4 +28,8 @@ export class LayoutComponent {
   _authService = inject(AuthService);
   // change it to false
   isLogedIn$!: Observable<boolean>;
+
+  constructor() {
+    this.isLogedIn$ = this._authService.check();
+  }
 }

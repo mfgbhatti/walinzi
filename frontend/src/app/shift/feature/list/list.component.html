@@ -1,0 +1,99 @@
+<div class="container-fluid">
+  <div class="row py-5">
+    <div class="d-flex justify-content-between">
+      <h2>Add new shift</h2>
+      <button class="ms-auto" mat-raised-button color="primary" (click)="add()">
+        Add <mat-icon>add_circle_outline</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end row">
+    <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <input
+        matInput
+        (keyup)="applyFilter($event)"
+        placeholder="Search"
+        #input
+      />
+    </mat-form-field>
+  </div>
+  <div class="mat-elevation-z8 py-5">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      matSortActive="created"
+      matSortDisableClear
+      matSortDirection="desc"
+    >
+      <!-- Name Column -->
+      <ng-container matColumnDef="location_name">
+        <th mat-header-cell *matHeaderCellDef>Location</th>
+        <td mat-cell *matCellDef="let element" class="text-capitalize">
+          {{ element.location_name }}
+        </td>
+      </ng-container>
+      <!-- Land Line Column -->
+      <ng-container matColumnDef="staff_name">
+        <th mat-header-cell *matHeaderCellDef>Staff</th>
+        <td mat-cell *matCellDef="let element" class="text-capitalize">
+          @for (item of element!.timesheet; track item) {
+          {{ item.staff_name }}
+          }
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="time_in">
+        <th mat-header-cell *matHeaderCellDef>Time In</th>
+        <td mat-cell *matCellDef="let element">{{ element.time_in | date:'HH:mm' }}</td>
+      </ng-container>
+      <!-- mobileColumn -->
+      <ng-container matColumnDef="time_out">
+        <th mat-header-cell *matHeaderCellDef>Time Out</th>
+        <td mat-cell *matCellDef="let element">{{ element.time_out | date:'HH:mm'}}</td>
+      </ng-container>
+      <ng-container matColumnDef="date_in">
+        <th mat-header-cell *matHeaderCellDef>Start</th>
+        <td mat-cell *matCellDef="let element">{{ element.time_in | date:'dd-MM-yyyy' }}</td>
+      </ng-container>
+      <!-- mobileColumn -->
+      <ng-container matColumnDef="date_out">
+        <th mat-header-cell *matHeaderCellDef>End</th>
+        <td mat-cell *matCellDef="let element">{{ element.time_out | date:'dd-MM-yyyy' }}</td>
+      </ng-container>
+      <!-- Email Column -->
+      <ng-container matColumnDef="break_duration">
+        <th mat-header-cell *matHeaderCellDef>Break</th>
+        <td mat-cell *matCellDef="let element">{{ element.break_duration }}</td>
+      </ng-container>
+      <!-- Address Column -->
+      <ng-container matColumnDef="is_active">
+        <th mat-header-cell *matHeaderCellDef>Active</th>
+        <td mat-cell *matCellDef="let element" class="text-capitalize">
+          {{ element.is_active }}
+        </td>
+      </ng-container>
+      <!-- Data actions -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="edit(element)">
+            <mat-icon>create</mat-icon>
+          </button>
+          <button mat-icon-button (click)="delete(element.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Table columns and rows -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator
+      [length]="resultsLength"
+      [pageSizeOptions]="[25, 75, 100]"
+      aria-label="Select page of results"
+    ></mat-paginator>
+  </div>
+</div>

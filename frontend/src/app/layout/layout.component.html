@@ -1,4 +1,4 @@
-@if (_authService.check() | async) {
+@if (isLogedIn$ | async) {
 <!--
     This direct insertion of service is because
     anything else is not working do not touch it
@@ -15,6 +15,12 @@
   <!-- <a routerLink="client">
     <button mat-flat-button color="primary" onclick="" *ngIf="_user?.is_superuser">Client</button>
   </a> -->
+  <button mat-flat-button color="primary" [matMenuTriggerFor]="schedule">
+    Schedule
+  </button>
+  <mat-menu #schedule="matMenu" yPosition="below">
+    <button mat-menu-item [routerLink]="['/shift/list']"><mat-icon>playlist_add_check</mat-icon> Shift List</button>
+  </mat-menu>
   <button mat-flat-button color="primary" [matMenuTriggerFor]="menu">
     Manage
   </button>

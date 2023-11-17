@@ -14,9 +14,9 @@ import {
 import { Enviroment } from 'src/enviroments';
 import { Shift } from '@shared/interfaces/shift.types';
 
-
 @Injectable({ providedIn: 'root' })
 export class ShiftService {
+  private _latestData!: boolean;
   baseUrl = Enviroment.urls.shift;
   httpOptions = {
     headers: new HttpHeaders({
@@ -29,16 +29,14 @@ export class ShiftService {
   // Private
   private _shift: BehaviorSubject<Shift | null> =
     new BehaviorSubject<Shift | null>(null);
-  private _shifts: BehaviorSubject<Shift[] | null> = new BehaviorSubject<
-    Shift[] | null
-  >(null);
+  private _shifts: BehaviorSubject<Shift[]> = new BehaviorSubject<Shift[]>([]);
 
-  private _httpClient = inject(HttpClient)
+  private _httpClient = inject(HttpClient);
 
   /**
    * Constructor
    */
-  constructor() { }
+  constructor() {}
 
   /**
    * Getter for Shift
@@ -50,7 +48,10 @@ export class ShiftService {
   /**
    * Getter for Shifts
    */
-  get shifts$(): Observable<Shift[] | null> {
+  get shifts$(): Observable<Shift[]> {
+    if (!this._latestData) {
+      return this.getAll();
+    }
     return this._shifts.asObservable();
   }
 
@@ -64,6 +65,8 @@ export class ShiftService {
         tap((shifts) => {
           // const shifts = response.sort((a, b) => a.name.localeCompare(b.name));
           this._shifts.next(shifts);
+          // we received latest data
+          this._latestData = true;
         })
       );
   }
@@ -141,8 +144,12 @@ export class ShiftService {
       take(1),
       switchMap((shifts) =>
         this._httpClient
-         .put<Shift>(this.baseUrl + 'update/' + id + '/', shift, this.httpOptions)
-         .pipe(
+          .put<Shift>(
+            this.baseUrl + 'update/' + id + '/',
+            shift,
+            this.httpOptions
+          )
+          .pipe(
             map((updatedShift) => {
               // const result = shifts.map((item) =>
               //   item.id === updatedShift.id? updatedShift : item
@@ -164,8 +171,8 @@ export class ShiftService {
       take(1),
       switchMap((shifts) =>
         this._httpClient
-         .delete<Shift>(this.baseUrl + 'delete/' + id + '/', this.httpOptions)
-         .pipe(
+          .delete<Shift>(this.baseUrl + 'delete/' + id + '/', this.httpOptions)
+          .pipe(
             map((deletedShift) => {
               // const result = shifts.filter((item) => item.id!== id);
               // this._shifts.next(result);
