@@ -1,50 +1,108 @@
-from rest_framework import serializers
+from datetime import datetime
+from rest_framework.serializers import (ModelSerializer, CharField, SerializerMethodField, IntegerField,
+                                        ValidationError, )
 
 from backend.shift.models import Shift, Timesheet, ShiftLog
 
 
-class ShiftLogSerializer(serializers.ModelSerializer):
+class ShiftLogSerializer(ModelSerializer):
     class Meta:
         model = ShiftLog
         fields = "__all__"
 
 
-class TimesheetSerializer(serializers.ModelSerializer):
+class TimesheetSerializer(ModelSerializer):
     # need to explicitly tell the serializer to send id
-    id = serializers.IntegerField(required=False)
+    id = IntegerField(required=False)
+    staff_name = SerializerMethodField()
 
     class Meta:
         model = Timesheet
-        fields = "__all__"
-        #     (
-        #     "id",
-        #     "staff",
-        #     "shift",
-        #     "shift_date",
-        #     "duration",
-        #     "notes",
-        # )
+        # fields = "__all__"
+        fields = (
+            "id",
+            "staff",
+            "staff_name",
+            "shift",
+            "shift_date",
+            "duration",
+            "notes",
+        )
+
+    def get_staff_name(self, obj):
+        return f"{obj.staff.display_name}" if obj.staff else ""
 
 
-class ShiftSerializer(serializers.ModelSerializer):
+class ShiftSerializer(ModelSerializer):
     # need many=True when ForeignKey is used
     timesheet = TimesheetSerializer(many=True)
     shift_log = ShiftLogSerializer(many=True)
-    method = serializers.CharField(max_length=20, required=False)
+    method = CharField(max_length=20, required=False)
+    location_name = SerializerMethodField()
+
+    # time_in = SerializerMethodField()
+    # time_out = SerializerMethodField()
+    # date_in = SerializerMethodField()
+    # date_out = SerializerMethodField()
 
     class Meta:
         model = Shift
         fields = (
             "id",
             "location",
+            "location_name",
             "time_in",
             "time_out",
+            # "date_in",
+            # "date_out",
             "break_duration",
             "method",
             "is_active",
             "timesheet",
             "shift_log",
         )
+
+    def validate(self, data):
+        # Add custom validation logic here
+        user_client = self.context["request"].user.client
+        location_customer_client = data["location"].customer.client
+
+        if user_client != location_customer_client:
+            raise ValidationError("Service temporarily unavailable, try again later.")
+        return data
+
+    # def get_time_in(self, obj):
+    #     if obj.time_in:
+    #         return obj.time_in.time()
+    #     # else:
+    #     #     return None
+    #
+    # def get_date_in(self, obj):
+    #
+    #     if obj.time_in:
+    #         return obj.time_in.date()
+    #     else:
+    #         return None
+    #
+    # def get_time_out(self, obj):
+    #
+    #     if obj.time_out:
+    #         return obj.time_out.time()
+    #     else:
+    #         return None
+    #
+    # def get_date_out(self, obj):
+    #
+    #     if obj.time_out:
+    #         return obj.time_out.date()
+    #     else:
+    #         return None
+    #
+    def get_location_name(self, obj):
+        if obj.location:
+            return obj.location.name
+        else:
+            return None
 
     def create(self, validated_data):
         user = None
@@ -54,6 +112,14 @@ class ShiftSerializer(serializers.ModelSerializer):
         timesheet_data = validated_data.pop("timesheet")
         shift_log = validated_data.pop("shift_log")
         method = validated_data.pop("method")
+
+        date_in = validated_data.pop('date_in')
+        time_in = validated_data.pop('time_in')
+        date_out = validated_data.pop('date_out')
+        time_out = validated_data.pop('time_out')
+
+        validated_data['time_in'] = datetime.combine(date_in, time_in)
+        validated_data['time_out'] = datetime.combine(date_out, time_out)
 
         new_shift = Shift.objects.create(**validated_data)
         """ implement for loop"""
@@ -91,7 +157,7 @@ class ShiftSerializer(serializers.ModelSerializer):
         instance.save()
 
         def update_data(
-            shift_instance, update_instance=None, unit=None, shift_action=None
+                shift_instance, update_instance=None, unit=None, shift_action=None
         ):
             # update_instance is shift log
             if shift_action:
