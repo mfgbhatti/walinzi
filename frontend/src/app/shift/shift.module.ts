@@ -15,9 +15,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { ShiftListComponent } from './feature/list/list.component';
 import { ShiftRoutingModule } from './shift-routing.module';
 import { CreateShiftComponent } from './ui/create/create.component';
+import { ShiftCalendarComponent } from './feature/calendar/caldendar.component';
 
 @NgModule({
-  declarations: [ShiftListComponent, CreateShiftComponent],
+  declarations: [ShiftListComponent, CreateShiftComponent, ShiftCalendarComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
