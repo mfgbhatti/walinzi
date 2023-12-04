@@ -1,116 +1,100 @@
 <div class="container">
   <form [formGroup]="form" class="row py-5">
-    <mat-form-field>
-      <mat-label class="form-label">Name</mat-label>
-      <input
-        required
-        formControlName="name"
-        placeholder="Abc Xyz limited"
-        type="text"
-        matInput
-        class="text-capitalize"
-      />
-    </mat-form-field>
     <div class="d-flex justify-content-between">
-      <mat-form-field class="col">
-        <mat-label>Land line</mat-label>
-        <input
-          required
-          formControlName="land_line"
-          placeholder="0333 222 3332"
-          type="tel"
-          pattern="[0-9]*"
-          matInput
-        />
-      </mat-form-field>
-      <mat-form-field class="col ms-2">
-        <mat-label>Mobile</mat-label>
-        <input
-          matInput
-          formControlName="mobile"
-          placeholder="0333 222 3332"
-          type="tel"
-          pattern="[0-9]*"
-        />
-      </mat-form-field>
+      <div class="col-8">
+        <mat-form-field>
+          <mat-label>Choose a date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="datepicker"
+            formControlName="time_in"
+            required
+          />
+          <!-- <mat-hint>DD/MM/YYYY</mat-hint> -->
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="datepicker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #datepicker>
+            <!-- <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+          </mat-datepicker-actions> -->
+          </mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-4 ps-2">
+        <div class="d-flex justify-content-between">
+          <mat-form-field>
+            <mat-label>Start time</mat-label>
+            <input
+              matInput
+              required
+              formControlName="start_time"
+              placeholder="00:00"
+              type="time"
+            />
+          </mat-form-field>
+          <mat-form-field class="ps-2">
+            <mat-label>End time</mat-label>
+            <input
+              matInput
+              required
+              formControlName="end_time"
+              placeholder="00:00"
+              type="time"
+            />
+          </mat-form-field>
+        </div>
+      </div>
     </div>
     <div class="d-flex justify-content-between">
-      <mat-form-field class="col">
-        <mat-label>Email</mat-label>
-        <input
-          matInput
-          required
-          formControlName="email"
-          placeholder="email@example.com"
-          type="email"
-          style="text-transform: lowercase"
-          pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
-        />
-      </mat-form-field>
-      <mat-form-field class="col ms-2">
-        <mat-label>Charge Rate</mat-label>
-        <input
-          matInput
-          required
-          formControlName="charge_rate"
-          placeholder="£16.00"
-          type="number"
-        />
-      </mat-form-field>
+      <div class="col-4">
+        <div class="d-flex justify-content-between">
+          <mat-form-field>
+            <mat-label>Break</mat-label>
+            <input matInput formControlName="break_duration" type="number" />
+          </mat-form-field>
+          <mat-form-field class="ps-2">
+            <mat-label>Duration</mat-label>
+            <input
+              matInput
+              [readonly]="true"
+              formControlName="duration"
+              type="time"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-8 ps-2">
+        <mat-form-field>
+          <mat-label>Repeat shift</mat-label>
+          <mat-select>
+            <mat-option>Clear</mat-option>
+            <mat-option value="valid">Valid option</mat-option>
+            <mat-option value="invalid">Invalid option</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </div>
     <mat-form-field>
-      <mat-label>Address</mat-label>
-      <input
-        matInput
-        required
-        formControlName="address"
-        placeholder="33 Sector, road, street"
-        class="text-capitalize"
-        type="text"
-      />
+      <mat-label>Location</mat-label>
+      <mat-select formControlName="location">
+        @for (location of locations$ | async; track location) {
+        <mat-option [value]="location.id">{{ location.name | titlecase }}</mat-option>
+        }
+      </mat-select>
     </mat-form-field>
-    <div class="d-flex justify-content-between">
-      <mat-form-field class="col">
-        <mat-label>City</mat-label>
-        <input
-          matInput
-          required
-          formControlName="city"
-          placeholder="Greater London"
-          class="text-capitalize"
-          type="text"
-        />
-      </mat-form-field>
-      <mat-form-field class="col ms-2">
-        <mat-label>Post Code</mat-label>
-        <input
-          matInput
-          required
-          formControlName="post_code"
-          placeholder="LE12 1EE"
-          class="text-uppercase"
-        />
-      </mat-form-field>
-    </div>
     <mat-form-field>
-      <mat-label>Reference</mat-label>
-      <textarea
-        matInput
-        formControlName="reference"
-        placeholder="Reference"
-      ></textarea>
+      <mat-label>Staff</mat-label>
+      <mat-select formControlName="staff" multiple>
+        @for (guard of guards$ | async; track guard) {
+        <mat-option [value]="guard.id">{{
+          guard.display_name | titlecase
+        }}</mat-option>
+        }
+      </mat-select>
     </mat-form-field>
-    <mat-radio-group
-      formControlName="is_active"
-      aria-labelledby="radio-group-label"
-      class="col-4 d-flex justify-content-between"
-    >
-      @for (item of status_list; track item){
-      <mat-radio-button class="radio-button" [value]="item.status">
-        {{ item.label }}
-      </mat-radio-button>
-      }
-    </mat-radio-group>
     <div class="d-flex justify-content-end">
       <button
         type="button"

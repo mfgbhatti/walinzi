@@ -7,10 +7,12 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 
 import { ShiftListComponent } from './feature/list/list.component';
 import { ShiftRoutingModule } from './shift-routing.module';
@@ -18,7 +20,11 @@ import { CreateShiftComponent } from './ui/create/create.component';
 import { ShiftCalendarComponent } from './feature/calendar/caldendar.component';
 
 @NgModule({
-  declarations: [ShiftListComponent, CreateShiftComponent, ShiftCalendarComponent],
+  declarations: [
+    ShiftListComponent,
+    CreateShiftComponent,
+    ShiftCalendarComponent,
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -28,10 +34,12 @@ import { ShiftCalendarComponent } from './feature/calendar/caldendar.component';
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
-    MatRadioModule,
+    MatDatepickerModule,
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
+    MatNativeDateModule,
+    MatSelectModule
   ],
 })
 export class ShiftModule {}
