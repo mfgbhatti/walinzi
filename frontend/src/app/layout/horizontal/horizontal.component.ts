@@ -10,7 +10,7 @@ import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   standalone: true,
-  selector: 'horizontal',
+  selector: 'horizontal-layout',
   templateUrl: './horizontal.component.html',
   styleUrls: ['./horizontal.component.scss'],
   imports: [
@@ -24,7 +24,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatIconModule,
   ],
 })
-export class HorizontalComponent {
+export class HorizontalLayoutComponent {
 
   constructor() {
   }

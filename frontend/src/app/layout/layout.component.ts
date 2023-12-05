@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { HorizontalComponent } from './horizontal/horizontal.component';
+import { HorizontalLayoutComponent } from './horizontal/horizontal.component';
 import { EmptyLayoutComponent } from './empty/empty.component';
 import { ActivatedRoute } from '@angular/router';
 
@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
-  imports: [CommonModule, HorizontalComponent, EmptyLayoutComponent],
+  imports: [CommonModule, HorizontalLayoutComponent, EmptyLayoutComponent],
 })
 export class LayoutComponent implements OnInit {
   layout!: string;
