@@ -7,7 +7,6 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 import { CommonModule, NgIf } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 
-
 @Component({
   standalone: true,
   selector: 'horizontal-layout',
@@ -25,7 +24,9 @@ import { MatMenuModule } from '@angular/material/menu';
   ],
 })
 export class HorizontalLayoutComponent {
+  constructor() {}
 
-  constructor() {
+  get currentYear(): number {
+    return new Date().getFullYear();
   }
 }
