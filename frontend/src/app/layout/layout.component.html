@@ -1,43 +1,5 @@
-@if (isLogedIn$ | async) {
-<!--
-    This direct insertion of service is because
-    anything else is not working do not touch it
-  -->
-<mat-toolbar color="primary">
-  <img
-    src="assets/android-chrome-512x512.png"
-    alt="Walinzi"
-    width="30px"
-    height="30px"
-  />
-  <span class="px-2">Walinzi</span>
-  <span class="spacer"></span>
-  <!-- <a routerLink="client">
-    <button mat-flat-button color="primary" onclick="" *ngIf="_user?.is_superuser">Client</button>
-  </a> -->
-  <button mat-flat-button color="primary" [matMenuTriggerFor]="schedule">
-    Schedule
-  </button>
-  <mat-menu #schedule="matMenu" yPosition="below">
-    <button mat-menu-item [routerLink]="['/shift/list']"><mat-icon>playlist_add_check</mat-icon> Shift List</button>
-  </mat-menu>
-  <button mat-flat-button color="primary" [matMenuTriggerFor]="menu">
-    Manage
-  </button>
-  <mat-menu #menu="matMenu" yPosition="below">
-    <button mat-menu-item [routerLink]="['/customer']"><mat-icon>supervisor_account</mat-icon> Customer</button>
-    <button mat-menu-item [routerLink]="['/location']">	<mat-icon> location_on</mat-icon> Location</button>
-    <button mat-menu-item [routerLink]="['/subcontractor']">
-      <mat-icon>supervised_user_circle</mat-icon> Subcontractor
-    </button>
-    <button mat-menu-item [routerLink]="['/staff']"><mat-icon>assignment_ind</mat-icon> Staff</button>
-  </mat-menu>
-  <button mat-icon-button [matMenuTriggerFor]="settingMenu">
-    <mat-icon>more_vert</mat-icon>
-  </button>
-  <mat-menu #settingMenu="matMenu" yPosition="below">
-    <button mat-menu-item [routerLink]="['/setting/profile']"><mat-icon>account_box</mat-icon> Profile</button>
-    <button mat-menu-item [routerLink]="['/sign-out']"><mat-icon>exit_to_app</mat-icon> Sign-out</button>
-  </mat-menu>
-</mat-toolbar>
-}
+@if (layout === 'horizontal')
+{<horizontal></horizontal>}
+
+@if (layout === 'empty')
+{<empty-layout></empty-layout>}
