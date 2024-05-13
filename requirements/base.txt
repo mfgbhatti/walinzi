@@ -1,19 +1,18 @@
 black~=23.11.0
-Django~=4.2.7
-djangorestframework==3.14.0
+Django~=5.0.6
+djangorestframework~=3.15.1
 django-cors-headers~=4.3.1
 djangorestframework-simplejwt~=5.3.0
 django-environ~=0.11.2
 django-environ~=0.11.2
 pylint==3.0.2
 
-pip~=23.3.1
 packaging==23.2
 colorama~=0.4.6
-setuptools==68.2.2
+setuptools~=69.0.2
 dill==0.3.7
-pytz==2023.3.post1
-platformdirs~=4.0.0
+pytz~=2024.1
+platformdirs~=4.1.0
 pathspec==0.11.2
 click==8.1.7
 isort==5.12.0
