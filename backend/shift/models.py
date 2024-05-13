@@ -29,13 +29,9 @@ class Shift(models.Model):
     # def get_shifts_for_staff(cls, staff):
     #     return cls.objects.filter(staff=staff)
 
-    def total_work_duration(self):
-        # Calculate the total work duration for the shift
-        work_duration = self.time_out - self.time_in - self.break_duration
-        return work_duration
 
     def duration(self):
-        result = self.time_out - self.time_in
+        result = self.time_out - self.time_in - self.break_duration
         hours = result.total_seconds() / 3600  # Convert duration to hours
         # return "%.2f" % hours # Format to 2 decimal places
         return "{:.2f}".format(hours)
