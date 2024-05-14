@@ -10,9 +10,11 @@ export interface Shift {
   is_active: boolean;
   timesheet: Timesheet[];
   shift_log: ShiftLog[];
+  duration: number;
+  break_display: Date;
 }
 
-interface Timesheet {
+export interface Timesheet {
   id: string;
   shift_date: Date;
   duration: number;

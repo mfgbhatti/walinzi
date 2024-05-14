@@ -9,7 +9,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { Guard } from '@shared/interfaces/guard.types';
-import { Shift } from '@shared/interfaces/shift.types';
+import { Shift, Timesheet } from '@shared/interfaces/shift.types';
 import { GuardService } from 'src/app/guard/data-access/guard.services';
 import { LocationService } from 'src/app/location/data-access/location.service';
 import { Location } from '@shared/interfaces/location.types';
@@ -25,7 +25,7 @@ export class CreateShiftComponent {
   guards$!: Observable<Guard[]>;
 
   constructor(
-    private readonly formbuilder: UntypedFormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     public readonly dialogRef: MatDialogRef<CreateShiftComponent>,
     private _locationService: LocationService,
     private _guardService: GuardService,
@@ -40,21 +40,34 @@ export class CreateShiftComponent {
   }
 
   setForm() {
-    this.form = this.formbuilder.group({
+    this.form = this.formBuilder.group({
       start_time: [],
       end_time: [],
       location: [this.data.location],
-      staff: this.formbuilder.array([]),
-      break_duration: [this.data.break_duration],
+      timesheet: this.formBuilder.array([]),
+      break_display: [],
       time_in: [this.data.time_in],
       duration: [],
       is_active: [this.data.is_active, Validators.required],
     });
-
-    const staffArray = this.form.get('staff') as FormArray
-    this.data.timesheet.forEach((entry) => {
-      staffArray.push(this.formbuilder.control(entry.staff))
+    // Adding timesheet data to the form array
+    this.data.timesheet.forEach(entery => {
+      this.timesheetGroup.push(
+        this.createTimesheetEntry(entery)
+      )
     })
+  }
+
+  // Helper method to create a form group for timesheet entry
+  createTimesheetEntry(data: Timesheet){
+    return this.formBuilder.group({
+      staff: [data.staff],
+      staff_name: [data.staff_name],
+    });
+  }
+
+  get timesheetGroup() {
+    return this.form.get('timesheet') as FormArray;
   }
 
   close() {
@@ -90,9 +103,11 @@ export class CreateShiftComponent {
     if (this.data) {
       const startTime = this.getTimeAsString(this.data.time_in);
       const endTime = this.getTimeAsString(this.data.time_out);
+      const break_display = this.getTimeAsString(this.data.break_display);
 
       this.form.get('start_time')!.setValue(startTime);
       this.form.get('end_time')!.setValue(endTime);
+      this.form.get('break_display')!.setValue(break_display);
 
       this.form
         .get('duration')!

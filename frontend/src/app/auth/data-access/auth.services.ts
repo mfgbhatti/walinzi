@@ -11,7 +11,7 @@ import { User } from '@shared/interfaces/user.types';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   baseUrl = Enviroment.urls.auth;
-  private _authenticated: boolean = false;
+  // private _authenticated: boolean = false;
 
   private _httpClient = inject(HttpClient);
   private _userService = inject(UserService);
@@ -55,10 +55,10 @@ export class AuthService {
    * @param credentials
    */
   signIn(credentials: { email: string; password: string }): Observable<any> {
-    // Throw error, if the user is already logged in
-    if (this._authenticated) {
-      return throwError(() => 'User is already logged in.');
-    }
+    // // Throw error, if the user is already logged in
+    // if (this._authenticated) {
+    //   return throwError(() => 'User is already logged in.');
+    // }
 
     return this._httpClient.post(this.baseUrl + 'sign-in/', credentials).pipe(
       switchMap((response: any) => {
@@ -66,8 +66,8 @@ export class AuthService {
         this.accessToken = response.access;
         this.loginUser = response.user;
 
-        // Set the authenticated flag to true
-        this._authenticated = true;
+        // // Set the authenticated flag to true
+        // this._authenticated = true;
 
         // Store the user on the user service
         this._userService.user = response.user;
@@ -93,7 +93,7 @@ export class AuthService {
           this._router.navigate(['sign-in']);
         }
 
-        this._authenticated = false;
+        // this._authenticated = false;
         // Return true
         return of(true);
       })
@@ -114,8 +114,8 @@ export class AuthService {
         if (response.access) {
           this.accessToken = response.access;
         }
-        // Set the authenticated flag to true
-        this._authenticated = true;
+        // // Set the authenticated flag to true
+        // this._authenticated = true;
 
         // Return true
         return of(true);
@@ -127,10 +127,10 @@ export class AuthService {
    * Check the authentication status
    */
   check(): Observable<boolean> {
-    // Check if the user is logged in
-    if (this._authenticated) {
-      return of(true);
-    }
+    // // Check if the user is logged in
+    // if (this._authenticated) {
+    //   return of(true);
+    // }
 
     // Check the access token availability
     if (!this.accessToken) {

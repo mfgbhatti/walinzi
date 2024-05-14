@@ -1,6 +1,8 @@
 from datetime import datetime
+
+import pytz
 from rest_framework.serializers import (ModelSerializer, CharField, SerializerMethodField, IntegerField,
-                                        ValidationError, )
+                                        ValidationError, DurationField)
 
 from backend.shift.models import Shift, Timesheet, ShiftLog
 
@@ -39,6 +41,7 @@ class ShiftSerializer(ModelSerializer):
     shift_log = ShiftLogSerializer(many=True)
     method = CharField(max_length=20, required=False)
     location_name = SerializerMethodField()
+    break_display = SerializerMethodField()
 
     # time_in = SerializerMethodField()
     # time_out = SerializerMethodField()
@@ -51,11 +54,13 @@ class ShiftSerializer(ModelSerializer):
             "id",
             "location",
             "location_name",
+            "duration",
             "time_in",
             "time_out",
             # "date_in",
             # "date_out",
             "break_duration",
+            "break_display",
             "method",
             "is_active",
             "timesheet",
@@ -70,6 +75,14 @@ class ShiftSerializer(ModelSerializer):
         if user_client != location_customer_client:
             raise ValidationError("Service temporarily unavailable, try again later.")
         return data
+
+    def get_break_display(self, obj):
+        hours, remainder = divmod(obj.break_duration.seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        new_break = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+
+        return datetime.strptime(new_break, "%H:%M:%S")
+
 
     # def get_time_in(self, obj):
     #     if obj.time_in:
@@ -113,14 +126,21 @@ class ShiftSerializer(ModelSerializer):
         shift_log = validated_data.pop("shift_log")
         method = validated_data.pop("method")
 
-        date_in = validated_data.pop('date_in')
-        time_in = validated_data.pop('time_in')
-        date_out = validated_data.pop('date_out')
-        time_out = validated_data.pop('time_out')
+        def make_timestamp(date_str, time_str):
+            time_zone = pytz.timezone("Europe/London")
+            new_date = datetime.strptime(date_str, "%d/%m/%Y").date()
+            new_time = datetime.strptime(time_str, "%H:%M").time()
+            timestamp = datetime.combine(new_date, new_time)
+            # return time_zone.localize(timestamp).isoformat().replace('+00:00', 'Z')
+            return time_zone.localize(timestamp).isoformat()
 
-        validated_data['time_in'] = datetime.combine(date_in, time_in)
-        validated_data['time_out'] = datetime.combine(date_out, time_out)
-
+        # date_in_str = validated_data.pop("date_in")
+        # time_in_str = validated_data.pop("time_in")
+        # date_out_str = validated_data.pop("date_out")
+        # time_out_str = validated_data.pop("time_out")
+        #
+        # validated_data["time_in"] = make_timestamp(date_in_str, time_in_str)
+        # validated_data["time_out"] = make_timestamp(date_out_str, time_out_str)
         new_shift = Shift.objects.create(**validated_data)
         """ implement for loop"""
 

@@ -24,9 +24,8 @@ export class ShiftListComponent {
     'time_in',
     'time_out',
     'date_in',
-    'date_out',
-    'break_duration',
-    'is_active',
+    'break_display',
+    'duration',
     'action',
   ];
   @ViewChild(MatPaginator) paginator!: MatPaginator;

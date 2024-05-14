@@ -53,7 +53,7 @@
         <div class="d-flex justify-content-between">
           <mat-form-field>
             <mat-label>Break</mat-label>
-            <input matInput formControlName="break_duration" type="number" />
+            <input matInput formControlName="break_display" type="time" />
           </mat-form-field>
           <mat-form-field class="ps-2">
             <mat-label>Duration</mat-label>
@@ -85,16 +85,26 @@
         }
       </mat-select>
     </mat-form-field>
-    <mat-form-field>
+    <div formArrayName="timesheet" *ngFor="let item of timesheetGroup.controls; let i = index">
+      <mat-form-field>
+        <mat-select [formControlName]="i" multiple>
+          @for (guard of guards$ | async; track guard) {
+            <mat-option [value]="guard.id">{{
+              guard.display_name | titlecase
+            }}</mat-option>}
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!-- <mat-form-field>
       <mat-label>Staff</mat-label>
-      <mat-select formControlName="staff" multiple>
+      <mat-select formArrayName="timesheet" multiple>
         @for (guard of guards$ | async; track guard) {
         <mat-option [value]="guard.id">{{
           guard.display_name | titlecase
         }}</mat-option>
         }
       </mat-select>
-    </mat-form-field>
+    </mat-form-field> -->
     <div class="d-flex justify-content-end">
       <button
         type="button"

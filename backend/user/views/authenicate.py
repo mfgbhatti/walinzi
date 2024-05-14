@@ -22,6 +22,7 @@ def set_cookie_up(response, cookie_data):
         del response.data["refresh"]
 
 
+
 class LogoutView(APIView):
     """logout"""
 
@@ -46,7 +47,14 @@ class LogoutView(APIView):
 
 class CookieTokenObtainPairView(TokenObtainPairView):
     def finalize_response(self, request, response, *args, **kwargs):
-        set_cookie_up(response=response, cookie_data=response.data["refresh"])
+        # This is done to catch unauthorized request with invalid
+        # username and password
+        if 'refresh' in response.data:
+            set_cookie_up(response=response, cookie_data=response.data["refresh"])
+        else:
+            response = Response(
+                status=status.HTTP_401_UNAUTHORIZED, data={"success": False}
+            )
         return super().finalize_response(request, response, *args, **kwargs)
 
     serializer_class = LoginSerializer
